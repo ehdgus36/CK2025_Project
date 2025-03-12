@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    [SerializeField] int damage = 1;
+    [SerializeField] int Damage = 1;
     public bool isHold = false;
-    int GetDamage() { return damage; }
+    [SerializeField] int ManaCost = 1;
+    public int GetDamage() { return Damage; }
+    public int GetManCost() { return ManaCost; }
     void SetHold(bool hold) { isHold = hold; }
+   
 }

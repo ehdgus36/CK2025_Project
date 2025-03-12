@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlotManager : MonoBehaviour
+public class Dack : MonoBehaviour
 {
+   
+    [SerializeField] Card CardPrefab;
     // Start is called before the first frame update
-    void Start()
+    public void CardDrow()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+       
     }
 }

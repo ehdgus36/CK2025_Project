@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] Card card;
-    [SerializeField] bool isSlot = true; // false == 사용 불가
+    [SerializeField] public Card card;
+    [SerializeField] public bool isSlot = true; // false == 사용 불가
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isSlot == false) { return; }
@@ -31,6 +31,7 @@ public class Slot : MonoBehaviour
         if (card.isHold == false)
         {
             Insert(card);
+            card.transform.position = this.transform.position;
         }
     }
 
@@ -38,5 +39,6 @@ public class Slot : MonoBehaviour
     {
         card = _card;
         isSlot = false;
+
     }
 }

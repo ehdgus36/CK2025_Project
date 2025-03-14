@@ -2,19 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Unit
 {
 
-    int MaxHp = 0;
-    int CurrentHp = 10;
-    public GameManager gameManager;
-
-    public void TakeDamage(int damage)
+    private void Start()
     {
-        CurrentHp -= damage;
+        StartTurnEvent += PlayableSystemOn;
+        StartTurnEvent += DackDrow;
+        EndTurnEvent += PlayableSystemOff;
     }
-    public void ThisTurn()
-    {
+
+    void DackDrow()
+    { 
+    
+    }
+
+    void PlayableSystemOn()
+    { 
+    
+    }
+
+    void PlayableSystemOff()
+    { 
     
     }
 }

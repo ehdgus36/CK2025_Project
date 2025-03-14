@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Unit
 {
     // Start is called before the first frame update
 
-    int MaxHp = 10;
-    int CurrentHp = 10;
-    public GameManager gameManager;
+    int sampleDamage = 1;
 
-    public void TakeDamage(int damage)
+    private void Start()
     {
-        CurrentHp -= damage;
-
+        StartTurnEvent += () => { StartCoroutine("SampleAi"); };
+        EndTurnEvent += () => { StopCoroutine("SampleAi"); };
     }
+    IEnumerator SampleAi()
+    {
+        yield return new WaitForSeconds(2.0f);
+        GameManager.instance.AttackDamage(1);
 
-    public void ThisTurn()
-    { 
-    
+        yield return null;
     }
 
 }

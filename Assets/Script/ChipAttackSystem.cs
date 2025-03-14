@@ -33,5 +33,6 @@ public class ChipAttackSystem : MonoBehaviour
                 Total_Damage += LoadData[i].GetComponent<Card>().GetDamage();
             }
         }
+        GameManager.instance.AttackDamage(Total_Damage);
     }
 }

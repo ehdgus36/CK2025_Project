@@ -7,8 +7,17 @@ public class ChipAttackSystem : MonoBehaviour
 {
     [SerializeField] List<Card> CardData;
     [SerializeField] Button AttackButton;
-    private SlotGroup CardDataSlotGroup;
+    [SerializeField] SlotGroup CardDataSlotGroup;
 
+    bool isCard = false;
+
+
+    public bool GetIsCard() { return isCard; }
+
+    private void OnEnable()
+    {
+        CardDataSlotGroup.RemoveDataAll();
+    }
     // 실시간 마나 계산 기능 필요함
 
     private void Start()
@@ -20,6 +29,18 @@ public class ChipAttackSystem : MonoBehaviour
     public void AttackButtonEvent()
     {
         SelectionCard();
+    }
+
+    public void Update()
+    {
+        if (CardDataSlotGroup.ReadData().Count != 0)
+        {
+            isCard = true;
+        }
+        else
+        {
+            isCard = false;
+        }
     }
 
     void SelectionCard()
@@ -34,5 +55,6 @@ public class ChipAttackSystem : MonoBehaviour
             }
         }
         GameManager.instance.AttackDamage(Total_Damage);
+        CardDataSlotGroup.RemoveDataAll();
     }
 }

@@ -13,12 +13,14 @@ public class SlotUI : MonoBehaviour,IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("onDrop");
-        Data = eventData.pointerDrag;
-        Data.transform.SetParent(transform);
-        Data.transform.position = transform.position;
-       
+        InsertData(eventData.pointerDrag);
     }
 
-
+    public void InsertData(GameObject data)
+    {
+        
+        data.transform.SetParent(transform);
+        data.transform.position = transform.position;
+    }
 
 }

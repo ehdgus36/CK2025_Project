@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class Unit : MonoBehaviour
 {
-    protected int UnitMaxHp = 10;
-    protected int UnitCurrentHp = 10;
-    protected bool IsTurn = false;
+    [SerializeField] protected int UnitMaxHp = 10;
+    [SerializeField] protected int UnitCurrentHp = 10;
+    [SerializeField] protected bool IsTurn = false;
 
     protected UnityAction StartTurnEvent;
     protected UnityAction EndTurnEvent;

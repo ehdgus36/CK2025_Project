@@ -8,7 +8,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
     [SerializeField] GameObject game;
     public void OnDrop(PointerEventData eventData)
     {
-        game = eventData.pointerDrag.gameObject;
+        Debug.Log("나 작동해");
 
         Destroy(eventData.pointerDrag.gameObject);
 

@@ -8,16 +8,19 @@ public class Enemy : Unit
 
     int sampleDamage = 1;
 
-    private void Start()
+   
+    private void Awake()
     {
         StartTurnEvent += () => { StartCoroutine("SampleAi"); };
         EndTurnEvent += () => { StopCoroutine("SampleAi"); };
     }
     IEnumerator SampleAi()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         GameManager.instance.AttackDamage(1);
 
+        yield return new WaitForSeconds(1.0f);
+        GameManager.instance.TurnSwap();
         yield return null;
     }
 

@@ -21,11 +21,24 @@ public class HpManager : MonoBehaviour
         {
             GameObject Hpbar = Instantiate(HpBarPrefab);
             Hpbar.transform.SetParent(HpBarParent);
-            Hpbar.transform.position = Camera.main.WorldToScreenPoint(transform.position + HpbarOffset);
+            Hpbar.transform.position = Camera.main.WorldToScreenPoint(Units[i].transform.position + HpbarOffset);
             if (Hpbar.transform.GetChild(0).GetComponent<Image>())
             {
                 HpFills[i] = Hpbar.transform.GetChild(0).GetComponent<Image>();
             }
+        }
+    }
+
+    private void Update()
+    {
+        UpdatHpbar();
+    }
+
+    void UpdatHpbar()
+    {
+        for (int i = 0; i < Units.Length; i++)
+        {
+            HpFills[i].fillAmount = (float)Units[i].GetUnitCurrentHp() / (float)Units[i].GetMaxHp();
         }
     }
 }

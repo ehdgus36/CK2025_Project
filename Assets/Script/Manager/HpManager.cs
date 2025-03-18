@@ -11,12 +11,12 @@ public class HpManager : MonoBehaviour
     Image[] HpFills;
 
     
-    private void Start()
+    private void Initialize()
     {
-        Units = GameObject.FindObjectsOfType<Unit>();
+        Units = FindObjectsByType<Unit>(FindObjectsSortMode.None);
         HpFills = new Image[Units.Length];
 
-        Transform HpBarParent = GameObject.FindObjectOfType<Canvas>().transform;
+        Transform HpBarParent = FindFirstObjectByType<Canvas>().transform; 
         for (int i = 0; i < Units.Length; i++)
         {
             GameObject Hpbar = Instantiate(HpBarPrefab);
@@ -27,6 +27,19 @@ public class HpManager : MonoBehaviour
                 HpFills[i] = Hpbar.transform.GetChild(0).GetComponent<Image>();
             }
         }
+
+        for (int i = 0; i < Units.Length; i++)
+        {
+            if (Units[i].GetMaxHp() == 0)
+            {
+                HpFills[i].transform.parent.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void Start()
+    {
+        Initialize();
     }
 
     private void Update()

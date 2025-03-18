@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Button TurnEndButton;
 
+
+    //Manager
+
+    [SerializeField] WaveManager WaveManager;
     //플레이어 기능 비활성화, 스와이프 카드 홀드
     // Start is called before the first frame update
 
@@ -27,23 +31,40 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public ChipAttackSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
+  
+
+
+     void Initialize()
+    {
+        if (enemy == null) return;
+
+        player = FindFirstObjectByType<Player>();
+        InitializeTurn();
+
+
+        TurnEndButton.onClick.AddListener(TurnSwap);
+    }
+
+
+    public void InitializeTurn()
+    {
+        ThisTurnUnit = player;
+        NextTurnUnit = enemy;
+
+        ThisTurnUnit.InitTurnCount();
+        NextTurnUnit.InitTurnCount();
+
+        ThisTurnUnit.StartTurn();
+    }
+      
     void Start()
     {
         if (instance == null) 
         {
             instance = this; 
         }
+        Initialize();
 
-        if (enemy == null) return;
-
-        player = GameObject.FindObjectOfType<Player>();
-        ThisTurnUnit = player;
-        NextTurnUnit = enemy;
-
-        ThisTurnUnit.StartTurn();
-
-
-        TurnEndButton.onClick.AddListener(TurnSwap);
     }
 
    
@@ -89,5 +110,14 @@ public class GameManager : MonoBehaviour
         }
       
     }
-    
+
+    public void NextWave()
+    {
+        if (ThisTurnUnit == player)
+        {
+            TurnSwap();
+        }
+        WaveManager.NextWave();
+    }
+   
 }

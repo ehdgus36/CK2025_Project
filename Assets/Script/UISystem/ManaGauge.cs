@@ -26,7 +26,15 @@ public class ManaGauge : MonoBehaviour
 
     public void SetManaCost(int cost)
     {
-        if (cost < 0) return;
+        if (cost < 0)
+        {
+            for (int i = 0; i < ManaImage.Count; i++)
+            {
+                ManaImage[i].GetComponent<Image>().color = Color.red;
+                ManaImage[i].SetActive(false);
+            }
+            return;
+        }
         if (MaxMana < cost)
         {
             for (int i = 0; i < ManaImage.Count; i++)
@@ -40,6 +48,11 @@ public class ManaGauge : MonoBehaviour
             for (int i = 0; i < cost; i++)
             {
                 ManaImage[i].SetActive(true);
+                ManaImage[i].GetComponent<Image>().color = startColor;
+            }
+            for (int i = cost; i < ManaImage.Count; i++)
+            {
+                ManaImage[i].SetActive(false);
                 ManaImage[i].GetComponent<Image>().color = startColor;
             }
         }

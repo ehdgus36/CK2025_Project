@@ -8,6 +8,7 @@ public class ChipAttackSystem : MonoBehaviour
     [SerializeField] List<Card> CardData;
     [SerializeField] Button AttackButton;
     [SerializeField] SlotGroup CardDataSlotGroup;
+    [SerializeField] ManaGauge ManaGauge;
 
     bool isCard = false;
 
@@ -16,6 +17,8 @@ public class ChipAttackSystem : MonoBehaviour
 
     private void OnEnable()
     {
+        if (CardDataSlotGroup == null) return;
+       
         CardDataSlotGroup.RemoveDataAll();
     }
     // 실시간 마나 계산 기능 필요함
@@ -33,12 +36,17 @@ public class ChipAttackSystem : MonoBehaviour
 
     public void Update()
     {
+        if (CardDataSlotGroup == null) return;
+
+
         if (CardDataSlotGroup.ReadData().Count != 0)
         {
+            ManaCostCalculate();
             isCard = true;
         }
         else
         {
+            ManaGauge.SetManaCost(0);
             isCard = false;
         }
     }
@@ -56,5 +64,22 @@ public class ChipAttackSystem : MonoBehaviour
         }
         GameManager.instance.AttackDamage(Total_Damage);
         CardDataSlotGroup.RemoveDataAll();
+    }
+
+    public void ManaCostCalculate()
+    {
+        if (ManaGauge == null) return;
+
+        List<GameObject> LoadData = CardDataSlotGroup.ReadData();
+        int Total_ManaCost = 0;
+        for (int i = 0; i < LoadData.Count; i++)
+        {
+            if (LoadData[i].GetComponent<Card>())
+            {
+                Total_ManaCost += LoadData[i].GetComponent<Card>().GetManCost();
+            }
+        }
+
+        ManaGauge.SetManaCost(Total_ManaCost);
     }
 }

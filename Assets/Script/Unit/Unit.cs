@@ -9,12 +9,17 @@ public class Unit : MonoBehaviour
     [SerializeField] protected int UnitCurrentHp = 10;
     [SerializeField] protected bool IsTurn = false;
 
+    protected int TurnCount = 0;
+
     protected UnityAction StartTurnEvent;
     protected UnityAction EndTurnEvent;
+    protected UnityAction DieEvent;
     // protected int UnitDamage =1;
 
     public int GetMaxHp() { return UnitMaxHp; }
     public int GetUnitCurrentHp() { return UnitCurrentHp; }
+
+    public void InitTurnCount() { TurnCount = 0; }
 
     public virtual void TakeDamage(int damage)
     {
@@ -35,15 +40,19 @@ public class Unit : MonoBehaviour
     protected virtual void Die() 
     {
         Debug.Log("Die() 활성화");
+        DieEvent?.Invoke();
     }
 
-    public void StartTurn()
+    //Unit의 턴이 시작했을 때 호출
+    public void StartTurn() 
     {
 
         IsTurn = true;
         StartTurnEvent?.Invoke();
+        TurnCount++;
     }
 
+    //Unit의 턴이 끝났을 때 호출
     public void EndTurn()
     {
         IsTurn = false;

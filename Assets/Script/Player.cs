@@ -15,6 +15,8 @@ public class Player : Unit
         EndTurnEvent += DackCordReturn;
     }
 
+    
+
     void DackDrow()
     {
         GameManager.instance.PlayerCardDrow();
@@ -28,10 +30,12 @@ public class Player : Unit
     void PlayableSystemOn()
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(true);
+        GameManager.instance.GetTurnButton().gameObject.SetActive(true);
     }
 
     void PlayableSystemOff()
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(false);
+        GameManager.instance.GetTurnButton().gameObject.SetActive(false);
     }
 }

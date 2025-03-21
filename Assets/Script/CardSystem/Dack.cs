@@ -67,6 +67,7 @@ public class Dack : MonoBehaviour
         //사용하고 남은 카드 넣을때 사용
         DackDatas.Add(cardData);
         cardData.transform.position = CardPos.position;
+        cardData.transform.SetParent(CardPos);
         TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
     }
     private List<T> ShuffleList<T>(List<T> list)

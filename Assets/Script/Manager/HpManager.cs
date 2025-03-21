@@ -7,12 +7,19 @@ public class HpManager : MonoBehaviour
 {
     [SerializeField] GameObject HpBarPrefab;
     [SerializeField] Vector3 HpbarOffset;
-    Unit[] Units;
-    Image[] HpFills;
+    [SerializeField]Unit[] Units;
+    [SerializeField]Image[] HpFills;
 
     
-    private void Initialize()
+    public void Initialize()
     {
+        if (HpFills.Length != 0)
+        {
+            for (int i = 0; i < HpFills.Length; i++)
+            {
+                Destroy(HpFills[i].transform.parent.gameObject);
+            }
+        }
         Units = FindObjectsByType<Unit>(FindObjectsSortMode.None);
         HpFills = new Image[Units.Length];
 
@@ -25,6 +32,7 @@ public class HpManager : MonoBehaviour
             if (Hpbar.transform.GetChild(0).GetComponent<Image>())
             {
                 HpFills[i] = Hpbar.transform.GetChild(0).GetComponent<Image>();
+                HpFills[i].fillAmount = 1;
             }
         }
 
@@ -34,13 +42,17 @@ public class HpManager : MonoBehaviour
             {
                 HpFills[i].transform.parent.gameObject.SetActive(false);
             }
+
+
+            if (Units[i].gameObject == null || Units[i].gameObject.activeSelf == false )
+            {
+                HpFills[i].transform.parent.gameObject.SetActive(false);
+            }
+
         }
     }
 
-    private void Start()
-    {
-        Initialize();
-    }
+   
 
     private void Update()
     {
@@ -51,7 +63,16 @@ public class HpManager : MonoBehaviour
     {
         for (int i = 0; i < Units.Length; i++)
         {
+            if (Units[i] == null || Units[i].gameObject.activeSelf == false)
+            {
+                HpFills[i].transform.parent.gameObject.SetActive(false);
+
+                continue;
+            }
+
             HpFills[i].fillAmount = (float)Units[i].GetUnitCurrentHp() / (float)Units[i].GetMaxHp();
+
+            
         }
     }
 }

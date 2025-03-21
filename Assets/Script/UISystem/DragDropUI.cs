@@ -49,10 +49,10 @@ public class DragDropUI : MonoBehaviour,IBeginDragHandler ,IDragHandler , IEndDr
         // 혹 드랍이벤트에 따라 부모가 변경되지 않고 
         // 이동중에 할당 되었던 부모 transform과 같다면
         // Icon의 부모와 위치를 원복한다.
-        //if (transform.parent == onDragParent)
-        //{
-        //    transform.position = startPosition;
-        //    transform.SetParent(startParent);
-        //}
+        if (transform.parent == onDragParent)
+        {
+            transform.position = startPosition;
+            transform.SetParent(startParent);
+        }
     }
 }

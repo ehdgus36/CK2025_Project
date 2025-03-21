@@ -8,12 +8,13 @@ public class Unit : MonoBehaviour
     [SerializeField] protected int UnitMaxHp = 10;
     [SerializeField] protected int UnitCurrentHp = 10;
     [SerializeField] protected bool IsTurn = false;
+    [SerializeField] protected List<Buff> CurrentBuff;
 
     protected int TurnCount = 0;
 
     protected UnityAction StartTurnEvent;
     protected UnityAction EndTurnEvent;
-    protected UnityAction DieEvent;
+    //protected UnityAction DieEvent;
     // protected int UnitDamage =1;
 
     public int GetMaxHp() { return UnitMaxHp; }
@@ -37,10 +38,32 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public virtual void TakeDamage(AttackData data)
+    {
+        if (data.Damage < 0)
+        {
+            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
+            return;
+        }
+
+        UnitCurrentHp -= data.Damage;
+
+        if (data.Buff)
+        {
+            CurrentBuff.Add(data.Buff);
+        }
+
+
+        if (UnitCurrentHp <= 0)
+        {
+            Die();
+        }
+    }
+
     protected virtual void Die() 
     {
         Debug.Log("Die() 활성화");
-        DieEvent?.Invoke();
+       // DieEvent?.Invoke();
     }
 
     //Unit의 턴이 시작했을 때 호출

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Unit player;
-    [SerializeField] Unit enemy;
+    [SerializeField] Player Player;
+    [SerializeField] Enemy Enemy;
 
     [SerializeField] GameObject EnemyDamageEffect;
     //현재 턴
@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     //Manager
 
     [SerializeField] WaveManager WaveManager;
+    [SerializeField] HpManager HpManager;
     //플레이어 기능 비활성화, 스와이프 카드 홀드
     // Start is called before the first frame update
 
@@ -30,17 +31,38 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public void SetEnemy(Enemy enemy) { Enemy = enemy; }
     public ChipAttackSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
-  
+    public Button GetTurnButton() { return TurnEndButton; }
+    public HpManager GetHpManager() { return HpManager; }
 
-
+    
      void Initialize()
     {
-        if (enemy == null) return;
+        if (Enemy == null) return;
 
-        player = FindFirstObjectByType<Player>();
+        Player = FindFirstObjectByType<Player>();
         InitializeTurn();
 
+        if (WaveManager == null)
+        {
+            WaveManager = GetComponent<WaveManager>();
+            WaveManager.Initialize();
+        }
+        else
+        {
+            WaveManager.Initialize();
+        }
+
+        if (HpManager == null)
+        {
+            HpManager = GetComponent<HpManager>();
+            HpManager.Initialize();
+        }
+        else
+        {
+            HpManager.Initialize();
+        }
 
         TurnEndButton.onClick.AddListener(TurnSwap);
     }
@@ -48,13 +70,16 @@ public class GameManager : MonoBehaviour
 
     public void InitializeTurn()
     {
-        ThisTurnUnit = player;
-        NextTurnUnit = enemy;
+        
+        ThisTurnUnit = Player;
+        NextTurnUnit = Enemy;
 
         ThisTurnUnit.InitTurnCount();
         NextTurnUnit.InitTurnCount();
 
         ThisTurnUnit.StartTurn();
+
+       
     }
       
     void Start()
@@ -113,11 +138,17 @@ public class GameManager : MonoBehaviour
 
     public void NextWave()
     {
-        if (ThisTurnUnit == player)
+        if (ThisTurnUnit == Player)
         {
             TurnSwap();
         }
+
+        PlayerCardReturn();
+
         WaveManager.NextWave();
+        HpManager.Initialize();
+
+        
     }
    
 }

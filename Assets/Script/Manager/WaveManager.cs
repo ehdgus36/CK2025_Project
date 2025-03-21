@@ -5,15 +5,26 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] private int LastWave = 3;
-    private int CurrentWave;
+    [SerializeField] private int CurrentWave;
 
-    List<Unit> Enemys;
+    [SerializeField]List<EnemysGroup> Enemys;
 
     
 
     public void Initialize()
     {
+        if (Enemys.Count == 0) return;
+        GameManager.instance.SetEnemy(Enemys[0]);
+
+        for (int i = 0; i < Enemys.Count; i++)
+        {
+            Enemys[i].gameObject.SetActive(false);
+        }
         CurrentWave = 1;
+       
+
+        Enemys[0].gameObject.SetActive(true);
+
     }
 
     public void NextWave()
@@ -23,11 +34,12 @@ public class WaveManager : MonoBehaviour
             EndWave();
             return;
         }
-
+        Enemys[CurrentWave - 1].gameObject.SetActive(false);
         CurrentWave++;
         StartCoroutine("NextWaveEventSample");
     }
 
+    
     IEnumerator NextWaveEventSample()
     {
         yield return new WaitForSeconds(0.5f);
@@ -35,8 +47,9 @@ public class WaveManager : MonoBehaviour
 
 
         yield return new WaitForSeconds(1f);
+        GameManager.instance.SetEnemy(Enemys[CurrentWave - 1]);
         GameManager.instance.InitializeTurn();
-
+        GameManager.instance.GetHpManager().Initialize();
     }
     public void GetCurrentWaveData()
     { 

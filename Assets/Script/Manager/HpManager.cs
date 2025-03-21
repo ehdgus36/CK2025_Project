@@ -9,10 +9,13 @@ public class HpManager : MonoBehaviour
     [SerializeField] Vector3 HpbarOffset;
     [SerializeField]Unit[] Units;
     [SerializeField]Image[] HpFills;
+    [SerializeField] Transform HpBarParent;
 
-    
+
     public void Initialize()
     {
+        if (HpBarParent == null) return;
+
         if (HpFills.Length != 0)
         {
             for (int i = 0; i < HpFills.Length; i++)
@@ -23,7 +26,7 @@ public class HpManager : MonoBehaviour
         Units = FindObjectsByType<Unit>(FindObjectsSortMode.None);
         HpFills = new Image[Units.Length];
 
-        Transform HpBarParent = FindFirstObjectByType<Canvas>().transform; 
+       
         for (int i = 0; i < Units.Length; i++)
         {
             GameObject Hpbar = Instantiate(HpBarPrefab);

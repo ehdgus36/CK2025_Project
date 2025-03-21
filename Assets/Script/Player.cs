@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : Unit
 {
-
+    [SerializeField] Animator DamageEffect;
     
     private void Awake()
     {
@@ -13,10 +13,11 @@ public class Player : Unit
 
         EndTurnEvent += PlayableSystemOff;
         EndTurnEvent += DackCordReturn;
+
+        
     }
 
     
-
     void DackDrow()
     {
         GameManager.instance.PlayerCardDrow();
@@ -37,5 +38,20 @@ public class Player : Unit
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(false);
         GameManager.instance.GetTurnButton().gameObject.SetActive(false);
+    }
+
+    protected override void Die()
+    {
+        GameManager.instance.GameOver.SetActive(true);
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        Debug.Log("hit");
+        if (DamageEffect != null)
+        {
+            DamageEffect.Play("PlayerHit");
+        }
     }
 }

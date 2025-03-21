@@ -18,12 +18,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] ChipAttackSystem PlayerAttackSystem;
 
     [SerializeField] Button TurnEndButton;
+    [SerializeField] public GameObject GameClear;
+    [SerializeField] public GameObject GameOver;
 
 
     //Manager
 
     [SerializeField] WaveManager WaveManager;
     [SerializeField] HpManager HpManager;
+    [SerializeField] AttackManager AttackManager;
     //플레이어 기능 비활성화, 스와이프 카드 홀드
     // Start is called before the first frame update
 
@@ -35,7 +38,15 @@ public class GameManager : MonoBehaviour
     public ChipAttackSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
     public Button GetTurnButton() { return TurnEndButton; }
     public HpManager GetHpManager() { return HpManager; }
+    public AttackManager GetAttackManager() { return AttackManager; }
 
+    public EnemysGroup GetEnemysGroup() 
+    {
+        if (Enemy.GetComponent<EnemysGroup>()) 
+            return Enemy.GetComponent<EnemysGroup>();
+
+        return null;
+    }
     
      void Initialize()
     {
@@ -64,6 +75,15 @@ public class GameManager : MonoBehaviour
             HpManager.Initialize();
         }
 
+        if (AttackManager == null)
+        {
+            AttackManager = GetComponent<AttackManager>();
+            AttackManager.Initialize();
+        }
+        else
+        {
+            AttackManager.Initialize();
+        }
         TurnEndButton.onClick.AddListener(TurnSwap);
     }
 

@@ -13,7 +13,9 @@ public class EnemysGroup : Enemy
         Initialize();
     }
 
-    void Initialize()
+    public Enemy GetEnemy() { return Enemys[0]; }
+
+    protected override void Initialize()
     {
         for (int i = 0; i < Enemys.Count; i++)
         {

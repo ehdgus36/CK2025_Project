@@ -7,10 +7,15 @@ public class Enemy : Unit
 {
     // Start is called before the first frame update
 
-    int sampleDamage = 1;
+    [SerializeField]int Damage = 1;
     protected UnityAction DieEvent;
 
     private void Awake()
+    {
+        Initialize();
+    }
+
+    protected virtual void Initialize()
     {
         StartTurnEvent += () => { StartCoroutine("SampleAi"); };
         EndTurnEvent += () => { StopCoroutine("SampleAi"); };
@@ -24,7 +29,7 @@ public class Enemy : Unit
     IEnumerator SampleAi()
     {
         yield return new WaitForSeconds(1.0f);
-        GameManager.instance.AttackDamage(1);
+        GameManager.instance.AttackDamage(Damage);
 
         yield return new WaitForSeconds(1.0f);
         

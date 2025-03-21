@@ -57,7 +57,7 @@ public class WaveManager : MonoBehaviour
     }
 
     public void EndWave()
-    { 
-    
+    {
+        GameManager.instance.GameOver.SetActive(false);
     }
 }

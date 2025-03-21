@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ChipAttackSystem : MonoBehaviour
 {
+    [SerializeField] Player player;
     [SerializeField] List<Card> CardData;
     [SerializeField] Button AttackButton;
     [SerializeField] SlotGroup CardDataSlotGroup;
@@ -54,15 +55,22 @@ public class ChipAttackSystem : MonoBehaviour
     void SelectionCard()
     {
         List<GameObject> LoadData = CardDataSlotGroup.ReadData();
+        List<Card> cardsData = new List<Card>();
+
         int Total_Damage = 0;
         for (int i = 0; i < LoadData.Count; i++)
         {
             if (LoadData[i].GetComponent<Card>())
             {
                 Total_Damage += LoadData[i].GetComponent<Card>().GetDamage();
+                cardsData.Add(LoadData[i].GetComponent<Card>());
             }
         }
-        GameManager.instance.AttackDamage(Total_Damage);
+        GameManager.instance.GetAttackManager().Attack(player,
+                                                       GameManager.instance.GetEnemysGroup().GetEnemy(),
+                                                       cardsData);
+
+       // GameManager.instance.AttackDamage(Total_Damage);
         CardDataSlotGroup.RemoveDataAll();
     }
 

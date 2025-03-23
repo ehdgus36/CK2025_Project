@@ -8,11 +8,7 @@ public class EnemysGroup : Enemy
     [SerializeField] List<Enemy> Enemys;
 
 
-    private void Start()
-    {
-        Initialize();
-    }
-
+   
     public Enemy GetEnemy() { return Enemys[0]; }
 
     protected override void Initialize()
@@ -21,7 +17,9 @@ public class EnemysGroup : Enemy
         {
             Enemys[i].SetDieEvent(EnemysDieEvent);
         }
+
         StartTurnEvent += () => { StartCoroutine("AttackEvent"); };
+
         EndTurnEvent += () =>
         {
             StopCoroutine("AttackEvent");
@@ -40,6 +38,18 @@ public class EnemysGroup : Enemy
         }
 
         Enemys[0].TakeDamage(damage);
+    }
+
+    public void TakeAllDamage(int damage )
+    {
+        if (Enemys.Count == 0)
+        {
+            return;
+        }
+        for (int i = 0; i < Enemys.Count; i++)
+        {
+            Enemys[i].TakeDamage(damage);
+        }
     }
 
     protected override void Die()
@@ -71,15 +81,18 @@ public class EnemysGroup : Enemy
 
     IEnumerator AttackEvent()
     {
-
+       
         yield return new WaitForSeconds(0.5f);
+
         for (int i = 0; i < Enemys.Count; i++)
         {
+           
             Enemys[i].StartTurn();
-            yield return new WaitForSeconds(0.5f);
+           
+            yield return new WaitForSeconds(1f);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
         GameManager.instance.TurnSwap();
         yield return null;
     }

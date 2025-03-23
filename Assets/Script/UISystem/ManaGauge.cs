@@ -9,6 +9,8 @@ public class ManaGauge : MonoBehaviour
     int MaxMana;
     int CurrentMana;
     Color startColor;
+
+    int Cost;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,32 @@ public class ManaGauge : MonoBehaviour
 
     }
 
+    public void Initialize()
+    {
+         MaxMana =5;
+         CurrentMana =5;
+
+        for (int i = 0; i < CurrentMana; i++)
+        {
+            ManaImage[i].transform.parent.gameObject.SetActive(true);
+        }
+    }
+
+    public void UseMana()
+    {
+        CurrentMana -= Cost;
+        for (int i = 0; i < ManaImage.Count; i++)
+        {
+            ManaImage[i].transform.parent.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i <CurrentMana; i++)
+        {
+            ManaImage[i].transform.parent.gameObject.SetActive(true);
+        }
+        
+    }
+
     public void SetManaCost(int cost)
     {
         if (cost < 0)
@@ -35,9 +63,11 @@ public class ManaGauge : MonoBehaviour
             }
             return;
         }
-        if (MaxMana < cost)
+
+
+        if (CurrentMana < cost)
         {
-            for (int i = 0; i < ManaImage.Count; i++)
+            for (int i = 0; i < CurrentMana; i++)
             {
                 ManaImage[i].SetActive(true);
                 ManaImage[i].GetComponent<Image>().color = Color.red;
@@ -57,7 +87,6 @@ public class ManaGauge : MonoBehaviour
             }
         }
 
-        
-
+        Cost = cost;
     }
 }

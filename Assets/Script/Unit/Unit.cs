@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
 
     protected int TurnCount = 0;
 
-    protected UnityAction StartTurnEvent;
+   [SerializeField] protected UnityAction StartTurnEvent;
     protected UnityAction EndTurnEvent;
     //protected UnityAction DieEvent;
     // protected int UnitDamage =1;
@@ -69,7 +69,7 @@ public class Unit : MonoBehaviour
     //Unit의 턴이 시작했을 때 호출
     public void StartTurn() 
     {
-
+        Debug.Log(gameObject.name + "attack");
         IsTurn = true;
         StartTurnEvent?.Invoke();
         TurnCount++;

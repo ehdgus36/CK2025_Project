@@ -21,6 +21,7 @@ public class ChipAttackSystem : MonoBehaviour
         if (CardDataSlotGroup == null) return;
        
         CardDataSlotGroup.RemoveDataAll();
+        ManaGauge.Initialize();
     }
     // 실시간 마나 계산 기능 필요함
 
@@ -70,8 +71,10 @@ public class ChipAttackSystem : MonoBehaviour
                                                        GameManager.instance.GetEnemysGroup().GetEnemy(),
                                                        cardsData);
 
-       // GameManager.instance.AttackDamage(Total_Damage);
+        ManaGauge.UseMana();
+        // GameManager.instance.AttackDamage(Total_Damage);
         CardDataSlotGroup.RemoveDataAll();
+        
     }
 
     public void ManaCostCalculate()

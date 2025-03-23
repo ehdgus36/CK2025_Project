@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Player Player;
-    [SerializeField] Enemy Enemy;
+    [SerializeField] EnemysGroup Enemy;
 
     [SerializeField] GameObject EnemyDamageEffect;
     //현재 턴
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    public void SetEnemy(Enemy enemy) { Enemy = enemy; }
+    public void SetEnemy(EnemysGroup enemy) { Enemy = enemy; }
     public ChipAttackSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
     public Button GetTurnButton() { return TurnEndButton; }
     public HpManager GetHpManager() { return HpManager; }
@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
         ThisTurnUnit.InitTurnCount();
         NextTurnUnit.InitTurnCount();
 
+
         ThisTurnUnit.StartTurn();
 
        
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviour
 
     public void TurnSwap()
     {
+       
         if (PlayerAttackSystem == null) return;
         if (PlayerAttackSystem.GetIsCard() == true) return;
 
@@ -126,6 +128,7 @@ public class GameManager : MonoBehaviour
     }
     public void AttackDamage(int damage)
     {
+        
         NextTurnUnit.TakeDamage(damage);// 현재Unit을 기준으로 다음 Unit에게 데미지를 줌
     }
 

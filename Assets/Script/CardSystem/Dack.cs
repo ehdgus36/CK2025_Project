@@ -20,29 +20,29 @@ public class Dack : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            Card result = Instantiate(CardPrefab);
-            result.gameObject.transform.SetParent(this.transform);
-            result.gameObject.transform.position = CardPos.position;
-            DackDatas.Add(result);
-        }
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    Card result = Instantiate(CardPrefab);
+        //    result.gameObject.transform.SetParent(this.transform);
+        //    result.gameObject.transform.position = CardPos.position;
+        //    DackDatas.Add(result);
+        //}
 
-        for (int i = 0; i < 10; i++)
-        {
-            Card result = Instantiate(CardPrefab2);
-            result.gameObject.transform.SetParent(this.transform);
-            result.gameObject.transform.position = CardPos.position;
-            DackDatas.Add(result);
-        }
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    Card result = Instantiate(CardPrefab2);
+        //    result.gameObject.transform.SetParent(this.transform);
+        //    result.gameObject.transform.position = CardPos.position;
+        //    DackDatas.Add(result);
+        //}
 
-        for (int i = 0; i < 10; i++)
-        {
-            Card result = Instantiate(CardPrefab3);
-            result.gameObject.transform.SetParent(this.transform);
-            result.gameObject.transform.position = CardPos.position;
-            DackDatas.Add(result);
-        }
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    Card result = Instantiate(CardPrefab3);
+        //    result.gameObject.transform.SetParent(this.transform);
+        //    result.gameObject.transform.position = CardPos.position;
+        //    DackDatas.Add(result);
+        //}
 
         DackCount = DackDatas.Count;
         TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();

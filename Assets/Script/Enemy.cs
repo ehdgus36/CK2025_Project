@@ -17,7 +17,7 @@ public class Enemy : Unit
 
     protected virtual void Initialize()
     {
-        StartTurnEvent += () => { StartCoroutine("SampleAi"); };
+        StartTurnEvent = () => { StartCoroutine("SampleAi");};
         EndTurnEvent += () => { StopCoroutine("SampleAi"); };
     }
 
@@ -28,6 +28,7 @@ public class Enemy : Unit
 
     IEnumerator SampleAi()
     {
+      
         yield return new WaitForSeconds(1.0f);
         GameManager.instance.AttackDamage(Damage);
 

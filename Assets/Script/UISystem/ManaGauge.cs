@@ -11,6 +11,8 @@ public class ManaGauge : MonoBehaviour
     Color startColor;
 
     int Cost;
+
+    public int GetCurrentMana() { return CurrentMana; }
     // Start is called before the first frame update
     void Start()
     {
@@ -43,12 +45,7 @@ public class ManaGauge : MonoBehaviour
         for (int i = 0; i < ManaImage.Count; i++)
         {
             ManaImage[i].transform.parent.gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i <CurrentMana; i++)
-        {
-            ManaImage[i].transform.parent.gameObject.SetActive(true);
-        }
+        }   
         
     }
 

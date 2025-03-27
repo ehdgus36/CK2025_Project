@@ -10,16 +10,18 @@ public class ChipAttackSystem : MonoBehaviour
     [SerializeField] Button AttackButton;
     [SerializeField] SlotGroup CardDataSlotGroup;
     [SerializeField] ManaGauge ManaGauge;
+    [SerializeField] ManaBankSystem ManaBank;
 
     bool isCard = false;
 
-
+    bool isUse = true;
     public bool GetIsCard() { return isCard; }
 
     private void OnEnable()
     {
         if (CardDataSlotGroup == null) return;
-       
+
+        isUse = true;
         CardDataSlotGroup.RemoveDataAll();
         ManaGauge.Initialize();
     }
@@ -55,6 +57,9 @@ public class ChipAttackSystem : MonoBehaviour
 
     void SelectionCard()
     {
+        if (isUse != true) return;
+
+        isUse = false;
         List<GameObject> LoadData = CardDataSlotGroup.ReadData();
         List<Card> cardsData = new List<Card>();
 
@@ -71,7 +76,10 @@ public class ChipAttackSystem : MonoBehaviour
                                                        GameManager.instance.GetEnemysGroup().GetEnemy(),
                                                        cardsData);
 
-        ManaGauge.UseMana();
+        if (ManaGauge != null) ManaGauge.UseMana();
+
+        if (ManaBank != null)  ManaBank.insertMana(ManaGauge.GetCurrentMana());
+        
         // GameManager.instance.AttackDamage(Total_Damage);
         CardDataSlotGroup.RemoveDataAll();
         

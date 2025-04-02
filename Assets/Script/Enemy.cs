@@ -16,6 +16,8 @@ public class Enemy : Unit
     [SerializeField] Skill Skill;
     protected UnityAction DieEvent;
 
+    public int GetMaxSkillCount() { return SkillTurnCount; }
+    public int GetCurrentSkillCount() { return CurrentSkillCount; }
     private void Awake()
     {
         Initialize();

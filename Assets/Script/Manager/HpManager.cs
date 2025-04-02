@@ -6,10 +6,10 @@ using TMPro;
 
 public class HpManager : MonoBehaviour
 {
-    [SerializeField] GameObject HpBarPrefab;
+    [SerializeField] EnemyStatus EnemyStatusPrefab;
     [SerializeField] Vector3 HpbarOffset;
-    [SerializeField]Unit[] Units;
-    [SerializeField]Image[] HpFills;
+    [SerializeField] Enemy[] Units;
+    [SerializeField] EnemyStatus[] EnemyStatuses;
     [SerializeField] Transform HpBarParent;
 
 
@@ -17,40 +17,41 @@ public class HpManager : MonoBehaviour
     {
         if (HpBarParent == null) return;
 
-        if (HpFills.Length != 0)
+        if (EnemyStatuses.Length != 0)
         {
-            for (int i = 0; i < HpFills.Length; i++)
+            for (int i = 0; i < EnemyStatuses.Length; i++)
             {
-                Destroy(HpFills[i].transform.parent.gameObject);
+                Destroy(EnemyStatuses[i].transform.parent.gameObject);
             }
         }
-        Units = FindObjectsByType<Unit>(FindObjectsSortMode.None);
-        HpFills = new Image[Units.Length];
+
+
+        Units = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        EnemyStatuses = new EnemyStatus[Units.Length];
 
        
         for (int i = 0; i < Units.Length; i++)
         {
-            GameObject Hpbar = Instantiate(HpBarPrefab);
-            Hpbar.transform.SetParent(HpBarParent);
-            Hpbar.transform.position = Camera.main.WorldToScreenPoint(Units[i].transform.position + HpbarOffset);
-            if (Hpbar.transform.GetChild(0).GetComponent<Image>())
-            {
-                HpFills[i] = Hpbar.transform.GetChild(0).GetComponent<Image>();
-                HpFills[i].fillAmount = 1;
-            }
+            EnemyStatus status = Instantiate(EnemyStatusPrefab.gameObject).GetComponent<EnemyStatus>();
+            status.transform.SetParent(HpBarParent);
+            status.transform.position = Camera.main.WorldToScreenPoint(Units[i].transform.position + HpbarOffset);
+
+            status.Initialize(Units[i].GetMaxHp(), Units[i].GetMaxSkillCount());
+
+            EnemyStatuses[i] = status;
         }
 
         for (int i = 0; i < Units.Length; i++)
         {
             if (Units[i].GetMaxHp() == 0)
             {
-                HpFills[i].transform.parent.gameObject.SetActive(false);
+                EnemyStatuses[i].gameObject.SetActive(false);
             }
 
 
-            if (Units[i].gameObject == null || Units[i].gameObject.activeSelf == false )
+            if (Units[i].gameObject == null || Units[i].gameObject.activeSelf == false)
             {
-                HpFills[i].transform.parent.gameObject.SetActive(false);
+                EnemyStatuses[i].gameObject.SetActive(false);
             }
 
         }
@@ -60,26 +61,17 @@ public class HpManager : MonoBehaviour
 
     private void Update()
     {
-        UpdatHpbar();
+        //UpdatHpbar();
     }
 
     void UpdatHpbar()
     {
+        if (Units.Length == 0) return;
+
         for (int i = 0; i < Units.Length; i++)
         {
-            if (Units[i] == null || Units[i].gameObject.activeSelf == false)
-            {
-                HpFills[i].transform.parent.gameObject.SetActive(false);
-
-                continue;
-            }
-
-            HpFills[i].fillAmount = (float)Units[i].GetUnitCurrentHp() / (float)Units[i].GetMaxHp();
-
-            HpFills[i].transform.parent.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text 
-                    = Units[i].GetUnitCurrentHp().ToString() + "/" + Units[i].GetMaxHp().ToString();
-
-
+            EnemyStatuses[i].SetCurrentHp(Units[i].GetUnitCurrentHp());
+            EnemyStatuses[i].SetCurrentSkill(Units[i].GetCurrentSkillCount());
         }
     }
 }

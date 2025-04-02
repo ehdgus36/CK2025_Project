@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     public AttackManager GetAttackManager() { return AttackManager; }
 
     public EnemysGroup GetEnemysGroup() {return Enemy; }
+
+    public Player GetPlayer() { return Player; }
     
      void Initialize()
     {
@@ -81,6 +83,7 @@ public class GameManager : MonoBehaviour
             AttackManager.Initialize();
         }
         TurnEndButton.onClick.AddListener(TurnSwap);
+        PlayerAttackSystem.Initialize();
     }
 
 
@@ -131,7 +134,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < playerCardSlots.Length; i++)
         {
-            playerCardSlots[i].InsertData(playerCard[i].gameObject);
+           // playerCardSlots[i].InsertData(playerCard[i].gameObject);
         }
     }
 

@@ -23,15 +23,12 @@ public class AttackManager : MonoBehaviour
         attackType = AttackType.None;
     }
 
-    public void Attack(Unit from, Unit to, List<Card> attackCard)
+    public void Attack(Unit from, Unit to, AttackData data)
     {
         FromUnitPos = from.transform;
         ToUnitPos = to.transform;
 
-        for (int i = 0; i < attackCard.Count; i++)
-        {
-           
-        }
+       
 
         StartCoroutine("AttackUpdate");
     }

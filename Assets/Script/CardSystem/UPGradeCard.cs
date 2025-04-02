@@ -4,7 +4,6 @@ public class UPGradeCard : Card
 {
     public override int GetDamage()
     {
-        throw new System.NotImplementedException();
         return 0;
     }
 

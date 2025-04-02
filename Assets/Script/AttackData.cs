@@ -17,5 +17,5 @@ public struct AttackData
     [SerializeField] public Buff Buff;
     [SerializeField] public Unit FromUnit;
     [SerializeField] public Skill Skill;
-    [SerializeField] public EffectSystem EffectSystem;
+   
 }

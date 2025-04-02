@@ -1,16 +1,18 @@
 using UnityEngine;
 
+
+public enum BuffType
+{ 
+Start, End
+}
+
 public class Buff : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    BuffType type;
 
-    // Update is called once per frame
-    void Update()
+    public BuffType GetBuffType() { return type; }
+    public void StartBuff(Unit unit)
     {
-        
+         
     }
 }

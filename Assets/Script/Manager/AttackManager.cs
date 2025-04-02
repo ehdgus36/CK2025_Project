@@ -30,33 +30,7 @@ public class AttackManager : MonoBehaviour
 
         for (int i = 0; i < attackCard.Count; i++)
         {
-            switch (attackCard[i].cardType)
-            {
-                case CardType.Attack:
-                    TotalDamage += attackCard[i].Data.Damage;
-                    if (attackType == AttackType.None)
-                    {
-                        attackType = attackCard[i].Data.Type;
-                    }
-                    attackType = attackCard[i].Data.Type;
-                    break;
-                case CardType.AttackBuff:
-                    if (attackType == AttackType.None)
-                    {
-                        attackType = attackCard[i].Data.Type;
-                    }
-
-                    if (attackCard[i].AttackImage != null)
-                    {
-                        AttackSprite = attackCard[i].AttackImage;
-                    }
-
-                    TotalDamage += attackCard[i].PlusDamage;
-                    break;
-                case CardType.Buff:
-                    AttackCount *= attackCard[i].AttackCount;
-                    break;
-            }
+           
         }
 
         StartCoroutine("AttackUpdate");
@@ -87,7 +61,7 @@ public class AttackManager : MonoBehaviour
 
     void AttackDamage()
     {
-        GameManager.instance.AttackDamage(TotalDamage);
+       // GameManager.instance.AttackDamage(TotalDamage);
         CurrentAttackCount++;
         if (AttackCount == CurrentAttackCount)
         {

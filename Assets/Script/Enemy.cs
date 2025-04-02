@@ -7,7 +7,13 @@ public class Enemy : Unit
 {
     // Start is called before the first frame update
 
-    [SerializeField]int Damage = 1;
+    [SerializeField] int SkillTurnCount = 2;
+    [SerializeField] int CurrentSkillCount = 0;
+    [SerializeField] int Damage = 1;
+
+
+
+    [SerializeField] Skill Skill;
     protected UnityAction DieEvent;
 
     private void Awake()
@@ -17,7 +23,14 @@ public class Enemy : Unit
 
     protected virtual void Initialize()
     {
-        StartTurnEvent = () => { StartCoroutine("SampleAi");};
+        StartTurnEvent = () => {
+
+            CurrentSkillCount++;
+            StartCoroutine("SampleAi");
+        
+        };
+
+
         EndTurnEvent += () => { StopCoroutine("SampleAi"); };
     }
 
@@ -30,7 +43,7 @@ public class Enemy : Unit
     {
       
         yield return new WaitForSeconds(1.0f);
-        GameManager.instance.AttackDamage(Damage);
+       // GameManager.instance.AttackDamage(Damage);
 
         yield return new WaitForSeconds(1.0f);
         
@@ -43,5 +56,7 @@ public class Enemy : Unit
         DieEvent?.Invoke();
         
     }
+
+  
 
 }

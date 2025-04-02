@@ -7,11 +7,9 @@ using UnityEngine.EventSystems;
 public class SlotUI : MonoBehaviour,IDropHandler
 {
     GameObject Data;
-
-   
-
     public void OnDrop(PointerEventData eventData)
     {
+        if (transform.childCount != 0) return;
         Debug.Log("onDrop");
         InsertData(eventData.pointerDrag);
     }

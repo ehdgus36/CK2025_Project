@@ -69,8 +69,12 @@ public class Unit : MonoBehaviour
     //Unit의 턴이 시작했을 때 호출
     public void StartTurn() 
     {
-        Debug.Log(gameObject.name + "attack");
+
         IsTurn = true;
+        BuffExecution(BuffType.Start);
+
+        Debug.Log(gameObject.name + "attack");
+       
         StartTurnEvent?.Invoke();
         TurnCount++;
     }
@@ -79,6 +83,24 @@ public class Unit : MonoBehaviour
     public void EndTurn()
     {
         IsTurn = false;
+        BuffExecution(BuffType.End);
         EndTurnEvent?.Invoke();
+    }
+
+    void BuffExecution(BuffType type)
+    {
+        if (CurrentBuff.Count != 0)
+        {
+            for (int i = 0; i < CurrentBuff.Count; i++)
+            {
+                if (CurrentBuff[i].GetBuffType() == type)
+                {
+                    CurrentBuff[i].StartBuff(this);
+                }
+            }
+        }
+
+
+
     }
 }

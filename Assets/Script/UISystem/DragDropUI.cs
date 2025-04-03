@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragDropUI : MonoBehaviour,IBeginDragHandler ,IDragHandler , IEndDragHandler
+public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-   
-    // 슬롯이 아닌 다른 오브젝트에 Icon을 드랍할 경우 원복할 위치 백업용
-    Vector3 startPosition;
 
-    // Drag중 UI 레이어에 비정상적으로 보이기 때문에
-    // Icon 드래그중 변경할 부모 RactTransfom 변수
+
+
+
     [SerializeField] Transform onDragParent;
 
-    // 슬롯이 아닌 다른 오브젝트에 Icon을 드랍할 경우 원복할 부모 백업용
+
     [HideInInspector] public Transform startParent;
+
+    [SerializeField] Vector3 startScale;
+
+
+
+    void Start()
+    {
+        startScale = transform.localScale; // 일단 야매
+    }
 
     // 인터페이스 IBeginDragHandler를 상속 받았을 때 구현해야하는 콜백함수
     public void OnBeginDrag(PointerEventData eventData)
@@ -23,14 +30,14 @@ public class DragDropUI : MonoBehaviour,IBeginDragHandler ,IDragHandler , IEndDr
         onDragParent = GameObject.Find("Fild").gameObject.transform;
       
         // 백업용 포지션과 부모 트랜스폼을 백업 해둔다.
-        startPosition = transform.position;
+       
         startParent = transform.parent;
-
-        // Drop이벤트를 정상적으로 감지하기 위해 Icon RectTransform을 무시 
-        //GetComponent<CanvasGroup>().blocksRaycasts = false;
-
+       
+    
         // 드래그 시작할때 부모transform을 변경
-       transform.SetParent(onDragParent);
+        transform.SetParent(onDragParent);
+
+
     }
 
     // 인터페이스 IDragHandler 상속 받았을 때 구현 해야하는 콜백함수
@@ -38,21 +45,21 @@ public class DragDropUI : MonoBehaviour,IBeginDragHandler ,IDragHandler , IEndDr
     {
         //드래그중에는 Icon을 마우스나 터치된 포인트의 위치로 이동시킨다.
         transform.position = Input.mousePosition;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        transform.localScale = startScale;
+
     }
 
     // 인터페이스 IEndDragHandler 상속 받았을 때 구현 해야하는 콜백함수
     public void OnEndDrag(PointerEventData eventData)
     {
 
-
-
-        // 혹 드랍이벤트에 따라 부모가 변경되지 않고 
-        // 이동중에 할당 되었던 부모 transform과 같다면
-        // Icon의 부모와 위치를 원복한다.
         if (transform.parent == onDragParent)
         {
-            transform.position = startPosition;
+            transform.position = startParent.position;
             transform.SetParent(startParent);
+            transform.rotation = startParent.rotation;
         }
     }
 }

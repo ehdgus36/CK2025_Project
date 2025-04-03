@@ -28,14 +28,6 @@ public class EnemyStatus : MonoBehaviour
 
         SkillFills = new GameObject[maxSkillCount];
 
-        Transform[] delobj = SkillPointParent.GetComponentsInChildren<Transform>();
-
-
-        for (int i = 0; i < delobj.Length; i++)
-        {
-            Destroy(delobj[i]);
-        }
-
 
         for (int i = 0; i < SkillFills.Length; i++)
         {
@@ -49,10 +41,14 @@ public class EnemyStatus : MonoBehaviour
         {
             SkillFills[i].SetActive(false);
         }
+
+
+        Hptext.text = MaxHP.ToString() + "/" + CurrentHP.ToString();
     }
 
     public void SetCurrentHp(int hp)
     {
+        CurrentHP = hp;
         Hpfill.fillAmount = (float)CurrentHP / (float)MaxHP;
 
 
@@ -63,7 +59,7 @@ public class EnemyStatus : MonoBehaviour
     {
         CurrentSkillCount = skill;
 
-        for (int i = 0; i < MaxSkillCount; i++)
+        for (int i = 0; i < SkillFills.Length; i++)
         {
             SkillFills[i].SetActive(false);
         }

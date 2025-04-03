@@ -21,13 +21,19 @@ public class HpManager : MonoBehaviour
         {
             for (int i = 0; i < EnemyStatuses.Length; i++)
             {
-                Destroy(EnemyStatuses[i].transform.parent.gameObject);
+                EnemyStatuses[i].gameObject.SetActive(false);
             }
         }
-
+      
 
         Units = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
         EnemyStatuses = new EnemyStatus[Units.Length];
+        
+        
+        if (Units.Length == 0)
+        {
+            return;
+        }
 
        
         for (int i = 0; i < Units.Length; i++)
@@ -57,21 +63,19 @@ public class HpManager : MonoBehaviour
         }
     }
 
-   
-
-    private void Update()
-    {
-        //UpdatHpbar();
-    }
-
-    void UpdatHpbar()
+ 
+    public void UpdatHpbar()
     {
         if (Units.Length == 0) return;
 
         for (int i = 0; i < Units.Length; i++)
         {
-            EnemyStatuses[i].SetCurrentHp(Units[i].GetUnitCurrentHp());
-            EnemyStatuses[i].SetCurrentSkill(Units[i].GetCurrentSkillCount());
+              
+            if (Units[i].gameObject.activeSelf == true || Units[i] !=null)
+            {
+                EnemyStatuses[i].SetCurrentHp(Units[i].GetUnitCurrentHp());
+                EnemyStatuses[i].SetCurrentSkill(Units[i].GetCurrentSkillCount());
+            }
         }
     }
 }

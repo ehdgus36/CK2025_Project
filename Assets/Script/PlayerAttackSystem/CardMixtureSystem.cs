@@ -16,6 +16,7 @@ public class CardMixtureSystem : MonoBehaviour
     Player AttackPlayer;
     AttackData MadeAttackData;
 
+    
 
 
     public void Initialize()
@@ -34,12 +35,17 @@ public class CardMixtureSystem : MonoBehaviour
         SelectionCard();
     }
 
-  
+    private void Update()
+    {
+        ManaCostCalculate(); //야매
+    }
 
     void SelectionCard()
     {
         CardData = CardDataSlotGroup.ReadData<Card>();
         AttackData attackData = new AttackData();
+
+        int totalMana = 0;
 
         for (int i = 0; i < CardData.Count; i++)
         {
@@ -50,30 +56,74 @@ public class CardMixtureSystem : MonoBehaviour
             {
                 case NomalCard N:
                     attackData.Damage += N.GetDamage();
+                    totalMana += N.GetManCost();
                     Debug.Log(N.name);
                     break;
+
                 case PropertyCard P:
 
                     attackData.Damage += P.GetDamage();
                     attackData.Buff = P.GetBuff();
-                   Debug.Log(P.name);
+
+                    totalMana += P.GetManCost();
+                    Debug.Log(P.name);
                     break;
+
                 case UPGradeCard U:
                     attackData.Damage += U.GetDamage();
-                   
+                    totalMana += U.GetManCost();
                     Debug.Log(U.name);
                     break;
             }
         }
 
+        CardDataSlotGroup.RemoveDataAll();
+        attackData.FromUnit = AttackPlayer;
+
         MadeAttackData = attackData;
         Enemy targetEnemy = GameManager.instance.GetEnemysGroup().GetEnemy();
         //공격 이펙트 끝나면 데미지 들어가게 연구 필!!! 현재 즉시 데미지
         GameManager.instance.GetAttackManager().Attack(AttackPlayer, targetEnemy, MadeAttackData);
+
+        
     }
 
     public void ManaCostCalculate()
     {
+        CardData = CardDataSlotGroup.ReadData<Card>();
        
+
+        int totalMana = 0;
+
+        for (int i = 0; i < CardData.Count; i++)
+        {
+
+            object type = CardData[i];
+
+            switch (type)
+            {
+                case NomalCard N:
+                   
+                    totalMana += N.GetManCost();
+                    Debug.Log(N.name);
+                    break;
+
+                case PropertyCard P:
+
+           
+                    totalMana += P.GetManCost();
+                    Debug.Log(P.name);
+                    break;
+
+                case UPGradeCard U:
+                    totalMana += U.GetManCost();
+                    Debug.Log(U.name);
+                    break;
+            }
+        }
+
+        Debug.Log(totalMana);
+        ManaGauge.SetManaCost(totalMana);
+
     }
 }

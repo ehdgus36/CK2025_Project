@@ -28,6 +28,7 @@ public class AttackManager : MonoBehaviour
         FromUnitPos = from.transform;
         ToUnitPos = to.transform;
 
+        to.TakeDamage(data);
        
 
         StartCoroutine("AttackUpdate");

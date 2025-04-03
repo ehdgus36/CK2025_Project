@@ -9,15 +9,20 @@ public class Enemy : Unit
 
     [SerializeField] int SkillTurnCount = 2;
     [SerializeField] int CurrentSkillCount = 0;
-    [SerializeField] int Damage = 1;
-
-
-
+    
     [SerializeField] Skill Skill;
+    [SerializeField] AttackData AttackData;
+    [SerializeField] Animator EnemyAnimator;
     protected UnityAction DieEvent;
+    protected bool IsAttack;
 
     public int GetMaxSkillCount() { return SkillTurnCount; }
     public int GetCurrentSkillCount() { return CurrentSkillCount; }
+
+    public void SetIsAttack(bool b)
+    {
+        IsAttack = b;
+    }
     private void Awake()
     {
         Initialize();
@@ -28,12 +33,18 @@ public class Enemy : Unit
         StartTurnEvent = () => {
 
             CurrentSkillCount++;
+            GameManager.instance.GetHpManager().UpdatHpbar();
             StartCoroutine("SampleAi");
         
         };
 
 
-        EndTurnEvent += () => { StopCoroutine("SampleAi"); };
+        EndTurnEvent += () => { 
+            StopCoroutine("SampleAi");
+            GameManager.instance.GetHpManager().UpdatHpbar();
+        };
+
+        AttackData.FromUnit = this;
     }
 
     public void SetDieEvent(UnityAction dieEvent)
@@ -45,16 +56,23 @@ public class Enemy : Unit
     {
       
         yield return new WaitForSeconds(1.0f);
-       // GameManager.instance.AttackDamage(Damage);
+        GameManager.instance.GetAttackManager().Attack(this, GameManager.instance.GetPlayer(), AttackData);
 
         yield return new WaitForSeconds(1.0f);
         
         yield return null;
     }
 
+    public override void TakeDamage(AttackData data)
+    {
+        base.TakeDamage(data);
+        GameManager.instance.GetHpManager().UpdatHpbar();
+        EnemyAnimator.Play("hit");
+    }
+
     protected override void Die()
     {
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
         DieEvent?.Invoke();
         
     }

@@ -7,12 +7,12 @@ using UnityEngine.EventSystems;
 public class SlotUI : MonoBehaviour,IDropHandler
 {
     GameObject Data;
+    [SerializeField] Vector3 imageScale;
+   
     public void OnDrop(PointerEventData eventData)
     {
         if (transform.childCount != 0) return;
         
-
-
         InsertData(eventData.pointerDrag);
         Debug.Log("onDrop");
     }
@@ -20,9 +20,14 @@ public class SlotUI : MonoBehaviour,IDropHandler
     public void InsertData(GameObject data)
     {
         
-        data.transform.SetParent(transform);
-        data.transform.position = transform.position;
        
+        data.transform.position = transform.position;
+        data.transform.rotation = transform.rotation;
+        data.transform.localScale = imageScale;
+
+        data.transform.SetParent(transform);
+       
+
     }
 
 }

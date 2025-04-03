@@ -7,7 +7,7 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] protected int UnitMaxHp = 10;
     [SerializeField] protected int UnitCurrentHp = 10;
-    [SerializeField] protected bool IsTurn = false;
+    [SerializeField] protected bool IsTurn = false; //자신의 턴을 활성화
     [SerializeField] protected List<Buff> CurrentBuff;
 
     protected int TurnCount = 0;
@@ -40,6 +40,8 @@ public class Unit : MonoBehaviour
 
     public virtual void TakeDamage(AttackData data)
     {
+
+        Debug.Log("공격" +data.Damage);
         if (data.Damage < 0)
         {
             Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
@@ -74,8 +76,10 @@ public class Unit : MonoBehaviour
         BuffExecution(BuffType.Start);
 
         Debug.Log(gameObject.name + "attack");
-       
+
+        
         StartTurnEvent?.Invoke();
+        
         TurnCount++;
     }
 

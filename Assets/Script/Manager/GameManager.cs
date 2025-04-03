@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Unit NextTurnUnit;
 
     [SerializeField] Dack CardDack;
-    [SerializeField] SlotGroup PlayerSloats;
+    [SerializeField] SlotGroup PlayerCardSloats;
     [SerializeField] CardMixtureSystem PlayerAttackSystem;
 
     [SerializeField] Button TurnEndButton;
@@ -129,29 +129,36 @@ public class GameManager : MonoBehaviour
 
     public void PlayerCardDrow()
     {
-        SlotUI[] playerCardSlots = PlayerSloats.Getsloat();
+        SlotUI[] playerCardSlots = PlayerCardSloats.Getsloat();
         List<Card> playerCard = CardDack.CardDrow(playerCardSlots.Length);
 
         for (int i = 0; i < playerCardSlots.Length; i++)
         {
-           // playerCardSlots[i].InsertData(playerCard[i].gameObject);
+           playerCardSlots[i].InsertData(playerCard[i].gameObject);
         }
+
+        PlayerCardSloats.GetComponent<Animator>().Play("Drow");
     }
 
 
     //플레이어 턴 종료시 남은 카드 덱으로 돌려려주기
     public void PlayerCardReturn()
     {
-        List<GameObject> playerCard = PlayerSloats.ReadData<GameObject>();
+        PlayerCardSloats.GetComponent<Animator>().Play("CardReturn");
+
+        StartCoroutine("CardReturn");
+    }
+    IEnumerator CardReturn()
+    { 
+        yield return new WaitForSeconds(1f);
+        List<Card> playerCard = PlayerCardSloats.ReadData<Card>();
         for (int i = 0; i < playerCard.Count; i++)
         {
-            if (playerCard[i].GetComponent<Card>())
-            {
-                CardDack.InsertCard(playerCard[i].GetComponent<Card>());
-            }
+            CardDack.InsertCard(playerCard[i].GetComponent<Card>());
         }
-      
+       
     }
+
 
     public void NextWave()
     {

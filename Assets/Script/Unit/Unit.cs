@@ -7,8 +7,10 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] protected int UnitMaxHp = 10;
     [SerializeField] protected int UnitCurrentHp = 10;
-    [SerializeField] protected bool IsTurn = false; //자신의 턴을 활성화
+   
     [SerializeField] protected List<Buff> CurrentBuff;
+
+    [SerializeField] public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
 
     protected int TurnCount = 0;
 
@@ -77,6 +79,7 @@ public class Unit : MonoBehaviour
 
         Debug.Log(gameObject.name + "attack");
 
+        if (IsTurn == false) return; 
         
         StartTurnEvent?.Invoke();
         

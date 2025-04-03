@@ -6,5 +6,7 @@ public class NomalCard : Card
     [SerializeField] int ShildCount;
 
 
+
+
     public override int GetDamage() { return AttackDamage; }
 }

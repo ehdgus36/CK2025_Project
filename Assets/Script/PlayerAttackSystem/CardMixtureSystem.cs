@@ -11,7 +11,7 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] ManaGauge ManaGauge;
 
     [SerializeField] Button SeletButton;
-
+    [SerializeField] CemeteryUI Cemetery;
 
     Player AttackPlayer;
     AttackData MadeAttackData;
@@ -77,7 +77,8 @@ public class CardMixtureSystem : MonoBehaviour
             }
         }
 
-        CardDataSlotGroup.RemoveDataAll();
+        Cemetery.Insert(CardDataSlotGroup.ReadData<Card>());
+       
         attackData.FromUnit = AttackPlayer;
 
         MadeAttackData = attackData;

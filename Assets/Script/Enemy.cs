@@ -69,6 +69,12 @@ public class Enemy : Unit
         GameManager.instance.GetHpManager().UpdatHpbar();
         EnemyAnimator.Play("hit");
     }
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        GameManager.instance.GetHpManager().UpdatHpbar();
+        EnemyAnimator.Play("hit");
+    }
 
     protected override void Die()
     {

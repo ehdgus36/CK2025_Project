@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2348699099793250825
 RectTransform:
   m_ObjectHideFlags: 0
@@ -87,9 +87,10 @@ GameObject:
   - component: {fileID: 2735839256224046430}
   - component: {fileID: 4397496108456119359}
   - component: {fileID: 9035797624738537359}
-  - component: {fileID: 6990391732629304661}
   - component: {fileID: 5988018767842025134}
   - component: {fileID: 1025551315966429163}
+  - component: {fileID: 2934302169335044727}
+  - component: {fileID: 4960068819750299721}
   m_Layer: 5
   m_Name: Card2
   m_TagString: Untagged
@@ -170,31 +171,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onDragParent: {fileID: 0}
   startParent: {fileID: 0}
---- !u!114 &6990391732629304661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5134371861287474410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1c83b6c9020baf44bda4fd9afa4c348, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isHold: 0
-  Data:
-    Type: 0
-    Damage: 2
-    Buff: {fileID: 0}
-    FromUnit: {fileID: 0}
-    Skill: {fileID: 0}
-    EffectSystem: {fileID: 0}
-  ManaCost: 2
-  AttackImage: {fileID: -3181523566747969945, guid: da9aed3d223e03640bdc9a74c6d448a4, type: 3}
-  AttackCount: 0
-  PlusDamage: 2
-  cardType: 1
 --- !u!95 &5988018767842025134
 Animator:
   serializedVersion: 7
@@ -246,6 +222,35 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &2934302169335044727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134371861287474410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 982d23a74cb3c0940bcad43e7f76c6a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ManaCost: 1
+  Example: 
+  AttackImage: {fileID: 0}
+  Damage: 1
+  buff: {fileID: 0}
+--- !u!114 &4960068819750299721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134371861287474410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5d9297208014414389f479c30cd3d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6998792077838662452
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2117113872146239937
 RectTransform:
   m_ObjectHideFlags: 0

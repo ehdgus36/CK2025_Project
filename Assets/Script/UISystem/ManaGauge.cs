@@ -18,22 +18,25 @@ public class ManaGauge : MonoBehaviour
     {
         if (ManaImage.Count == 0) return;
         MaxMana = ManaImage.Count;
-
+        CurrentMana = MaxMana;
 
         startColor = ManaImage[0].GetComponent<Image>().color;
         for (int i = 0; i < ManaImage.Count; i++)
         {
-            ManaImage[i].SetActive(false);
+            ManaImage[i].SetActive(true);
         }
 
+        //Initialize();
     }
 
     public void Initialize()
     {
-         MaxMana =5;
-         CurrentMana =5;
-
         for (int i = 0; i < CurrentMana; i++)
+        {
+            ManaImage[i].transform.parent.gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < ManaImage.Count; i++)
         {
             ManaImage[i].transform.parent.gameObject.SetActive(true);
         }
@@ -72,12 +75,13 @@ public class ManaGauge : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < cost; i++)
+            for (int i = cost; i < ManaImage.Count; i++)
             {
                 ManaImage[i].SetActive(true);
                 ManaImage[i].GetComponent<Image>().color = startColor;
             }
-            for (int i = cost; i < ManaImage.Count; i++)
+
+            for (int i = 0; i < cost; i++)
             {
                 ManaImage[i].SetActive(false);
                 ManaImage[i].GetComponent<Image>().color = startColor;

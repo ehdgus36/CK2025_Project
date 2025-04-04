@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SlotGroup : MonoBehaviour
 { 
-    SlotUI[] Slots;
+    [SerializeField] SlotUI[] Slots;
+   
 
     // Start is called before the first frame update
 
@@ -26,7 +27,7 @@ public class SlotGroup : MonoBehaviour
     }
 
    
-    public List<GameObject> ReadData()
+    public  List<T> ReadData<T>()
     {
         if (Slots == null) 
         {
@@ -34,12 +35,17 @@ public class SlotGroup : MonoBehaviour
         }
 
 
-        List<GameObject> objs = new List<GameObject>();
+        List<T> objs = new List<T>();
         for (int i = 0; i < Slots.Length; i++)
         {
             if (Slots[i].gameObject.transform.childCount == 1)
             {
-                objs.Add(Slots[i].gameObject.transform.GetChild(0).gameObject);
+
+                T obj = Slots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<T>();
+                if (obj != null)
+                {
+                    objs.Add(obj);
+                }
             }
         }
 
@@ -49,10 +55,14 @@ public class SlotGroup : MonoBehaviour
 
     public void RemoveDataAll()
     {
-        List<GameObject> RemoveObj = ReadData(); // 삭제할 데이터 가져오기
+        List<RectTransform> RemoveObj = ReadData<RectTransform>(); // 삭제할 데이터 가져오기
+
+        //Debug.Log("Destroy" + RemoveObj[0].name);
         for (int i = 0; i< RemoveObj.Count; i++)
         {
-            Destroy(RemoveObj[i]);
+            
+            Destroy(RemoveObj[i].gameObject);
+          
         }
     }
 

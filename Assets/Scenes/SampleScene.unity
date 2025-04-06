@@ -3857,8 +3857,8 @@ GameObject:
   - component: {fileID: 655718259}
   - component: {fileID: 655718261}
   - component: {fileID: 655718260}
-  - component: {fileID: 655718263}
   - component: {fileID: 655718262}
+  - component: {fileID: 655718264}
   m_Layer: 5
   m_Name: CardSlot (2)
   m_TagString: Untagged
@@ -3936,7 +3936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 2
---- !u!114 &655718263
+--- !u!114 &655718264
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3945,10 +3945,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 655718258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d17a4ac683fe348bf85053b0cef7dd, type: 3}
+  m_Script: {fileID: 11500000, guid: d137d1f2c1595334599ee62c7f944644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageScale: {x: 0.24, y: 0.24, z: 0}
+  imageScale: {x: 0.24, y: 0.24, z: 0.24}
+  CardType: 2
 --- !u!1 &669733420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5134371861287474410, guid: b152c41593dfa5f459c1b79e62b64734, type: 3}
@@ -6740,7 +6741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -9276,8 +9277,8 @@ GameObject:
   - component: {fileID: 1732432349}
   - component: {fileID: 1732432353}
   - component: {fileID: 1732432352}
-  - component: {fileID: 1732432351}
   - component: {fileID: 1732432350}
+  - component: {fileID: 1732432354}
   m_Layer: 5
   m_Name: CardSlot (1)
   m_TagString: Untagged
@@ -9317,19 +9318,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 2
---- !u!114 &1732432351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732432348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d17a4ac683fe348bf85053b0cef7dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageScale: {x: 0.24, y: 0.24, z: 0}
 --- !u!114 &1732432352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9368,6 +9356,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732432348}
   m_CullTransparentMesh: 1
+--- !u!114 &1732432354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732432348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d137d1f2c1595334599ee62c7f944644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageScale: {x: 0.24, y: 0.24, z: 0.24}
+  CardType: 1
 --- !u!1 &1736298663
 GameObject:
   m_ObjectHideFlags: 0
@@ -10136,8 +10138,8 @@ GameObject:
   - component: {fileID: 1846750834}
   - component: {fileID: 1846750838}
   - component: {fileID: 1846750837}
-  - component: {fileID: 1846750836}
   - component: {fileID: 1846750835}
+  - component: {fileID: 1846750839}
   m_Layer: 5
   m_Name: CardSlot
   m_TagString: Untagged
@@ -10177,19 +10179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 2
---- !u!114 &1846750836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846750833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d17a4ac683fe348bf85053b0cef7dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageScale: {x: 0.24, y: 0.24, z: 0}
 --- !u!114 &1846750837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10228,6 +10217,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846750833}
   m_CullTransparentMesh: 1
+--- !u!114 &1846750839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846750833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d137d1f2c1595334599ee62c7f944644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageScale: {x: 0.24, y: 0.24, z: 0.24}
+  CardType: 0
 --- !u!1 &1847339791
 GameObject:
   m_ObjectHideFlags: 0
@@ -11352,10 +11355,10 @@ RectTransform:
   m_Children:
   - {fileID: 1243384647}
   - {fileID: 312389426}
-  - {fileID: 884715029}
   - {fileID: 944259354}
   - {fileID: 1572740524}
   - {fileID: 1294395253}
+  - {fileID: 884715029}
   - {fileID: 1485804670}
   - {fileID: 897844837}
   - {fileID: 1953981552}

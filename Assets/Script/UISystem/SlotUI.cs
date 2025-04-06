@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 
 public class SlotUI : MonoBehaviour,IDropHandler
 {
+    
     GameObject Data;
     [SerializeField] Vector3 imageScale;
    
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
         if (transform.childCount != 0) return;
         
@@ -17,7 +18,7 @@ public class SlotUI : MonoBehaviour,IDropHandler
         Debug.Log("onDrop");
     }
 
-    public void InsertData(GameObject data)
+    public virtual void InsertData(GameObject data)
     {
         
        

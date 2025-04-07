@@ -32,7 +32,13 @@ public class Enemy : Unit
     {
         StartTurnEvent = () => {
 
+            if (CurrentSkillCount == SkillTurnCount) // 포인트가 맞으면 스킬 실행
+            {
+                Skill.StartSkill();
+            }
+
             CurrentSkillCount++;
+            
             GameManager.instance.GetHpManager().UpdatHpbar();
             StartCoroutine("SampleAi");
         

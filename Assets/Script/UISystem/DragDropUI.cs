@@ -31,8 +31,8 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
 
-
-        transform.SetSiblingIndex(index);
+        transform.parent.transform.SetSiblingIndex(index); // 0407 수정 드래그 시작하면 부모 원상복구
+        //transform.SetSiblingIndex(index);
         onDragParent = GameObject.Find("Filds").gameObject.transform;
 
         // 백업용 포지션과 부모 트랜스폼을 백업 해둔다.

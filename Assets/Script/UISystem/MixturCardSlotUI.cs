@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 enum CardType
 { 
-NOMAL ,SPECIAL , UP_GREAD
+NOMAL ,SPECIAL , UP_GRADE
 }
 public class MixtureCardSlotUI : SlotUI
 {
@@ -23,7 +23,7 @@ public class MixtureCardSlotUI : SlotUI
                 if (data.GetComponent<PropertyCard>() == null)
                     return;
                 break;
-            case CardType.UP_GREAD:
+            case CardType.UP_GRADE:
                 if (data.GetComponent<UPGradeCard>() == null)
                     return;
                 break;

@@ -60,7 +60,8 @@ public class Enemy : Unit
 
     IEnumerator SampleAi()
     {
-      
+
+        EnemyAnimator.Play("attack");
         yield return new WaitForSeconds(1.0f);
         GameManager.instance.GetAttackManager().Attack(this, GameManager.instance.GetPlayer(), AttackData);
 

@@ -23,6 +23,7 @@ public class CardMixtureSystem : MonoBehaviour
     {
         SeletButton.onClick.AddListener(SelectionCard);
         AttackPlayer = GameManager.instance.GetPlayer();
+        //ManaGauge.Initialize();
     }
     public void Start()
     {
@@ -30,10 +31,7 @@ public class CardMixtureSystem : MonoBehaviour
     }
 
 
-    public void AttackButtonEvent()
-    {
-        SelectionCard();
-    }
+   
 
     private void Update()
     {
@@ -82,6 +80,8 @@ public class CardMixtureSystem : MonoBehaviour
         attackData.FromUnit = AttackPlayer;
 
         MadeAttackData = attackData;
+
+        ManaGauge.UseMana();
         Enemy targetEnemy = GameManager.instance.GetEnemysGroup().GetEnemy();
         //공격 이펙트 끝나면 데미지 들어가게 연구 필!!! 현재 즉시 데미지
         GameManager.instance.GetAttackManager().Attack(AttackPlayer, targetEnemy, MadeAttackData);

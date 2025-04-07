@@ -31,6 +31,7 @@ public class Player : Unit
     void PlayableSystemOn()
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(true);
+        
         GameManager.instance.GetTurnButton().gameObject.SetActive(true);
     }
 

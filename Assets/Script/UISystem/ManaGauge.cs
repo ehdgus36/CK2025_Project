@@ -82,7 +82,7 @@ public class ManaGauge : MonoBehaviour
         {
            
             ManaCountText.text = "Over";
-          
+            return;
         }
         else
         {

@@ -38,7 +38,7 @@ public class WaveManager : MonoBehaviour
         }
         Enemys[CurrentWave - 1].gameObject.SetActive(false);
         CurrentWave++;
-        WavePointer.anchoredPosition = new Vector2(WavePointer.anchoredPosition.x + 180, WavePointer.anchoredPosition.y);
+        WavePointer.anchoredPosition = new Vector2(WavePointer.anchoredPosition.x + 128, WavePointer.anchoredPosition.y);
         StartCoroutine("NextWaveEventSample");
     }
 

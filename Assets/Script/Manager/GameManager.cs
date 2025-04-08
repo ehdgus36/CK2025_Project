@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
         SlotUI[] playerCardSlots = PlayerCardSloats.Getsloat();
         List<Card> playerCard = CardDack.CardDrow(playerCardSlots.Length);
 
-        for (int i = 0; i < playerCardSlots.Length; i++)
+        for (int i = 0; i < playerCard.Count; i++)
         {
            playerCardSlots[i].InsertData(playerCard[i].gameObject);
         }

@@ -43,6 +43,10 @@ public class CardMixtureSystem : MonoBehaviour
         CardData = CardDataSlotGroup.ReadData<Card>();
         AttackData attackData = new AttackData();
 
+        NomalCard n_card = null;
+        PropertyCard s_card = null;
+        UPGradeCard ug_card = null;
+
         int totalMana = 0;
 
         for (int i = 0; i < CardData.Count; i++)
@@ -54,23 +58,32 @@ public class CardMixtureSystem : MonoBehaviour
             {
                 case NomalCard N:
                     attackData.Damage += N.GetDamage();
+                    attackData.Order = N.GetAttackOrder();
                     totalMana += N.GetManCost();
+
+                    n_card = N;
                     Debug.Log(N.name);
                     break;
 
                 case PropertyCard P:
 
-                    attackData.Damage += P.GetDamage();
+                    attackData.Damage += P.GetDamage() + P.SpecialCardPlusDamag(n_card);
+
                     attackData.Buff = P.GetBuff();
 
                     totalMana += P.GetManCost();
+
+                    s_card = P;
                     Debug.Log(P.name);
                     break;
 
                 case UPGradeCard U:
                     attackData.Damage += U.GetDamage();
                     totalMana += U.GetManCost();
+                    attackData =  U.UpGradeCards(n_card, s_card,attackData);
                     Debug.Log(U.name);
+
+                    ug_card = U;
                     break;
             }
         }
@@ -82,7 +95,7 @@ public class CardMixtureSystem : MonoBehaviour
         MadeAttackData = attackData;
 
         ManaGauge.UseMana();
-        Enemy targetEnemy = GameManager.instance.GetEnemysGroup().GetEnemy();
+        Enemy targetEnemy = GameManager.instance.GetEnemysGroup().GetEnemy(attackData.Order);
         //공격 이펙트 끝나면 데미지 들어가게 연구 필!!! 현재 즉시 데미지
         GameManager.instance.GetAttackManager().Attack(AttackPlayer, targetEnemy, MadeAttackData);
 

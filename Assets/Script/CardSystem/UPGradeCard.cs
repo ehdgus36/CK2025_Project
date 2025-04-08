@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using UnityEngine;
 
 public class UPGradeCard : Card
@@ -7,9 +8,8 @@ public class UPGradeCard : Card
         return 0;
     }
 
-    public virtual void UpGradeCards(NomalCard nomalCard , PropertyCard propertyCard )
-    { 
-    
-    
-    }
+    public virtual AttackData UpGradeCards(NomalCard nomalCard, PropertyCard propertyCard, AttackData data) { return data; }
+   
 }
+
+

@@ -29,7 +29,20 @@ public class Dack : MonoBehaviour
     // Start is called before the first frame update
     public List<Card> CardDrow(int drowCount)
     {
-        List<Card> drowCard = DackDatas.GetRange(0,drowCount );
+
+        List<Card> drowCard;
+
+        if (DackDatas.Count < drowCount)
+        {
+            drowCard = DackDatas.GetRange(0, DackDatas.Count);
+            DackDatas.RemoveRange(0, DackDatas.Count);
+
+            TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
+            return drowCard;
+
+        }
+
+        drowCard = DackDatas.GetRange(0,drowCount );
         DackDatas.RemoveRange(0, drowCount );
 
         TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();

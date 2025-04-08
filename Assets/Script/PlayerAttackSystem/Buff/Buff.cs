@@ -26,5 +26,6 @@ public abstract class Buff : MonoBehaviour
     public BuffType GetBuffType() { return type; }
     public abstract void StartBuff(Unit unit);
 
+    public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
     public abstract Buff DeepCopy();
 }

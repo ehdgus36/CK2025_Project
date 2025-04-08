@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,18 +6,20 @@ using UnityEngine;
 
 public abstract class Card : MonoBehaviour
 {
-   // [SerializeField] int Damage = 1;
+    // [SerializeField] int Damage = 1;
     //public bool isHold = false;
-   
+
+    [SerializeField] String CardID;
     [SerializeField] int ManaCost = 1;
     [SerializeField] string Example;
 
-    [SerializeField] public Sprite AttackImage;
 
 
-   
-   
+
+
+    public String GetID() { return CardID; }
     public int GetManCost() { return ManaCost; }
+    public string GetExample() { return Example; }
     public abstract int GetDamage();
 
 

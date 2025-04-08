@@ -20,7 +20,11 @@ public class SlotUI : MonoBehaviour,IDropHandler
 
     public virtual void InsertData(GameObject data)
     {
-        
+
+        if (data.GetComponent<DragDropUI>())
+        {
+            data.GetComponent<DragDropUI>().startScale = imageScale;
+        }
        
         data.transform.position = transform.position;
         data.transform.rotation = transform.rotation;

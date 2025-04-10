@@ -31,8 +31,18 @@ public class SlotUI : MonoBehaviour,IDropHandler
         data.transform.localScale = imageScale;
 
         data.transform.SetParent(transform);
-       
+    }
 
+    public virtual T ReadData<T>()
+    {
+        T obj = this.transform.GetChild(0).gameObject.GetComponent<T>();
+
+        if (obj == null)
+        {
+            return default(T);
+        }
+
+        return obj;
     }
 
 }

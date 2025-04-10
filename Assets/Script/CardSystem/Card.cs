@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -11,7 +12,8 @@ public abstract class Card : MonoBehaviour
 
     [SerializeField] String CardID;
     [SerializeField] int ManaCost = 1;
-    [SerializeField] string Example;
+    [SerializeField] 
+    [TextArea]string Example;
 
 
 

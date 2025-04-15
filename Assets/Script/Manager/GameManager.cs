@@ -129,15 +129,15 @@ public class GameManager : MonoBehaviour
 
     public void PlayerCardDrow()
     {
-        SlotUI[] playerCardSlots = PlayerCardSloats.Getsloat();
-        List<Card> playerCard = CardDack.CardDrow(playerCardSlots.Length);
+       // SlotUI[] playerCardSlots = PlayerCardSloats.Getsloat();
+       //// List<Card> playerCard = CardDack.CardDrow(playerCardSlots.Length);
 
-        for (int i = 0; i < playerCard.Count; i++)
-        {
-           playerCardSlots[i].InsertData(playerCard[i].gameObject);
-        }
+       // for (int i = 0; i < playerCard.Count; i++)
+       // {
+       //    playerCardSlots[i].InsertData(playerCard[i].gameObject);
+       // }
 
-        PlayerCardSloats.GetComponent<Animator>().Play("Drow");
+       // PlayerCardSloats.GetComponent<Animator>().Play("Drow");
     }
 
 

@@ -5,24 +5,25 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-public abstract class Card : MonoBehaviour
+public class Card : MonoBehaviour
 {
     // [SerializeField] int Damage = 1;
     //public bool isHold = false;
 
     [SerializeField] String CardID;
-    [SerializeField] int ManaCost = 1;
-    [SerializeField] 
-    [TextArea]string Example;
+    string Example;
+    int Grade_Point;
 
 
 
 
 
     public String GetID() { return CardID; }
-    public int GetManCost() { return ManaCost; }
+    public int GetGradePoint() { return Grade_Point; }
+
     public string GetExample() { return Example; }
-    public abstract int GetDamage();
+
+    public virtual int GetDamage() { return 0; }
 
 
    

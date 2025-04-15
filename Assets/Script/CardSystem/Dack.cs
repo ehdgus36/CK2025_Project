@@ -16,37 +16,15 @@ public class Dack : MonoBehaviour
     [SerializeReference] List<Card> DackDatas;
     [SerializeField] Transform CardPos;
 
-    private void Awake()
-    {
-        
-
-        DackCount = DackDatas.Count;
-        TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
-        DackDatas = ShuffleList(DackDatas);
-    }
 
 
     // Start is called before the first frame update
-    public List<Card> CardDrow(int drowCount)
+    public Card CardDrow()
     {
-
-        List<Card> drowCard;
-
-        if (DackDatas.Count < drowCount)
-        {
-            drowCard = DackDatas.GetRange(0, DackDatas.Count);
-            DackDatas.RemoveRange(0, DackDatas.Count);
-
-            TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
-            return drowCard;
-
-        }
-
-        drowCard = DackDatas.GetRange(0,drowCount );
-        DackDatas.RemoveRange(0, drowCount );
-
-        TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
-        return drowCard;
+        Card result = DackDatas[0];
+        DackDatas.RemoveAt(0);
+       
+        return result;
     }
 
     //카드 다시 넣기

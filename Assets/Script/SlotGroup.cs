@@ -1,23 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SlotGroup : MonoBehaviour
 { 
     [SerializeField] SlotUI[] Slots;
-   
+
+  
 
     // Start is called before the first frame update
 
     public SlotUI[] Getsloat() { return Slots;  }
 
-    void Initialize()
+ 
+    public void Initialize()
     {
         Slots = GetComponentsInChildren<SlotUI>();
         if (Slots.Length == 0)
         {
             Debug.LogError("Name:" + this.gameObject.name + "SlotGroup에 Slot이 없습니다 생성해 주세요");
             return;
+        }
+    }
+
+    public void Initialize(UnityAction funtion)
+    {
+        Slots = GetComponentsInChildren<SlotUI>();
+        if (Slots.Length == 0)
+        {
+            Debug.LogError("Name:" + this.gameObject.name + "SlotGroup에 Slot이 없습니다 생성해 주세요");
+            return;
+        }
+
+        for (int i = 0; i < Slots.Length; i++)
+        {
+            Slots[i].AddInsertEvent(funtion);
         }
     }
 

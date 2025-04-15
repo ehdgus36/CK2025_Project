@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class SlotUI : MonoBehaviour,IDropHandler
 {
     
     GameObject Data;
+    UnityAction InsertDataEvent; // 슬롯에 데이터가 들어가면 실행되는 이벤트
     [SerializeField] Vector3 imageScale;
-   
-    public virtual void OnDrop(PointerEventData eventData)
+
+
+    public void AddInsertEvent(UnityAction funtion)
     {
-        if (transform.childCount != 0) return;
-        
-        InsertData(eventData.pointerDrag);
-        Debug.Log("onDrop");
+        InsertDataEvent += funtion;
+    }
+
+    public virtual void OnDrop(PointerEventData eventData)
+    {          
+        InsertData(eventData.pointerDrag);     
     }
 
     public virtual void InsertData(GameObject data)
     {
-
+        if (transform.childCount != 0) return;
         if (data.GetComponent<DragDropUI>())
         {
             data.GetComponent<DragDropUI>().startScale = imageScale;
@@ -31,6 +36,8 @@ public class SlotUI : MonoBehaviour,IDropHandler
         data.transform.localScale = imageScale;
 
         data.transform.SetParent(transform);
+
+        InsertDataEvent?.Invoke();
     }
 
     public virtual T ReadData<T>()

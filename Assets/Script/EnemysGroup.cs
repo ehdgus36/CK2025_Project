@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemysGroup : Enemy
@@ -9,7 +10,20 @@ public class EnemysGroup : Enemy
 
 
    
-    public Enemy GetEnemy() { return Enemys[0]; }
+    public Enemy GetEnemy(AttackOrderType type) 
+    {
+        if (type == AttackOrderType.First)
+        {
+            return Enemys[0];
+        }
+
+        if (type == AttackOrderType.Last)
+        {
+            return Enemys[Enemys.Count -1];
+        }
+
+        return Enemys[0];
+    }
 
     protected override void Initialize()
     {

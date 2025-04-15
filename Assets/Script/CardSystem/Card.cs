@@ -1,35 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
-public enum CardType
-{ 
-Attack, AttackBuff , Buff
-}
-
-public class Card : MonoBehaviour
+public abstract class Card : MonoBehaviour
 {
-   // [SerializeField] int Damage = 1;
-    public bool isHold = false;
-    [SerializeField] public AttackData Data;
-   
+    // [SerializeField] int Damage = 1;
+    //public bool isHold = false;
+
+    [SerializeField] String CardID;
     [SerializeField] int ManaCost = 1;
+    [SerializeField] 
+    [TextArea]string Example;
 
-    [SerializeField] public Sprite AttackImage;
-    [SerializeField] public int AttackCount;
-    [SerializeField] public int PlusDamage;
 
-    public CardType cardType;
-   
-    public int GetDamage() { return Data.Damage; }
+
+
+
+    public String GetID() { return CardID; }
     public int GetManCost() { return ManaCost; }
+    public string GetExample() { return Example; }
+    public abstract int GetDamage();
 
-    public Buff GetBuff() { return Data.Buff; }
 
-    public AttackData GetAttackData() { return Data; }
-    public void SetAttackData(AttackData data) { Data = data; }
-
-    void SetHold(bool hold) { isHold = hold; }
    
 }

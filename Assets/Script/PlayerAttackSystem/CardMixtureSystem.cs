@@ -1,0 +1,143 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CardMixtureSystem : MonoBehaviour
+{
+
+
+    [SerializeField] List<Card> CardData;
+    [SerializeField] SlotGroup CardDataSlotGroup;
+    [SerializeField] ManaGauge ManaGauge;
+
+    [SerializeField] Button SeletButton;
+    [SerializeField] CemeteryUI Cemetery;
+
+    Player AttackPlayer;
+    AttackData MadeAttackData;
+
+    
+
+
+    public void Initialize()
+    {
+        SeletButton.onClick.AddListener(SelectionCard);
+        AttackPlayer = GameManager.instance.GetPlayer();
+        //ManaGauge.Initialize();
+    }
+    public void Start()
+    {
+       
+    }
+
+
+   
+
+    private void Update()
+    {
+        ManaCostCalculate(); //야매
+    }
+
+    void SelectionCard()
+    {
+        CardData = CardDataSlotGroup.ReadData<Card>();
+        AttackData attackData = new AttackData();
+
+        NomalCard n_card = null;
+        PropertyCard s_card = null;
+        UPGradeCard ug_card = null;
+
+        int totalMana = 0;
+
+        for (int i = 0; i < CardData.Count; i++)
+        {
+
+            object type = CardData[i];
+
+            switch (type)
+            {
+                case NomalCard N:
+                    attackData.Damage += N.GetDamage();
+                    attackData.Order = N.GetAttackOrder();
+                    totalMana += N.GetManCost();
+
+                    n_card = N;
+                    Debug.Log(N.name);
+                    break;
+
+                case PropertyCard P:
+
+                    attackData.Damage += P.GetDamage() + P.SpecialCardPlusDamag(n_card);
+
+                    attackData.Buff = P.GetBuff();
+
+                    totalMana += P.GetManCost();
+
+                    s_card = P;
+                    Debug.Log(P.name);
+                    break;
+
+                case UPGradeCard U:
+                    attackData.Damage += U.GetDamage();
+                    totalMana += U.GetManCost();
+                    attackData =  U.UpGradeCards(n_card, s_card,attackData);
+                    Debug.Log(U.name);
+
+                    ug_card = U;
+                    break;
+            }
+        }
+
+        Cemetery.Insert(CardDataSlotGroup.ReadData<Card>());
+       
+        attackData.FromUnit = AttackPlayer;
+
+        MadeAttackData = attackData;
+
+        ManaGauge.UseMana();
+        Enemy targetEnemy = GameManager.instance.GetEnemysGroup().GetEnemy(attackData.Order);
+        //공격 이펙트 끝나면 데미지 들어가게 연구 필!!! 현재 즉시 데미지
+        GameManager.instance.GetAttackManager().Attack(AttackPlayer, targetEnemy, MadeAttackData);
+
+        
+    }
+
+    public void ManaCostCalculate()
+    {
+        CardData = CardDataSlotGroup.ReadData<Card>();
+       
+
+        int totalMana = 0;
+
+        for (int i = 0; i < CardData.Count; i++)
+        {
+
+            object type = CardData[i];
+
+            switch (type)
+            {
+                case NomalCard N:
+                   
+                    totalMana += N.GetManCost();
+                    Debug.Log(N.name);
+                    break;
+
+                case PropertyCard P:
+
+           
+                    totalMana += P.GetManCost();
+                    Debug.Log(P.name);
+                    break;
+
+                case UPGradeCard U:
+                    totalMana += U.GetManCost();
+                    Debug.Log(U.name);
+                    break;
+            }
+        }
+
+        Debug.Log(totalMana);
+        ManaGauge.SetManaCost(totalMana);
+
+    }
+}

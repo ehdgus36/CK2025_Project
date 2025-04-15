@@ -7,9 +7,7 @@ using TMPro;
 public class Dack : MonoBehaviour
 {
    
-    [SerializeField] Card CardPrefab;
-    [SerializeField] Card CardPrefab2;
-    [SerializeField] Card CardPrefab3;
+  
 
     [SerializeField] TextMeshProUGUI TextCardCount;
 
@@ -20,29 +18,7 @@ public class Dack : MonoBehaviour
 
     private void Awake()
     {
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    Card result = Instantiate(CardPrefab);
-        //    result.gameObject.transform.SetParent(this.transform);
-        //    result.gameObject.transform.position = CardPos.position;
-        //    DackDatas.Add(result);
-        //}
-
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    Card result = Instantiate(CardPrefab2);
-        //    result.gameObject.transform.SetParent(this.transform);
-        //    result.gameObject.transform.position = CardPos.position;
-        //    DackDatas.Add(result);
-        //}
-
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    Card result = Instantiate(CardPrefab3);
-        //    result.gameObject.transform.SetParent(this.transform);
-        //    result.gameObject.transform.position = CardPos.position;
-        //    DackDatas.Add(result);
-        //}
+        
 
         DackCount = DackDatas.Count;
         TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
@@ -53,7 +29,20 @@ public class Dack : MonoBehaviour
     // Start is called before the first frame update
     public List<Card> CardDrow(int drowCount)
     {
-        List<Card> drowCard = DackDatas.GetRange(0,drowCount );
+
+        List<Card> drowCard;
+
+        if (DackDatas.Count < drowCount)
+        {
+            drowCard = DackDatas.GetRange(0, DackDatas.Count);
+            DackDatas.RemoveRange(0, DackDatas.Count);
+
+            TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
+            return drowCard;
+
+        }
+
+        drowCard = DackDatas.GetRange(0,drowCount );
         DackDatas.RemoveRange(0, drowCount );
 
         TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField]List<EnemysGroup> Enemys;
 
+    [SerializeField] RectTransform WavePointer;
     
 
     public void Initialize()
@@ -36,6 +38,7 @@ public class WaveManager : MonoBehaviour
         }
         Enemys[CurrentWave - 1].gameObject.SetActive(false);
         CurrentWave++;
+        WavePointer.anchoredPosition = new Vector2(WavePointer.anchoredPosition.x + 128, WavePointer.anchoredPosition.y);
         StartCoroutine("NextWaveEventSample");
     }
 

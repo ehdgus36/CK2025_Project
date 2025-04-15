@@ -31,6 +31,7 @@ public class Player : Unit
     void PlayableSystemOn()
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(true);
+        
         GameManager.instance.GetTurnButton().gameObject.SetActive(true);
     }
 
@@ -45,13 +46,14 @@ public class Player : Unit
         GameManager.instance.GameOver.SetActive(true);
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(AttackData data)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(data);
         Debug.Log("hit");
         if (DamageEffect != null)
         {
-            DamageEffect.Play("PlayerHit");
+            DamageEffect.Play("hit");
         }
     }
+    
 }

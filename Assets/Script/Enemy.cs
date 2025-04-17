@@ -9,7 +9,7 @@ public class Enemy : Unit
 
     [SerializeField] int SkillTurnCount = 2;
     [SerializeField] int CurrentSkillCount = 0;
-    
+
     [SerializeField] Skill Skill;
     [SerializeField] AttackData AttackData;
     [SerializeField] Animator EnemyAnimator;
@@ -31,7 +31,8 @@ public class Enemy : Unit
 
     protected virtual void Initialize()
     {
-        StartTurnEvent = () => {
+        StartTurnEvent = () =>
+        {
 
             if (CurrentSkillCount == SkillTurnCount) // 포인트가 맞으면 스킬 실행
             {
@@ -41,19 +42,20 @@ public class Enemy : Unit
             }
 
             CurrentSkillCount++;
-            
+
             GameManager.instance.GetHpManager().UpdatHpbar();
             StartCoroutine("SampleAi");
-            
+
         };
 
 
-        EndTurnEvent += () => { 
+        EndTurnEvent += () =>
+        {
             StopCoroutine("SampleAi");
             GameManager.instance.GetHpManager().UpdatHpbar();
         };
 
-        AttackData.FromUnit = this;
+        // AttackData.FromUnit = this;
     }
 
     public void SetDieEvent(UnityAction dieEvent)
@@ -66,20 +68,20 @@ public class Enemy : Unit
 
         EnemyAnimator.Play("attack");
         yield return new WaitForSeconds(1.0f);
-        GameManager.instance.GetAttackManager().Attack(this, GameManager.instance.GetPlayer(), AttackData);
+        // GameManager.instance.GetAttackManager().Attack(this, GameManager.instance.GetPlayer(), AttackData);
 
         yield return new WaitForSeconds(1.0f);
-        
+
         yield return null;
     }
 
     public override void TakeDamage(AttackData data)
     {
-        if (data.Damage < 0)
-        {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-            return;
-        }
+        //if (data.Damage < 0)
+        //{
+        //    Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
+        //    return;
+        //}
 
         base.TakeDamage(data);
         GameManager.instance.GetHpManager().UpdatHpbar();
@@ -98,13 +100,31 @@ public class Enemy : Unit
         EnemyAnimator.Play("hit");
     }
 
+    public void TakeDamage(int damage, Buff buff)
+    {
+        if (damage <= 0)
+        {
+            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
+            return;
+        }
+
+        if (buff != null)
+        {
+            CurrentBuff.Add(buff);
+        }
+
+        base.TakeDamage(damage);
+        GameManager.instance.GetHpManager().UpdatHpbar();
+        EnemyAnimator.Play("hit");
+    }
+
     protected override void Die()
     {
         this.gameObject.SetActive(false);
         DieEvent?.Invoke();
-        
+
     }
 
-  
+
 
 }

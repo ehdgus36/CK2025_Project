@@ -48,19 +48,19 @@ public class Unit : MonoBehaviour
     {
 
        
-        if (data.Damage < 0)
-        {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-            return;
-        }
+        //if (data.Damage < 0)
+        //{
+        //    Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
+        //    return;
+        //}
 
-        UnitCurrentHp -= data.Damage;
+        //UnitCurrentHp -= data.Damage;
 
-        if (data.Buff)
-        {
-            Debug.Log(data.Buff.name);
-            CurrentBuff.Add(data.Buff);
-        }
+        //if (data.Buff)
+        //{
+        //    Debug.Log(data.Buff.name);
+        //    CurrentBuff.Add(data.Buff);
+        //}
 
 
         if (UnitCurrentHp <= 0)

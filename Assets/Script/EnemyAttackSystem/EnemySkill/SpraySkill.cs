@@ -6,11 +6,11 @@ public class SpraySkill : Skill
 
     public override void StartSkill()
     {
-        AttackData attackData = new AttackData();
-        attackData.Damage = Damage;
-        attackData.FromUnit = this.GetComponent<Enemy>();
+        //AttackData attackData = new AttackData();
+        //attackData.Damage = Damage;
+        //attackData.FromUnit = this.GetComponent<Enemy>();
 
 
-        GameManager.instance.GetPlayer().TakeDamage(attackData);
+        //GameManager.instance.GetPlayer().TakeDamage(attackData);
     }
 }

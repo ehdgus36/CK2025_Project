@@ -25,6 +25,20 @@ public class EnemysGroup : Enemy
         return Enemys[0];
     }
 
+    public Enemy GetEnemy(int index)
+    {
+        if(index > Enemys.Count -1) return Enemys[index];
+        return Enemys[index];
+    }
+
+
+    public int GetEnemyCount()
+    {
+        
+        return Enemys.Count;
+    }
+
+
     protected override void Initialize()
     {
         for (int i = 0; i < Enemys.Count; i++)
@@ -54,17 +68,7 @@ public class EnemysGroup : Enemy
         Enemys[0].TakeDamage(damage);
     }
 
-    public void TakeAllDamage(int damage )
-    {
-        if (Enemys.Count == 0)
-        {
-            return;
-        }
-        for (int i = 0; i < Enemys.Count; i++)
-        {
-            Enemys[i].TakeDamage(damage);
-        }
-    }
+  
 
     protected override void Die()
     {

@@ -8,7 +8,7 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
     [SerializeField] float FrequencyRate;
     [SerializeField] float MoveSpeed;
     [SerializeField] float SpinSpeed;
-    [SerializeField]Transform TargetPos;
+    [SerializeField] SlotUI TargetSlot;
     [SerializeField] PlayerCDSlotGroup aaa;
     Transform ItemPos;
     SlotUI ItemSlotUI;
@@ -29,7 +29,7 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
         }
 
 
-        if (TargetPos != null && ItemPos != null)
+        if (TargetSlot != null && ItemPos != null)
         {
             Debug.Log("Move");
             StartCoroutine("StartMoveUpdate");
@@ -39,20 +39,20 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
     IEnumerator StartMoveUpdate()
     {
         //Animator.Play("CD_Spin");
-
-        ItemPos.transform.SetParent(TargetPos.transform);
+        
+       
         bool isPlay = true;
         while (isPlay)
         {
-            ItemPos.position = Vector3.MoveTowards(ItemPos.position, TargetPos.position, MoveSpeed/100);
+            ItemPos.position = Vector3.MoveTowards(ItemPos.position, TargetSlot.transform.position, MoveSpeed/100);
             ItemPos.Rotate(SpinSpeed, 0, 0);
-            if (ItemPos.position == TargetPos.position)
+            if (ItemPos.position == TargetSlot.transform.position)
             {
                 isPlay = false;
 
                 Animator.enabled = true;
                 Animator.Play("CD_Insert");
-
+                TargetSlot.InsertData(ItemPos.gameObject);
                 aaa.aaaa();
                 break;
             }

@@ -5,75 +5,35 @@ using UnityEngine;
 
 public class AttackManager : MonoBehaviour
 {
-    Transform FromUnitPos;
-    Transform ToUnitPos;
-
-    [SerializeField] int TotalDamage;
-    [SerializeField] Sprite AttackSprite;
-    [SerializeField] int AttackCount = 1;
-    [SerializeField] int CurrentAttackCount = 0;
-    [SerializeField] AttackEffectObj attackObj;
-    [SerializeField] AttackType attackType;
+  
     public void Initialize()
     {
-        TotalDamage = 0;
-        AttackSprite = null;
-        AttackCount = 1;
-        CurrentAttackCount = 0;
-        attackType = AttackType.None;
-    }
-
-    public void Attack(Unit from, Unit to, AttackData data)
-    {
-        FromUnitPos = from.transform;
-        ToUnitPos = to.transform;
-
-        to.TakeDamage(data);
        
-
-        StartCoroutine("AttackUpdate");
     }
 
-    IEnumerator AttackUpdate()
-    {
-        if (attackType == AttackType.Single)
+    public void Attack(AttackData data , int target_index)
+    {     
+        EnemysGroup enemysGroup = GameManager.instance.GetEnemysGroup();
+
+
+
+        //단일공격
+        enemysGroup.GetEnemy(target_index).TakeDamage(data.Base_Damage_1);
+
+        //전체 공격
+        for (int i = 0; i < enemysGroup.GetEnemyCount(); i++)
         {
-            for (int i = 0; i < AttackCount; i++)
+            if (i == target_index)
             {
-                AttackEffectObj obj = Instantiate<AttackEffectObj>(attackObj, FromUnitPos.position, FromUnitPos.rotation);
-                obj.SetData(ToUnitPos, AttackDamage, AttackSprite);
-                yield return new WaitForSeconds(0.2f);
+                continue;
             }
+            enemysGroup.GetEnemy(i).TakeDamage(data.Base_Damage_2);
         }
-        if (attackType == AttackType.All)
-        {
-            for (int i = 0; i < AttackCount; i++)
-            {
-                AttackEffectObj obj = Instantiate<AttackEffectObj>(attackObj, FromUnitPos.position, FromUnitPos.rotation);
-                obj.SetData(ToUnitPos, AttackAllDamage, AttackSprite);
-                yield return new WaitForSeconds(0.2f);
-            }
-        }
-        yield return null;
-    }
 
-    void AttackDamage()
-    {
-       // GameManager.instance.AttackDamage(TotalDamage);
-        CurrentAttackCount++;
-        if (AttackCount == CurrentAttackCount)
-        {
-            Initialize();
-        }
-    }
+        //버프 턴공격
 
-    void AttackAllDamage()
-    {
-        GameManager.instance.GetEnemysGroup().TakeAllDamage(TotalDamage);
-        CurrentAttackCount++;
-        if (AttackCount == CurrentAttackCount)
-        {
-            Initialize();
-        }
-    }
+        //전체 버프 턴
+
+        //체력 회복
+    } 
 }

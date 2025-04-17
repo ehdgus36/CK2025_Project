@@ -19,16 +19,21 @@ public class CardMixtureSystem : MonoBehaviour
 
 
     Player AttackPlayer;
-    AttackData MadeAttackData;
+    AttackData MaidAttackData;
 
-    [SerializeField] List<Dictionary<string, object>> Recipe;
-
+    
+    [SerializeField] List<AttackData> RecipeData;
 
     public void Initialize()
     {
-        //CDMixtureSlotGroup.Initialize(SelectionCard);
-       // AttackPlayer = GameManager.instance.GetPlayer();
-        Recipe = CSVReader.Read(MixtureData);
+        CDMixtureSlotGroup.Initialize(SelectionCard);
+        // AttackPlayer = GameManager.instance.GetPlayer();
+        List<Dictionary<string, object>> recipe = CSVReader.Read(MixtureData);
+
+        for (int i = 0; i < CSVReader.Read(MixtureData).Count; i++)
+        {
+            RecipeData.Add(new AttackData(recipe , i));
+        }
 
     }
     public void Start()
@@ -39,26 +44,25 @@ public class CardMixtureSystem : MonoBehaviour
 
 
 
-    private void Update()
-    {
-        SelectionCard();
-    }
 
     void SelectionCard()
     {
-        //CardData = CDMixtureSlotGroup.ReadData<Card>();
+        CardData = CDMixtureSlotGroup.ReadData<Card>();
         if (CardData.Count == 3)
         {
-
+            GameManager.instance.GetAttackManager().Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
         }
 
         if (CardData.Count == 2)
         {
-            for (int i = 0; i < Recipe.Count; i++)
+            for (int i = 0; i < RecipeData.Count; i++)
             {
-                if ( Recipe[i]["Add_Code"].ToString() == (CardData[0].GetID() + CardData[1].GetID()) )
+                if (RecipeData[i].Add_Code == (CardData[0].GetID() + CardData[1].GetID()))
                 {
-                    Debug.Log(Recipe[i]["Base_Damage_1"].ToString());
+                    MaidAttackData = RecipeData[i];
+
+
+                    Debug.Log(RecipeData[i].Add_Code);
                 }
             }
         }

@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] HpManager HpManager;
     [SerializeField] AttackManager AttackManager;
     [SerializeField] UIManager UIManager;
-    [SerializeField]
+   
     //플레이어 기능 비활성화, 스와이프 카드 홀드
     // Start is called before the first frame update
 

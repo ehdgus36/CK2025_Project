@@ -11,6 +11,7 @@ public class SlotUI : MonoBehaviour,IDropHandler
     GameObject Data;
     UnityAction InsertDataEvent; // 슬롯에 데이터가 들어가면 실행되는 이벤트
     [SerializeField] Vector3 imageScale;
+    [SerializeField] ParticleSystem InsertEffect;
 
 
     public void AddInsertEvent(UnityAction funtion)
@@ -38,6 +39,11 @@ public class SlotUI : MonoBehaviour,IDropHandler
         data.transform.SetParent(transform);
 
         InsertDataEvent?.Invoke();
+
+        if (InsertEffect != null)
+        {
+            InsertEffect.Play();
+        }
     }
 
     public virtual T ReadData<T>()

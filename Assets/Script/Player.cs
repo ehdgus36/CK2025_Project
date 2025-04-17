@@ -26,19 +26,19 @@ public class Player : Unit
 
     void DackCordReturn()
     {
-        GameManager.instance.PlayerCardReturn();
+       // GameManager.instance.PlayerCardReturn();
     }
     void PlayableSystemOn()
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(true);
         
-        GameManager.instance.GetTurnButton().gameObject.SetActive(true);
+        //GameManager.instance.GetTurnButton().gameObject.SetActive(true);
     }
 
     void PlayableSystemOff()
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(false);
-        GameManager.instance.GetTurnButton().gameObject.SetActive(false);
+        //GameManager.instance.GetTurnButton().gameObject.SetActive(false);
     }
 
     protected override void Die()

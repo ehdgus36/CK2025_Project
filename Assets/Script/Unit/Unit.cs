@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour
     [SerializeField] protected int UnitMaxHp = 10;
     [SerializeField] protected int UnitCurrentHp = 10;
    
-    [SerializeField] protected List<Buff> CurrentBuff;
+    [SerializeField] protected List<Buff> CurrentBuff = new List<Buff>();
 
     [SerializeField] public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
 
@@ -40,8 +40,11 @@ public class Unit : MonoBehaviour
             Die();
         }
 
-        HitEffect.transform.position = this.transform.position;
-        HitEffect.SetActive(true);
+        if (HitEffect != null)
+        {
+            HitEffect.transform.position = this.transform.position;
+            HitEffect.SetActive(true);
+        }
     }
 
     public virtual void TakeDamage(AttackData data)

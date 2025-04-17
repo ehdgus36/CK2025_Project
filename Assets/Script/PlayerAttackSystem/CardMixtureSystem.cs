@@ -14,6 +14,8 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] List<Card> CardData;
     [SerializeField] SlotGroup CDMixtureSlotGroup;
 
+    [SerializeField] CemeteryUI Cemetery;
+
 
     [SerializeField] TextAsset MixtureData;
 
@@ -23,6 +25,17 @@ public class CardMixtureSystem : MonoBehaviour
 
     
     [SerializeField] List<AttackData> RecipeData;
+
+
+    private void OnDisable() //비활성화 하면 조합데에 있는 카드 묘지로
+    {
+        List< Card> CDdata = CDMixtureSlotGroup.ReadData<Card>();
+        for (int i = 0; i < CDdata.Count; i++)
+        {
+            Cemetery.Insert(CDdata[i]);
+        }
+      
+    }
 
     public void Initialize()
     {
@@ -36,11 +49,7 @@ public class CardMixtureSystem : MonoBehaviour
         }
 
     }
-    public void Start()
-    {
-        Initialize();
-    }
-
+   
 
 
 
@@ -51,6 +60,7 @@ public class CardMixtureSystem : MonoBehaviour
         if (CardData.Count == 3)
         {
             GameManager.instance.GetAttackManager().Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+            return;
         }
 
         if (CardData.Count == 2)

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] SlotGroup PlayerCardSloats;
     [SerializeField] CardMixtureSystem PlayerAttackSystem;
 
-    [SerializeField] Button TurnEndButton;
+   
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
 
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void SetEnemy(EnemysGroup enemy) { Enemy = enemy; }
     public CardMixtureSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
-    public Button GetTurnButton() { return TurnEndButton; }
+   
     public HpManager GetHpManager() { return HpManager; }
     public AttackManager GetAttackManager() { return AttackManager; }
 
@@ -53,25 +53,25 @@ public class GameManager : MonoBehaviour
         Player = FindFirstObjectByType<Player>();
         InitializeTurn();
 
-        if (WaveManager == null)
-        {
-            WaveManager = GetComponent<WaveManager>();
-            WaveManager.Initialize();
-        }
-        else
-        {
-            WaveManager.Initialize();
-        }
+        //if (WaveManager == null)
+        //{
+        //    WaveManager = GetComponent<WaveManager>();
+        //    WaveManager.Initialize();
+        //}
+        //else
+        //{
+        //    WaveManager.Initialize();
+        //}
 
-        if (HpManager == null)
-        {
-            HpManager = GetComponent<HpManager>();
-            HpManager.Initialize();
-        }
-        else
-        {
-            HpManager.Initialize();
-        }
+        //if (HpManager == null)
+        //{
+        //    HpManager = GetComponent<HpManager>();
+        //    HpManager.Initialize();
+        //}
+        //else
+        //{
+        //    HpManager.Initialize();
+        //}
 
         if (AttackManager == null)
         {
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         {
             AttackManager.Initialize();
         }
-        TurnEndButton.onClick.AddListener(TurnSwap);
+        //TurnEndButton.onClick.AddListener(TurnSwap);
         PlayerAttackSystem.Initialize();
     }
 

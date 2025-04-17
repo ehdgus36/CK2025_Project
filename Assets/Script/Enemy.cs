@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,8 @@ public class Enemy : Unit
     [SerializeField] int CurrentSkillCount = 0;
 
     [SerializeField] Skill Skill;
-    [SerializeField] AttackData AttackData;
+    [SerializeField] int MaxDamage;
+    [SerializeField] public int CurrentDamage;
     [SerializeField] Animator EnemyAnimator;
     protected UnityAction DieEvent;
     protected bool IsAttack;
@@ -20,6 +22,10 @@ public class Enemy : Unit
     public int GetCurrentSkillCount() { return CurrentSkillCount; }
 
     public void ResetSkillPoint() { CurrentSkillCount = 0; }
+
+
+
+
     public void SetIsAttack(bool b)
     {
         IsAttack = b;
@@ -49,7 +55,7 @@ public class Enemy : Unit
         };
 
 
-        EndTurnEvent += () =>
+        EndTurnEvent = () =>
         {
             StopCoroutine("SampleAi");
             GameManager.instance.GetHpManager().UpdatHpbar();
@@ -112,7 +118,9 @@ public class Enemy : Unit
         {
             CurrentBuff.Add(buff);
         }
-
+        
+        Debug.Log(CurrentBuff.Count);
+        Debug.Log(CurrentBuff[0].GetBuffType());
         base.TakeDamage(damage);
         GameManager.instance.GetHpManager().UpdatHpbar();
         EnemyAnimator.Play("hit");

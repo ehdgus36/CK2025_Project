@@ -957,7 +957,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   BuffDurationTurn: 1
+  CurrentBuffTurn: 0
   Damage: 0
+  _Damage: 0
 --- !u!1001 &247106958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2178,7 +2180,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   BuffDurationTurn: 1
+  CurrentBuffTurn: 0
   Damage: 0
+  _Damage: 0
 --- !u!1 &584455216 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 31d35c93c00517343a91937409a72dc2, type: 3}
@@ -2972,7 +2976,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   BuffDurationTurn: 1
+  CurrentBuffTurn: 0
   Damage: 0
+  _Damage: 0
 --- !u!1 &760395636
 GameObject:
   m_ObjectHideFlags: 0
@@ -3783,25 +3789,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitMaxHp: 20
   UnitCurrentHp: 20
-  CurrentBuff: []
   IsTurn: 0
   HitEffect: {fileID: 0}
   SkillTurnCount: 5
   CurrentSkillCount: 0
   Skill: {fileID: 0}
-  AttackData:
-    View_Add_Code: 
-    View_Base_Damage_1: 0
-    View_Base_Damage_2: 0
-    View_Fire_Effect_1: 0
-    View_Fire_Effect_2: 0
-    View_Elec_Effect_1: 0
-    View_Elec_Effect_2: 0
-    View_Captiv_Effect_1: 0
-    View_Captiv_Effect_2: 0
-    View_Curse_Effect_1: 0
-    View_Curse_Effect_2: 0
-    View_Recover_HP: 0
+  MaxDamage: 0
+  CurrentDamage: 0
   EnemyAnimator: {fileID: 552045463}
 --- !u!1 &966203380
 GameObject:
@@ -5511,6 +5505,7 @@ GameObject:
   - component: {fileID: 1458305799}
   - component: {fileID: 1458305798}
   - component: {fileID: 1458305797}
+  - component: {fileID: 1458305800}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -5543,18 +5538,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Enemy: {fileID: 0}
+  Enemy: {fileID: 1528619771}
   EnemyDamageEffect: {fileID: 0}
   ThisTurnUnit: {fileID: 0}
   NextTurnUnit: {fileID: 0}
   CardDack: {fileID: 0}
-  PlayerCardSloats: {fileID: 0}
-  PlayerAttackSystem: {fileID: 0}
-  TurnEndButton: {fileID: 0}
+  PlayerCardSloats: {fileID: 1381899304}
+  PlayerAttackSystem: {fileID: 1269469519}
   GameClear: {fileID: 0}
   GameOver: {fileID: 0}
   WaveManager: {fileID: 0}
-  HpManager: {fileID: 0}
+  HpManager: {fileID: 1458305800}
   AttackManager: {fileID: 0}
   UIManager: {fileID: 0}
 --- !u!4 &1458305799
@@ -5572,6 +5566,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1458305800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458305796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088b39fe701989d4baf901af8041fd6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyStatusPrefab: {fileID: 8054927693396961336, guid: 36d97930c9cb1584aaf54e94c41b3840, type: 3}
+  HpbarOffset: {x: 0, y: 0, z: 0}
+  Units: []
+  EnemyStatuses: []
+  HpBarParent: {fileID: 1279265763}
 --- !u!1 &1475755077 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 31d35c93c00517343a91937409a72dc2, type: 3}
@@ -5631,7 +5642,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   BuffDurationTurn: 1
+  CurrentBuffTurn: 0
   Damage: 0
+  _Damage: 0
 --- !u!4 &1489984926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 31d35c93c00517343a91937409a72dc2, type: 3}
@@ -5707,25 +5720,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitMaxHp: 0
   UnitCurrentHp: 0
-  CurrentBuff: []
   IsTurn: 0
   HitEffect: {fileID: 0}
   SkillTurnCount: 2
   CurrentSkillCount: 0
   Skill: {fileID: 0}
-  AttackData:
-    View_Add_Code: 
-    View_Base_Damage_1: 0
-    View_Base_Damage_2: 0
-    View_Fire_Effect_1: 0
-    View_Fire_Effect_2: 0
-    View_Elec_Effect_1: 0
-    View_Elec_Effect_2: 0
-    View_Captiv_Effect_1: 0
-    View_Captiv_Effect_2: 0
-    View_Curse_Effect_1: 0
-    View_Curse_Effect_2: 0
-    View_Recover_HP: 0
+  MaxDamage: 0
+  CurrentDamage: 0
   EnemyAnimator: {fileID: 0}
   Enemys:
   - {fileID: 923755818}
@@ -5934,7 +5935,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   BuffDurationTurn: 1
+  CurrentBuffTurn: 0
   Damage: 0
+  _Damage: 0
 --- !u!1 &1608188124
 GameObject:
   m_ObjectHideFlags: 0
@@ -6046,7 +6049,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   BuffDurationTurn: 1
+  CurrentBuffTurn: 0
   Damage: 0
+  _Damage: 0
 --- !u!1 &1632989662
 GameObject:
   m_ObjectHideFlags: 0
@@ -6429,7 +6434,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitMaxHp: 10
   UnitCurrentHp: 10
-  CurrentBuff: []
   IsTurn: 0
   HitEffect: {fileID: 0}
   DamageEffect: {fileID: 0}

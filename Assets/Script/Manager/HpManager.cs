@@ -42,7 +42,7 @@ public class HpManager : MonoBehaviour
             status.transform.SetParent(HpBarParent);
             status.transform.position = Camera.main.WorldToScreenPoint(Units[i].transform.position + HpbarOffset);
 
-            status.Initialize(Units[i].GetMaxHp(), Units[i].GetMaxSkillCount());
+            //status.Initialize(Units[i].GetMaxHp(), Units[i].GetMaxSkillCount());
 
             EnemyStatuses[i] = status;
         }
@@ -74,7 +74,7 @@ public class HpManager : MonoBehaviour
             if (Units[i].gameObject.activeSelf == true || Units[i] !=null)
             {
                 EnemyStatuses[i].SetCurrentHp(Units[i].GetUnitCurrentHp());
-                EnemyStatuses[i].SetCurrentSkill(Units[i].GetCurrentSkillCount());
+                //EnemyStatuses[i].SetCurrentSkill(Units[i].GetCurrentSkillCount());
             }
         }
     }

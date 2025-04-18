@@ -16,7 +16,7 @@ public class MixtureCardSlotUI : SlotUI
         switch (CardType)// data에 타입에 맞는 클래스있는지 확인 없으며 Return;
         {
             case CardType.NOMAL:
-                if (data.GetComponent<NomalCard>() == null)
+                if (data.GetComponent<NormalCard>() == null)
                     return;
                 break;
             case CardType.SPECIAL:

@@ -15,8 +15,11 @@ public class ElecBuff : Buff
 
 
         if (CurrentBuffTurn == BuffDurationTurn) return;
+        if (unit.GetComponent<Enemy>())
+        {
+            unit.GetComponent<Enemy>().CurrentDefense -= Down;
+        }
 
-        
         CurrentBuffTurn++;
     }
 }

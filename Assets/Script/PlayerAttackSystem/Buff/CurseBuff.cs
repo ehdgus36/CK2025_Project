@@ -11,12 +11,12 @@ public class CurseBuff : Buff
     }
     public override void StartBuff(Unit unit)
     {
+        
+        if (CurrentBuffTurn == BuffDurationTurn) return;
         if (unit.GetComponent<Enemy>())
         {
             unit.GetComponent<Enemy>().CurrentDamage -= Down_Attack;
         }
-        if (CurrentBuffTurn == BuffDurationTurn) return;
-
 
         CurrentBuffTurn++;
     }

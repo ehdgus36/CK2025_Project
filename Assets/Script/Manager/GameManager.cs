@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
             TurnSwap();
         }
 
-        PlayerCardReturn();
+        //PlayerCardReturn();
 
         WaveManager.NextWave();
         HpManager.Initialize();

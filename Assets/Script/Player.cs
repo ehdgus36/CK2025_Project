@@ -5,11 +5,12 @@ using UnityEngine;
 public class Player : Unit
 {
     [SerializeField] Animator DamageEffect;
+    [SerializeField] PlayerCDSlotGroup CDSlotGroup;
     
     private void Awake()
     {
         StartTurnEvent += PlayableSystemOn;
-        StartTurnEvent += DackDrow;
+        StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
 
         EndTurnEvent += PlayableSystemOff;
         EndTurnEvent += DackCordReturn;
@@ -18,11 +19,6 @@ public class Player : Unit
     }
 
     
-    void DackDrow()
-    {
-        GameManager.instance.PlayerCardDrow();
-        Debug.Log("카드 드로우");
-    }
 
     void DackCordReturn()
     {

@@ -8,20 +8,25 @@ public class Enemy : Unit
 {
     // Start is called before the first frame update
 
-    [SerializeField] int SkillTurnCount = 2;
-    [SerializeField] int CurrentSkillCount = 0;
+    //[SerializeField] int SkillTurnCount = 2;
+    //[SerializeField] int CurrentSkillCount = 0;
 
     [SerializeField] Skill Skill;
     [SerializeField] int MaxDamage;
     [SerializeField] public int CurrentDamage;
+
+    [SerializeField] int MaxDefense;
+    [SerializeField] public int CurrentDefense;
+
     [SerializeField] Animator EnemyAnimator;
+    [SerializeField] EnemyStatus EnemyStatus;
     protected UnityAction DieEvent;
     protected bool IsAttack;
 
-    public int GetMaxSkillCount() { return SkillTurnCount; }
-    public int GetCurrentSkillCount() { return CurrentSkillCount; }
+    //public int GetMaxSkillCount() { return SkillTurnCount; }
+    //public int GetCurrentSkillCount() { return CurrentSkillCount; }
 
-    public void ResetSkillPoint() { CurrentSkillCount = 0; }
+    //public void ResetSkillPoint() { CurrentSkillCount = 0; }
 
 
 
@@ -40,14 +45,15 @@ public class Enemy : Unit
         StartTurnEvent = () =>
         {
 
-            if (CurrentSkillCount == SkillTurnCount) // 포인트가 맞으면 스킬 실행
-            {
-                Skill.StartSkill();
-                ResetSkillPoint();
-                return;
-            }
 
-            CurrentSkillCount++;
+            //if (CurrentSkillCount == SkillTurnCount) // 포인트가 맞으면 스킬 실행
+            //{
+            //    Skill.StartSkill();
+            //    ResetSkillPoint();
+            //    return;
+            //}
+
+            //CurrentSkillCount++;
 
             GameManager.instance.GetHpManager().UpdatHpbar();
             StartCoroutine("SampleAi");
@@ -57,6 +63,10 @@ public class Enemy : Unit
 
         EndTurnEvent = () =>
         {
+
+            //턴 종료시 버프로 감소된 변수 원상복구
+            CurrentDamage = MaxDamage;
+            CurrentDefense = MaxDefense;
             StopCoroutine("SampleAi");
             GameManager.instance.GetHpManager().UpdatHpbar();
         };
@@ -121,7 +131,7 @@ public class Enemy : Unit
         
         Debug.Log(CurrentBuff.Count);
         Debug.Log(CurrentBuff[0].GetBuffType());
-        base.TakeDamage(damage);
+        base.TakeDamage(damage - CurrentDefense);
         GameManager.instance.GetHpManager().UpdatHpbar();
         EnemyAnimator.Play("hit");
     }

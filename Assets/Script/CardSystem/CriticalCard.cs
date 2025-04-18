@@ -5,7 +5,7 @@ public class CriticalCard : UPGradeCard
     [SerializeField] int CriticalDrainage = 1;
 
 
-    public override AttackData UpGradeCards(NomalCard nomalCard, PropertyCard propertyCard, AttackData data)
+    public override AttackData UpGradeCards(NormalCard nomalCard, PropertyCard propertyCard, AttackData data)
     {
         //if (nomalCard != null && propertyCard != null)
         //{

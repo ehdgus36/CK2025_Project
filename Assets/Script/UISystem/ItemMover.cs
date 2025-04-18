@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class ItemMover : MonoBehaviour, IPointerDownHandler
 {
@@ -9,14 +10,25 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
     [SerializeField] float MoveSpeed;
     [SerializeField] float SpinSpeed;
     [SerializeField] SlotUI TargetSlot;
-    [SerializeField] PlayerCDSlotGroup aaa;
+    [SerializeField] PlayerCDSlotGroup PlayerCardSlotManager;
+
+    public bool IsMove = true;
     Transform ItemPos;
     SlotUI ItemSlotUI;
     Animator Animator;
-   
+
+    UnityAction MoveEvent;
+
+
+    public void AddMoveEvent(UnityAction moveEvent)
+    { 
+    MoveEvent += moveEvent; 
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (IsMove == false) return;
+
         if (ItemSlotUI == null)
         {
             ItemSlotUI = GetComponent<SlotUI>();
@@ -38,7 +50,7 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
 
     IEnumerator StartMoveUpdate()
     {
-        //Animator.Play("CD_Spin");
+        MoveEvent?.Invoke();
         
        
         bool isPlay = true;
@@ -53,7 +65,7 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
                 Animator.enabled = true;
                 Animator.Play("CD_Insert");
                 TargetSlot.InsertData(ItemPos.gameObject);
-                aaa.aaaa();
+                PlayerCardSlotManager.SwapCardSlots();
                 break;
             }
 

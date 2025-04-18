@@ -11,10 +11,10 @@ public class SlotGroup : MonoBehaviour
 
     // Start is called before the first frame update
 
-    public SlotUI[] Getsloat() { return Slots;  }
+    public SlotUI[] Getsloat() { Initialize(); return Slots;  }
 
  
-    public void Initialize()
+    public virtual void Initialize()
     {
         Slots = GetComponentsInChildren<SlotUI>();
         if (Slots.Length == 0)
@@ -24,7 +24,7 @@ public class SlotGroup : MonoBehaviour
         }
     }
 
-    public void Initialize(UnityAction funtion)
+    public virtual void  Initialize(UnityAction funtion)
     {
         Slots = GetComponentsInChildren<SlotUI>();
         if (Slots.Length == 0)

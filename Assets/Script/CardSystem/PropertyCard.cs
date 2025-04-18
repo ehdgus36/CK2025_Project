@@ -17,7 +17,7 @@ public class PropertyCard : Card
         return buff;
     }
 
-    public virtual int SpecialCardPlusDamag(NomalCard card)
+    public virtual int SpecialCardPlusDamag(NormalCard card)
     {
         if (card == null) return 0;
 

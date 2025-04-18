@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GunCard : NomalCard
+public class GunCard : NormalCard
 {
     
 }

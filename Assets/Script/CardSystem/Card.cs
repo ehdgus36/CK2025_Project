@@ -11,6 +11,9 @@ public class Card : MonoBehaviour
     //public bool isHold = false;
 
     [SerializeField] String CardID;
+    int CardLevel;
+    int GradePoint;
+
     string Example;
     int Grade_Point;
 

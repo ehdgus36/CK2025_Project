@@ -90,7 +90,7 @@ public class Unit : MonoBehaviour
         IsTurn = true;
         BuffExecution(BuffType.Start);
 
-        Debug.Log(gameObject.name + "attack");
+       
 
         if (IsTurn == false) return; 
         

@@ -9,6 +9,14 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
     [SerializeField] Transform CemeteryPos;
     [SerializeField] List<Card> CemeteryCard;
 
+
+
+    public List<Card> GetCemeteryCards()
+    {
+     return CemeteryCard;
+    }
+
+
     public void OnDrop(PointerEventData eventData)
     {
 

@@ -11,9 +11,9 @@ public class FireBuff : Buff
 
     public override void StartBuff(Unit unit)
     {
-        if (CurrentBuffTurn == BuffDurationTurn) return;
+        if ( BuffDurationTurn == 0) return;
 
         unit.TakeDamage(Damage);
-        CurrentBuffTurn++;
+        BuffDurationTurn--;
     }
 }

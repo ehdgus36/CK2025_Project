@@ -79,6 +79,9 @@ public class AttackManager : MonoBehaviour
 
         //체력 회복
 
+
+
+        yield return new WaitForSeconds(1.0f);
         //공격 끝
         GameManager.instance.TurnSwap();
     }

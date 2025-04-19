@@ -14,12 +14,12 @@ public class ElecBuff : Buff
     {
 
 
-        if (CurrentBuffTurn == BuffDurationTurn) return;
+        if (BuffDurationTurn == 0) return;
         if (unit.GetComponent<Enemy>())
         {
             unit.GetComponent<Enemy>().CurrentDefense -= Down;
         }
 
-        CurrentBuffTurn++;
+        BuffDurationTurn--;
     }
 }

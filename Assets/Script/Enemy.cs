@@ -5,12 +5,21 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+
+[System.Flags]
+public enum BuffLayer
+{
+    None = 0,                  
+    Fire_1 = 1 << 0,            
+    Eletric_1 = 1 << 1,           
+    Captivate_1 = 1 << 2,      
+    Curse_1 = 1 << 3,
+    Everything = ~0            
+}
+
 public class Enemy : Unit , IPointerDownHandler
 {
-    // Start is called before the first frame update
-
-    //[SerializeField] int SkillTurnCount = 2;
-    //[SerializeField] int CurrentSkillCount = 0;
+   
 
     [SerializeField] Skill Skill;
     [SerializeField] int MaxDamage;
@@ -24,13 +33,11 @@ public class Enemy : Unit , IPointerDownHandler
     protected UnityAction DieEvent;
     protected bool IsAttack;
 
+    [SerializeField] BuffLayer BuffLayer;
 
     int EnemyIndex = 1; //일단 고정
 
-    //public int GetMaxSkillCount() { return SkillTurnCount; }
-    //public int GetCurrentSkillCount() { return CurrentSkillCount; }
-
-    //public void ResetSkillPoint() { CurrentSkillCount = 0; }
+  
 
 
 
@@ -48,20 +55,18 @@ public class Enemy : Unit , IPointerDownHandler
     {
         EnemyStatus.Initialize(UnitMaxHp, MaxDamage, EnemyIndex);
 
+
+
+        CurrentBuff.Add(new FireBuff(0, 0, 1));
+        CurrentBuff.Add(new ElecBuff(0, 0, 1));
+        CurrentBuff.Add(new CaptivBuff(0, 0, 1));
+        CurrentBuff.Add(new CurseBuff(0, 0, 1));
+
         StartTurnEvent = () =>
         {
 
 
-            //if (CurrentSkillCount == SkillTurnCount) // 포인트가 맞으면 스킬 실행
-            //{
-            //    Skill.StartSkill();
-            //    ResetSkillPoint();
-            //    return;
-            //}
-
-            //CurrentSkillCount++;
-
-            EnemyStatus.UpdateStatus(UnitCurrentHp, CurrentDamage, EnemyIndex);
+            EnemyStatus.UpdateBuffIcon(CurrentBuff);
             GameManager.instance.GetHpManager().UpdatHpbar();
             StartCoroutine("SampleAi");
 
@@ -70,7 +75,8 @@ public class Enemy : Unit , IPointerDownHandler
 
         EndTurnEvent = () =>
         {
-
+            EnemyStatus.UpdateStatus(UnitCurrentHp, CurrentDamage, EnemyIndex);
+            EnemyStatus.UpdateBuffIcon(CurrentBuff);
             //턴 종료시 버프로 감소된 변수 원상복구
             CurrentDamage = MaxDamage;
             CurrentDefense = MaxDefense;
@@ -78,7 +84,7 @@ public class Enemy : Unit , IPointerDownHandler
             GameManager.instance.GetHpManager().UpdatHpbar();
         };
 
-        // AttackData.FromUnit = this;
+      
     }
 
     public void SetDieEvent(UnityAction dieEvent)
@@ -91,7 +97,7 @@ public class Enemy : Unit , IPointerDownHandler
 
         EnemyAnimator.Play("attack");
         yield return new WaitForSeconds(1.0f);
-        // GameManager.instance.GetAttackManager().Attack(this, GameManager.instance.GetPlayer(), AttackData);
+
 
         yield return new WaitForSeconds(1.0f);
 
@@ -133,14 +139,26 @@ public class Enemy : Unit , IPointerDownHandler
 
         if (buff != null)
         {
-            CurrentBuff.Add(buff);
+            for (int i = 0; i < CurrentBuff.Count; i++)
+            {
+                if (CurrentBuff[i].GetType() == buff.GetType())
+                {
+                    CurrentBuff[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+                    break;
+                }
+            }
+          
         }
-        
+
+       
         Debug.Log(CurrentBuff.Count);
         Debug.Log(CurrentBuff[0].GetBuffType());
         base.TakeDamage(damage - CurrentDefense);
         GameManager.instance.GetHpManager().UpdatHpbar();
         EnemyAnimator.Play("hit");
+        EnemyStatus.UpdateStatus(UnitCurrentHp, CurrentDamage, EnemyIndex);
+        EnemyStatus.UpdateBuffIcon(CurrentBuff);
+       
     }
 
     protected override void Die()

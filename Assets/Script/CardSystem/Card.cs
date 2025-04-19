@@ -13,9 +13,10 @@ public class Card : MonoBehaviour
     [SerializeField] String CardID;
     int CardLevel;
     int GradePoint;
-
-    [SerializeField]string Example;
-    int Grade_Point;
+    [SerializeField]String CardName;
+    [SerializeField] String Example;
+    [SerializeField] String SubExample;
+    int Grade_Point = 1;
 
 
 

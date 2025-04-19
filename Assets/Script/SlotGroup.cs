@@ -16,21 +16,27 @@ public class SlotGroup : MonoBehaviour
  
     public virtual void Initialize()
     {
-        Slots = GetComponentsInChildren<SlotUI>();
         if (Slots.Length == 0)
         {
-            Debug.LogError("Name:" + this.gameObject.name + "SlotGroup에 Slot이 없습니다 생성해 주세요");
-            return;
+            Slots = GetComponentsInChildren<SlotUI>();
+            if (Slots.Length == 0)
+            {
+                Debug.LogError("Name:" + this.gameObject.name + "SlotGroup에 Slot이 없습니다 생성해 주세요");
+                return;
+            }
         }
     }
 
     public virtual void  Initialize(UnityAction funtion)
     {
-        Slots = GetComponentsInChildren<SlotUI>();
         if (Slots.Length == 0)
         {
-            Debug.LogError("Name:" + this.gameObject.name + "SlotGroup에 Slot이 없습니다 생성해 주세요");
-            return;
+            Slots = GetComponentsInChildren<SlotUI>();
+            if (Slots.Length == 0)
+            {
+                Debug.LogError("Name:" + this.gameObject.name + "SlotGroup에 Slot이 없습니다 생성해 주세요");
+                return;
+            }
         }
 
         for (int i = 0; i < Slots.Length; i++)

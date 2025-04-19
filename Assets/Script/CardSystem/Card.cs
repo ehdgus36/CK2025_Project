@@ -14,7 +14,7 @@ public class Card : MonoBehaviour
     int CardLevel;
     int GradePoint;
 
-    string Example;
+    [SerializeField]string Example;
     int Grade_Point;
 
 

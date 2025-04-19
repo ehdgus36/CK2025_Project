@@ -37,8 +37,7 @@ public class CardMixtureSystem : MonoBehaviour
             Cemetery[i].Insert(CDdata[i]);
         }
 
-        GuitarAnime.AnimationState.ClearTrack(0);
-        GuitarAnime.AnimationState.ClearTrack(1);
+       
         GuitarAnime.AnimationState.ClearTrack(2);
         GuitarAnime.AnimationState.ClearTrack(3);
         GuitarAnime.AnimationState.ClearTrack(4);

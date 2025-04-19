@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
-public class Enemy : Unit
+public class Enemy : Unit , IPointerDownHandler
 {
     // Start is called before the first frame update
 
@@ -149,6 +150,8 @@ public class Enemy : Unit
 
     }
 
-
-
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        EnemyStatus.OnPassiveDescription();
+    }
 }

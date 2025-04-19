@@ -23,6 +23,9 @@ public class Enemy : Unit
     protected UnityAction DieEvent;
     protected bool IsAttack;
 
+
+    int EnemyIndex = 1; //일단 고정
+
     //public int GetMaxSkillCount() { return SkillTurnCount; }
     //public int GetCurrentSkillCount() { return CurrentSkillCount; }
 
@@ -42,6 +45,8 @@ public class Enemy : Unit
 
     protected virtual void Initialize()
     {
+        EnemyStatus.Initialize(UnitMaxHp, MaxDamage, EnemyIndex);
+
         StartTurnEvent = () =>
         {
 
@@ -55,6 +60,7 @@ public class Enemy : Unit
 
             //CurrentSkillCount++;
 
+            EnemyStatus.UpdateStatus(UnitCurrentHp, CurrentDamage, EnemyIndex);
             GameManager.instance.GetHpManager().UpdatHpbar();
             StartCoroutine("SampleAi");
 

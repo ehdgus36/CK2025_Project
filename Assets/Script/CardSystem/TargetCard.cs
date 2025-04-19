@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TargetCard : Card
 {
-    int TargetIndex;
+    [SerializeField]int TargetIndex = 0;
 
     public int GetTargetIndex() { return TargetIndex; }
 

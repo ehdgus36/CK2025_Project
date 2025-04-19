@@ -11,8 +11,19 @@ public class AttackManager : MonoBehaviour
        
     }
 
+
+
     public void Attack(AttackData data , int target_index)
-    {     
+    {
+        StartCoroutine(AttackDelay(data, target_index));
+    }
+
+
+    IEnumerator AttackDelay(AttackData data, int target_index)
+    {
+
+        yield return new WaitForSeconds(1.0f);
+
         EnemysGroup enemysGroup = GameManager.instance.GetEnemysGroup();
 
 
@@ -23,7 +34,7 @@ public class AttackManager : MonoBehaviour
 
         if (data.Fire_Effect_1 != 0) // 화염 도트뎀
         {
-            TargetEnemyBuff = new FireBuff(BuffType.End,data.Fire_Effect_1 , 2);
+            TargetEnemyBuff = new FireBuff(BuffType.End, data.Fire_Effect_1, 2);
             AllEnemyBuff = new FireBuff(BuffType.End, data.Fire_Effect_2, 2);
         }
 
@@ -45,7 +56,7 @@ public class AttackManager : MonoBehaviour
             AllEnemyBuff = new CurseBuff(BuffType.End, data.Curse_Effect_1, 1);
         }
 
-      
+
         //단일공격  // 전체 공격
 
 
@@ -70,5 +81,5 @@ public class AttackManager : MonoBehaviour
 
         //공격 끝
         GameManager.instance.TurnSwap();
-    } 
+    }
 }

@@ -34,7 +34,7 @@ public class SlotUI : MonoBehaviour,IDropHandler
        
         data.transform.position = transform.position;
         data.transform.rotation = transform.rotation;
-       // data.transform.localScale = imageScale;
+        data.transform.localScale = imageScale;
 
         data.transform.SetParent(transform);
 

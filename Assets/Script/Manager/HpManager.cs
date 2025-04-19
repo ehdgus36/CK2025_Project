@@ -73,7 +73,7 @@ public class HpManager : MonoBehaviour
               
             if (Units[i].gameObject.activeSelf == true || Units[i] !=null)
             {
-                EnemyStatuses[i].SetCurrentHp(Units[i].GetUnitCurrentHp());
+                //EnemyStatuses[i].SetCurrentHp(Units[i].GetUnitCurrentHp());
                 //EnemyStatuses[i].SetCurrentSkill(Units[i].GetCurrentSkillCount());
             }
         }

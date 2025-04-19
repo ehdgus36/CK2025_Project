@@ -33,9 +33,16 @@ public class CardMixtureSystem : MonoBehaviour
         List< Card> CDdata = CDMixtureSlotGroup.ReadData<Card>();
         for (int i = 0; i < CDdata.Count; i++)
         {
-           // Cemetery[i].Insert(CDdata[i]);
+            CDdata[i].GetComponent<Animator>().Play("Idle");
+            Cemetery[i].Insert(CDdata[i]);
         }
-      
+
+        GuitarAnime.AnimationState.ClearTrack(0);
+        GuitarAnime.AnimationState.ClearTrack(1);
+        GuitarAnime.AnimationState.ClearTrack(2);
+        GuitarAnime.AnimationState.ClearTrack(3);
+        GuitarAnime.AnimationState.ClearTrack(4);
+
     }
 
     public void Initialize()
@@ -71,7 +78,9 @@ public class CardMixtureSystem : MonoBehaviour
         {
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
-            //GameManager.instance.GetAttackManager().Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+            GameManager.instance.GetAttackManager().Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+
+            
             return;
         }
 

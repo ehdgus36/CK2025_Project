@@ -13,7 +13,7 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
     [SerializeField] PlayerCDSlotGroup PlayerCardSlotManager;
 
     public bool IsMove = true;
-    Transform ItemPos;
+   [SerializeField] Transform ItemPos;
     SlotUI ItemSlotUI;
     Animator Animator;
 
@@ -32,18 +32,21 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
         if (ItemSlotUI == null)
         {
             ItemSlotUI = GetComponent<SlotUI>();
-            ItemPos = ItemSlotUI.ReadData<Transform>();
-            Animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
-            if (Animator != null)
-            {
-                Animator.enabled = false;
-            }
+           
+        }
+
+        ItemPos = ItemSlotUI.ReadData<Transform>();
+        Animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        if (Animator != null)
+        {
+            Animator.enabled = false;
         }
 
 
         if (TargetSlot != null && ItemPos != null)
         {
             Debug.Log("Move");
+            
             StartCoroutine("StartMoveUpdate");
         }
     }
@@ -64,6 +67,7 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
 
                 Animator.enabled = true;
                 Animator.Play("CD_Insert");
+
                 TargetSlot.InsertData(ItemPos.gameObject);
                 PlayerCardSlotManager.SwapCardSlots();
                 break;
@@ -71,6 +75,8 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
 
             yield return new WaitForSeconds(FrequencyRate);
         }
+
+        yield return null;
     }
 
 }

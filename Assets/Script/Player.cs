@@ -24,7 +24,8 @@ public class Player : Unit
 
         if (PlayerPrefs.HasKey("PlayerHP") == true)
         {
-            UnitCurrentHp = PlayerPrefs.GetInt("PlayerHP");
+            //UnitCurrentHp = PlayerPrefs.GetInt("PlayerHP");
+            UnitCurrentHp = UnitMaxHp;
         }
 
         playerStatus.UpdataStatus(UnitMaxHp, UnitCurrentHp);

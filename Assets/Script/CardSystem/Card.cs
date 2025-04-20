@@ -17,7 +17,7 @@ public class Card : MonoBehaviour
     [SerializeField] public String Example;
     [SerializeField] public String SubExample;
     public int Grade_Point = 1;
-
+    [SerializeField] public Sprite icon;
 
 
 

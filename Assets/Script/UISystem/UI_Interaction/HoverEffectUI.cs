@@ -22,7 +22,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Card card = GetComponent<SlotUI>().ReadData<Card>();
         cardDescription.gameObject.SetActive(true);
         cardDescription.transform.position = this.transform.position;
-        cardDescription.UpdateDescription(card.name, card.Example, card.SubExample, card.Grade_Point);
+        cardDescription.UpdateDescription(card.CardName, card.Example, card.SubExample, card.Grade_Point , card.icon);
     }
 
 

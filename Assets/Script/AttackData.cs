@@ -32,6 +32,10 @@ public struct AttackData
         Curse_Effect_1 = (int)data[row]["Curse_Effect_1"];
         Curse_Effect_2 = (int)data[row]["Curse_Effect_2"];
         Recover_HP = (int)data[row]["Recover_HP"];
+        Explain_Up_1 = data[row]["Explain_Up_1"].ToString();
+        Explain_Up_2 = data[row]["Explain_Up_2"].ToString();
+        Explain_Down = data[row]["Explain_Down"].ToString();
+
 
 
         View_Add_Code = Add_Code;
@@ -46,6 +50,10 @@ public struct AttackData
         View_Curse_Effect_1 = Curse_Effect_1;
         View_Curse_Effect_2 = Curse_Effect_2;
         View_Recover_HP = Recover_HP;
+
+        View_Explain_Up_1 = Explain_Up_1;
+        View_Explain_Up_2 = Explain_Up_2;
+        View_Explain_Down = Explain_Down;
     }
 
     public readonly String Add_Code;
@@ -60,6 +68,10 @@ public struct AttackData
     public readonly int Curse_Effect_1;
     public readonly int Curse_Effect_2;
     public readonly int Recover_HP;
+    public readonly string Explain_Up_1;
+    public readonly string Explain_Up_2;
+    public readonly string Explain_Down;
+
 
 
 
@@ -75,6 +87,9 @@ public struct AttackData
     [SerializeField] int View_Curse_Effect_1;
     [SerializeField] int View_Curse_Effect_2;
     [SerializeField] int View_Recover_HP;
+    [SerializeField] String View_Explain_Up_1;
+    [SerializeField] String View_Explain_Up_2;
+    [SerializeField] String View_Explain_Down;
 
 
 }

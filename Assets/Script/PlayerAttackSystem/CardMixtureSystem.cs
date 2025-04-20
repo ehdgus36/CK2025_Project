@@ -9,6 +9,7 @@ using TMPro;
 
 
 
+
 public class CardMixtureSystem : MonoBehaviour
 {
 
@@ -30,6 +31,11 @@ public class CardMixtureSystem : MonoBehaviour
     
     [SerializeField] List<AttackData> RecipeData;
 
+    [SerializeField] GameObject Descriptobj;
+    [SerializeField] TextMeshProUGUI MixtureName;
+    [SerializeField] TextMeshProUGUI Descript;
+
+    [SerializeField] UpGradeBar UpGradeBar;
 
     private void OnDisable() //비활성화 하면 조합데에 있는 카드 묘지로
     {
@@ -48,7 +54,7 @@ public class CardMixtureSystem : MonoBehaviour
         GuitarAnime.AnimationState.ClearTrack(4);
 
         DamageText.text = "";
-
+        Descriptobj.SetActive(false);
     }
 
     public void Initialize()
@@ -80,13 +86,16 @@ public class CardMixtureSystem : MonoBehaviour
         CardData = CDMixtureSlotGroup.ReadData<Card>();
         GuitarAnime.AnimationState.ClearTrack(2);
         GuitarAnime.AnimationState.AddAnimation(2, "in_Guitar", false, 0.3f);
+
+        
         if (CardData.Count == 3)
         {
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
+            Descript.text = MaidAttackData.Explain_Down;
             GameManager.instance.GetAttackManager().Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+            UpGradeBar.SetPoint(CardData[2].Grade_Point);
 
-           
             return;
         }
 
@@ -97,20 +106,26 @@ public class CardMixtureSystem : MonoBehaviour
                 if (RecipeData[i].Add_Code == (CardData[0].GetID() + CardData[1].GetID()))
                 {
                     MaidAttackData = RecipeData[i];
-
+                    MixtureName.text = MaidAttackData.Explain_Up_2 ;
                     DamageText.text = MaidAttackData.Base_Damage_1.ToString();
+                    Descript.text = MaidAttackData.Explain_Down;
                     Debug.Log(RecipeData[i].Add_Code);
                 }
             }
 
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false , 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
+            UpGradeBar.SetPoint(CardData[1].Grade_Point);
         }
 
         if (CardData.Count == 1)
         {
+            Descriptobj.SetActive(true);
+            MixtureName.text = CardData[0].Example;
+            Descript.text = "";
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner1", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner1-2", true, 0.3f);
+            UpGradeBar.SetPoint(CardData[0].Grade_Point);
         }
        
 

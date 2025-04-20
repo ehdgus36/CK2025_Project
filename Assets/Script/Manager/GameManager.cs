@@ -55,26 +55,7 @@ public class GameManager : MonoBehaviour
         Player = FindFirstObjectByType<Player>();
         InitializeTurn();
 
-        //if (WaveManager == null)
-        //{
-        //    WaveManager = GetComponent<WaveManager>();
-        //    WaveManager.Initialize();
-        //}
-        //else
-        //{
-        //    WaveManager.Initialize();
-        //}
-
-        //if (HpManager == null)
-        //{
-        //    HpManager = GetComponent<HpManager>();
-        //    HpManager.Initialize();
-        //}
-        //else
-        //{
-        //    HpManager.Initialize();
-        //}
-
+        
         if (AttackManager == null)
         {
             AttackManager = GetComponent<AttackManager>();

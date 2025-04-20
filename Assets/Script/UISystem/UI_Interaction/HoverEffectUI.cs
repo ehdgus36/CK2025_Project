@@ -8,6 +8,8 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     Vector3 StartScale;
     Vector3 StartPos;
 
+    [SerializeField] CardDescription cardDescription;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
        
@@ -17,6 +19,10 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         transform.position += new Vector3(0f, 0f, -1f);
 
+        Card card = GetComponent<SlotUI>().ReadData<Card>();
+        cardDescription.gameObject.SetActive(true);
+        cardDescription.transform.position = this.transform.position;
+        cardDescription.UpdateDescription(card.name, card.Example, card.SubExample, card.Grade_Point);
     }
 
 
@@ -24,5 +30,6 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         transform.localScale = StartScale;
         transform.position = StartPos;
+        cardDescription.gameObject.SetActive(false);
     }
 }

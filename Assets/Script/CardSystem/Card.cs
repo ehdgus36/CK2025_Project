@@ -13,16 +13,18 @@ public class Card : MonoBehaviour
     [SerializeField] String CardID;
     int CardLevel;
     int GradePoint;
-    [SerializeField]String CardName;
-    [SerializeField] String Example;
-    [SerializeField] String SubExample;
-    int Grade_Point = 1;
+    [SerializeField] public String CardName;
+    [SerializeField] public String Example;
+    [SerializeField] public String SubExample;
+    public int Grade_Point = 1;
 
 
 
 
 
     public String GetID() { return CardID; }
+
+    public String GetName() { return CardName; }
     public int GetGradePoint() { return Grade_Point; }
 
     public string GetExample() { return Example; }

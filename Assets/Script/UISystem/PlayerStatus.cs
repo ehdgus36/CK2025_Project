@@ -6,7 +6,7 @@ public class PlayerStatus : MonoBehaviour
 {
 
 
-    [SerializeField] Player Player;
+  
     [SerializeField] Image Hpfill;
 
     [SerializeField] TextMeshProUGUI Hptext;
@@ -20,20 +20,16 @@ public class PlayerStatus : MonoBehaviour
 
 
 
-    private void Update()
-    {
-        UpdataHp();
-    }
 
-    public void UpdataHp()
+    public void UpdataStatus(int maxHp , int currentHp)
     {
-        (MaxHP, CurrentHP) = (Player.GetMaxHp(), Player.GetUnitCurrentHp());
+        (MaxHP, CurrentHP) = (maxHp, currentHp);
 
 
         Hpfill.fillAmount = (float)CurrentHP / (float)MaxHP;
 
 
-        Hptext.text = MaxHP.ToString() + "/" + CurrentHP.ToString();
+        Hptext.text = CurrentHP.ToString();
     }
 
 }

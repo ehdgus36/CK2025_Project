@@ -72,8 +72,8 @@ public class EnemysGroup : Enemy
 
     protected override void Die()
     {
-        GameManager.instance.NextWave();
-        Destroy(this.gameObject);
+        GameManager.instance.GameClearFun() ;
+       
     }
 
     private void Update()

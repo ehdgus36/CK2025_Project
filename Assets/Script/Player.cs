@@ -6,7 +6,8 @@ public class Player : Unit
 {
     [SerializeField] Animator DamageEffect;
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
-    
+    [SerializeField] PlayerStatus playerStatus;
+
     private void Awake()
     {
         StartTurnEvent += PlayableSystemOn;
@@ -15,19 +16,30 @@ public class Player : Unit
         EndTurnEvent += PlayableSystemOff;
         EndTurnEvent += DackCordReturn;
 
-        
+
+        if (PlayerPrefs.HasKey("PlayerHP") == false)
+        {
+            UnitCurrentHp = UnitMaxHp;
+        }
+
+        if (PlayerPrefs.HasKey("PlayerHP") == true)
+        {
+            UnitCurrentHp = PlayerPrefs.GetInt("PlayerHP");
+        }
+
+        playerStatus.UpdataStatus(UnitMaxHp, UnitCurrentHp);
     }
 
-    
+
 
     void DackCordReturn()
     {
-       // GameManager.instance.PlayerCardReturn();
+        // GameManager.instance.PlayerCardReturn();
     }
     void PlayableSystemOn()
     {
         GameManager.instance.GetPlayerAttackSystem().gameObject.SetActive(true);
-        
+
         //GameManager.instance.GetTurnButton().gameObject.SetActive(true);
     }
 
@@ -50,6 +62,24 @@ public class Player : Unit
         {
             DamageEffect.Play("hit");
         }
+
+        playerStatus.UpdataStatus(UnitMaxHp, UnitCurrentHp);
     }
-    
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        Debug.Log("hit");
+        if (DamageEffect != null)
+        {
+            DamageEffect.Play("hit");
+        }
+
+        playerStatus.UpdataStatus(UnitMaxHp, UnitCurrentHp);
+    }
+
+    public void PlayerSave()
+    {
+        PlayerPrefs.SetInt("PlayerHP", UnitCurrentHp);
+    }
 }

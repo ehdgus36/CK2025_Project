@@ -42,7 +42,7 @@ public class Unit : MonoBehaviour
 
         if (HitEffect != null)
         {
-            HitEffect.transform.position = this.transform.position;
+           
             HitEffect.SetActive(true);
         }
     }

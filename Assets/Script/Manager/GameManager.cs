@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Linq.Expressions;
 
 public class GameManager : MonoBehaviour
 {
@@ -112,7 +114,24 @@ public class GameManager : MonoBehaviour
 
     }
 
-   
+    public void ReStart(string sceneName)
+    { 
+        SceneManager.LoadScene(sceneName);
+    }
+
+
+    public void GameClearFun()
+    {
+        StartCoroutine(DeleyLoadScene());
+    }
+
+    IEnumerator DeleyLoadScene()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("Title");
+        Player.PlayerSave();
+    }
+
 
     public void TurnSwap()
     {
@@ -167,11 +186,7 @@ public class GameManager : MonoBehaviour
             TurnSwap();
         }
 
-        //PlayerCardReturn();
-
-        WaveManager.NextWave();
-        HpManager.Initialize();
-
+     
         
     }
    

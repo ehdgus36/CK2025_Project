@@ -8,6 +8,6 @@ public class LoadStage : MonoBehaviour
     [SerializeField] string LoadSceneName;
     public void IntoStage()
     {
-        SceneManager.LoadScene(LoadSceneName);
+        FindFirstObjectByType<LoadingScreen>().LoadScene(LoadSceneName);
     }
 }

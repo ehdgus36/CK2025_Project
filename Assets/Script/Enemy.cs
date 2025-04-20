@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 [System.Flags]
@@ -19,8 +20,8 @@ public enum BuffLayer
 
 public class Enemy : Unit , IPointerDownHandler
 {
-   
 
+    [SerializeField] string enemyName;
     [SerializeField] Skill Skill;
     [SerializeField] int MaxDamage;
     [SerializeField] public int CurrentDamage;
@@ -37,8 +38,8 @@ public class Enemy : Unit , IPointerDownHandler
 
     int EnemyIndex = 1; //일단 고정
 
-  
-
+    int startLayer = 0;
+    bool isDescription = false;
 
 
 
@@ -53,9 +54,9 @@ public class Enemy : Unit , IPointerDownHandler
 
     protected virtual void Initialize()
     {
-        EnemyStatus.Initialize(UnitMaxHp, MaxDamage, EnemyIndex);
+        EnemyStatus.Initialize(UnitMaxHp, MaxDamage, EnemyIndex, enemyName);
 
-
+        UnitCurrentHp = UnitMaxHp; 
 
         CurrentBuff.Add(new FireBuff(0, 0, 1));
         CurrentBuff.Add(new ElecBuff(0, 0, 1));
@@ -97,7 +98,7 @@ public class Enemy : Unit , IPointerDownHandler
 
         EnemyAnimator.Play("attack");
         yield return new WaitForSeconds(1.0f);
-
+        GameManager.instance.GetPlayer().TakeDamage(CurrentDamage);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -170,6 +171,33 @@ public class Enemy : Unit , IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        EnemyStatus.OnPassiveDescription();
+        if (isDescription == false)
+        {
+
+            EnemyStatus.OnPassiveDescription();
+            startLayer = this.gameObject.layer;
+
+            ChangeLayerRecursively(this.gameObject, 7);
+            isDescription = true;
+            return;
+        }
+
+        if (isDescription == true)
+        {
+
+            ChangeLayerRecursively(this.gameObject, startLayer);
+            isDescription = false;
+            return;
+        }
+    }
+
+    private void ChangeLayerRecursively(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+
+        foreach (Transform child in obj.transform)
+        {
+            ChangeLayerRecursively(child.gameObject, layer);
+        }
     }
 }

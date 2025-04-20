@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Spine.Unity;
+using TMPro;
 
 
 
@@ -21,6 +22,8 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] TextAsset MixtureData;
 
     [SerializeField] SkeletonGraphic GuitarAnime;
+
+    [SerializeField] TextMeshProUGUI DamageText;
     Player AttackPlayer;
     AttackData MaidAttackData;
 
@@ -34,13 +37,17 @@ public class CardMixtureSystem : MonoBehaviour
         for (int i = 0; i < CDdata.Count; i++)
         {
             CDdata[i].GetComponent<Animator>().Play("Idle");
-            Cemetery[i].Insert(CDdata[i]);
+          
+                Cemetery[i].Insert(CDdata[i]);
+            
         }
 
        
         GuitarAnime.AnimationState.ClearTrack(2);
         GuitarAnime.AnimationState.ClearTrack(3);
         GuitarAnime.AnimationState.ClearTrack(4);
+
+        DamageText.text = "";
 
     }
 
@@ -79,7 +86,7 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
             GameManager.instance.GetAttackManager().Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
 
-            
+           
             return;
         }
 
@@ -91,7 +98,7 @@ public class CardMixtureSystem : MonoBehaviour
                 {
                     MaidAttackData = RecipeData[i];
 
-
+                    DamageText.text = MaidAttackData.Base_Damage_1.ToString();
                     Debug.Log(RecipeData[i].Add_Code);
                 }
             }

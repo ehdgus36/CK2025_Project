@@ -85,7 +85,7 @@ public class SlotGroup : MonoBehaviour
         for (int i = 0; i< RemoveObj.Count; i++)
         {
             
-            Destroy(RemoveObj[i].gameObject);
+           // Destroy(RemoveObj[i].gameObject);
           
         }
     }

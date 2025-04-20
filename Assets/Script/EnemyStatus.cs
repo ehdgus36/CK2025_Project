@@ -15,26 +15,33 @@ public class EnemyStatus : MonoBehaviour
     [SerializeField] TextMeshProUGUI HpText;
     [SerializeField] TextMeshProUGUI DamageText;
     [SerializeField] TextMeshProUGUI indexText;
+    [SerializeField] TextMeshProUGUI NameText;
     [SerializeField] TextMeshProUGUI PassiveDescText;
     [SerializeField] GameObject PassiveDescription;
 
     [SerializeField] TextMeshProUGUI[] BuffIcon;
-
+    
 
     int MaxHP;
     int CurrentHP;
 
 
 
-    public void Initialize(int maxHp, int damage, int index)
+    public void Initialize(int maxHp, int damage, int index , string name)
     {
         (MaxHP) = maxHp;
         CurrentHP = MaxHP;
 
+        string enemyname ="";
+        for (int i = 0; i < name.Length -1;i++)
+        {
+            enemyname += name[i];
+        }
 
 
         HpText.text = CurrentHP.ToString();
-        DamageText.text = "Damage:" + damage.ToString();
+        NameText.text = (enemyname + "<color=#EA133D>") + name[name.Length-1] +"</color>";
+        DamageText.text = "<b><color=#EA133D>A</color></b>TK <size=20>" + damage.ToString() + "</size>";
         indexText.text = index.ToString();
 
 
@@ -91,7 +98,7 @@ public class EnemyStatus : MonoBehaviour
 
 
         HpText.text = CurrentHP.ToString();
-        DamageText.text = "Damage:" + damage.ToString();
+        DamageText.text = "<b><color=#EA133D>A</color></b>TK <size=20>" + damage.ToString() + "</size>";
         indexText.text = index.ToString();
 
         for (int i = 0; i < BuffIcon.Length; i++)

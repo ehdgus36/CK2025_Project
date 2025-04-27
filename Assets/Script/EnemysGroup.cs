@@ -3,44 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemysGroup : Enemy
+public delegate void DieEnemy(Enemy enemy);
+
+public class EnemysGroup :Unit
 {
 
-    [SerializeField] List<Enemy> Enemys;
+    public List<Enemy> Enemys { get => _Enemys; }
+    [SerializeField] private List<Enemy> _Enemys; // 인스펙터에 보이게
 
-
-   
-    public Enemy GetEnemy(AttackOrderType type) 
+    
+    public void Initialize()
     {
-        if (type == AttackOrderType.First)
+        for (int i = 0; i < Enemys.Count; i++)
         {
-            return Enemys[0];
+            Enemys[i].Initialize(i);
         }
 
-        if (type == AttackOrderType.Last)
-        {
-            return Enemys[Enemys.Count -1];
-        }
-
-        return Enemys[0];
-    }
-
-    public Enemy GetEnemy(int index)
-    {
-        if(index > Enemys.Count -1) return Enemys[index];
-        return Enemys[index];
-    }
-
-
-    public int GetEnemyCount()
-    {
-        
-        return Enemys.Count;
-    }
-
-
-    protected override void Initialize()
-    {
         for (int i = 0; i < Enemys.Count; i++)
         {
             Enemys[i].SetDieEvent(EnemysDieEvent);
@@ -58,38 +36,9 @@ public class EnemysGroup : Enemy
         };
     }
 
-    public override void TakeDamage(int damage)
+    void EnemysDieEvent(Enemy thisEnemy)
     {
-        if (Enemys.Count == 0)
-        {
-            return;
-        }
-
-        Enemys[0].TakeDamage(damage);
-    }
-
-  
-
-    protected override void Die()
-    {
-        GameManager.instance.GameClearFun() ;
-       
-    }
-
-    private void Update()
-    {
-        EnemysDieEvent();
-    }
-
-    void EnemysDieEvent()
-    {
-        for (int i = 0; i < Enemys.Count; i++)
-        {
-            if (Enemys[i] == null || Enemys[i].gameObject.activeSelf == false)
-            {
-                Enemys.RemoveAt(0);
-            }
-        }
+        Enemys.Remove(thisEnemy);
 
         if (Enemys.Count == 0)
         {
@@ -97,9 +46,17 @@ public class EnemysGroup : Enemy
         }
     }
 
+    protected override void Die()
+    {
+        GameManager.instance.GameClearFun();
+    }
+
+
+    // 이것도 나중에 시퀀스 다시
     IEnumerator AttackEvent()
     {
-       
+      
+
         yield return new WaitForSeconds(0.5f);
 
         for (int i = 0; i < Enemys.Count; i++)

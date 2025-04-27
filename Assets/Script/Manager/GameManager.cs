@@ -7,55 +7,56 @@ using System.Linq.Expressions;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Player Player;
-    [SerializeField] EnemysGroup Enemy;
+    public Player Player { get { return _Player; } }
+    [SerializeField] private Player _Player; // 인스펙터
 
-    [SerializeField] GameObject EnemyDamageEffect;
+    public EnemysGroup EnemysGroup{ get { return _EnemysGroup; } }
+    [SerializeField] private EnemysGroup _EnemysGroup; // 인스팩터
+    
     //현재 턴
     [SerializeField] Unit ThisTurnUnit;
     [SerializeField] Unit NextTurnUnit;
 
-    [SerializeField] Dack CardDack;
-    [SerializeField] SlotGroup PlayerCardSloats;
-    [SerializeField] CardMixtureSystem PlayerAttackSystem;
+    public CardMixtureSystem PlayerAttackSystem { get { return _PlayerAttackSystem; } }
+    [SerializeField] CardMixtureSystem _PlayerAttackSystem;
 
-   
+
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
 
 
-    //Manager
+ 
 
-    [SerializeField] WaveManager WaveManager;
-    [SerializeField] HpManager HpManager;
-    [SerializeField] AttackManager AttackManager;
-    [SerializeField] UIManager UIManager;
+
    
+    [SerializeField] public AttackManager AttackManager { get; private set; }
+    [SerializeField] public UIManager UIManager { get; private set; }
+
     //플레이어 기능 비활성화, 스와이프 카드 홀드
     // Start is called before the first frame update
 
+    public static GameManager instance { get; private set; }
 
-
-    public static GameManager instance;
-
-    public void SetEnemy(EnemysGroup enemy) { Enemy = enemy; }
-    public CardMixtureSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
+  
    
-    public HpManager GetHpManager() { return HpManager; }
-    public AttackManager GetAttackManager() { return AttackManager; }
-
-    public EnemysGroup GetEnemysGroup() {return Enemy; }
-
-    public Player GetPlayer() { return Player; }
     
      void Initialize()
     {
-        if (Enemy == null) return;
-
-        Player = FindFirstObjectByType<Player>();
-        InitializeTurn();
-
         
+
+        _Player = FindFirstObjectByType<Player>();
+        _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
+
+        ThisTurnUnit = Player;
+        NextTurnUnit = EnemysGroup;
+
+        ThisTurnUnit.InitTurnCount();
+        NextTurnUnit.InitTurnCount();
+
+
+        ThisTurnUnit.StartTurn();
+
+
         if (AttackManager == null)
         {
             AttackManager = GetComponent<AttackManager>();
@@ -65,27 +66,28 @@ public class GameManager : MonoBehaviour
         {
             AttackManager.Initialize();
         }
-        //TurnEndButton.onClick.AddListener(TurnSwap);
-        PlayerAttackSystem.Initialize();
-    }
 
-
-    public void InitializeTurn()
-    {
-        
-        ThisTurnUnit = Player;
-        NextTurnUnit = Enemy;
-
-        ThisTurnUnit.InitTurnCount();
-        NextTurnUnit.InitTurnCount();
-
-
-        ThisTurnUnit.StartTurn();
-
-       
-    }
       
-    void Start()
+        _EnemysGroup?.Initialize();
+        _Player?.Initialize();
+        //enemygroup 초기화
+        _PlayerAttackSystem?.Initialize();
+
+
+
+        if (UIManager == null)
+        {
+            UIManager = GetComponent<UIManager>();
+            UIManager.Initialize();
+        }
+        else
+        {
+            UIManager.Initialize();
+        }
+    }
+
+
+    private void Awake()
     {
         if (instance == null) 
         {
@@ -98,6 +100,8 @@ public class GameManager : MonoBehaviour
     public void ReStart(string sceneName)
     { 
         SceneManager.LoadScene(sceneName);
+        PlayerPrefs.SetInt("PlayerHP", 50);
+        Player.addHP(100);
     }
 
 
@@ -113,12 +117,17 @@ public class GameManager : MonoBehaviour
         Player.PlayerSave();
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            PlayerPrefs.SetInt("PlayerHP", 50);
+            Player.addHP(100);
+        }
+    }
 
     public void TurnSwap()
-    {
-       
-        if (PlayerAttackSystem == null) return;
-
+    {     
 
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
@@ -127,48 +136,4 @@ public class GameManager : MonoBehaviour
     }
   
 
-    public void PlayerCardDrow()
-    {
-       // SlotUI[] playerCardSlots = PlayerCardSloats.Getsloat();
-       //// List<Card> playerCard = CardDack.CardDrow(playerCardSlots.Length);
-
-       // for (int i = 0; i < playerCard.Count; i++)
-       // {
-       //    playerCardSlots[i].InsertData(playerCard[i].gameObject);
-       // }
-
-       // PlayerCardSloats.GetComponent<Animator>().Play("Drow");
-    }
-
-
-    //플레이어 턴 종료시 남은 카드 덱으로 돌려려주기
-    public void PlayerCardReturn()
-    {
-        PlayerCardSloats.GetComponent<Animator>().Play("CardReturn");
-
-        StartCoroutine("CardReturn");
-    }
-    IEnumerator CardReturn()
-    { 
-        yield return new WaitForSeconds(1f);
-        List<Card> playerCard = PlayerCardSloats.ReadData<Card>();
-        for (int i = 0; i < playerCard.Count; i++)
-        {
-            CardDack.InsertCard(playerCard[i].GetComponent<Card>());
-        }
-       
-    }
-
-
-    public void NextWave()
-    {
-        if (ThisTurnUnit == Player)
-        {
-            TurnSwap();
-        }
-
-     
-        
-    }
-   
 }

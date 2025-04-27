@@ -27,6 +27,8 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Time.timeScale = 1f;
+
         if (IsMove == false) return;
 
         if (ItemSlotUI == null)

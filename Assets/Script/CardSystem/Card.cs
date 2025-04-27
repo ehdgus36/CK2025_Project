@@ -19,8 +19,8 @@ public class Card : MonoBehaviour
     public int Grade_Point = 1;
     [SerializeField] public Sprite icon;
 
-
-
+    [SerializeField] Card UpGradeCard;
+    public virtual void Initialized() { }
 
     public String GetID() { return CardID; }
 
@@ -31,6 +31,6 @@ public class Card : MonoBehaviour
 
     public virtual int GetDamage() { return 0; }
 
+    public virtual Card GetUpGradeCard() { return UpGradeCard; }
 
-   
 }

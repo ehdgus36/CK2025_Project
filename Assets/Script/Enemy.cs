@@ -157,6 +157,7 @@ public class Enemy : Unit , IPointerDownHandler
 
         EnemyData.EnemyUnitData = UnitData;
         DynamicGameDataSchema.UpdateDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
+        
 
     }
 

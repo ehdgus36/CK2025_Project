@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] CardMixtureSystem _PlayerAttackSystem;
 
 
+    public NoteSystemManager NoteSystemManager { get { return _NoteSystemManager; } }
+    [SerializeField] NoteSystemManager _NoteSystemManager;
+
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
 
@@ -37,13 +40,12 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance { get; private set; }
 
-  
+    [SerializeField] CamShake _Shaker;
+    public CamShake Shake { get { return _Shaker; } }
    
     
      void Initialize()
-    {
-        
-
+     {
         _Player = FindFirstObjectByType<Player>();
         _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
 
@@ -67,7 +69,17 @@ public class GameManager : MonoBehaviour
             AttackManager.Initialize();
         }
 
-      
+        if (_NoteSystemManager == null)
+        {
+            _NoteSystemManager = GetComponent<NoteSystemManager>();
+            _NoteSystemManager?.Initialize();
+        }
+        else
+        {
+            _NoteSystemManager.Initialize();
+        }
+
+
         _EnemysGroup?.Initialize();
         _Player?.Initialize();
         //enemygroup √ ±‚»≠

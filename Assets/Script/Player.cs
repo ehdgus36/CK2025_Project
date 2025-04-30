@@ -66,6 +66,7 @@ public class Player : Unit
             DamageEffect.Play("hit");
         }
         AudioSource.PlayOneShot(audioClip[2]);
+        GameManager.instance.Shake.PlayShake();
 
         //playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
         //DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);

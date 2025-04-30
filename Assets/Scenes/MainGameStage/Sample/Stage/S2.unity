@@ -3020,6 +3020,7 @@ GameObject:
   - component: {fileID: 339026984}
   - component: {fileID: 339026986}
   - component: {fileID: 339026987}
+  - component: {fileID: 339026988}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3087,7 +3088,7 @@ Transform:
   m_GameObject: {fileID: 339026982}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -13.7}
+  m_LocalPosition: {x: 0, y: 0, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3156,6 +3157,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &339026988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339026982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28eb33131dd8044fbe1a806ef346d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_roughness: 4
+  m_magnitude: 4
 --- !u!1 &341833451
 GameObject:
   m_ObjectHideFlags: 0
@@ -15275,8 +15290,10 @@ MonoBehaviour:
   ThisTurnUnit: {fileID: 0}
   NextTurnUnit: {fileID: 0}
   _PlayerAttackSystem: {fileID: 1269469519}
+  _NoteSystemManager: {fileID: 0}
   GameClear: {fileID: 0}
   GameOver: {fileID: 1449857903}
+  _Shaker: {fileID: 339026988}
 --- !u!4 &1458305799
 Transform:
   m_ObjectHideFlags: 0

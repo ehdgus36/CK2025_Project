@@ -1,13 +1,26 @@
 using UnityEngine;
 using System.Collections;
 
-public class NoteSystemManager : MonoBehaviour
+public class NoteSystemManager : MonoBehaviour // 작동하는거 확인하고 로직 수정
 {
-    [SerializeField] NoteSystem[] NoteSystems;
+    [SerializeField] public NoteSystem[] NoteSystems; // 일단 퍼블릭 Enemy에서 이벤트 등록하도록 
     [SerializeField] int currentindex = 0;
+
+
     public void Start()
     {
-        StartCoroutine("StartSystem");
+        PlayManager();
+    }
+
+
+    public void Initialize()
+    { 
+     //대충 초기화
+    }
+
+    public void PlayManager() // EnemyGroup에서 호출할꺼임 게임 시작하면
+    {
+        StartCoroutine(StartSystem()); // 이렇게 시작
     }
 
     IEnumerator StartSystem()

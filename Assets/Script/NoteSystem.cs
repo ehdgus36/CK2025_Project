@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
+using System;
 
 public class NoteSystem : MonoBehaviour
 {
@@ -14,6 +17,8 @@ public class NoteSystem : MonoBehaviour
 
     [SerializeField] string Verdict;
     public bool isTrigger = false;
+    public event Action<string> NoteEvent;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,19 +50,21 @@ public class NoteSystem : MonoBehaviour
         if (Center.localScale.x <= NoteCircle.localScale.x && Good.localScale.x >= NoteCircle.localScale.x)
         {
             Verdict = "Good";
-
+            NoteEvent?.Invoke(Verdict);
             yield break;
         }
         //Normal판정
         if (Good.localScale.x < NoteCircle.localScale.x && Normal.localScale.x >= NoteCircle.localScale.x)
         {
             Verdict = "Normal";
+            NoteEvent?.Invoke(Verdict);
             yield break;
         }
         //Bad판정
         if (Normal.localScale.x < NoteCircle.localScale.x && Bad.localScale.x >= NoteCircle.localScale.x)
         {
             Verdict = "Bad";
+            NoteEvent?.Invoke(Verdict);
             yield break;
         }
 
@@ -65,6 +72,7 @@ public class NoteSystem : MonoBehaviour
         if (Bad.localScale.x < NoteCircle.localScale.x || Center.localScale.x > NoteCircle.localScale.x)
         {
             Verdict = "miss";
+            NoteEvent?.Invoke(Verdict);
             yield return null;
         }
 

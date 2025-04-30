@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine;
 using Spine.Unity;
-using System;
 using UnityEngine.Audio;
 
 public class AttackManager : MonoBehaviour
@@ -107,11 +106,11 @@ public class AttackManager : MonoBehaviour
         if (data.Attack_Effect_Code == "")
         {
             PlayerAttackEffect(enemysGroup.Enemys[target_index].transform.position);
-
+            GameManager.instance.Shake.PlayShake();
             yield return new WaitForSeconds(0.5f);
             yield return null;
         }
-
+        
 
         yield return new WaitForSeconds(0.3f);
 
@@ -119,9 +118,23 @@ public class AttackManager : MonoBehaviour
 
         if (target_index != 1000)
         {
+            //단일
             enemysGroup.Enemys[target_index].TakeDamage(data.Base_Damage_1, TargetEnemyBuff);
 
+            // 2~3타 공격
+            if (data.Card_Code_1 == "C31")
+            {
 
+                int attackCount = Random.Range(1, 3);
+                for (int i = 0; i < attackCount; i++)
+                {
+                    yield return new WaitForSeconds(.3f);
+                    enemysGroup.Enemys[target_index].TakeDamage(data.Base_Damage_1, null);
+                }
+
+            }
+
+            //전체
             for (int i = 0; i < enemysGroup.Enemys.Count; i++)
             {
                 if (i == target_index)

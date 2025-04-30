@@ -20,6 +20,8 @@ public struct AttackData
 {
     public AttackData(List<Dictionary<string, object>> data, int row)
     {
+        Card_Code_1 = data[row]["Card_Code_1"].ToString();
+        Card_Code_2 = data[row]["Card_Code_2"].ToString();
         Add_Code = data[row]["Add_Code"].ToString();
         Base_Damage_1 = (int)data[row]["Base_Damage_1"];
         Base_Damage_2 = (int)data[row]["Base_Damage_2"];
@@ -40,7 +42,8 @@ public struct AttackData
         Explain_Down = data[row]["Explain_Down"].ToString();
 
 
-
+        View_Card_Code_1 = Card_Code_1;
+        View_Card_Code_2 = Card_Code_2;
         View_Add_Code = Add_Code;
         View_Base_Damage_1 = Base_Damage_1;
         View_Base_Damage_2 = Base_Damage_2;
@@ -59,6 +62,9 @@ public struct AttackData
         View_Explain_Down = Explain_Down;
     }
 
+
+    public readonly String Card_Code_1;
+    public readonly String Card_Code_2;
     public readonly String Add_Code;
     public readonly int Base_Damage_1;
     public readonly int Base_Damage_2;
@@ -78,7 +84,8 @@ public struct AttackData
 
 
 
-
+    [SerializeField] String View_Card_Code_1;
+    [SerializeField] String View_Card_Code_2;
     [SerializeField] String View_Add_Code;
     [SerializeField] int View_Base_Damage_1;
     [SerializeField] int View_Base_Damage_2;

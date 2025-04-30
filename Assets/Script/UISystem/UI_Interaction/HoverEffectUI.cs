@@ -31,7 +31,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             cardDescription.UpdateDescription(card.CardName, card.Example, card.SubExample, card.Grade_Point, card.icon);
         }
 
-        if (card.GetComponent<TargetCard>() == true)
+        if (card.GetComponent<TargetCard>() != null)
         {
             enemy = GameManager.instance.EnemysGroup.Enemys[card.GetComponent<TargetCard>().GetTargetIndex()].gameObject;
             layerind = enemy.layer;

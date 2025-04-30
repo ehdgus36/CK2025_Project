@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using GameDataSystem;
 
 
 
@@ -17,26 +18,38 @@ public enum BuffLayer
     Curse_1 = 1 << 3,
     Everything = ~0            
 }
+[System.Serializable]
+public struct EnemyData
+{
+    [SerializeField] public UnitData EnemyUnitData;
+
+    [SerializeField] public string EnemyCode;
+    [SerializeField] public string EnemyName;
+    
+    [SerializeField] public int MaxDamage;
+    [HideInInspector] public int CurrentDamage;
+
+    [SerializeField] public int MaxDefense;
+    [HideInInspector] public int CurrentDefense;
+
+    public List<Buff> buffs;
+}
 
 public class Enemy : Unit , IPointerDownHandler
 {
-
-    [SerializeField] string enemyName;
-    [SerializeField] Skill Skill;
-    [SerializeField] int MaxDamage;
-    [SerializeField] public int CurrentDamage;
-
-    [SerializeField] int MaxDefense;
-    [SerializeField] public int CurrentDefense;
+    public EnemyData EnemyData;
 
     [SerializeField] Animator EnemyAnimator;
     [SerializeField] EnemyStatus EnemyStatus;
-    protected UnityAction DieEvent;
+
+    [SerializeField] GameObject BG;
+
+    protected DieEnemy DieEvent;
     protected bool IsAttack;
 
-    [SerializeField] BuffLayer BuffLayer;
+    [SerializeField] BuffLayer buffLayer;
 
-    int EnemyIndex = 1; //일단 고정
+    int EnemyIndex = 0; 
 
     int startLayer = 0;
     bool isDescription = false;
@@ -47,28 +60,32 @@ public class Enemy : Unit , IPointerDownHandler
     {
         IsAttack = b;
     }
-    private void Awake()
+  
+    public virtual void Initialize(int index)
     {
-        Initialize();
-    }
+        EnemyIndex = index;
+      
 
-    protected virtual void Initialize()
-    {
-        EnemyStatus.Initialize(UnitMaxHp, MaxDamage, EnemyIndex, enemyName);
+        EnemyStatus.Initialize(EnemyData.EnemyUnitData.MaxHp, EnemyData.MaxDamage, EnemyIndex, EnemyData.EnemyName);
 
-        UnitCurrentHp = UnitMaxHp; 
+        UnitData.CurrentHp = UnitData.MaxHp;
+        CurrentBuff = new List<Buff>();
 
-        CurrentBuff.Add(new FireBuff(0, 0, 1));
-        CurrentBuff.Add(new ElecBuff(0, 0, 1));
-        CurrentBuff.Add(new CaptivBuff(0, 0, 1));
-        CurrentBuff.Add(new CurseBuff(0, 0, 1));
+        if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1)) ;
+        if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new ElecBuff(BuffType.End, 0, 1));
+        if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.End, 0, 1));
+        if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.End, 0, 1));
 
+        EnemyData.EnemyUnitData = UnitData;
+        EnemyData.buffs = CurrentBuff;
+        EnemyData.CurrentDamage = EnemyData.MaxDamage;
+        EnemyData.CurrentDefense = EnemyData.MaxDefense;
         StartTurnEvent = () =>
         {
 
 
             EnemyStatus.UpdateBuffIcon(CurrentBuff);
-            GameManager.instance.GetHpManager().UpdatHpbar();
+           
             StartCoroutine("SampleAi");
 
         };
@@ -76,19 +93,18 @@ public class Enemy : Unit , IPointerDownHandler
 
         EndTurnEvent = () =>
         {
-            EnemyStatus.UpdateStatus(UnitCurrentHp, CurrentDamage, EnemyIndex);
+            EnemyStatus.UpdateStatus(UnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
             EnemyStatus.UpdateBuffIcon(CurrentBuff);
             //턴 종료시 버프로 감소된 변수 원상복구
-            CurrentDamage = MaxDamage;
-            CurrentDefense = MaxDefense;
+            EnemyData.CurrentDamage = EnemyData.MaxDamage;
+            EnemyData.CurrentDefense = EnemyData.MaxDefense;
             StopCoroutine("SampleAi");
-            GameManager.instance.GetHpManager().UpdatHpbar();
         };
 
-      
+        DynamicGameDataSchema.AddDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
     }
 
-    public void SetDieEvent(UnityAction dieEvent)
+    public void SetDieEvent(DieEnemy dieEvent)
     {
         DieEvent += dieEvent;
     }
@@ -98,37 +114,15 @@ public class Enemy : Unit , IPointerDownHandler
 
         EnemyAnimator.Play("attack");
         yield return new WaitForSeconds(1.0f);
-        GameManager.instance.GetPlayer().TakeDamage(CurrentDamage);
+        GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage);
 
         yield return new WaitForSeconds(1.0f);
 
         yield return null;
     }
 
-    public override void TakeDamage(AttackData data)
-    {
-        //if (data.Damage < 0)
-        //{
-        //    Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-        //    return;
-        //}
 
-        base.TakeDamage(data);
-        GameManager.instance.GetHpManager().UpdatHpbar();
-        EnemyAnimator.Play("hit");
-    }
-    public override void TakeDamage(int damage)
-    {
-        if (damage <= 0)
-        {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-            return;
-        }
 
-        base.TakeDamage(damage);
-        GameManager.instance.GetHpManager().UpdatHpbar();
-        EnemyAnimator.Play("hit");
-    }
 
     public void TakeDamage(int damage, Buff buff)
     {
@@ -140,33 +134,60 @@ public class Enemy : Unit , IPointerDownHandler
 
         if (buff != null)
         {
-            for (int i = 0; i < CurrentBuff.Count; i++)
+            if (CurrentBuff != null)
             {
-                if (CurrentBuff[i].GetType() == buff.GetType())
+                for (int i = 0; i < CurrentBuff.Count; i++)
                 {
-                    CurrentBuff[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
-                    break;
+                    if (CurrentBuff[i].GetType() == buff.GetType())
+                    {
+                        CurrentBuff[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+                        break;
+                    }
                 }
             }
           
         }
 
        
-        Debug.Log(CurrentBuff.Count);
-        Debug.Log(CurrentBuff[0].GetBuffType());
-        base.TakeDamage(damage - CurrentDefense);
-        GameManager.instance.GetHpManager().UpdatHpbar();
-        EnemyAnimator.Play("hit");
-        EnemyStatus.UpdateStatus(UnitCurrentHp, CurrentDamage, EnemyIndex);
-        EnemyStatus.UpdateBuffIcon(CurrentBuff);
        
+        base.TakeDamage(damage - EnemyData.CurrentDefense);
+        EnemyAnimator.Play("hit");
+        EnemyStatus.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
+        EnemyStatus.UpdateBuffIcon(CurrentBuff);
+
+        EnemyData.EnemyUnitData = UnitData;
+        DynamicGameDataSchema.UpdateDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
+        
+
     }
 
     protected override void Die()
     {
         this.gameObject.SetActive(false);
-        DieEvent?.Invoke();
+        DieEvent?.Invoke(this);
 
+    }
+
+    public void SlowMotionEffect(bool onoff)
+    {
+        if(onoff == false)
+        {
+
+            EnemyStatus.OnPassiveDescription();
+            startLayer = this.gameObject.layer;
+
+            ChangeLayerRecursively(this.gameObject, 7);
+            isDescription = true;
+            return;
+        }
+
+        if (onoff == true)
+        {
+            EnemyStatus.OffPassiveDescription();
+            ChangeLayerRecursively(this.gameObject, startLayer);
+            isDescription = false;
+            return;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -184,7 +205,7 @@ public class Enemy : Unit , IPointerDownHandler
 
         if (isDescription == true)
         {
-
+            EnemyStatus.OffPassiveDescription();
             ChangeLayerRecursively(this.gameObject, startLayer);
             isDescription = false;
             return;
@@ -199,5 +220,12 @@ public class Enemy : Unit , IPointerDownHandler
         {
             ChangeLayerRecursively(child.gameObject, layer);
         }
+    }
+
+
+    public void Setindex(int index)
+    { 
+        EnemyIndex = index;
+        EnemyStatus.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
     }
 }

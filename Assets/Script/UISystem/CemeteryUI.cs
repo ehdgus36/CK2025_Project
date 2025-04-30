@@ -6,7 +6,7 @@ using Spine;
 
 public class CemeteryUI : MonoBehaviour,IDropHandler
 {
-    [SerializeField] Transform CemeteryPos;
+    [SerializeField] public Transform CemeteryPos;
     [SerializeField] List<Card> CemeteryCard;
 
 

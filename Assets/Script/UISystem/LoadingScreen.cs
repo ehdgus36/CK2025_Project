@@ -38,16 +38,26 @@ public class LoadingScreen : MonoBehaviour
             {
                 timer += Time.unscaledDeltaTime;
                 progressBar.value = Mathf.Lerp(progressBar.value, 1f, timer);
-                progressText.text = "100 %";
+                progressText.text = "99 %";
 
-                if (progressBar.value >= 0.995f)
+                if (progressBar.value >= 1f)
                 {
-                    op.allowSceneActivation = true;
+                   
                     
+                  
+                    op.allowSceneActivation = true;
+
+
+                    yield return new WaitForSeconds(2);
+                    progressText.text = "100 %";
 
                     yield break;
                 }
             }
         }
+
+
+       
+
     }
 }

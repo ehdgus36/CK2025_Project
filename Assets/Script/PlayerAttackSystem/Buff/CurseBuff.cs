@@ -15,7 +15,7 @@ public class CurseBuff : Buff
         if (BuffDurationTurn == 0) return;
         if (unit.GetComponent<Enemy>())
         {
-            unit.GetComponent<Enemy>().CurrentDamage -= Down_Attack;
+            unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
         }
 
         BuffDurationTurn--;

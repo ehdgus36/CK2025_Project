@@ -8,6 +8,9 @@ public class UpGradeBar : MonoBehaviour
     int MaxPoint = 5;
     int CurrentPoint = 0;
 
+    public int GetCurrentPoint(){ return CurrentPoint; }
+
+
     public void SetPoint(int point)
     {
         if (CurrentPoint == MaxPoint)

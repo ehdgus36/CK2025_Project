@@ -5,7 +5,7 @@ using TMPro;
 using System.Collections.Generic;
 using System;
 
-public class EnemyStatus : MonoBehaviour
+public class EnemyStatus : DynamicUIObject
 {
 
 
@@ -20,7 +20,8 @@ public class EnemyStatus : MonoBehaviour
     [SerializeField] GameObject PassiveDescription;
 
     [SerializeField] TextMeshProUGUI[] BuffIcon;
-    
+    [SerializeField] Image num;
+    [SerializeField] Sprite[] numIndex;
 
     int MaxHP;
     int CurrentHP;
@@ -42,7 +43,7 @@ public class EnemyStatus : MonoBehaviour
         HpText.text = CurrentHP.ToString();
         NameText.text = (enemyname + "<color=#EA133D>") + name[name.Length-1] +"</color>";
         DamageText.text = "<b><color=#EA133D>A</color></b>TK <size=20>" + damage.ToString() + "</size>";
-        indexText.text = index.ToString();
+        //indexText.text = index.ToString();
 
 
         PassiveDescription.SetActive(false);
@@ -55,6 +56,9 @@ public class EnemyStatus : MonoBehaviour
 
     public void UpdateBuffIcon(List<Buff> buffs)
     {
+        if (buffs == null) return;
+
+
         for (int i = 0; i < buffs.Count; i++)
         {
             if (buffs[i].GetBuffDurationTurn() != 0)
@@ -99,7 +103,9 @@ public class EnemyStatus : MonoBehaviour
 
         HpText.text = CurrentHP.ToString();
         DamageText.text = "<b><color=#EA133D>A</color></b>TK <size=20>" + damage.ToString() + "</size>";
-        indexText.text = index.ToString();
+
+        num.sprite = numIndex[index];
+        ///indexText.text = index.ToString();
 
         for (int i = 0; i < BuffIcon.Length; i++)
         {
@@ -114,4 +120,18 @@ public class EnemyStatus : MonoBehaviour
         PassiveDescription.SetActive(true);
     }
 
+    public void OffPassiveDescription()
+    {
+        PassiveDescription.SetActive(false);
+    }
+
+    public override void UpdateUIData(object update_ui_data)
+    {
+        EnemyData uiEnemyData = (EnemyData)update_ui_data;
+
+        UpdateStatus(uiEnemyData.EnemyUnitData.CurrentHp, uiEnemyData.CurrentDamage, 0);
+        UpdateBuffIcon(uiEnemyData.buffs);
+
+        //여기에서 업데이트 
+    }
 }

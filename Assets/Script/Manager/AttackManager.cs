@@ -2,15 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine;
+using Spine.Unity;
+using UnityEngine.Audio;
 
 public class AttackManager : MonoBehaviour
 {
-  
+    public GameObject AttackEffect;
+    [SerializeField] GameObject GradeAttackEffect;
+    [SerializeField] SkeletonMecanim PlayerAnime;
+    [SerializeField] GameObject AllEffect;
+    AttackData MainData;
+    int Maintarget_index;
+
+    [SerializeField]AudioSource audioSource;
     public void Initialize()
     {
        
     }
 
+    void PlayerAttackEffect(Vector3 pos)
+    {
+        AttackEffect.SetActive(false);
+        AttackEffect.SetActive(true);
+        AttackEffect.transform.position = pos;
+    }
 
 
     public void Attack(AttackData data , int target_index)
@@ -22,9 +38,13 @@ public class AttackManager : MonoBehaviour
     IEnumerator AttackDelay(AttackData data, int target_index)
     {
 
-        yield return new WaitForSeconds(1.0f);
+        MainData = data;
+        yield return new WaitForSeconds(0.5f);
 
-        EnemysGroup enemysGroup = GameManager.instance.GetEnemysGroup();
+        GameManager.instance.Player.PlayerAttackAnime();
+        yield return new WaitForSeconds(0.5f);
+
+        EnemysGroup enemysGroup = GameManager.instance.EnemysGroup;
 
 
         Debug.Log("Player공격");
@@ -57,31 +77,95 @@ public class AttackManager : MonoBehaviour
         }
 
 
-        //단일공격  // 전체 공격
-
-
-        enemysGroup.GetEnemy(target_index).TakeDamage(data.Base_Damage_1, TargetEnemyBuff);
-
-
-        for (int i = 0; i < enemysGroup.GetEnemyCount(); i++)
+        if (data.Attack_Effect_Code == "Y")
         {
-            if (i == target_index)
+            if (target_index == 1000)
             {
-                continue;
+                audioSource.Play();
+                GradeAttackEffect.SetActive(false);
+                GradeAttackEffect.SetActive(true);
+
+                yield return new WaitForSeconds(.9f);
+
+
+
+                AllEffect.SetActive(false);
+                AllEffect.SetActive(true);
+
+                yield return new WaitForSeconds(0.3f);
             }
-            enemysGroup.GetEnemy(i).TakeDamage(data.Base_Damage_2, AllEnemyBuff);
+            if (target_index != 1000)
+            {
+                PlayerAttackEffect(enemysGroup.Enemys[target_index].transform.position);
+
+                yield return new WaitForSeconds(0.5f);
+            }
         }
 
 
+        if (data.Attack_Effect_Code == "")
+        {
+            PlayerAttackEffect(enemysGroup.Enemys[target_index].transform.position);
+            GameManager.instance.Shake.PlayShake();
+            yield return new WaitForSeconds(0.5f);
+            yield return null;
+        }
+        
 
+        yield return new WaitForSeconds(0.3f);
 
+        //단일공격  // 전체 공격
+
+        if (target_index != 1000)
+        {
+            //단일
+            enemysGroup.Enemys[target_index].TakeDamage(data.Base_Damage_1, TargetEnemyBuff);
+
+            // 2~3타 공격
+            if (data.Card_Code_1 == "C31")
+            {
+
+                int attackCount = Random.Range(1, 3);
+                for (int i = 0; i < attackCount; i++)
+                {
+                    yield return new WaitForSeconds(.3f);
+                    enemysGroup.Enemys[target_index].TakeDamage(data.Base_Damage_1, null);
+                }
+
+            }
+
+            //전체
+            for (int i = 0; i < enemysGroup.Enemys.Count; i++)
+            {
+                if (i == target_index)
+                {
+                    continue;
+                }
+                enemysGroup.Enemys[i].TakeDamage(data.Base_Damage_2, AllEnemyBuff);
+            }
+        }
+
+        if (target_index == 1000)
+        {
+            List<Enemy>Targets = new List<Enemy>();
+           
+
+            for (int i = 0; i < enemysGroup.Enemys.Count; i++)
+            {
+                Targets.Add(enemysGroup.Enemys[i]);
+            }
+            for (int i = 0; i < Targets.Count; i++)
+            {
+                Targets[i].TakeDamage(data.Base_Damage_1, AllEnemyBuff);
+            }
+        }
 
 
         //체력 회복
 
+        GameManager.instance.Player.addHP(data.Recover_HP);
 
-
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.5f);
         //공격 끝
         GameManager.instance.TurnSwap();
     }

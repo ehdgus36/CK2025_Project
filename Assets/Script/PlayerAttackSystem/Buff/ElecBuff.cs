@@ -17,7 +17,7 @@ public class ElecBuff : Buff
         if (BuffDurationTurn == 0) return;
         if (unit.GetComponent<Enemy>())
         {
-            unit.GetComponent<Enemy>().CurrentDefense -= Down;
+            unit.GetComponent<Enemy>().EnemyData.CurrentDefense -= Down;
         }
 
         BuffDurationTurn--;

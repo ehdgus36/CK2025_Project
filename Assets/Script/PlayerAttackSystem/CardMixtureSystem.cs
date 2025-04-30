@@ -37,22 +37,32 @@ public class CardMixtureSystem : MonoBehaviour
 
     [SerializeField] UpGradeBar UpGradeBar;
 
+    [SerializeField] Dack[] dack;
+
+    [SerializeField] AudioClip[] slot;
+    [SerializeField] AudioSource audioSource;
+
     private void OnDisable() //비활성화 하면 조합데에 있는 카드 묘지로
     {
         List< Card> CDdata = CDMixtureSlotGroup.ReadData<Card>();
         for (int i = 0; i < CDdata.Count; i++)
         {
-            CDdata[i].GetComponent<Animator>().Play("Idle");
-          
-                Cemetery[i].Insert(CDdata[i]);
+           // CDdata[i].GetComponent<Animator>().Play("Idle");
+
+            if (CDdata[i].GetUpGradeCard() == null)
+            {
+                CDdata[i].transform.position = new Vector3(100, 100, 1000);
+            }
             
+            Cemetery[i].Insert(CDdata[i]);
+
         }
 
        
         GuitarAnime.AnimationState.ClearTrack(2);
         GuitarAnime.AnimationState.ClearTrack(3);
         GuitarAnime.AnimationState.ClearTrack(4);
-
+        GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
         DamageText.text = "";
         Descriptobj.SetActive(false);
     }
@@ -90,12 +100,19 @@ public class CardMixtureSystem : MonoBehaviour
         
         if (CardData.Count == 3)
         {
+            GameManager.instance.Player.PlayerCardAnime();
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
             Descript.text = MaidAttackData.Explain_Down;
-            GameManager.instance.GetAttackManager().Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+            GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
             UpGradeBar.SetPoint(CardData[2].Grade_Point);
 
+            if (UpGradeBar.GetCurrentPoint() == 5)
+            {
+                dack[2].InsertCard(CardData[2].GetUpGradeCard());
+                UpGradeBar.SetPoint(0);
+            }
+            audioSource.PlayOneShot(slot[2]);
             return;
         }
 
@@ -116,6 +133,14 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false , 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
             UpGradeBar.SetPoint(CardData[1].Grade_Point);
+            if (UpGradeBar.GetCurrentPoint() == 5)
+            {
+                dack[1].InsertCard(CardData[1].GetUpGradeCard());
+                UpGradeBar.SetPoint(0);
+            }
+
+            GameManager.instance.Player.PlayerCardAnime();
+            audioSource.PlayOneShot(slot[1]);
         }
 
         if (CardData.Count == 1)
@@ -126,6 +151,16 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner1", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner1-2", true, 0.3f);
             UpGradeBar.SetPoint(CardData[0].Grade_Point);
+
+
+            if (UpGradeBar.GetCurrentPoint() == 5)
+            {
+                dack[0].InsertCard(CardData[0].GetUpGradeCard());
+                UpGradeBar.SetPoint(0);
+            }
+
+            GameManager.instance.Player.PlayerCardAnime();
+            audioSource.PlayOneShot(slot[0]);
         }
        
 

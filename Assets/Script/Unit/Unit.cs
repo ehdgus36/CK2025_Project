@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 
 [System.Serializable]
-public struct UnitData
+public class UnitData
 {
    [SerializeField] public string DataKey;
    [SerializeField] public int MaxHp;

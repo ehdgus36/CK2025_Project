@@ -7676,16 +7676,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad3bcbb81f2c184a98833cedfffad16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitMaxHp: 15
-  UnitCurrentHp: 1
+  UnitData:
+    DataKey: 
+    MaxHp: 0
+    _CurrentHp: 0
   IsTurn: 0
   HitEffect: {fileID: 1607160040}
-  enemyName: "\uC2A4\uD504\uB808\uC774"
-  Skill: {fileID: 0}
-  MaxDamage: 2
-  CurrentDamage: 2
-  MaxDefense: 0
-  CurrentDefense: 0
+  EnemyData:
+    EnemyUnitData:
+      DataKey: Spray
+      MaxHp: 0
+      _CurrentHp: 0
+    EnemyCode: 
+    EnemyName: "\uC2A4\uD504\uB808\uC774"
+    MaxDamage: 0
+    CurrentDamage: 0
+    MaxDefense: 0
+    CurrentDefense: 0
   EnemyAnimator: {fileID: 613711442}
   EnemyStatus: {fileID: 4837746656780595785}
   BG: {fileID: 0}
@@ -10631,6 +10638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f2008557bdc3840952e0e9d4b20eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DynamicDatakey: Mole
   SkillPoint: {fileID: 3552663771678290445, guid: 3d324982b9c3986468072bbf969c9b22, type: 3}
   Hpfill: {fileID: 854669100}
   HpText: {fileID: 101723243}
@@ -12170,16 +12178,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad3bcbb81f2c184a98833cedfffad16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitMaxHp: 15
-  UnitCurrentHp: 1
+  UnitData:
+    DataKey: 
+    MaxHp: 0
+    _CurrentHp: 0
   IsTurn: 0
   HitEffect: {fileID: 615224827}
-  enemyName: "\uB354\uC9C0"
-  Skill: {fileID: 0}
-  MaxDamage: 2
-  CurrentDamage: 2
-  MaxDefense: 1
-  CurrentDefense: 0
+  EnemyData:
+    EnemyUnitData:
+      DataKey: Mole
+      MaxHp: 0
+      _CurrentHp: 0
+    EnemyCode: 
+    EnemyName: "\uB450\uB354\uC9C0"
+    MaxDamage: 0
+    CurrentDamage: 0
+    MaxDefense: 0
+    CurrentDefense: 0
   EnemyAnimator: {fileID: 355716925}
   EnemyStatus: {fileID: 1228634074}
   BG: {fileID: 0}
@@ -12871,6 +12886,7 @@ GameObject:
   - component: {fileID: 1458305797}
   - component: {fileID: 1458305800}
   - component: {fileID: 1458305801}
+  - component: {fileID: 1458305802}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -12907,20 +12923,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ea04e97cc80544ea53ee5ce07f341f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  Enemy: {fileID: 1528619771}
-  EnemyDamageEffect: {fileID: 0}
+  _Player: {fileID: 0}
+  _EnemysGroup: {fileID: 0}
   ThisTurnUnit: {fileID: 0}
   NextTurnUnit: {fileID: 0}
-  CardDack: {fileID: 0}
-  PlayerCardSloats: {fileID: 1381899304}
-  PlayerAttackSystem: {fileID: 1269469519}
+  _PlayerAttackSystem: {fileID: 0}
+  _NoteSystemManager: {fileID: 0}
   GameClear: {fileID: 0}
   GameOver: {fileID: 1449857903}
-  WaveManager: {fileID: 0}
-  HpManager: {fileID: 1458305800}
-  AttackManager: {fileID: 0}
-  UIManager: {fileID: 0}
+  _Shaker: {fileID: 0}
 --- !u!4 &1458305799
 Transform:
   m_ObjectHideFlags: 0
@@ -12948,11 +12959,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088b39fe701989d4baf901af8041fd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyStatusPrefab: {fileID: 8054927693396961336, guid: 36d97930c9cb1584aaf54e94c41b3840, type: 3}
-  HpbarOffset: {x: 0, y: 0, z: 0}
-  Units: []
-  EnemyStatuses: []
-  HpBarParent: {fileID: 1279265763}
 --- !u!82 &1458305801
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13050,6 +13056,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1458305802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458305796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96edf04a6af2e804297845e1a37fb811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameUIObj: []
 --- !u!1 &1467381119
 GameObject:
   m_ObjectHideFlags: 0
@@ -14074,23 +14093,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bbef7cc78d42424eb6cba7394630073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitMaxHp: 0
-  UnitCurrentHp: 0
+  UnitData:
+    DataKey: 
+    MaxHp: 0
+    _CurrentHp: 0
   IsTurn: 0
   HitEffect: {fileID: 0}
-  enemyName: 
-  Skill: {fileID: 0}
-  MaxDamage: 0
-  CurrentDamage: 0
-  MaxDefense: 0
-  CurrentDefense: 0
-  EnemyAnimator: {fileID: 0}
-  EnemyStatus: {fileID: 0}
-  BG: {fileID: 0}
-  buffLayer: 0
-  Enemys:
-  - {fileID: 1365719982}
+  _Enemys:
   - {fileID: 923755818}
+  - {fileID: 1365719982}
 --- !u!1 &1552213092
 GameObject:
   m_ObjectHideFlags: 0
@@ -15984,13 +15995,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca138b7c08160574eaa5ae42f14ef760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitMaxHp: 50
-  UnitCurrentHp: 10
+  UnitData:
+    DataKey: Player
+    MaxHp: 0
+    _CurrentHp: 0
   IsTurn: 0
   HitEffect: {fileID: 30504261}
   DamageEffect: {fileID: 1708141220}
   CDSlotGroup: {fileID: 1812307656}
-  playerStatus: {fileID: 1749112428}
   AudioSource: {fileID: 1720659879}
   audioClip:
   - {fileID: 8300000, guid: 0f003f9529ba04f4291d5988f6bb5f61, type: 3}
@@ -16448,6 +16460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d96b507541fe61047bfb219faac87d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DynamicDatakey: Player
   Hpfill: {fileID: 1510229697}
   Hptext: {fileID: 1145642073}
 --- !u!1 &1762940323
@@ -47059,6 +47072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f2008557bdc3840952e0e9d4b20eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DynamicDatakey: Splay
   SkillPoint: {fileID: 3552663771678290445, guid: 3d324982b9c3986468072bbf969c9b22, type: 3}
   Hpfill: {fileID: 3921927270737007418}
   HpText: {fileID: 1412156185069273186}

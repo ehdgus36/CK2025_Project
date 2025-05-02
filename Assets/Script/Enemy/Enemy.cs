@@ -19,7 +19,7 @@ public enum BuffLayer
     Everything = ~0            
 }
 [System.Serializable]
-public struct EnemyData
+public class EnemyData
 {
     [SerializeField] public UnitData EnemyUnitData;
 

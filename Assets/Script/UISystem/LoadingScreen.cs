@@ -19,45 +19,34 @@ public class LoadingScreen : MonoBehaviour
     IEnumerator LoadSceneAsync(string sceneName)
     {
         yield return null;
-
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
-
-        float timer = 0f;
-
+        float timer = 0.0f;
         while (!op.isDone)
         {
             yield return null;
-
+            timer += Time.deltaTime;
             if (op.progress < 0.9f)
             {
-                progressBar.value = op.progress;
-                progressText.text = Mathf.RoundToInt(op.progress * 100f) + " %";
+                progressBar.value = Mathf.Lerp(progressBar.value, op.progress, timer);
+                if (progressBar.value >= op.progress)
+                {
+                    timer = 0f;
+                }
             }
             else
             {
-                timer += Time.unscaledDeltaTime;
                 progressBar.value = Mathf.Lerp(progressBar.value, 1f, timer);
-                progressText.text = "99 %";
-
-                if (progressBar.value >= 1f)
+                if (progressBar.value == 1.0f)
                 {
-                   
-                    
-                  
                     op.allowSceneActivation = true;
-
-
-                    yield return new WaitForSeconds(2);
-                    progressText.text = "100 %";
-
                     yield break;
                 }
             }
         }
 
 
-       
+
 
     }
 }

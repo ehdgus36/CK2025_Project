@@ -10,7 +10,16 @@ public class GameManager : MonoBehaviour
     public Player Player { get { return _Player; } }
     [SerializeField] private Player _Player; // 인스펙터
 
-    public EnemysGroup EnemysGroup{ get { return _EnemysGroup; } }
+    public EnemysGroup EnemysGroup
+    {
+        get 
+        {
+            if(_EnemysGroup.Enemys.Count == 0)
+                Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
+
+            return _EnemysGroup; 
+        }
+    }
     [SerializeField] private EnemysGroup _EnemysGroup; // 인스팩터
     
     //현재 턴

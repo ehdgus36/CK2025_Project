@@ -25,6 +25,10 @@ public class PlayerStatus : DynamicUIObject
     {
         UnitData playerData = (UnitData)update_ui_data;
 
-        UpdataStatus(playerData.MaxHp, playerData.CurrentHp);
+        if (playerData != null)
+        {
+
+            UpdataStatus(playerData.MaxHp, playerData.CurrentHp);
+        }
     }
 }

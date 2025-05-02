@@ -129,9 +129,11 @@ public class EnemyStatus : DynamicUIObject
     {
         EnemyData uiEnemyData = (EnemyData)update_ui_data;
 
-        UpdateStatus(uiEnemyData.EnemyUnitData.CurrentHp, uiEnemyData.CurrentDamage, 0);
-        UpdateBuffIcon(uiEnemyData.buffs);
-
+        if (uiEnemyData != null)
+        {
+            UpdateStatus(uiEnemyData.EnemyUnitData.CurrentHp, uiEnemyData.CurrentDamage, 0);
+            UpdateBuffIcon(uiEnemyData.buffs);
+        }
         //여기에서 업데이트 
     }
 }

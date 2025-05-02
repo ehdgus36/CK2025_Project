@@ -23,7 +23,7 @@ namespace GameDataSystem
     /// <summary> 데이터 테이블에서 가져온 데이터를 관리하는 클래스 </summary>
     public static class StaticGameDataSchema
     {
-        static TextAsset RecipeDataTable = (TextAsset)Resources.Load("DataTable/RecipeDataTable.CSV");
+        static TextAsset RecipeDataTable = Resources.Load<TextAsset>("DataTable/RecipeDataTable");
         static TextAsset CommonCardDataTable = new TextAsset();
         static TextAsset SpecialCardDataTable = new TextAsset();
         static TextAsset TargetCardDataTable = new TextAsset();

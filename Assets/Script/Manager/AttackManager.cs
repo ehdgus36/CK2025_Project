@@ -12,7 +12,7 @@ public class AttackManager : MonoBehaviour
     [SerializeField] GameObject GradeAttackEffect;
     [SerializeField] SkeletonMecanim PlayerAnime;
     [SerializeField] GameObject AllEffect;
-    AttackData MainData;
+    RecipeData MainData;
     int Maintarget_index;
 
     [SerializeField]AudioSource audioSource;
@@ -29,13 +29,13 @@ public class AttackManager : MonoBehaviour
     }
 
 
-    public void Attack(AttackData data , int target_index)
+    public void Attack(RecipeData data , int target_index)
     {
         StartCoroutine(AttackDelay(data, target_index));
     }
 
 
-    IEnumerator AttackDelay(AttackData data, int target_index)
+    IEnumerator AttackDelay(RecipeData data, int target_index)
     {
 
         MainData = data;

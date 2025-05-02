@@ -13,16 +13,16 @@ public class UIManager : MonoBehaviour
 
     public void Initialize()
     {
-        DynamicUIObject[] dynamicUIObjects = FindObjectsByType<DynamicUIObject>(FindObjectsSortMode.InstanceID);
+        ///DynamicUIObject[] dynamicUIObjects = FindObjectsByType<DynamicUIObject>(FindObjectsSortMode.InstanceID);
 
-        if (dynamicUIObjects.Length != 0)
-        {
-            for (int i = 0; i < dynamicUIObjects.Length; i++)
-            {
-                GameUIObj.Add(dynamicUIObjects[i]);
-                DynamicGameDataSchema.AddDynamicUIDataBase(dynamicUIObjects[i].DynamicDataKey, dynamicUIObjects[i]);
-            }
-        }
+        //if (dynamicUIObjects.Length != 0)
+        //{
+        //    //for (int i = 0; i < dynamicUIObjects.Length; i++)
+        //    //{
+        //    //    GameUIObj.Add(dynamicUIObjects[i]);
+        //    //    DynamicGameDataSchema.AddDynamicUIDataBase(dynamicUIObjects[i].DynamicDataKey, dynamicUIObjects[i]);
+        //    //}
+        //}
 
     }
 }

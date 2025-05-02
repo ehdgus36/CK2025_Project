@@ -3,12 +3,15 @@ using System;
 using UnityEngine;
 using Unity.VisualScripting;
 using static UnityEditor.U2D.ScriptablePacker;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 
 public struct RecipeData
 {
     public RecipeData(Dictionary<string, object> data)
     {
+        Card_Code_1 = data["Card_Code_1"].ToString();
+        Card_Code_2 = data["Card_Code_2"].ToString();
         Add_Code = data["Add_Code"].ToString();
         Base_Damage_1 = (int)data["Base_Damage_1"];
         Base_Damage_2 = (int)data["Base_Damage_2"];
@@ -29,7 +32,8 @@ public struct RecipeData
         Explain_Down = data["Explain_Down"].ToString();
 
 
-
+        View_Card_Code_1 = Card_Code_1;
+        View_Card_Code_2 = Card_Code_2;
         View_Add_Code = Add_Code;
         View_Base_Damage_1 = Base_Damage_1;
         View_Base_Damage_2 = Base_Damage_2;
@@ -48,6 +52,8 @@ public struct RecipeData
         View_Explain_Down = Explain_Down;
     }
 
+    public readonly String Card_Code_1;
+    public readonly String Card_Code_2;
     public readonly String Add_Code;
     public readonly int Base_Damage_1;
     public readonly int Base_Damage_2;
@@ -67,7 +73,8 @@ public struct RecipeData
 
 
 
-
+    [SerializeField] String View_Card_Code_1;
+    [SerializeField] String View_Card_Code_2;
     [SerializeField] String View_Add_Code;
     [SerializeField] int View_Base_Damage_1;
     [SerializeField] int View_Base_Damage_2;

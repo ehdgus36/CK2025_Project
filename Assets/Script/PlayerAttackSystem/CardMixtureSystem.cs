@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Spine.Unity;
 using TMPro;
+using System.Collections;
 
 
 
@@ -26,10 +27,10 @@ public class CardMixtureSystem : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI DamageText;
     Player AttackPlayer;
-    AttackData MaidAttackData;
+    RecipeData MaidAttackData;
 
-    
-    [SerializeField] List<AttackData> RecipeData;
+
+    [SerializeField] List<RecipeData> RecipeData;
 
     [SerializeField] GameObject Descriptobj;
     [SerializeField] TextMeshProUGUI MixtureName;
@@ -42,41 +43,45 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] AudioClip[] slot;
     [SerializeField] AudioSource audioSource;
 
-    private void OnDisable() //비활성화 하면 조합데에 있는 카드 묘지로
+    [SerializeField] Animator UIAnime;
+    public void GuitarSetUp()
     {
-        List< Card> CDdata = CDMixtureSlotGroup.ReadData<Card>();
+        UIAnime.Play("SetUp");
+    }
+
+    public void Return()
+    {
+        List<Card> CDdata = CDMixtureSlotGroup.ReadData<Card>();
         for (int i = 0; i < CDdata.Count; i++)
         {
-           // CDdata[i].GetComponent<Animator>().Play("Idle");
+            // CDdata[i].GetComponent<Animator>().Play("Idle");
 
             if (CDdata[i].GetUpGradeCard() == null)
             {
                 CDdata[i].transform.position = new Vector3(100, 100, 1000);
             }
-            
+
             Cemetery[i].Insert(CDdata[i]);
 
         }
 
-       
+
         GuitarAnime.AnimationState.ClearTrack(2);
         GuitarAnime.AnimationState.ClearTrack(3);
         GuitarAnime.AnimationState.ClearTrack(4);
         GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
         DamageText.text = "";
         Descriptobj.SetActive(false);
+
+        UIAnime.Play("Return");
     }
 
     public void Initialize()
     {
         CDMixtureSlotGroup.Initialize(SelectionCard);
         // AttackPlayer = GameManager.instance.GetPlayer();
-        List<Dictionary<string, object>> recipe = CSVReader.Read(MixtureData);
 
-        for (int i = 0; i < CSVReader.Read(MixtureData).Count; i++)
-        {
-            RecipeData.Add(new AttackData(recipe , i));
-        }
+        //StartCoroutine(SetUpRecipeData());
 
         if (GuitarAnime != null)
         {
@@ -86,7 +91,20 @@ public class CardMixtureSystem : MonoBehaviour
         }
 
     }
-   
+    //IEnumerator SetUpRecipeData()
+    //{
+    //    //List<Dictionary<string, object>> recipe = CSVReader.Read(MixtureData);
+    //    //yield return null;
+
+    //    //for (int i = 0; i < CSVReader.Read(MixtureData).Count; i++)
+    //    //{
+    //    //    RecipeData.Add(new RecipeData(recipe, i));
+    //    //    yield return null;
+    //    //}
+
+    //    //yield return null;
+    //}
+
 
 
 
@@ -97,7 +115,7 @@ public class CardMixtureSystem : MonoBehaviour
         GuitarAnime.AnimationState.ClearTrack(2);
         GuitarAnime.AnimationState.AddAnimation(2, "in_Guitar", false, 0.3f);
 
-        
+
         if (CardData.Count == 3)
         {
             GameManager.instance.Player.PlayerCardAnime();
@@ -118,19 +136,18 @@ public class CardMixtureSystem : MonoBehaviour
 
         if (CardData.Count == 2)
         {
-            for (int i = 0; i < RecipeData.Count; i++)
+
+            if (GameDataSystem.StaticGameDataSchema.RECIPE_DATA_BASE.SearchData(CardData[0].GetID() + CardData[1].GetID(),ref MaidAttackData))
             {
-                if (RecipeData[i].Add_Code == (CardData[0].GetID() + CardData[1].GetID()))
-                {
-                    MaidAttackData = RecipeData[i];
-                    MixtureName.text = MaidAttackData.Explain_Up_2 ;
-                    DamageText.text = MaidAttackData.Base_Damage_1.ToString();
-                    Descript.text = MaidAttackData.Explain_Down;
-                    Debug.Log(RecipeData[i].Add_Code);
-                }
+               
+                MixtureName.text = MaidAttackData.Explain_Up_2;
+                DamageText.text = MaidAttackData.Base_Damage_1.ToString();
+                Descript.text = MaidAttackData.Explain_Down;
+                Debug.Log(MaidAttackData.Add_Code);
             }
 
-            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false , 0.3f);
+
+            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
             UpGradeBar.SetPoint(CardData[1].Grade_Point);
             if (UpGradeBar.GetCurrentPoint() == 5)
@@ -162,7 +179,7 @@ public class CardMixtureSystem : MonoBehaviour
             GameManager.instance.Player.PlayerCardAnime();
             audioSource.PlayOneShot(slot[0]);
         }
-       
+
 
     }
 

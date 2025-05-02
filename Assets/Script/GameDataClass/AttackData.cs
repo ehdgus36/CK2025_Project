@@ -16,7 +16,7 @@ public enum AttackOrderType
 }
 
 [System.Serializable]
-public struct AttackData
+public class AttackData
 {
     public AttackData(List<Dictionary<string, object>> data, int row)
     {

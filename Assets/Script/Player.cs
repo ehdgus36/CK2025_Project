@@ -14,10 +14,11 @@ public class Player : Unit
   
     public void Initialize()
     {
-        StartTurnEvent += PlayableSystemOn;
+        StartTurnEvent += GameManager.instance.PlayerAttackSystem.GuitarSetUp;
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
 
-        EndTurnEvent += PlayableSystemOff;
+
+        EndTurnEvent += GameManager.instance.PlayerAttackSystem.Return;
 
 
         if (PlayerPrefs.HasKey("PlayerHP") == false)
@@ -37,17 +38,7 @@ public class Player : Unit
 
 
 
-    void PlayableSystemOn()
-    {
-        GameManager.instance.PlayerAttackSystem.gameObject.SetActive(true);
-
-    }
-
-    void PlayableSystemOff()
-    {
-        GameManager.instance.PlayerAttackSystem.gameObject.SetActive(false);
-       
-    }
+ 
 
     protected override void Die()
     {

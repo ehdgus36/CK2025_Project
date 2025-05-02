@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     public CamShake Shake { get { return _Shaker; } }
    
     
-     void Initialize()
+     IEnumerator Initialize()
      {
         _Player = FindFirstObjectByType<Player>();
         _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
@@ -61,13 +61,9 @@ public class GameManager : MonoBehaviour
         ThisTurnUnit = Player;
         NextTurnUnit = EnemysGroup;
 
-        ThisTurnUnit.InitTurnCount();
-        NextTurnUnit.InitTurnCount();
+       
 
-
-        ThisTurnUnit.StartTurn();
-
-
+        yield return null;
         if (AttackManager == null)
         {
             AttackManager = GetComponent<AttackManager>();
@@ -88,10 +84,11 @@ public class GameManager : MonoBehaviour
             _NoteSystemManager.Initialize();
         }
 
-
+        yield return null;
         _EnemysGroup?.Initialize();
         _Player?.Initialize();
-        //enemygroup √ ±‚»≠
+
+
         _PlayerAttackSystem?.Initialize();
 
 
@@ -105,7 +102,10 @@ public class GameManager : MonoBehaviour
         {
             UIManager.Initialize();
         }
-    }
+
+        yield return null;
+        ThisTurnUnit.StartTurn();
+     }
 
 
     private void Awake()
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this; 
         }
-        Initialize();
+        StartCoroutine(Initialize());
 
     }
 

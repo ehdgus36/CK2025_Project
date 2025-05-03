@@ -13,42 +13,38 @@ public class NoteSystemBar : MonoBehaviour
     [SerializeField] SpriteRenderer Note;
     [SerializeField] float speed;
 
-    [SerializeField] string Verdict;
+    [SerializeField] string _Verdict;
 
-    bool isTrun = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public string Verdict 
     {
-        Initialize();
-        PlayNote();
+        get
+        {
+            return _Verdict;
+        }
     }
 
-    public void Initialize()
-    {
+    [SerializeField] bool isTrun = false;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+  
+
+     void Initialize()
+     {
 
         float posX = Random.Range(BG.bounds.min.x + 1, BG.bounds.max.x) - 1;
         Good.transform.position = new Vector2(posX, BG.transform.position.y);
         Normal.transform.position = new Vector2(posX, BG.transform.position.y);
         Bad.transform.position = new Vector2(posX, BG.transform.position.y);
         isTrun = false;
-        PlayNote();
+        _Verdict = "";
 
-    }
+     }
 
-    private void Update()
+  
+
+    public void PlayNote()
     {
-        if (Input.GetKey(KeyCode.R))
-        {
-            StopCoroutine("PlayNoteSystem");
-            Initialize();
-
-        }
-
-    }
-
-    void PlayNote()
-    {
-
+        Initialize();
+       
         StartCoroutine("PlayNoteSystem");
     }
     IEnumerator PlayNoteSystem()
@@ -71,12 +67,12 @@ public class NoteSystemBar : MonoBehaviour
                 Note.transform.position = Vector2.MoveTowards(Note.transform.position, new Vector2(BG.bounds.min.x, BG.transform.position.y), speed * Time.deltaTime);
             }
 
-            if (Note.transform.position.x == BG.bounds.max.x)
+            if (Note.transform.position.x >= BG.bounds.max.x)
             {
                 isTrun = true;
             }
 
-            if (Note.transform.position.x == BG.bounds.min.x)
+            if (Note.transform.position.x <= BG.bounds.min.x)
             {
                 isTrun = false;
             }
@@ -89,21 +85,21 @@ public class NoteSystemBar : MonoBehaviour
         //Good판정
         if (Good.bounds.min.x <= Note.transform.position.x && Good.bounds.max.x >= Note.transform.position.x)
         {
-            Verdict = "Good";
+            _Verdict = "Good";
 
             yield break;
         }
         //Normal판정
         else if (Normal.bounds.min.x <= Note.transform.position.x && Normal.bounds.max.x >= Note.transform.position.x)
         {
-            Verdict = "Normal";
+            _Verdict = "Normal";
 
             yield break;
         }
         //Bad판정
         else if (Bad.bounds.min.x <= Note.transform.position.x && Bad.bounds.max.x >= Note.transform.position.x)
         {
-            Verdict = "Bad";
+            _Verdict = "Bad";
 
             yield break;
         }
@@ -111,7 +107,7 @@ public class NoteSystemBar : MonoBehaviour
         //Miss판정
         else if (Bad.bounds.min.x > Note.transform.position.x || Bad.bounds.max.x < Note.transform.position.x)
         {
-            Verdict = "Miss";
+            _Verdict = "Miss";
 
             yield break;
         }

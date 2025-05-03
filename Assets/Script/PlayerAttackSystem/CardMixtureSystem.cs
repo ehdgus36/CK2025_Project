@@ -44,6 +44,8 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] AudioSource audioSource;
 
     [SerializeField] Animator UIAnime;
+
+    [SerializeField] NoteSystemBar NoteBar;
     public void GuitarSetUp()
     {
         UIAnime.Play("SetUp");
@@ -91,20 +93,7 @@ public class CardMixtureSystem : MonoBehaviour
         }
 
     }
-    //IEnumerator SetUpRecipeData()
-    //{
-    //    //List<Dictionary<string, object>> recipe = CSVReader.Read(MixtureData);
-    //    //yield return null;
-
-    //    //for (int i = 0; i < CSVReader.Read(MixtureData).Count; i++)
-    //    //{
-    //    //    RecipeData.Add(new RecipeData(recipe, i));
-    //    //    yield return null;
-    //    //}
-
-    //    //yield return null;
-    //}
-
+  
 
 
 
@@ -122,7 +111,8 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
             Descript.text = MaidAttackData.Explain_Down;
-            GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+            StartCoroutine(SendAttack());
+
             UpGradeBar.SetPoint(CardData[2].Grade_Point);
 
             if (UpGradeBar.GetCurrentPoint() == 5)
@@ -183,5 +173,23 @@ public class CardMixtureSystem : MonoBehaviour
 
     }
 
+    IEnumerator SendAttack()
+    {
+        NoteBar.PlayNote();
 
+
+        yield return new WaitUntil(() => (NoteBar.Verdict != ""));
+
+        switch (NoteBar.Verdict)
+        {
+            case "Good":
+                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+                break;
+            case "Miss":
+                Debug.Log("miss АјАн");
+                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+                break;
+        }
+       
+    }
 }

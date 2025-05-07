@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 
      
 
-        yield return null;
+       
         _EnemysGroup?.Initialize();
         _Player?.Initialize();
 

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Spine.Unity;
 using TMPro;
 using System.Collections;
+using Unity.VisualScripting;
 
 
 
@@ -111,7 +112,10 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
             Descript.text = MaidAttackData.Explain_Down;
-            StartCoroutine(SendAttack());
+
+            UIAnime.Play("TimingBar");
+            
+            StartCoroutine(SendAttack()); // 타이밍바 실행
 
             UpGradeBar.SetPoint(CardData[2].Grade_Point);
 
@@ -173,8 +177,11 @@ public class CardMixtureSystem : MonoBehaviour
 
     }
 
+
+    //스위치문 수정 필요 데미지 증감
     IEnumerator SendAttack()
     {
+       
         NoteBar.PlayNote();
 
 
@@ -187,6 +194,9 @@ public class CardMixtureSystem : MonoBehaviour
                 break;
             case "Miss":
                 Debug.Log("miss 공격");
+                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+                break;
+            default:
                 GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
                 break;
         }

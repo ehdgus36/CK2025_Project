@@ -10,10 +10,11 @@ public class EnemysGroup :Unit
 
     public List<Enemy> Enemys { get => _Enemys; }
     [SerializeField] private List<Enemy> _Enemys; // 인스펙터에 보이게
-
+    [SerializeField] EnemyNoteSystemControl NoteControl;
     
     public void Initialize()
     {
+        NoteControl?.Initialize();
         for (int i = 0; i < Enemys.Count; i++)
         {
             Enemys[i].Initialize(i);
@@ -24,11 +25,11 @@ public class EnemysGroup :Unit
             Enemys[i].SetDieEvent(EnemysDieEvent);
         }
 
-        StartTurnEvent += () => { StartCoroutine("AttackEvent"); };
+        StartTurnEvent += () => { StartCoroutine(AttackSequenceEvent()); };
 
         EndTurnEvent += () =>
         {
-            StopCoroutine("AttackEvent");
+            StopCoroutine(AttackSequenceEvent());
             for (int i = 0; i < Enemys.Count; i++)
             {
                 Enemys[i].EndTurn();
@@ -53,18 +54,16 @@ public class EnemysGroup :Unit
 
 
     // 이것도 나중에 시퀀스 다시
-    IEnumerator AttackEvent()
+    IEnumerator AttackSequenceEvent()
     {
-      
-
-        yield return new WaitForSeconds(0.5f);
+        NoteControl.PlayManager();
+        yield return new WaitUntil(() => NoteControl.Success == true);
 
         for (int i = 0; i < Enemys.Count; i++)
         {
-           
             Enemys[i].StartTurn();
-           
-            yield return new WaitForSeconds(1f);
+
+            yield return new WaitUntil(() => Enemys[i].isAttack == true);
         }
 
         yield return new WaitForSeconds(2f);

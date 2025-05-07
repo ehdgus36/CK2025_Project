@@ -30,8 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CardMixtureSystem _PlayerAttackSystem;
 
 
-    public NoteSystemManager NoteSystemManager { get { return _NoteSystemManager; } }
-    [SerializeField] NoteSystemManager _NoteSystemManager;
+  
 
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
@@ -74,15 +73,7 @@ public class GameManager : MonoBehaviour
             AttackManager.Initialize();
         }
 
-        if (_NoteSystemManager == null)
-        {
-            _NoteSystemManager = GetComponent<NoteSystemManager>();
-            _NoteSystemManager?.Initialize();
-        }
-        else
-        {
-            _NoteSystemManager.Initialize();
-        }
+     
 
         yield return null;
         _EnemysGroup?.Initialize();

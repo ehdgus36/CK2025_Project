@@ -13,29 +13,39 @@ public class NoteSystem : MonoBehaviour
     [SerializeField]Transform Bad;
     [SerializeField]Transform Center;
     [SerializeField]Transform NoteCircle;
+
+
     [SerializeField] float speed;
 
+
     [SerializeField] string Verdict;
+
+    Vector3 StartNoteScale = Vector3.zero;
     public bool isTrigger = false;
     public event Action<string> NoteEvent;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        PlayNote();
+    public void Initialize()
+    { 
+        StartNoteScale = NoteCircle.transform.localScale;
+      
     }
 
-    void PlayNote()
+    public void PlayNote()
     {
-
+        this.gameObject.SetActive(true);
         StartCoroutine("PlayNoteSystem");
     }
     IEnumerator PlayNoteSystem()
     {
+        NoteCircle.transform.localScale = StartNoteScale;
+       
         while (true) {
 
             if (isTrigger)
             {
+                isTrigger = false;
+                this.gameObject.SetActive(false);
                 break;
             }
 

@@ -35,7 +35,7 @@ public class EnemyData
     public List<Buff> buffs;
 }
 
-public class Enemy : Unit , IPointerDownHandler
+public class Enemy : Unit, IPointerDownHandler
 {
     public EnemyData EnemyData;
 
@@ -49,12 +49,12 @@ public class Enemy : Unit , IPointerDownHandler
 
     [SerializeField] BuffLayer buffLayer;
 
-    int EnemyIndex = 0; 
+    int EnemyIndex = 0;
 
     int startLayer = 0;
     bool isDescription = false;
 
-
+    public bool isAttack { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
 
     public void SetIsAttack(bool b)
     {
@@ -82,8 +82,7 @@ public class Enemy : Unit , IPointerDownHandler
         EnemyData.CurrentDefense = EnemyData.MaxDefense;
         StartTurnEvent = () =>
         {
-
-
+            isAttack = false; //공격 안함
             EnemyStatus.UpdateBuffIcon(CurrentBuff);
            
             StartCoroutine("SampleAi");
@@ -118,6 +117,7 @@ public class Enemy : Unit , IPointerDownHandler
 
         yield return new WaitForSeconds(1.0f);
 
+        isAttack = true; // 공격함
         yield return null;
     }
 

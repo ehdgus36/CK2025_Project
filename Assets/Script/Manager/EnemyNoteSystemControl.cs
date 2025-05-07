@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
 
-public class NoteSystemManager : MonoBehaviour // 작동하는거 확인하고 로직 수정
+public class EnemyNoteSystemControl : MonoBehaviour // 작동하는거 확인하고 로직 수정
 {
     [SerializeField] public NoteSystem[] NoteSystems; // 일단 퍼블릭 Enemy에서 이벤트 등록하도록 
     [SerializeField] float Play_Interval;
     [SerializeField] int currentindex = 0;
     bool isKeyOn = false;
-    bool Success = false;
+    public bool Success { get; private set; }
 
 
     public void Initialize()
@@ -17,6 +17,7 @@ public class NoteSystemManager : MonoBehaviour // 작동하는거 확인하고 로직 수정
         {     
             NoteSystems[i].Initialize();
         }
+        Success = false;
     }
 
     public void Update()
@@ -27,16 +28,14 @@ public class NoteSystemManager : MonoBehaviour // 작동하는거 확인하고 로직 수정
             {
                 NoteSystems[currentindex].isTrigger = true;
                 currentindex++;
+                return;
             }
 
             if (currentindex == NoteSystems.Length)
             {
                 isKeyOn = false;
                 Success = true;
-                for (int i = 0; i < NoteSystems.Length; i++)
-                {
-                    NoteSystems[i].gameObject.SetActive(false);                
-                }
+              
             }
         }
         
@@ -56,17 +55,13 @@ public class NoteSystemManager : MonoBehaviour // 작동하는거 확인하고 로직 수정
 
         yield return new WaitForSeconds(0.5f);
         isKeyOn = true;
+
         for (int i = 0; i < NoteSystems.Length; i++)
         {
-            NoteSystems[i].gameObject.SetActive(true);
+           
             NoteSystems[i].PlayNote();
             yield return new WaitForSeconds(Play_Interval);
         }
-        
-
-        yield return new WaitUntil(() => Success == true);
-
-       
     }
 
 }

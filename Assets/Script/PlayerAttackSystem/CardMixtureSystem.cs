@@ -47,9 +47,20 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] Animator UIAnime;
 
     [SerializeField] NoteSystemBar NoteBar;
+    [SerializeField] GuitarSkill GuitarSkill;
+
+    [SerializeField] int UpgradePercent = 0;
+
+    bool isGradeAttack = false;
+
     public void GuitarSetUp()
     {
         UIAnime.Play("SetUp");
+
+        if (UpgradePercent == 100)
+        {
+            isGradeAttack = true;
+        }
     }
 
     public void Return()
@@ -105,6 +116,8 @@ public class CardMixtureSystem : MonoBehaviour
         GuitarAnime.AnimationState.ClearTrack(2);
         GuitarAnime.AnimationState.AddAnimation(2, "in_Guitar", false, 0.3f);
 
+        
+
 
         if (CardData.Count == 3)
         {
@@ -113,17 +126,23 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
             Descript.text = MaidAttackData.Explain_Down;
 
+
+
             UIAnime.Play("TimingBar");
-            
-            StartCoroutine(SendAttack()); // 타이밍바 실행
+
+            if (isGradeAttack == false)
+            {
+                StartCoroutine(SendAttack()); // 타이밍바 실행
+            }
+
+            if (isGradeAttack == true)
+            { 
+            // 대충 업그레이드 공격
+            }
 
             UpGradeBar.SetPoint(CardData[2].Grade_Point);
 
-            if (UpGradeBar.GetCurrentPoint() == 5)
-            {
-                dack[2].InsertCard(CardData[2].GetUpGradeCard());
-                UpGradeBar.SetPoint(0);
-            }
+            
             audioSource.PlayOneShot(slot[2]);
             return;
         }
@@ -144,11 +163,7 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
             UpGradeBar.SetPoint(CardData[1].Grade_Point);
-            if (UpGradeBar.GetCurrentPoint() == 5)
-            {
-                dack[1].InsertCard(CardData[1].GetUpGradeCard());
-                UpGradeBar.SetPoint(0);
-            }
+          
 
             GameManager.instance.Player.PlayerCardAnime();
             audioSource.PlayOneShot(slot[1]);
@@ -162,13 +177,6 @@ public class CardMixtureSystem : MonoBehaviour
             GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner1", false, 0.3f);
             GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner1-2", true, 0.3f);
             UpGradeBar.SetPoint(CardData[0].Grade_Point);
-
-
-            if (UpGradeBar.GetCurrentPoint() == 5)
-            {
-                dack[0].InsertCard(CardData[0].GetUpGradeCard());
-                UpGradeBar.SetPoint(0);
-            }
 
             GameManager.instance.Player.PlayerCardAnime();
             audioSource.PlayOneShot(slot[0]);

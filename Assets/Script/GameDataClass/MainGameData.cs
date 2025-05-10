@@ -1,20 +1,44 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
+using GameDataSystem.KeyCode;
 using UnityEditor.Rendering;
 using UnityEngine;
+
+
+namespace GameDataSystem.KeyCode
+{
+    /// <summary> DynamicGameDataSchema에 기본적으로 들어가있는 동적데이터의 키값을 정리하는 클래스 </summary>
+    public static class DynamicGameDataKeys
+    {
+        public static readonly string GOLD_DATA = "GOLD_DATA";
+        public static readonly string UPGRADE_POINT_DATA = "UPGRADE_POINT_DATA";
+        public static readonly string COMMON_CARD_DATA = "COMMON_CARD_DATA";
+        public static readonly string SPECIAL_CARD_DATA = "SPECIAL_CARD_DATA";
+        public static readonly string TARGET_CARD_DATA = "TARGET_CARD_DATA";
+        public static readonly string ITME_DATA = "ITME_DATA";
+
+        public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
+
+        
+    }
+}
+
 
 
 /// <summary> 데이터가 변경되면 해당 키에 맞는 UI를 자동으로 업데이트하기 위한 추상 클래스입니다. </summary>
 public abstract class DynamicUIObject : MonoBehaviour
 {
 
-    public string DynamicDataKey { get { return _DynamicDatakey; } }
-    [SerializeField] protected string _DynamicDatakey;
-
-
+    public abstract string DynamicDataKey { get; }
+    
     public abstract void UpdateUIData(object update_ui_data);
 
+   
+
 }
+
+
 
 namespace GameDataSystem
 {
@@ -43,7 +67,17 @@ namespace GameDataSystem
         static Dictionary<string, List<DynamicUIObject>> DynamicUIDataBase = new Dictionary<string, List<DynamicUIObject>>(); // DynamicDataBase가 업데이트 했을때 같이 갱신할 UI
 
 
+        static DynamicGameDataSchema()
+        {
+            AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 0);
+            AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
+            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, new UnitData());
 
+            AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
+            AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
+            AddDynamicDataBase(DynamicGameDataKeys.TARGET_CARD_DATA, new List<TargetCard>());
+
+        }
 
         /// <summary> 동적으로 변하는 데이터를 등록 </summary>
         public static void AddDynamicDataBase(string key, object data)
@@ -56,6 +90,30 @@ namespace GameDataSystem
 
         }
 
+        /// <summary> 동적으로 변하는 데이터를 가져옴 성공하면 True반환  </summary>
+        /// <remarks> data는 해당 key에 원래 저장돼 있던 값의 타입과 같아야 합니다. (기존 int 라면 int형을 넣어야함)</remarks>
+        ///  <param name="key">가져올 할 key값 </param> <param name="data">가져온 데이터를 저장할 곳</param>
+        public static bool LoadDynamicData<T>(string key , out T data)
+        {
+            if (DynamicDataBase.ContainsKey(key))
+            { 
+                data = (T)DynamicDataBase[key];
+                if (DynamicUIDataBase.ContainsKey(key))
+                {
+                    int uicount = DynamicUIDataBase[key].Count;
+                    for (int i = 0; i < uicount; i++)
+                    {
+                        DynamicUIDataBase[key][i].UpdateUIData(DynamicDataBase[key]);
+                    }
+                }
+
+                return true;
+            }
+
+            Debug.LogError("가져갈 데이터 타입과 일치하지 않거나, key값이 존재하지 않음");
+            data = default(T);
+            return false;
+        }
 
         /// <summary> 등록되어 있는 데이터를 업데이트, 반드시 등록 되어있어야함 </summary>
         /// <remarks> data는 해당 key에 원래 저장돼 있던 값의 타입과 같아야 합니다. (기존 int 라면 int형을 넣어야함)</remarks>

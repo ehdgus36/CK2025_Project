@@ -14461,6 +14461,7 @@ GameObject:
   - component: {fileID: 1458305797}
   - component: {fileID: 1458305802}
   - component: {fileID: 1458305801}
+  - component: {fileID: 1458305803}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -14497,10 +14498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ea04e97cc80544ea53ee5ce07f341f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Player: {fileID: 0}
-  _EnemysGroup: {fileID: 0}
-  ThisTurnUnit: {fileID: 0}
-  NextTurnUnit: {fileID: 0}
   _PlayerAttackSystem: {fileID: 1269469519}
   GameClear: {fileID: 0}
   GameOver: {fileID: 1449857903}
@@ -14535,7 +14532,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -14630,6 +14627,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameUIObj: []
+--- !u!114 &1458305803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458305796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b3ac39aca74f96459c6149830c9b64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BPM: 90
 --- !u!1 &1478501362
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,13 +4,16 @@ using UnityEngine.UI;
 
 public class PlayerStatus : DynamicUIObject
 {
+    public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
     [SerializeField] Image Hpfill;
     [SerializeField] TextMeshProUGUI Hptext;
 
     int MaxHP;
     int CurrentHP;
 
-    public void UpdataStatus(int maxHp , int currentHp)
+
+   
+    void UpdataStatus(int maxHp , int currentHp)
     {
         (MaxHP, CurrentHP) = (maxHp, currentHp);
 

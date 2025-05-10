@@ -7,51 +7,53 @@ using System.Linq.Expressions;
 
 public class GameManager : MonoBehaviour
 {
+    //Private
+    private Player _Player;
+
+    private EnemysGroup _EnemysGroup;
+
+    private Unit ThisTurnUnit;
+    private Unit NextTurnUnit;
+
+    private AudioSource BGMAudioSource;
+    //Get; Set;
+
+    public CardMixtureSystem PlayerAttackSystem { get { return _PlayerAttackSystem; } }
+    public CamShake Shake { get { return _Shaker; } }
     public Player Player { get { return _Player; } }
-    [SerializeField] private Player _Player; // 인스펙터
 
     public EnemysGroup EnemysGroup
     {
-        get 
+        get
         {
-            if(_EnemysGroup.Enemys.Count == 0)
+            if (_EnemysGroup.Enemys.Count == 0)
                 Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
 
-            return _EnemysGroup; 
+            return _EnemysGroup;
         }
     }
-    [SerializeField] private EnemysGroup _EnemysGroup; // 인스팩터
-    
-    //현재 턴
-    [SerializeField] Unit ThisTurnUnit;
-    [SerializeField] Unit NextTurnUnit;
-
-    public CardMixtureSystem PlayerAttackSystem { get { return _PlayerAttackSystem; } }
-    [SerializeField] CardMixtureSystem _PlayerAttackSystem;
 
 
-  
-
-    [SerializeField] public GameObject GameClear;
-    [SerializeField] public GameObject GameOver;
 
 
- 
-
-
-   
-    [SerializeField] public AttackManager AttackManager { get; private set; }
-    [SerializeField] public UIManager UIManager { get; private set; }
-
-    //플레이어 기능 비활성화, 스와이프 카드 홀드
-    // Start is called before the first frame update
+    //Public
 
     public static GameManager instance { get; private set; }
+    public AttackManager AttackManager { get; private set; }
+    public UIManager UIManager { get; private set; }
+    public MetronomeSystem Metronome { get; private set; }
 
+
+
+
+    //인스펙터에서 데이터 받아옴
+
+    [SerializeField] CardMixtureSystem _PlayerAttackSystem;
+    [SerializeField] public GameObject GameClear;
+    [SerializeField] public GameObject GameOver;
     [SerializeField] CamShake _Shaker;
-    public CamShake Shake { get { return _Shaker; } }
+
    
-    
      IEnumerator Initialize()
      {
         _Player = FindFirstObjectByType<Player>();
@@ -61,8 +63,18 @@ public class GameManager : MonoBehaviour
         NextTurnUnit = EnemysGroup;
 
        
-
         yield return null;
+
+        if (BGMAudioSource == null)
+        {
+            BGMAudioSource = GetComponent<AudioSource>();
+        }
+
+        if (Metronome == null)
+        {
+            Metronome = GetComponent<MetronomeSystem>();        
+        }  
+
         if (AttackManager == null)
         {
             AttackManager = GetComponent<AttackManager>();
@@ -73,16 +85,10 @@ public class GameManager : MonoBehaviour
             AttackManager.Initialize();
         }
 
-     
-
-       
         _EnemysGroup?.Initialize();
         _Player?.Initialize();
 
-
         _PlayerAttackSystem?.Initialize();
-
-
 
         if (UIManager == null)
         {
@@ -95,7 +101,10 @@ public class GameManager : MonoBehaviour
         }
 
         yield return null;
+
         ThisTurnUnit.StartTurn();
+        Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
+      
      }
 
 
@@ -106,7 +115,6 @@ public class GameManager : MonoBehaviour
             instance = this; 
         }
         StartCoroutine(Initialize());
-
     }
 
     public void ReStart(string sceneName)

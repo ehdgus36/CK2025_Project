@@ -14,6 +14,12 @@ public class Player : Unit
   
     public void Initialize()
     {
+       
+        if (DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
+        {
+            Debug.LogError("Player데이터를 가져오지 못함");
+        }
+       
         StartTurnEvent += GameManager.instance.PlayerAttackSystem.GuitarSetUp;
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
 
@@ -21,19 +27,10 @@ public class Player : Unit
         EndTurnEvent += GameManager.instance.PlayerAttackSystem.Return;
 
 
-        if (PlayerPrefs.HasKey("PlayerHP") == false)
-        {
-            UnitData.CurrentHp = 10;
-        }
+       
 
-        if (PlayerPrefs.HasKey("PlayerHP") == true)
-        {
-            UnitData.CurrentHp = 10; //PlayerPrefs.GetInt("PlayerHP");
-            //UnitCurrentHp = UnitMaxHp;
-        }
-
-        DynamicGameDataSchema.AddDynamicDataBase(UnitData.DataKey, UnitData);
-        //playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+        
     }
 
 

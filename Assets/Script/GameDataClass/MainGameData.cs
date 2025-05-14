@@ -71,7 +71,12 @@ namespace GameDataSystem
         {
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 0);
             AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
-            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, new UnitData());
+
+            UnitData playerData = new UnitData();
+            playerData.MaxHp = 50;
+            playerData.CurrentHp = playerData.MaxHp;
+            playerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
+            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
 
             AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
@@ -135,7 +140,10 @@ namespace GameDataSystem
                         int uicount = DynamicUIDataBase[key].Count;
                         for (int i = 0; i < uicount; i++)
                         {
-                            DynamicUIDataBase[key][i].UpdateUIData(DynamicDataBase[key]);
+                            if (DynamicUIDataBase[key][i].gameObject.activeSelf == true)
+                            {
+                                DynamicUIDataBase[key][i].UpdateUIData(DynamicDataBase[key]);
+                            }
                         }
                     }
                 }
@@ -175,6 +183,17 @@ namespace GameDataSystem
             }
 
             Debug.LogError("AddDynamicUIDataBase(key , value) : DynamicDataBase에 해당 key가 존재하지 않거나 해당 key의 데이터 타입이 일치하지 않음");
+        }
+
+        public static void RemoveDynamicDataBase(string key)
+        {
+            DynamicDataBase.Remove(key);
+            DynamicUIDataBase.Remove(key);
+        }
+
+        public static void RemoveDynamicUIDataBase(string key)
+        {
+            DynamicUIDataBase.Remove(key);
         }
         //데이터 변화시 UI갱신
         //데이터 전달에 필요한 동적 데이터 등록

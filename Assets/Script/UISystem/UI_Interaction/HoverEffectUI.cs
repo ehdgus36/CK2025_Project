@@ -26,9 +26,10 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Card card = GetComponent<SlotUI>().ReadData<Card>();
         cardDescription.gameObject.SetActive(true);
         cardDescription.transform.position = this.transform.position;
+
         if (card != null)
         {
-            cardDescription.UpdateDescription(card.CardName, card.Example, card.SubExample, card.Grade_Point, card.icon);
+            cardDescription.UpdateDescription(card.DescSprite);
         }
 
         if (card.GetComponent<TargetCard>() != null)

@@ -1,23 +1,29 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class EnemyNoteSystemControl : MonoBehaviour // 작동하는거 확인하고 로직 수정
 {
-    [SerializeField] public NoteSystem[] NoteSystems; // 일단 퍼블릭 Enemy에서 이벤트 등록하도록 
+    [SerializeField] public List<NoteSystem> NoteSystems; // 일단 퍼블릭 Enemy에서 이벤트 등록하도록 
     [SerializeField] float Play_Interval;
     [SerializeField] int currentindex = 0;
     bool isKeyOn = false;
-    public bool Success { get; private set; }
+    public bool[] Success { get; private set; }
 
 
     public void Initialize()
     {
-        for (int i = 0; i < NoteSystems.Length; i++)
+        for (int i = 0; i < NoteSystems.Count; i++)
         {     
             NoteSystems[i].Initialize();
         }
-        Success = false;
+        Success = new bool[NoteSystems.Count];
+
+        for (int i = 0; i < Success.Length; i++)
+        {
+            Success[i] = false;
+        }
     }
 
     public void Update()
@@ -27,14 +33,15 @@ public class EnemyNoteSystemControl : MonoBehaviour // 작동하는거 확인하고 로직 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 NoteSystems[currentindex].isTrigger = true;
+                Success[currentindex] = true;
                 currentindex++;
                 return;
             }
 
-            if (currentindex == NoteSystems.Length)
+            if (currentindex == NoteSystems.Count)
             {
                 isKeyOn = false;
-                Success = true;
+               // Success = true;
               
             }
         }
@@ -50,16 +57,20 @@ public class EnemyNoteSystemControl : MonoBehaviour // 작동하는거 확인하고 로직 
     {
         currentindex = 0;
         isKeyOn = false;
-        Success = false;
+
+        for (int i = 0; i < Success.Length; i++)
+        {
+            Success[i] = false;
+        }
 
 
         yield return new WaitForSeconds(0.5f);
         isKeyOn = true;
 
-        for (int i = 0; i < NoteSystems.Length; i++)
+        for (int i = 0; i < NoteSystems.Count; i++)
         {
            
-            NoteSystems[i].PlayNote();
+            GameManager.instance.Metronome.AddOnceMetronomEvent(NoteSystems[i].PlayNote);
             yield return new WaitForSeconds(Play_Interval);
         }
     }

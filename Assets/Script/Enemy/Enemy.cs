@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using GameDataSystem;
+using UnityEngine.InputSystem;
 
 
 
@@ -163,6 +164,7 @@ public class Enemy : Unit, IPointerDownHandler
 
     protected override void Die()
     {
+        DynamicGameDataSchema.RemoveDynamicDataBase(UnitData.DataKey);
         this.gameObject.SetActive(false);
         DieEvent?.Invoke(this);
 

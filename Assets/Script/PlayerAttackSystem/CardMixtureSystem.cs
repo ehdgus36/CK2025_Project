@@ -189,25 +189,26 @@ public class CardMixtureSystem : MonoBehaviour
     //스위치문 수정 필요 데미지 증감
     IEnumerator SendAttack()
     {
-       
-        NoteBar.PlayNote();
+        GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+        yield return null;
+        //NoteBar.PlayNote();
 
 
-        yield return new WaitUntil(() => (NoteBar.Verdict != ""));
+        //yield return new WaitUntil(() => (NoteBar.Verdict != ""));
 
-        switch (NoteBar.Verdict)
-        {
-            case "Good":
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-            case "Miss":
-                Debug.Log("miss 공격");
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-            default:
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-        }
+        //switch (NoteBar.Verdict)
+        //{
+        //    case "Good":
+        //        GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+        //        break;
+        //    case "Miss":
+        //        Debug.Log("miss 공격");
+        //        GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+        //        break;
+        //    default:
+        //        GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+        //        break;
+        //}
        
     }
 }

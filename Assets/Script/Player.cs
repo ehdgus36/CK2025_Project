@@ -15,7 +15,10 @@ public class Player : Unit
     public void Initialize()
     {
        
-        if (DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
+        UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
+
+
+        if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
         }
@@ -57,7 +60,7 @@ public class Player : Unit
         GameManager.instance.Shake.PlayShake();
 
         //playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
-        //DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
+        DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
     }
 
     public void PlayerSave()

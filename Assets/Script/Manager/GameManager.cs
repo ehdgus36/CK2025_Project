@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 public class GameManager : MonoBehaviour
 {
     //Private
-    private Player _Player;
+   [SerializeField] private Player _Player;
 
     private EnemysGroup _EnemysGroup;
 
@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DeleyLoadScene()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Title");
+        SceneManager.LoadScene("Map");
         Player.PlayerSave();
     }
 

@@ -1,16 +1,17 @@
 using UnityEngine;
+using TMPro;
 
-public class GoldUIView : MonoBehaviour
+public class GoldUIView : DynamicUIObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA;
+    [SerializeField] TextMeshProUGUI GoldText;
+
+    public override void UpdateUIData(object update_ui_data)
     {
-        
+        // GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA key값의 데이터 타입은 int
+        GoldText.text = update_ui_data.ToString(); 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+   
 }

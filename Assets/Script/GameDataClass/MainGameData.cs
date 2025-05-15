@@ -17,7 +17,7 @@ namespace GameDataSystem.KeyCode
         public static readonly string SPECIAL_CARD_DATA = "SPECIAL_CARD_DATA";
         public static readonly string TARGET_CARD_DATA = "TARGET_CARD_DATA";
         public static readonly string ITME_DATA = "ITME_DATA";
-
+        public static readonly string STAGE_DATA = "STAGE_DATA";
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
 
         
@@ -31,7 +31,9 @@ public abstract class DynamicUIObject : MonoBehaviour
 {
 
     public abstract string DynamicDataKey { get; }
-    
+
+
+    /// <summary> update_ui_data를 저장되어있는 데이터 타입과 동일하게 형변환 후 사용 </summary>
     public abstract void UpdateUIData(object update_ui_data);
 
    
@@ -43,7 +45,6 @@ public abstract class DynamicUIObject : MonoBehaviour
 namespace GameDataSystem
 {
    
-
     /// <summary> 데이터 테이블에서 가져온 데이터를 관리하는 클래스 </summary>
     public static class StaticGameDataSchema
     {
@@ -81,6 +82,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
             AddDynamicDataBase(DynamicGameDataKeys.TARGET_CARD_DATA, new List<TargetCard>());
+            AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA,"1-1");
 
         }
 

@@ -17,6 +17,7 @@ namespace GameDataSystem.KeyCode
         public static readonly string SPECIAL_CARD_DATA = "SPECIAL_CARD_DATA";
         public static readonly string TARGET_CARD_DATA = "TARGET_CARD_DATA";
         public static readonly string ITME_DATA = "ITME_DATA";
+        public static readonly string STAGE_DATA = "STAGE_DATA";
 
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
 

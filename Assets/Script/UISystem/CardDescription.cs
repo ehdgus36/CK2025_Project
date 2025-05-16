@@ -9,7 +9,7 @@ public class CardDescription : MonoBehaviour
     [SerializeField] TextMeshProUGUI DescSub;
     [SerializeField] TextMeshProUGUI Grade_Point;
     [SerializeField] Image Icon;
-
+    [SerializeField] Image DescImage;
 
     public void UpdateDescription(string name , string desc , string descsub , int point , Sprite icon)
     {
@@ -19,4 +19,11 @@ public class CardDescription : MonoBehaviour
         Grade_Point.text = point.ToString();
         Icon.sprite = icon;
     }
+
+
+    public void UpdateDescription(Sprite img)
+    {
+        DescImage.sprite = img;
+    }
 }
+

@@ -44,9 +44,8 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] AudioClip[] slot;
     [SerializeField] AudioSource audioSource;
 
-    [SerializeField] Animator UIAnime;
+  
 
-    [SerializeField] NoteSystemBar NoteBar;
     [SerializeField] GuitarSkill GuitarSkill;
 
     [SerializeField] int UpgradePercent = 0;
@@ -55,7 +54,7 @@ public class CardMixtureSystem : MonoBehaviour
 
     public void GuitarSetUp()
     {
-        UIAnime.Play("SetUp");
+       
 
         if (UpgradePercent == 100)
         {
@@ -87,7 +86,7 @@ public class CardMixtureSystem : MonoBehaviour
         DamageText.text = "";
         Descriptobj.SetActive(false);
 
-        UIAnime.Play("Return");
+        
     }
 
     public void Initialize()
@@ -101,7 +100,6 @@ public class CardMixtureSystem : MonoBehaviour
         {
             GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
             GuitarAnime.AnimationState.SetAnimation(1, "Dial", true);
-
         }
 
     }
@@ -128,7 +126,7 @@ public class CardMixtureSystem : MonoBehaviour
 
 
 
-            UIAnime.Play("TimingBar");
+          
 
             if (isGradeAttack == false)
             {
@@ -189,25 +187,7 @@ public class CardMixtureSystem : MonoBehaviour
     //스위치문 수정 필요 데미지 증감
     IEnumerator SendAttack()
     {
-       
-        NoteBar.PlayNote();
-
-
-        yield return new WaitUntil(() => (NoteBar.Verdict != ""));
-
-        switch (NoteBar.Verdict)
-        {
-            case "Good":
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-            case "Miss":
-                Debug.Log("miss 공격");
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-            default:
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-        }
-       
+        GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+        yield return null;
     }
 }

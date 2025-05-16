@@ -8,8 +8,8 @@ using System;
 public class EnemyStatus : DynamicUIObject
 {
 
-    public override string DynamicDataKey => UI_keyData;
-    [SerializeField] string UI_keyData;
+    public override string DynamicDataKey => UIkeyData;
+    [SerializeField] string UIkeyData;
 
     [SerializeField] GameObject SkillPoint;
     [SerializeField] Image Hpfill;

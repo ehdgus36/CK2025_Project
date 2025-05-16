@@ -18,7 +18,7 @@ public class UnitData
         set
         {
             _CurrentHp = value;
-            //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
         }
     }
 

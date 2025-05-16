@@ -17,7 +17,7 @@ namespace GameDataSystem.KeyCode
         public static readonly string SPECIAL_CARD_DATA = "SPECIAL_CARD_DATA";
         public static readonly string TARGET_CARD_DATA = "TARGET_CARD_DATA";
         public static readonly string ITME_DATA = "ITME_DATA";
-        public static readonly string STAGE_DATA = "STAGE_DATA";
+
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
 
         
@@ -31,9 +31,7 @@ public abstract class DynamicUIObject : MonoBehaviour
 {
 
     public abstract string DynamicDataKey { get; }
-
-
-    /// <summary> update_ui_data를 저장되어있는 데이터 타입과 동일하게 형변환 후 사용 </summary>
+    
     public abstract void UpdateUIData(object update_ui_data);
 
    
@@ -45,6 +43,7 @@ public abstract class DynamicUIObject : MonoBehaviour
 namespace GameDataSystem
 {
    
+
     /// <summary> 데이터 테이블에서 가져온 데이터를 관리하는 클래스 </summary>
     public static class StaticGameDataSchema
     {
@@ -72,17 +71,11 @@ namespace GameDataSystem
         {
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 0);
             AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
-
-            UnitData playerData = new UnitData();
-            playerData.MaxHp = 50;
-            playerData.CurrentHp = playerData.MaxHp;
-            playerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
-            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
+            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, new UnitData());
 
             AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
             AddDynamicDataBase(DynamicGameDataKeys.TARGET_CARD_DATA, new List<TargetCard>());
-            AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA,"1-1");
 
         }
 
@@ -142,10 +135,7 @@ namespace GameDataSystem
                         int uicount = DynamicUIDataBase[key].Count;
                         for (int i = 0; i < uicount; i++)
                         {
-                            if (DynamicUIDataBase[key][i].gameObject.activeSelf == true)
-                            {
-                                DynamicUIDataBase[key][i].UpdateUIData(DynamicDataBase[key]);
-                            }
+                            DynamicUIDataBase[key][i].UpdateUIData(DynamicDataBase[key]);
                         }
                     }
                 }
@@ -185,17 +175,6 @@ namespace GameDataSystem
             }
 
             Debug.LogError("AddDynamicUIDataBase(key , value) : DynamicDataBase에 해당 key가 존재하지 않거나 해당 key의 데이터 타입이 일치하지 않음");
-        }
-
-        public static void RemoveDynamicDataBase(string key)
-        {
-            DynamicDataBase.Remove(key);
-            DynamicUIDataBase.Remove(key);
-        }
-
-        public static void RemoveDynamicUIDataBase(string key)
-        {
-            DynamicUIDataBase.Remove(key);
         }
         //데이터 변화시 UI갱신
         //데이터 전달에 필요한 동적 데이터 등록

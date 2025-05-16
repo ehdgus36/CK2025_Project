@@ -4,12 +4,13 @@ using UnityEngine.UI;
 
 public class CardDescription : MonoBehaviour
 {
-    [SerializeField]TextMeshProUGUI CardName;
+    [SerializeField] TextMeshProUGUI CardName;
     [SerializeField] TextMeshProUGUI Desc;
     [SerializeField] TextMeshProUGUI DescSub;
     [SerializeField] TextMeshProUGUI Grade_Point;
     [SerializeField] Image Icon;
     [SerializeField] Image DescImage;
+
 
     public void UpdateDescription(string name , string desc , string descsub , int point , Sprite icon)
     {
@@ -20,10 +21,8 @@ public class CardDescription : MonoBehaviour
         Icon.sprite = icon;
     }
 
-
-    public void UpdateDescription(Sprite img)
+    public void UpdateDescription( Sprite img)
     {
         DescImage.sprite = img;
     }
 }
-

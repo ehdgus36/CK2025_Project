@@ -11,6 +11,7 @@ public class Card : MonoBehaviour
     //public bool isHold = false;
 
     [SerializeField] String CardID;
+    [SerializeField] Sprite _DescSprite;
     int CardLevel;
     int GradePoint;
     [SerializeField] public String CardName;
@@ -20,6 +21,9 @@ public class Card : MonoBehaviour
     [SerializeField] public Sprite icon;
 
     [SerializeField] Card UpGradeCard;
+
+    public Sprite DescSprite { get { return _DescSprite; } }
+
     public virtual void Initialized() { }
 
     public String GetID() { return CardID; }

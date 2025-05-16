@@ -10,21 +10,51 @@ public class Dack : MonoBehaviour
   
 
     [SerializeField] TextMeshProUGUI TextCardCount;
+    [SerializeField] SlotGroup CardSlots;
+    [SerializeField] CemeteryUI Cemetery;
 
-    [SerializeField] int DackCount = 30;
+    
 
     [SerializeReference] List<Card> DackDatas;
     [SerializeField] Transform CardPos;
 
 
 
-    // Start is called before the first frame update
-    public Card CardDrow()
+   
+    //현재 덱에 있는 카드를 반환 덱에 카드가 없다면 묘지에서 카드를 가져온후 반환
+    Card CardDrow()
     {
+        if (DackDatas.Count == 0)
+        {
+            DackDatas = Cemetery.GetCemeteryCards();
+            //ShuffleList<Card>(DackDatas);
+        }
+
+
+        DackDatas[0].Initialized();
         Card result = DackDatas[0];
-        DackDatas.RemoveAt(0);
-       
+      
         return result;
+    }
+
+    public void DrawFromDeck()
+    {
+        for (int i = 0; i < CardSlots.Getsloat().Length ; i++)
+        {
+            Debug.Log(gameObject.name + "Drow");
+            if (CardSlots.Getsloat()[i].ReadData<Card>() == null)
+            {
+                CardSlots.Getsloat()[i].InsertData(CardDrow().gameObject);
+                DackDatas.Remove(CardDrow());
+
+                Debug.Log(gameObject.name + "Drow");
+            }
+        }
+
+        if(TextCardCount != null)
+            TextCardCount.text = DackDatas.Count.ToString() + "/" + DackDatas.Count.ToString();
+
+
     }
 
     //카드 다시 넣기
@@ -32,10 +62,10 @@ public class Dack : MonoBehaviour
     {
 
         //사용하고 남은 카드 넣을때 사용
-        DackDatas.Add(cardData);
+        DackDatas.Insert(0,cardData);
         cardData.transform.position = CardPos.position;
         cardData.transform.SetParent(CardPos);
-        TextCardCount.text = DackDatas.Count.ToString() + "/" + DackCount.ToString();
+        //TextCardCount.text = DackDatas.Count.ToString() + "/" + DackDatas.Count.ToString();
     }
     private List<T> ShuffleList<T>(List<T> list)
     {

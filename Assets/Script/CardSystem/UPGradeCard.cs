@@ -8,7 +8,7 @@ public class UPGradeCard : Card
         return 0;
     }
 
-    public virtual AttackData UpGradeCards(NomalCard nomalCard, PropertyCard propertyCard, AttackData data) { return data; }
+    public virtual AttackData UpGradeCards(NormalCard nomalCard, PropertyCard propertyCard, AttackData data) { return data; }
    
 }
 

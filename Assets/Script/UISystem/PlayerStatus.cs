@@ -2,38 +2,36 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStatus : MonoBehaviour
+public class PlayerStatus : DynamicUIObject
 {
-
-
-    [SerializeField] Player Player;
+    public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
     [SerializeField] Image Hpfill;
-
     [SerializeField] TextMeshProUGUI Hptext;
-
-
 
     int MaxHP;
     int CurrentHP;
 
-    
 
-
-
-    private void Update()
+   
+    void UpdataStatus(int maxHp , int currentHp)
     {
-        UpdataHp();
-    }
-
-    public void UpdataHp()
-    {
-        (MaxHP, CurrentHP) = (Player.GetMaxHp(), Player.GetUnitCurrentHp());
+        (MaxHP, CurrentHP) = (maxHp, currentHp);
 
 
         Hpfill.fillAmount = (float)CurrentHP / (float)MaxHP;
 
 
-        Hptext.text = MaxHP.ToString() + "/" + CurrentHP.ToString();
+        Hptext.text = CurrentHP.ToString();
     }
 
+    public override void UpdateUIData(object update_ui_data)
+    {
+        UnitData playerData = (UnitData)update_ui_data;
+
+        if (playerData != null)
+        {
+
+            UpdataStatus(playerData.MaxHp, playerData.CurrentHp);
+        }
+    }
 }

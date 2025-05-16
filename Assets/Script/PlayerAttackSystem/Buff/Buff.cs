@@ -6,26 +6,36 @@ public enum BuffType
 Start, End
 }
 
-public abstract class Buff : MonoBehaviour
+public abstract class Buff
 {
     [SerializeField] BuffType type;
     [SerializeField] protected int BuffDurationTurn = 1;
-
-    BuffType _type;
-    protected int _BuffDurationTurn = 1;
     protected int CurrentBuffTurn;
+
+    public Buff(BuffType type, int buffDurationTurn)
+    {
+        this.type = type;
+        BuffDurationTurn = buffDurationTurn;
+        Initialize();
+    }
+
+   
 
     public virtual void Initialize()
     {
         CurrentBuffTurn = 0;
-
-        _type = type;
-        _BuffDurationTurn = BuffDurationTurn;
     }
+
+    public int GetBuffDurationTurn() { return BuffDurationTurn; }
 
     public BuffType GetBuffType() { return type; }
     public abstract void StartBuff(Unit unit);
 
-    public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
-    public abstract Buff DeepCopy();
+    public void AddBuffTurnCount(int addCount) { BuffDurationTurn += addCount; }
+
+    //public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
+
 }
+
+
+

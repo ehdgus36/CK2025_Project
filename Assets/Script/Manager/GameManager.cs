@@ -2,76 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Linq.Expressions;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Player Player;
-    [SerializeField] EnemysGroup Enemy;
+    //Private
+    private Player _Player;
 
-    [SerializeField] GameObject EnemyDamageEffect;
-    //현재 턴
-    [SerializeField] Unit ThisTurnUnit;
-    [SerializeField] Unit NextTurnUnit;
+    private EnemysGroup _EnemysGroup;
 
-    [SerializeField] Dack CardDack;
-    [SerializeField] SlotGroup PlayerCardSloats;
-    [SerializeField] CardMixtureSystem PlayerAttackSystem;
+    private Unit ThisTurnUnit;
+    private Unit NextTurnUnit;
 
-    [SerializeField] Button TurnEndButton;
+    private AudioSource BGMAudioSource;
+    //Get; Set;
+
+    public CardMixtureSystem PlayerAttackSystem { get { return _PlayerAttackSystem; } }
+    public CamShake Shake { get { return _Shaker; } }
+    public Player Player { get { return _Player; } }
+
+    public EnemysGroup EnemysGroup
+    {
+        get
+        {
+            if (_EnemysGroup.Enemys.Count == 0)
+                Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
+
+            return _EnemysGroup;
+        }
+    }
+
+
+
+
+    //Public
+
+    public static GameManager instance { get; private set; }
+    public AttackManager AttackManager { get; private set; }
+    public UIManager UIManager { get; private set; }
+    public MetronomeSystem Metronome { get; private set; }
+
+
+
+
+    //인스펙터에서 데이터 받아옴
+
+    [SerializeField] CardMixtureSystem _PlayerAttackSystem;
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
+    [SerializeField] CamShake _Shaker;
 
+   
+     IEnumerator Initialize()
+     {
+        _Player = FindFirstObjectByType<Player>();
+        _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
 
-    //Manager
+        ThisTurnUnit = Player;
+        NextTurnUnit = EnemysGroup;
 
-    [SerializeField] WaveManager WaveManager;
-    [SerializeField] HpManager HpManager;
-    [SerializeField] AttackManager AttackManager;
-    [SerializeField] UIManager UIManager;
-    [SerializeField]
-    //플레이어 기능 비활성화, 스와이프 카드 홀드
-    // Start is called before the first frame update
+       
+        yield return null;
 
-
-
-    public static GameManager instance;
-
-    public void SetEnemy(EnemysGroup enemy) { Enemy = enemy; }
-    public CardMixtureSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
-    public Button GetTurnButton() { return TurnEndButton; }
-    public HpManager GetHpManager() { return HpManager; }
-    public AttackManager GetAttackManager() { return AttackManager; }
-
-    public EnemysGroup GetEnemysGroup() {return Enemy; }
-
-    public Player GetPlayer() { return Player; }
-    
-     void Initialize()
-    {
-        if (Enemy == null) return;
-
-        Player = FindFirstObjectByType<Player>();
-        InitializeTurn();
-
-        if (WaveManager == null)
+        if (BGMAudioSource == null)
         {
-            WaveManager = GetComponent<WaveManager>();
-            WaveManager.Initialize();
-        }
-        else
-        {
-            WaveManager.Initialize();
+            BGMAudioSource = GetComponent<AudioSource>();
         }
 
-        if (HpManager == null)
+        if (Metronome == null)
         {
-            HpManager = GetComponent<HpManager>();
-            HpManager.Initialize();
-        }
-        else
-        {
-            HpManager.Initialize();
-        }
+            Metronome = GetComponent<MetronomeSystem>();        
+        }  
 
         if (AttackManager == null)
         {
@@ -82,43 +84,70 @@ public class GameManager : MonoBehaviour
         {
             AttackManager.Initialize();
         }
-        TurnEndButton.onClick.AddListener(TurnSwap);
-        PlayerAttackSystem.Initialize();
-    }
 
+        _EnemysGroup?.Initialize();
+        _Player?.Initialize();
 
-    public void InitializeTurn()
-    {
-        
-        ThisTurnUnit = Player;
-        NextTurnUnit = Enemy;
+        _PlayerAttackSystem?.Initialize();
 
-        ThisTurnUnit.InitTurnCount();
-        NextTurnUnit.InitTurnCount();
+        if (UIManager == null)
+        {
+            UIManager = GetComponent<UIManager>();
+            UIManager.Initialize();
+        }
+        else
+        {
+            UIManager.Initialize();
+        }
 
+        yield return null;
 
         ThisTurnUnit.StartTurn();
-
-       
-    }
+        Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
       
-    void Start()
+     }
+
+
+    private void Awake()
     {
         if (instance == null) 
         {
             instance = this; 
         }
-        Initialize();
-
+        StartCoroutine(Initialize());
     }
 
-   
+    public void ReStart(string sceneName)
+    { 
+        SceneManager.LoadScene(sceneName);
+        PlayerPrefs.SetInt("PlayerHP", 50);
+        Player.addHP(100);
+    }
+
+
+    public void GameClearFun()
+    {
+        StartCoroutine(DeleyLoadScene());
+    }
+
+    IEnumerator DeleyLoadScene()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("Title");
+        Player.PlayerSave();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            PlayerPrefs.SetInt("PlayerHP", 50);
+            Player.addHP(100);
+        }
+    }
 
     public void TurnSwap()
-    {
-       
-        if (PlayerAttackSystem == null) return;
-
+    {     
 
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
@@ -127,52 +156,4 @@ public class GameManager : MonoBehaviour
     }
   
 
-    public void PlayerCardDrow()
-    {
-       // SlotUI[] playerCardSlots = PlayerCardSloats.Getsloat();
-       //// List<Card> playerCard = CardDack.CardDrow(playerCardSlots.Length);
-
-       // for (int i = 0; i < playerCard.Count; i++)
-       // {
-       //    playerCardSlots[i].InsertData(playerCard[i].gameObject);
-       // }
-
-       // PlayerCardSloats.GetComponent<Animator>().Play("Drow");
-    }
-
-
-    //플레이어 턴 종료시 남은 카드 덱으로 돌려려주기
-    public void PlayerCardReturn()
-    {
-        PlayerCardSloats.GetComponent<Animator>().Play("CardReturn");
-
-        StartCoroutine("CardReturn");
-    }
-    IEnumerator CardReturn()
-    { 
-        yield return new WaitForSeconds(1f);
-        List<Card> playerCard = PlayerCardSloats.ReadData<Card>();
-        for (int i = 0; i < playerCard.Count; i++)
-        {
-            CardDack.InsertCard(playerCard[i].GetComponent<Card>());
-        }
-       
-    }
-
-
-    public void NextWave()
-    {
-        if (ThisTurnUnit == Player)
-        {
-            TurnSwap();
-        }
-
-        PlayerCardReturn();
-
-        WaveManager.NextWave();
-        HpManager.Initialize();
-
-        
-    }
-   
 }

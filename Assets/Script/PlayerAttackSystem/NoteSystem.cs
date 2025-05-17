@@ -23,6 +23,7 @@ public class NoteSystem : MonoBehaviour
     Vector3 StartNoteScale = Vector3.zero;
     public bool isTrigger = false;
     public event Action<string> NoteEvent;
+    public bool isEnd = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Initialize()
@@ -39,7 +40,8 @@ public class NoteSystem : MonoBehaviour
     IEnumerator PlayNoteSystem()
     {
         NoteCircle.transform.localScale = StartNoteScale;
-       
+       isEnd = false;
+
         while (true) {
 
             if (isTrigger)
@@ -51,9 +53,9 @@ public class NoteSystem : MonoBehaviour
 
             if (NoteCircle.localScale.x == Vector3.zero.x) 
             {
-                isTrigger = false;
-                this.gameObject.SetActive(false);
-                break;
+                isEnd= true;
+                isTrigger = true;
+                
             }
 
             NoteCircle.localScale = Vector3.MoveTowards(NoteCircle.localScale, Vector3.zero, speed * 0.0166666666666667f);

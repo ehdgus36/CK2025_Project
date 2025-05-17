@@ -57,13 +57,14 @@ public class EnemysGroup :Unit
     IEnumerator AttackSequenceEvent()
     {
         NoteControl.PlayManager();
-        yield return new WaitUntil(() => NoteControl.Success == true);
+  
 
         for (int i = 0; i < Enemys.Count; i++)
         {
+
             Enemys[i].StartTurn();
 
-            yield return new WaitUntil(() => Enemys[i].isAttack == true);
+            //yield return new WaitUntil(() => Enemys[i].isAttack == true);
         }
 
         yield return new WaitForSeconds(2f);

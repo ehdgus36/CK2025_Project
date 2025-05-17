@@ -24,7 +24,7 @@ public class CardMixtureSystem : MonoBehaviour
 
     [SerializeField] TextAsset MixtureData;
 
-    [SerializeField] SkeletonGraphic GuitarAnime;
+    //[SerializeField] SkeletonGraphic GuitarAnime;
 
     [SerializeField] TextMeshProUGUI DamageText;
     Player AttackPlayer;
@@ -79,10 +79,10 @@ public class CardMixtureSystem : MonoBehaviour
         }
 
 
-        GuitarAnime.AnimationState.ClearTrack(2);
-        GuitarAnime.AnimationState.ClearTrack(3);
-        GuitarAnime.AnimationState.ClearTrack(4);
-        GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
+        //GuitarAnime.AnimationState.ClearTrack(2);
+        //GuitarAnime.AnimationState.ClearTrack(3);
+        //GuitarAnime.AnimationState.ClearTrack(4);
+        //GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
         DamageText.text = "";
         Descriptobj.SetActive(false);
 
@@ -96,11 +96,11 @@ public class CardMixtureSystem : MonoBehaviour
 
         //StartCoroutine(SetUpRecipeData());
 
-        if (GuitarAnime != null)
-        {
-            GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
-            GuitarAnime.AnimationState.SetAnimation(1, "Dial", true);
-        }
+        //if (GuitarAnime != null)
+        //{
+        //    GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
+        //    GuitarAnime.AnimationState.SetAnimation(1, "Dial", true);
+        //}
 
     }
   
@@ -111,8 +111,8 @@ public class CardMixtureSystem : MonoBehaviour
     void SelectionCard()
     {
         CardData = CDMixtureSlotGroup.ReadData<Card>();
-        GuitarAnime.AnimationState.ClearTrack(2);
-        GuitarAnime.AnimationState.AddAnimation(2, "in_Guitar", false, 0.3f);
+        //GuitarAnime.AnimationState.ClearTrack(2);
+        //GuitarAnime.AnimationState.AddAnimation(2, "in_Guitar", false, 0.3f);
 
         
 
@@ -120,8 +120,8 @@ public class CardMixtureSystem : MonoBehaviour
         if (CardData.Count == 3)
         {
             GameManager.instance.Player.PlayerCardAnime();
-            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
-            GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
+            //GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
+            //GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
             Descript.text = MaidAttackData.Explain_Down;
 
 
@@ -158,8 +158,8 @@ public class CardMixtureSystem : MonoBehaviour
             }
 
 
-            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false, 0.3f);
-            GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
+            //GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false, 0.3f);
+            //GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
             UpGradeBar.SetPoint(CardData[1].Grade_Point);
           
 
@@ -172,8 +172,8 @@ public class CardMixtureSystem : MonoBehaviour
             Descriptobj.SetActive(true);
             MixtureName.text = CardData[0].Example;
             Descript.text = "";
-            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner1", false, 0.3f);
-            GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner1-2", true, 0.3f);
+            //GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner1", false, 0.3f);
+            //GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner1-2", true, 0.3f);
             UpGradeBar.SetPoint(CardData[0].Grade_Point);
 
             GameManager.instance.Player.PlayerCardAnime();

@@ -53,8 +53,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
-   
-     IEnumerator Initialize()
+    [SerializeField] GameObject PlayerTurnMark;
+    [SerializeField] GameObject EnemyTurnMark;
+    GameObject ThisTrunMark;
+    GameObject NextTrunMark;
+
+    IEnumerator Initialize()
      {
         _Player = FindFirstObjectByType<Player>();
         _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
@@ -62,6 +66,8 @@ public class GameManager : MonoBehaviour
         ThisTurnUnit = Player;
         NextTurnUnit = EnemysGroup;
 
+        ThisTrunMark = PlayerTurnMark;
+        NextTrunMark = EnemyTurnMark;
        
         yield return null;
 
@@ -104,7 +110,7 @@ public class GameManager : MonoBehaviour
 
         ThisTurnUnit.StartTurn();
         Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
-      
+        StartCoroutine(TurnMark());
      }
 
 
@@ -153,7 +159,18 @@ public class GameManager : MonoBehaviour
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
         ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
+
+        StartCoroutine(TurnMark());
     }
-  
+
+    IEnumerator TurnMark()
+    {
+        ThisTrunMark.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        ThisTrunMark.SetActive(false);
+
+        (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
+
+    }
 
 }

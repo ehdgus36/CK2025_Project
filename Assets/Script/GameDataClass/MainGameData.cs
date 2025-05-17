@@ -72,7 +72,12 @@ namespace GameDataSystem
         {
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 0);
             AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
-            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, new UnitData());
+
+            UnitData playerdata = new UnitData();
+            playerdata.MaxHp = 50;
+            playerdata.CurrentHp = 50;
+
+            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerdata);
 
             AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());

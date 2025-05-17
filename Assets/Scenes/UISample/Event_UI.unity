@@ -947,14 +947,14 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 30513395}
-          m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-          m_MethodName: SetText
-          m_Mode: 5
+        - m_Target: {fileID: 1966773979}
+          m_TargetAssemblyTypeName: EventStage, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: "<color=white>\uADF8\uB798 \uC88B\uC544</color>"
             m_BoolArgument: 0
@@ -975,14 +975,14 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 30513395}
-          m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-          m_MethodName: SetText
-          m_Mode: 5
+        - m_Target: {fileID: 1966773979}
+          m_TargetAssemblyTypeName: EventStage, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: "<#4F4F4F>\uADF8\uB798 \uC88B\uC544</color>"
             m_BoolArgument: 0
@@ -1030,7 +1030,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1537388905}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1966773979}
+        m_TargetAssemblyTypeName: EventStage, Assembly-CSharp
+        m_MethodName: Choice2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1537388905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1274,10 +1286,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1682113363}
-          m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-          m_MethodName: SetText
-          m_Mode: 5
+        - m_Target: {fileID: 1966773979}
+          m_TargetAssemblyTypeName: EventStage, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1302,10 +1314,10 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1682113363}
-          m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-          m_MethodName: SetText
-          m_Mode: 5
+        - m_Target: {fileID: 1966773979}
+          m_TargetAssemblyTypeName: EventStage, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1357,7 +1369,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1878887193}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1966773979}
+        m_TargetAssemblyTypeName: EventStage, Assembly-CSharp
+        m_MethodName: Choice1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1878887193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1511,6 +1535,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e498b0ef50247c945b9476925dbe6173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Choices:
+  - Choice_Text: "\uADF8\uAC70 \uBCC4\uB860\uB370"
+    Choice_TMP: {fileID: 1682113363}
+  - Choice_Text: "\uADF8\uB798 \uC88B\uC544"
+    Choice_TMP: {fileID: 30513395}
+  Result_TMP: {fileID: 119075273}
 --- !u!1 &1975345041
 GameObject:
   m_ObjectHideFlags: 0

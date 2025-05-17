@@ -49,6 +49,12 @@ public class NoteSystem : MonoBehaviour
                 break;
             }
 
+            if (NoteCircle.localScale.x == Vector3.zero.x) 
+            {
+                isTrigger = false;
+                this.gameObject.SetActive(false);
+                break;
+            }
 
             NoteCircle.localScale = Vector3.MoveTowards(NoteCircle.localScale, Vector3.zero, speed * 0.0166666666666667f);
             yield return new WaitForSeconds(0.0166666666666667f); // 60«¡∑π¿”

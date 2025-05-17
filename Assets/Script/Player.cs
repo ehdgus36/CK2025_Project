@@ -15,7 +15,7 @@ public class Player : Unit
     public void Initialize()
     {
        
-        if (DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
+        if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
         }

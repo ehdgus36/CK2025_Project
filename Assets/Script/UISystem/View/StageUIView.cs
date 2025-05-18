@@ -9,4 +9,5 @@ public class StageUIView : DynamicUIObject
     {
         StageText.text = update_ui_data.ToString();
     }
+
 }

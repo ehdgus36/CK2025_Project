@@ -69,6 +69,14 @@ public class NoteSystem : MonoBehaviour
         {
             Verdict = "Good";
             NoteEvent?.Invoke(Verdict);
+
+            int GradePoint = 0;
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradePoint);
+
+            GradePoint = GradePoint + 10;
+
+
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, GradePoint);
             yield break;
         }
         //Normal판정
@@ -76,13 +84,28 @@ public class NoteSystem : MonoBehaviour
         {
             Verdict = "Normal";
             NoteEvent?.Invoke(Verdict);
-            yield break;
+
+            int GradePoint = 0;
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradePoint);
+
+            GradePoint = GradePoint + 5;
+
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, GradePoint);
+           yield break;
         }
         //Bad판정
         if (Normal.localScale.x < NoteCircle.localScale.x && Bad.localScale.x >= NoteCircle.localScale.x)
         {
             Verdict = "Bad";
             NoteEvent?.Invoke(Verdict);
+
+            int GradePoint = 0;
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradePoint);
+
+            GradePoint = GradePoint + 5;
+
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, GradePoint);
+
             yield break;
         }
 
@@ -91,6 +114,8 @@ public class NoteSystem : MonoBehaviour
         {
             Verdict = "miss";
             NoteEvent?.Invoke(Verdict);
+            int GradePoint = 0;
+          
             yield return null;
         }
 

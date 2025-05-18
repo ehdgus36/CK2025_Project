@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 public class GameManager : MonoBehaviour
 {
     //Private
-    private Player _Player;
+    [SerializeField]private Player _Player;
 
     private EnemysGroup _EnemysGroup;
 

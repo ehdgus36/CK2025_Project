@@ -197,6 +197,11 @@ namespace GameDataSystem
         {
             DynamicUIDataBase.Remove(key);
         }
+
+        public static void RemoveAllDynamicUIDataBase()
+        {
+            DynamicUIDataBase.Clear();
+        }
         //데이터 변화시 UI갱신
         //데이터 전달에 필요한 동적 데이터 등록
     }

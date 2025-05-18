@@ -25,6 +25,12 @@ public class GuitarSkill : MonoBehaviour
         PlaySkill();
     }
 
+    public void SkillAttack()
+    {
+        GameManager.instance.Player.PlayerAnimator.Play("ultimate");
+    }
+
+
     public void PlaySkill()
     {
         Success = false;
@@ -71,6 +77,7 @@ public class GuitarSkill : MonoBehaviour
             {
                 Notes[0].gameObject.SetActive(false);
                 Notes.RemoveAt(0);
+                return;
             }
 
             if (Input.GetKeyDown(Notes[0].key))

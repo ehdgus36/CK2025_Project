@@ -37,7 +37,7 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI MixtureName;
     [SerializeField] TextMeshProUGUI Descript;
 
-    [SerializeField] UpGradeBar UpGradeBar;
+    
 
     [SerializeField] Dack[] dack;
 
@@ -138,7 +138,7 @@ public class CardMixtureSystem : MonoBehaviour
             // 대충 업그레이드 공격
             }
 
-            UpGradeBar.SetPoint(CardData[2].Grade_Point);
+           
 
             
             audioSource.PlayOneShot(slot[2]);
@@ -160,7 +160,7 @@ public class CardMixtureSystem : MonoBehaviour
 
             //GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false, 0.3f);
             //GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
-            UpGradeBar.SetPoint(CardData[1].Grade_Point);
+       
           
 
             GameManager.instance.Player.PlayerCardAnime();
@@ -174,7 +174,7 @@ public class CardMixtureSystem : MonoBehaviour
             Descript.text = "";
             //GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner1", false, 0.3f);
             //GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner1-2", true, 0.3f);
-            UpGradeBar.SetPoint(CardData[0].Grade_Point);
+           
 
             GameManager.instance.Player.PlayerCardAnime();
             audioSource.PlayOneShot(slot[0]);

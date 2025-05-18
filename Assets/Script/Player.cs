@@ -5,13 +5,14 @@ using GameDataSystem;
 
 public class Player : Unit
 {
-    [SerializeField] Animator DamageEffect;
+    [SerializeField] Animator _PlayerAnimator;
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
    // [SerializeField] PlayerStatus playerStatus;
     [SerializeField] AudioSource AudioSource;
     [SerializeField] AudioClip[] audioClip;
 
-  
+
+    public Animator PlayerAnimator { get { return _PlayerAnimator; } }
     public void Initialize()
     {
        
@@ -51,10 +52,10 @@ public class Player : Unit
     {
         base.TakeDamage(damage);
         Debug.Log("hit");
-        if (DamageEffect != null)
+        if (_PlayerAnimator != null)
         {
 
-            DamageEffect.Play("hit");
+            _PlayerAnimator.Play("hit");
         }
         AudioSource.PlayOneShot(audioClip[2]);
         GameManager.instance.Shake.PlayShake();
@@ -70,7 +71,7 @@ public class Player : Unit
 
     public void PlayerAttackAnime()
     {
-        DamageEffect.Play("attack");
+        _PlayerAnimator.Play("attack");
         AudioSource.PlayOneShot(audioClip[0]);
         AudioSource.PlayOneShot(audioClip[1]);
     }
@@ -78,7 +79,7 @@ public class Player : Unit
     public void PlayerCardAnime()
     {
         AudioSource.PlayOneShot(audioClip[3]);
-        DamageEffect.Play("card");
+        _PlayerAnimator.Play("card");
     }
 
     public void addHP(int HP)

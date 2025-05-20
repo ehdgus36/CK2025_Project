@@ -57,6 +57,9 @@ public class EnemysGroup :Unit
     // 이것도 나중에 시퀀스 다시
     IEnumerator AttackSequenceEvent()
     {
+        yield return new WaitForSeconds(2.0f);
+
+
         NoteControl.PlayManager();
      
 

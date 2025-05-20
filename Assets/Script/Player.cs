@@ -10,6 +10,7 @@ public class Player : Unit
    // [SerializeField] PlayerStatus playerStatus;
     [SerializeField] AudioSource AudioSource;
     [SerializeField] AudioClip[] audioClip;
+    [SerializeField] ImageFontSystem fontSystem;
 
 
     public Animator PlayerAnimator { get { return _PlayerAnimator; } }
@@ -52,6 +53,8 @@ public class Player : Unit
     {
         base.TakeDamage(damage);
         Debug.Log("hit");
+
+        
         if (_PlayerAnimator != null)
         {
 
@@ -64,6 +67,32 @@ public class Player : Unit
         DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
     }
 
+    public void TakeDamage(int damage , string notes)
+    {
+        TakeDamage(damage);
+
+        Color fontColor = new Color(239f / 255f, 86.0f / 255.0f, 110f / 225f);
+
+        switch (notes)
+        {
+            case "Miss":
+                fontColor = new Color(239f/255f, 86f/ 255f, 110/255f);
+                break;
+            case "Bad":
+                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
+                break;
+            case "Normal":
+                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
+                break;
+            case "Good":
+                fontColor = new Color(254f / 255f, 249f / 255f, 57f/255f);
+                break;
+        }
+
+        fontSystem.FontConvert(damage.ToString(), null , fontColor);
+
+    }
+
     public void PlayerSave()
     {
         PlayerPrefs.SetInt("PlayerHP", UnitData.CurrentHp);
@@ -72,6 +101,13 @@ public class Player : Unit
     public void PlayerAttackAnime()
     {
         _PlayerAnimator.Play("attack");
+        AudioSource.PlayOneShot(audioClip[0]);
+        AudioSource.PlayOneShot(audioClip[1]);
+    }
+
+    public void PlayerHamoniAttackAnime()
+    {
+        _PlayerAnimator.Play("hamoni");
         AudioSource.PlayOneShot(audioClip[0]);
         AudioSource.PlayOneShot(audioClip[1]);
     }

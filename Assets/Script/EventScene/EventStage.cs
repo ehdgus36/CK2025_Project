@@ -11,6 +11,7 @@ public class EventStage : MonoBehaviour
     }
    
     [SerializeField]EventChoice[] Choices;
+    [SerializeField] Animator Animator;
     
 
     [SerializeField] TextMeshProUGUI Result_TMP;
@@ -35,7 +36,9 @@ public class EventStage : MonoBehaviour
     }
 
     public void Choice1()
-    { 
+    {
+
+        Animator.Play("TakeItem");
         // 클릭시 처리할 이벤트 적용
     }
 

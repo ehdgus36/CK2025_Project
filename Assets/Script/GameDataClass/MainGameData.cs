@@ -70,7 +70,7 @@ namespace GameDataSystem
 
         static DynamicGameDataSchema()
         {
-            AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 0);
+            AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
             AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
 
             UnitData playerData = new UnitData();

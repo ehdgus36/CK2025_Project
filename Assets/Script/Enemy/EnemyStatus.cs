@@ -42,9 +42,9 @@ public class EnemyStatus : DynamicUIObject
         }
 
 
-        HpText.text = CurrentHP.ToString();
+        HpText.text = "50"+"/"+CurrentHP.ToString();
         NameText.text = (enemyname + "<color=#EA133D>") + name[name.Length-1] +"</color>";
-        DamageText.text = "<b><color=#EA133D>A</color></b>TK <size=20>" + damage.ToString() + "</size>";
+        DamageText.text = damage.ToString();
         //indexText.text = index.ToString();
 
 
@@ -103,8 +103,8 @@ public class EnemyStatus : DynamicUIObject
         Hpfill.fillAmount = (float)CurrentHP / (float)MaxHP;
 
 
-        HpText.text = CurrentHP.ToString();
-        DamageText.text = "<b><color=#EA133D>A</color></b>TK <size=20>" + damage.ToString() + "</size>";
+        HpText.text = "50" + "/" + CurrentHP.ToString();
+        DamageText.text =  damage.ToString();
 
         num.sprite = numIndex[index];
         ///indexText.text = index.ToString();

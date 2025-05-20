@@ -49,6 +49,8 @@ public class Enemy : Unit, IPointerDownHandler
     protected bool IsAttack;
 
     [SerializeField] BuffLayer buffLayer;
+    [SerializeField] ImageFontSystem fontSystem;
+    [SerializeField] NoteSystem noteSystem;
 
     int EnemyIndex = 0;
 
@@ -114,7 +116,7 @@ public class Enemy : Unit, IPointerDownHandler
 
         EnemyAnimator.Play("attack");
         yield return new WaitForSeconds(1.0f);
-        GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage);
+        GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage , noteSystem.GetVerdict);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -124,6 +126,11 @@ public class Enemy : Unit, IPointerDownHandler
 
 
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        EnemyStatus.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
+    }
 
     public void TakeDamage(int damage, Buff buff)
     {
@@ -156,6 +163,8 @@ public class Enemy : Unit, IPointerDownHandler
         EnemyStatus.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
         EnemyStatus.UpdateBuffIcon(CurrentBuff);
 
+
+        fontSystem.FontConvert(damage.ToString(), null);
         EnemyData.EnemyUnitData = UnitData;
         DynamicGameDataSchema.UpdateDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
         

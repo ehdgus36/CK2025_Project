@@ -11,6 +11,16 @@ using UnityEngine.InputSystem;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] List<DynamicUIObject> GameUIObj;
+    [SerializeField] bool isStart;
+
+
+    private void Start()
+    {
+        if (isStart)
+        {
+            Initialize();
+        }
+    }
 
     public void Initialize()
     {

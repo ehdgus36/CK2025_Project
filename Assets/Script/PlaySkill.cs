@@ -6,9 +6,8 @@ public class PlaySkill : MonoBehaviour
     [SerializeField] Transform SkillPos;
     public void SkillAttack()
     {
-        startPos =  GameManager.instance.Player.gameObject.transform.position;
-        GameManager.instance.Player.PlayerAnimator.Play("ultimate");
-        GameManager.instance.Player.gameObject.transform.position = SkillPos.position;
+        GameManager.instance.EnemysGroup.Enemys[0].TakeDamage(30);
+        Debug.Log(GameManager.instance.EnemysGroup.Enemys[0].name + "skilllsfadsfadsf");
     }
 
     public void EndSkillAttack()

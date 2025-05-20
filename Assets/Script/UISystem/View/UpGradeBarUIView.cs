@@ -5,6 +5,7 @@ public class UpGradeBarUIView : DynamicUIObject
 {
 
     [SerializeField] Image Fill;
+    [SerializeField] Image StarFill;
     [SerializeField] GameObject FillBarSprite;
     float MaxPoint = 100;
     [SerializeField] int currentPoint;
@@ -31,7 +32,7 @@ public class UpGradeBarUIView : DynamicUIObject
         currentPoint = (int)update_ui_data;
 
         Fill.fillAmount = ((float)((int)update_ui_data) / MaxPoint);
-
+        StarFill.fillAmount = ((float)((int)update_ui_data) / MaxPoint);
 
     }
 }

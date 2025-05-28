@@ -33,7 +33,7 @@ public class GuitarSkill : MonoBehaviour
 
     public void SkillAttack()
     {
-        GameManager.instance.Player.PlayerAnimator.Play("ultimate");
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation("ultimate");
     }
 
 

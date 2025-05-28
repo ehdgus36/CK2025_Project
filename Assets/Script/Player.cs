@@ -5,15 +5,12 @@ using GameDataSystem;
 
 public class Player : Unit
 {
-    [SerializeField] Animator _PlayerAnimator;
+   
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
-   // [SerializeField] PlayerStatus playerStatus;
-    [SerializeField] AudioSource AudioSource;
-    [SerializeField] AudioClip[] audioClip;
     [SerializeField] ImageFontSystem fontSystem;
+    [SerializeField] UnitAnimationSystem AnimationSystem;
 
-
-    public Animator PlayerAnimator { get { return _PlayerAnimator; } }
+    public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
     public void Initialize()
     {
        
@@ -28,12 +25,7 @@ public class Player : Unit
         StartTurnEvent += GameManager.instance.PlayerAttackSystem.GuitarSetUp;
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
 
-
         EndTurnEvent += GameManager.instance.PlayerAttackSystem.Return;
-
-
-       
-
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
         
     }
@@ -55,12 +47,12 @@ public class Player : Unit
         Debug.Log("hit");
 
         
-        if (_PlayerAnimator != null)
+        if (AnimationSystem != null)
         {
 
-            _PlayerAnimator.Play("hit");
+            AnimationSystem.PlayAnimation("hit");
         }
-        AudioSource.PlayOneShot(audioClip[2]);
+
         GameManager.instance.Shake.PlayShake();
 
         //playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
@@ -100,22 +92,20 @@ public class Player : Unit
 
     public void PlayerAttackAnime()
     {
-        _PlayerAnimator.Play("attack");
-        AudioSource.PlayOneShot(audioClip[0]);
-        AudioSource.PlayOneShot(audioClip[1]);
+        AnimationSystem.PlayAnimation("attack");
     }
+       
 
     public void PlayerHamoniAttackAnime()
     {
-        _PlayerAnimator.Play("hamoni");
-        AudioSource.PlayOneShot(audioClip[0]);
-        AudioSource.PlayOneShot(audioClip[1]);
+        AnimationSystem.PlayAnimation("hamoni");
+       
     }
 
     public void PlayerCardAnime()
     {
-        AudioSource.PlayOneShot(audioClip[3]);
-        _PlayerAnimator.Play("card");
+
+        AnimationSystem.PlayAnimation("card");
     }
 
     public void addHP(int HP)

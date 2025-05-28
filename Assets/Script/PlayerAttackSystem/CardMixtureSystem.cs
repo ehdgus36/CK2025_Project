@@ -54,8 +54,6 @@ public class CardMixtureSystem : MonoBehaviour
 
     public void GuitarSetUp()
     {
-       
-
         if (UpgradePercent == 100)
         {
             isGradeAttack = true;
@@ -78,41 +76,26 @@ public class CardMixtureSystem : MonoBehaviour
 
         }
 
-
-        
         DamageText.text = "";
         Descriptobj.SetActive(false);
-
-        
     }
 
     public void Initialize()
     {
         CDMixtureSlotGroup.Initialize(SelectionCard);
-       
-
     }
   
-
-
 
 
     void SelectionCard()
     {
         CardData = CDMixtureSlotGroup.ReadData<Card>();
      
-        
-
-
         if (CardData.Count == 3)
         {
             GameManager.instance.Player.PlayerCardAnime();
           
             Descript.text = MaidAttackData.Explain_Down;
-
-
-
-          
 
             if (isGradeAttack == false)
             {
@@ -125,9 +108,6 @@ public class CardMixtureSystem : MonoBehaviour
             }
 
            
-
-            
-            audioSource.PlayOneShot(slot[2]);
             return;
         }
 
@@ -137,19 +117,14 @@ public class CardMixtureSystem : MonoBehaviour
             if (GameDataSystem.StaticGameDataSchema.RECIPE_DATA_BASE.SearchData(CardData[0].GetID() + CardData[1].GetID(),ref MaidAttackData))
             {
                
-                MixtureName.text = MaidAttackData.Explain_Up_2;
+              
                 DamageText.text = MaidAttackData.Base_Damage_1.ToString();
                 Descript.text = MaidAttackData.Explain_Down;
                 Debug.Log(MaidAttackData.Add_Code);
             }
 
-
-            
-       
-          
-
             GameManager.instance.Player.PlayerCardAnime();
-            audioSource.PlayOneShot(slot[1]);
+            
         }
 
         if (CardData.Count == 1)
@@ -158,10 +133,7 @@ public class CardMixtureSystem : MonoBehaviour
             MixtureName.text = CardData[0].Example;
             Descript.text = "";
            
-           
-
             GameManager.instance.Player.PlayerCardAnime();
-            audioSource.PlayOneShot(slot[0]);
         }
 
 
@@ -171,7 +143,7 @@ public class CardMixtureSystem : MonoBehaviour
     //스위치문 수정 필요 데미지 증감
     IEnumerator SendAttack()
     {
-        GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+        GameManager.instance.AttackManager.Attack(MaidAttackData);
         yield return null;
     }
 }

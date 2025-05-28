@@ -13,22 +13,22 @@ public class MetronomeSystem : MonoBehaviour
     [SerializeField]TextMeshProUGUI Text;
     int bpmCount = 0;
 
-  
-
-
     void FixedUpdate()
     {
         CurrentTime += Time.deltaTime;
 
         if (CurrentTime >= 60d / BPM)
         { 
-            bpmCount++;
-            Text.text = bpmCount.ToString();
+            bpmCount++; 
             CurrentTime -= 60d / BPM;
-
             OnMetronomEventOnce?.Invoke(); //등록된 이벤트 실행
 
             OnMetronomEventOnce = null; //등록된 이벤트는 한번만 실행해야 함으로 실행한후 Null
+
+            if (Text != null)
+            {
+                Text.text = bpmCount.ToString();
+            }
         }
     }
 

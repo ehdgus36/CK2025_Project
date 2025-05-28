@@ -100,7 +100,7 @@ public class NoteSystem : MonoBehaviour
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradePoint);
 
             GradePoint = GradePoint + 10;
-            GameManager.instance.Player.PlayerAnimator.Play("gard1");
+            GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
 
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, GradePoint);
             yield break;
@@ -117,7 +117,7 @@ public class NoteSystem : MonoBehaviour
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradePoint);
 
             GradePoint = GradePoint + 5;
-            GameManager.instance.Player.PlayerAnimator.Play("gard1");
+            GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, GradePoint);
            yield break;
         }
@@ -132,7 +132,7 @@ public class NoteSystem : MonoBehaviour
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradePoint);
 
             GradePoint = GradePoint + 5;
-            GameManager.instance.Player.PlayerAnimator.Play("gard1");
+            GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, GradePoint);
 
             yield break;
@@ -144,8 +144,7 @@ public class NoteSystem : MonoBehaviour
 
             MISS_EFFECT.SetActive(true);
             Verdict = "miss";
-            NoteEvent?.Invoke(Verdict);
-            int GradePoint = 0;
+            NoteEvent?.Invoke(Verdict);     
           
             yield return null;
         }

@@ -52,9 +52,10 @@ namespace GameDataSystem
         static TextAsset CommonCardDataTable = new TextAsset();
         static TextAsset SpecialCardDataTable = new TextAsset();
         static TextAsset TargetCardDataTable = new TextAsset();
+        static TextAsset CardStatusDataTable = new TextAsset();
 
         public readonly static RecipeDataBase RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
-        public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CommonCardDataTable, SpecialCardDataTable, TargetCardDataTable);
+        public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CommonCardDataTable, SpecialCardDataTable, TargetCardDataTable , CardStatusDataTable);
 
     }
 

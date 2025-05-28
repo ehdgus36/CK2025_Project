@@ -5,11 +5,13 @@ using UnityEngine;
 using Spine;
 using Spine.Unity;
 using UnityEngine.Audio;
+using static UnityEditor.PlayerSettings;
 
 public class AttackManager : MonoBehaviour
 {
     public GameObject AttackEffect;
     [SerializeField] GameObject GradeAttackEffect;
+    [SerializeField] GameObject SlashAttackEffect;
     [SerializeField] SkeletonMecanim PlayerAnime;
     [SerializeField] GameObject AllEffect;
     RecipeData MainData;
@@ -41,7 +43,15 @@ public class AttackManager : MonoBehaviour
         MainData = data;
         yield return new WaitForSeconds(0.5f);
 
-        GameManager.instance.Player.PlayerAttackAnime();
+        if (data.Card_Code_1 == "C31")
+        {
+            
+        }
+        else
+        {
+            GameManager.instance.Player.PlayerAttackAnime();
+        }
+
         yield return new WaitForSeconds(0.5f);
 
         EnemysGroup enemysGroup = GameManager.instance.EnemysGroup;
@@ -77,38 +87,53 @@ public class AttackManager : MonoBehaviour
         }
 
 
-        if (data.Attack_Effect_Code == "Y")
+        if (data.Card_Code_1 != "C31")
         {
-            if (target_index == 1000)
+            if (data.Attack_Effect_Code == "Y")
             {
-                audioSource.Play();
-                GradeAttackEffect.SetActive(false);
-                GradeAttackEffect.SetActive(true);
+                if (target_index == 1000)
+                {
+                    audioSource.Play();
+                    GradeAttackEffect.SetActive(false);
+                    GradeAttackEffect.SetActive(true);
 
-                yield return new WaitForSeconds(.9f);
+                    yield return new WaitForSeconds(.9f);
 
 
 
-                AllEffect.SetActive(false);
-                AllEffect.SetActive(true);
+                    AllEffect.SetActive(false);
+                    AllEffect.SetActive(true);
 
-                yield return new WaitForSeconds(0.3f);
+                    yield return new WaitForSeconds(0.3f);
+                }
+                if (target_index != 1000)
+                {
+                    PlayerAttackEffect(enemysGroup.Enemys[target_index].transform.position);
+
+                    yield return new WaitForSeconds(0.5f);
+                }
             }
-            if (target_index != 1000)
-            {
-                PlayerAttackEffect(enemysGroup.Enemys[target_index].transform.position);
-
-                yield return new WaitForSeconds(0.5f);
-            }
+        }
+        else
+        {
+          
         }
 
 
         if (data.Attack_Effect_Code == "")
         {
-            PlayerAttackEffect(enemysGroup.Enemys[target_index].transform.position);
-            GameManager.instance.Shake.PlayShake();
-            yield return new WaitForSeconds(0.5f);
-            yield return null;
+            if (data.Card_Code_1 != "C31")
+            {
+                PlayerAttackEffect(enemysGroup.Enemys[target_index].transform.position);
+                GameManager.instance.Shake.PlayShake();
+                yield return new WaitForSeconds(0.5f);
+                yield return null;
+            }
+            else
+            {
+               
+
+            }
         }
         
 
@@ -119,18 +144,27 @@ public class AttackManager : MonoBehaviour
         if (target_index != 1000)
         {
             //단일
-            enemysGroup.Enemys[target_index].TakeDamage(data.Base_Damage_1, TargetEnemyBuff);
-
+           
             // 2~3타 공격
             if (data.Card_Code_1 == "C31")
             {
 
-                int attackCount = Random.Range(1, 3);
-                for (int i = 0; i < attackCount; i++)
+                GameManager.instance.Player.PlayerAttackAnime();
+                SlashAttackEffect.SetActive(false);
+                SlashAttackEffect.SetActive(true);
+                SlashAttackEffect.transform.position = enemysGroup.Enemys[target_index].transform.position;
+
+                for (int i = 0; i < 3; i++)
                 {
-                    yield return new WaitForSeconds(.3f);
                     enemysGroup.Enemys[target_index].TakeDamage(data.Base_Damage_1, null);
+                    yield return new WaitForSeconds(.3f);
+                   
                 }
+
+            }
+            else
+            {
+                enemysGroup.Enemys[target_index].TakeDamage(data.Base_Damage_1, TargetEnemyBuff);
 
             }
 
@@ -167,6 +201,6 @@ public class AttackManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
         //공격 끝
-        GameManager.instance.TurnSwap();
+        GameManager.instance.EndTurn();
     }
 }

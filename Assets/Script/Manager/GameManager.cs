@@ -53,8 +53,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
-   
-     IEnumerator Initialize()
+    [SerializeField] GameObject PlayerTurnMark;
+    [SerializeField] GameObject EnemyTurnMark;
+    [SerializeField] Button EndTurnButton;
+    GameObject ThisTrunMark;
+    GameObject NextTrunMark;
+
+    IEnumerator Initialize()
      {
         _Player = FindFirstObjectByType<Player>();
         _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
@@ -62,6 +67,8 @@ public class GameManager : MonoBehaviour
         ThisTurnUnit = Player;
         NextTurnUnit = EnemysGroup;
 
+        ThisTrunMark = PlayerTurnMark;
+        NextTrunMark = EnemyTurnMark;
        
         yield return null;
 
@@ -102,9 +109,13 @@ public class GameManager : MonoBehaviour
 
         yield return null;
 
+        EndTurnButton?.onClick.AddListener(TurnSwap);
+        EndTurnButton?.gameObject.SetActive(false);
+
+
         ThisTurnUnit.StartTurn();
         Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
-      
+        StartCoroutine(TurnMark());
      }
 
 
@@ -133,7 +144,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DeleyLoadScene()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Title");
+        GameClear.SetActive(true);
         Player.PlayerSave();
     }
 
@@ -146,14 +157,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void TurnSwap()
-    {     
 
+    public void EndTurn()
+    {
+        EndTurnButton.gameObject.SetActive(true);
+    }
+
+    public void TurnSwap()
+    {
+
+        EndTurnButton.gameObject.SetActive(false);
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
         ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
+
+        StartCoroutine(TurnMark());
     }
-  
+
+    IEnumerator TurnMark()
+    {
+        ThisTrunMark.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        ThisTrunMark.SetActive(false);
+
+        (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
+
+    }
+
+    public void MapEvent()
+    {
+        SceneManager.LoadScene("Map");
+    }
 
 }

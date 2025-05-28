@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using GameDataSystem;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 
 /// <summary> 게임씬에 있는 UI를 관리하는 클래스 </summary>
@@ -10,9 +11,21 @@ using System.Collections.Generic;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] List<DynamicUIObject> GameUIObj;
+    [SerializeField] bool isStart;
+
+
+    private void Start()
+    {
+        if (isStart)
+        {
+            Initialize();
+        }
+    }
 
     public void Initialize()
     {
+        GameDataSystem.DynamicGameDataSchema.RemoveDynamicUIDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA);
+
         DynamicUIObject[] dynamicUIObjects = FindObjectsByType<DynamicUIObject>(FindObjectsSortMode.InstanceID);
 
         if (dynamicUIObjects.Length != 0)

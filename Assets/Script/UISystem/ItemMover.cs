@@ -15,10 +15,10 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
     public bool IsMove = true;
    [SerializeField] Transform ItemPos;
     SlotUI ItemSlotUI;
-    Animator Animator;
+   // Animator Animator;
 
     UnityAction MoveEvent;
-
+   [SerializeField] ImageSwap ImageSwap;
 
     public void AddMoveEvent(UnityAction moveEvent)
     { 
@@ -38,11 +38,12 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
         }
 
         ItemPos = ItemSlotUI.ReadData<Transform>();
-        Animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
-        if (Animator != null)
-        {
-            Animator.enabled = false;
-        }
+       // Animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        ImageSwap = ItemSlotUI.ReadData<ImageSwap>();
+        //if (Animator != null)
+        //{
+        //    Animator.enabled = false;
+        //}
 
 
         if (TargetSlot != null && ItemPos != null)
@@ -67,8 +68,9 @@ public class ItemMover : MonoBehaviour, IPointerDownHandler
             {
                 isPlay = false;
 
-                Animator.enabled = true;
-                Animator.Play("CD_Insert");
+                // Animator.enabled = true;
+
+                ImageSwap.StartSwapImage();
 
                 TargetSlot.InsertData(ItemPos.gameObject);
                 PlayerCardSlotManager.SwapCardSlots();

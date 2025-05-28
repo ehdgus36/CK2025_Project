@@ -21,7 +21,7 @@ public class PlayerStatus : DynamicUIObject
         Hpfill.fillAmount = (float)CurrentHP / (float)MaxHP;
 
 
-        Hptext.text = CurrentHP.ToString();
+        Hptext.text = maxHp.ToString() + "/" + CurrentHP.ToString();
     }
 
     public override void UpdateUIData(object update_ui_data)

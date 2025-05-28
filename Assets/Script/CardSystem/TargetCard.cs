@@ -29,7 +29,7 @@ public class TargetCard : Card
 
         if (TargetCard_Material.Length != 0)
         {
-            GetComponent<MeshRenderer>().material = TargetCard_Material[TargetIndex];
+            //GetComponent<MeshRenderer>().material = TargetCard_Material[TargetIndex];
         }
 
         switch (TargetIndex)

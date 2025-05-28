@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+
+using Spine.Unity;
 using UnityEngine;
 
 public class GuitarSkill : MonoBehaviour
@@ -9,6 +11,10 @@ public class GuitarSkill : MonoBehaviour
 
     [SerializeField] float BPM;
     [SerializeField] List<Note> Notes;
+    [SerializeField] SkeletonAnimation SkillAnime;
+    [SerializeField] AudioSource aaa;
+
+    
     double CurrentTime;
 
     int TotalScore = 0;
@@ -25,6 +31,12 @@ public class GuitarSkill : MonoBehaviour
         PlaySkill();
     }
 
+    public void SkillAttack()
+    {
+        GameManager.instance.Player.PlayerAnimator.Play("ultimate");
+    }
+
+
     public void PlaySkill()
     {
         Success = false;
@@ -33,9 +45,13 @@ public class GuitarSkill : MonoBehaviour
         CurrentTime = 0;
         Score = 0;
         TotalScore = 0;
+
+       
     }
 
-    public void Update()
+
+
+public void Update()
     {
         if (isPlay == false) return;
 
@@ -71,6 +87,8 @@ public class GuitarSkill : MonoBehaviour
             {
                 Notes[0].gameObject.SetActive(false);
                 Notes.RemoveAt(0);
+               
+                return;
             }
 
             if (Input.GetKeyDown(Notes[0].key))
@@ -91,7 +109,8 @@ public class GuitarSkill : MonoBehaviour
 
                 }
 
-
+                SkillAnime.AnimationState.SetAnimation(0,"ultimate-hamoni-ding", false);
+                aaa.Play();
             }
         }
        

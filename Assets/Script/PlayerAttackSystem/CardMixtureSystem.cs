@@ -24,7 +24,7 @@ public class CardMixtureSystem : MonoBehaviour
 
     [SerializeField] TextAsset MixtureData;
 
-    [SerializeField] SkeletonGraphic GuitarAnime;
+    //[SerializeField] SkeletonGraphic GuitarAnime;
 
     [SerializeField] TextMeshProUGUI DamageText;
     Player AttackPlayer;
@@ -37,16 +37,15 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI MixtureName;
     [SerializeField] TextMeshProUGUI Descript;
 
-    [SerializeField] UpGradeBar UpGradeBar;
+    
 
     [SerializeField] Dack[] dack;
 
     [SerializeField] AudioClip[] slot;
     [SerializeField] AudioSource audioSource;
 
-    [SerializeField] Animator UIAnime;
+  
 
-    [SerializeField] NoteSystemBar NoteBar;
     [SerializeField] GuitarSkill GuitarSkill;
 
     [SerializeField] int UpgradePercent = 0;
@@ -55,7 +54,7 @@ public class CardMixtureSystem : MonoBehaviour
 
     public void GuitarSetUp()
     {
-        UIAnime.Play("SetUp");
+       
 
         if (UpgradePercent == 100)
         {
@@ -80,29 +79,17 @@ public class CardMixtureSystem : MonoBehaviour
         }
 
 
-        GuitarAnime.AnimationState.ClearTrack(2);
-        GuitarAnime.AnimationState.ClearTrack(3);
-        GuitarAnime.AnimationState.ClearTrack(4);
-        GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
+        
         DamageText.text = "";
         Descriptobj.SetActive(false);
 
-        UIAnime.Play("Return");
+        
     }
 
     public void Initialize()
     {
         CDMixtureSlotGroup.Initialize(SelectionCard);
-        // AttackPlayer = GameManager.instance.GetPlayer();
-
-        //StartCoroutine(SetUpRecipeData());
-
-        if (GuitarAnime != null)
-        {
-            GuitarAnime.AnimationState.SetAnimation(0, "Main", true);
-            GuitarAnime.AnimationState.SetAnimation(1, "Dial", true);
-
-        }
+       
 
     }
   
@@ -113,22 +100,19 @@ public class CardMixtureSystem : MonoBehaviour
     void SelectionCard()
     {
         CardData = CDMixtureSlotGroup.ReadData<Card>();
-        GuitarAnime.AnimationState.ClearTrack(2);
-        GuitarAnime.AnimationState.AddAnimation(2, "in_Guitar", false, 0.3f);
-
+     
         
 
 
         if (CardData.Count == 3)
         {
             GameManager.instance.Player.PlayerCardAnime();
-            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner3", false, 0.3f);
-            GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner3-2", true, 0.3f);
+          
             Descript.text = MaidAttackData.Explain_Down;
 
 
 
-            UIAnime.Play("TimingBar");
+          
 
             if (isGradeAttack == false)
             {
@@ -137,10 +121,10 @@ public class CardMixtureSystem : MonoBehaviour
 
             if (isGradeAttack == true)
             { 
-            // 대충 업그레이드 공격
+          
             }
 
-            UpGradeBar.SetPoint(CardData[2].Grade_Point);
+           
 
             
             audioSource.PlayOneShot(slot[2]);
@@ -160,9 +144,8 @@ public class CardMixtureSystem : MonoBehaviour
             }
 
 
-            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner2", false, 0.3f);
-            GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner2-2", true, 0.3f);
-            UpGradeBar.SetPoint(CardData[1].Grade_Point);
+            
+       
           
 
             GameManager.instance.Player.PlayerCardAnime();
@@ -174,9 +157,8 @@ public class CardMixtureSystem : MonoBehaviour
             Descriptobj.SetActive(true);
             MixtureName.text = CardData[0].Example;
             Descript.text = "";
-            GuitarAnime.AnimationState.AddAnimation(3, "in_Tuner1", false, 0.3f);
-            GuitarAnime.AnimationState.AddAnimation(4, "in_Tuner1-2", true, 0.3f);
-            UpGradeBar.SetPoint(CardData[0].Grade_Point);
+           
+           
 
             GameManager.instance.Player.PlayerCardAnime();
             audioSource.PlayOneShot(slot[0]);
@@ -189,25 +171,7 @@ public class CardMixtureSystem : MonoBehaviour
     //스위치문 수정 필요 데미지 증감
     IEnumerator SendAttack()
     {
-       
-        NoteBar.PlayNote();
-
-
-        yield return new WaitUntil(() => (NoteBar.Verdict != ""));
-
-        switch (NoteBar.Verdict)
-        {
-            case "Good":
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-            case "Miss":
-                Debug.Log("miss 공격");
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-            default:
-                GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
-                break;
-        }
-       
+        GameManager.instance.AttackManager.Attack(MaidAttackData, CardData[2].GetComponent<TargetCard>().GetTargetIndex());
+        yield return null;
     }
 }

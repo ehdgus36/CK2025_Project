@@ -12,7 +12,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] CardDescription cardDescription;
     GameObject enemy;
     int layerind;
-    [SerializeField] GameObject BG;
+    
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -32,16 +32,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             cardDescription.UpdateDescription(card.DescSprite);
         }
 
-        if (card.GetComponent<TargetCard>() != null)
-        {
-            enemy = GameManager.instance.EnemysGroup.Enemys[card.GetComponent<TargetCard>().GetTargetIndex()].gameObject;
-            layerind = enemy.layer;
-            enemy.layer = 7;
-
-            ChangeLayerRecursively(enemy, 7);
-            Time.timeScale = 0.2f;
-            BG.SetActive(true);
-        }
+      
 
     }
 
@@ -55,7 +46,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
       
         ChangeLayerRecursively(enemy, layerind);
-        BG.SetActive(false);
+      
     }
 
     private void ChangeLayerRecursively(GameObject obj, int layer)

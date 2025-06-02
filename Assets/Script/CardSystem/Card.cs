@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using GameDataSystem;
+using Spine;
 
 
 public class Card : MonoBehaviour
@@ -11,32 +13,44 @@ public class Card : MonoBehaviour
     //public bool isHold = false;
 
     [SerializeField] String CardID;
-    [SerializeField] Sprite _DescSprite;
-    int CardLevel;
-    int GradePoint;
-    [SerializeField] public String CardName;
-    [SerializeField] public String Example;
-    [SerializeField] public String SubExample;
-    public int Grade_Point = 1;
-    [SerializeField] public Sprite icon;
-    [SerializeField] Sprite _InsertImage;
+    [SerializeField] public Sprite DescSprite;
+    CommonCardData cardData;
 
-    [SerializeField] Card UpGradeCard;
+    bool isCardEnd = false;
+    Enemy EnemyTarget;
+    public bool IsCardEnd { get { return isCardEnd; } }
+    public virtual void Initialized() 
+    {
+        isCardEnd = false;
+        object data;
+        if (StaticGameDataSchema.CARD_DATA_BASE.SearchData(CardID, out data))
+        {
+            cardData = (CommonCardData)data;
+        }
+        else
+        {
+           // Debug.LogError("카드데이터를 불러오지못했습니다. CardID를 확인해주세요. 혹은 저장된 값이 없습니다");
+        }
+    }
 
-    public Sprite DescSprite { get { return _DescSprite; } }
-    public Sprite InsertSprite { get { return _InsertImage; } }
 
-    public virtual void Initialized() { }
+    public virtual void TargetExcute(Enemy Target)
+    {
+        EnemyTarget = Target;
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation("attack",false ,AttackEvent , CompleteEvent); // 최종형 
+    }
 
-    public String GetID() { return CardID; }
 
-    public String GetName() { return CardName; }
-    public int GetGradePoint() { return Grade_Point; }
+    //스파인에서 AttackEvent가 발생할 때 실행할거
+    public virtual void AttackEvent(TrackEntry entry, Spine.Event e)
+    {
+         EnemyTarget.TakeDamage(5); // 고정 데미지
+         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현   
+    }
 
-    public string GetExample() { return Example; }
-
-    public virtual int GetDamage() { return 0; }
-
-    public virtual Card GetUpGradeCard() { return UpGradeCard; }
-
+    // 애니메이션이 마무리 될때 할거
+    public virtual void CompleteEvent(TrackEntry entry) 
+    {
+       isCardEnd=true; 
+    }
 }

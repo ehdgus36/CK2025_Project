@@ -39,7 +39,7 @@ public class EnemysGroup :Unit
 
     void EnemysDieEvent(Enemy thisEnemy)
     {
-        NoteControl.NoteSystems.RemoveAt(Enemys.IndexOf(thisEnemy));
+        NoteControl?.NoteSystems.RemoveAt(Enemys.IndexOf(thisEnemy));
         Enemys.Remove(thisEnemy);
 
         if (Enemys.Count == 0)
@@ -59,17 +59,13 @@ public class EnemysGroup :Unit
     {
         yield return new WaitForSeconds(2.0f);
 
-
-        NoteControl.PlayManager();
-     
-
         for (int i = 0; i < Enemys.Count; i++)
         {
 
-            yield return new WaitUntil(() => NoteControl.Success[i]);
+            //yield return new WaitUntil(() => NoteControl.Success[i]);
             Enemys[i].StartTurn();
 
-            //yield return new WaitUntil(() => Enemys[i].isAttack == true);
+            yield return new WaitUntil(() => Enemys[i].isAttack == true);
         }
 
         yield return new WaitForSeconds(2f);

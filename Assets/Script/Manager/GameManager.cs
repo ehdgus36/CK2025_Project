@@ -43,16 +43,22 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
 
+    public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
+    public CardCastPlace PlayerCardCastPlace { get { return _PlayerCardCastPlace; } }
 
+    public CemeteryUI CardCemetery { get { return _CardCemetery; } }
 
     //인스펙터에서 데이터 받아옴
 
+    [SerializeField] CardCastPlace _PlayerCardCastPlace;
     [SerializeField] CardMixtureSystem _PlayerAttackSystem;
+    [SerializeField] CemeteryUI _CardCemetery;
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
+    [SerializeField] GameObject _CardSlot;
     [SerializeField] GameObject PlayerTurnMark;
     [SerializeField] GameObject EnemyTurnMark;
     [SerializeField] Button EndTurnButton;
@@ -110,9 +116,10 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         EndTurnButton?.onClick.AddListener(TurnSwap);
-        EndTurnButton?.gameObject.SetActive(false);
+        //EndTurnButton?.gameObject.SetActive(false);
 
 
+        _PlayerCardCastPlace.Reset();
         ThisTurnUnit.StartTurn();
         Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
         StartCoroutine(TurnMark());
@@ -166,7 +173,7 @@ public class GameManager : MonoBehaviour
     public void TurnSwap()
     {
 
-        EndTurnButton.gameObject.SetActive(false);
+       
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 

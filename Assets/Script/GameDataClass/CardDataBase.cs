@@ -4,6 +4,51 @@ using UnityEngine;
 
 
 
+
+
+public struct CardData
+{
+    public readonly string Card_ID;
+    public readonly int    CardType;
+
+    public readonly int Range_Type;
+    public readonly int Attack_Count;
+
+    public readonly int Damage;
+    public readonly int Status_Type;
+    public readonly int Status_Turn;
+
+    public readonly int Damage_Buff;
+    public readonly int Recover_HP;
+
+    public readonly string Ani_Code;
+    public readonly string Effect_Code;
+
+
+
+    public CardData(Dictionary<string, object> data)
+    {
+        Card_ID = data["Card_ID"].ToString();
+        CardType = (int)data["Card_ID"];
+
+        Range_Type = (int)data["Card_ID"];
+        Attack_Count = (int)data["Card_ID"];
+
+        Damage = (int)data["Card_ID"];
+        Status_Type = (int)data["Card_ID"];
+        Status_Turn = (int)data["Card_ID"];
+
+        Damage_Buff = (int)data["Card_ID"];
+        Recover_HP = (int)data["Card_ID"];
+
+        Ani_Code = data["Card_ID"].ToString();
+        Effect_Code = data["Card_ID"].ToString();
+    }
+
+
+
+}
+
 public struct CommonCardData
 {
     public CommonCardData(Dictionary<string, object> data)
@@ -104,90 +149,44 @@ public struct CardStatusData
 
 public class CardDataBase 
 {
-    CommonCardData [] CommonCard_Data;
-    SpecialCardData[] SpecialCard_Data;
-    TargetCardData [] TargetCard_Data;
+    
 
-    Dictionary<string, CardStatusData> CardStatusDatas;
-    public CardDataBase(TextAsset CommonCardDataTable , TextAsset SpecialCardDataTable , TextAsset TargetCardDataTable , TextAsset CardStatusDataTable)
+    Dictionary<string, CardStatusData> CardStatusDatas = new Dictionary<string, CardStatusData>();
+    Dictionary<string, CommonCardData> CommonCardDatas = new Dictionary<string, CommonCardData>();
+    public CardDataBase( TextAsset CardStatusDataTable)
     { 
-        CommonCard_Data  = new CommonCardData  [CSVReader.Read(CommonCardDataTable).Count];
-        SpecialCard_Data = new SpecialCardData [CSVReader.Read(SpecialCardDataTable).Count];
-        TargetCard_Data  = new TargetCardData  [CSVReader.Read(TargetCardDataTable).Count];
-
-        int CardStatusIndex = CSVReader.Read(TargetCardDataTable).Count;
-
-        for (int i = 0; i < CommonCard_Data.Length; i++)
-        {
-            CommonCard_Data[i] = new CommonCardData(CSVReader.Read(CommonCardDataTable)[i]);
-        }
-
-        for (int i = 0; i < SpecialCard_Data.Length; i++)
-        {
-            SpecialCard_Data[i] = new SpecialCardData(CSVReader.Read(SpecialCardDataTable)[i]);
-        }
-
-        for (int i = 0; i < TargetCard_Data.Length; i++)
-        {
-            TargetCard_Data[i] = new TargetCardData(CSVReader.Read(TargetCardDataTable)[i]);
-        }
+   
+        int CardStatusIndex = CSVReader.Read(CardStatusDataTable).Count;
 
         for (int i = 0; i < CardStatusIndex; i++)
         {
-            string key = CSVReader.Read(TargetCardDataTable)[i]["Status_Code"].ToString();
-            CardStatusData data = new CardStatusData(CSVReader.Read(TargetCardDataTable)[i]);
+            string key = CSVReader.Read(CardStatusDataTable)[i]["Status_Code"].ToString();
+            CardStatusData data = new CardStatusData(CSVReader.Read(CardStatusDataTable)[i]);
             CardStatusDatas.Add(key, data);
         }
     }
 
 
-    public bool SearchData(string cardCode, ref object get_cardData)
+    public bool SearchData(string cardCode, out object get_cardData)
     {
-        switch (get_cardData)
-        {
-            case CommonCardData commonCardData:
+        bool isData = false;
+        
+        get_cardData = null;
+        if (CommonCardDatas.Count == 0) return false;
+        if (CardStatusDatas.Count == 0) return false;
 
-                for (int i = 0; i < CommonCard_Data.Length; i++)
-                {
-                    if (CommonCard_Data[i].Card_Code == cardCode)
-                    {
-                        get_cardData = CommonCard_Data[i];
-                        return true;
-                    }
-                }
-
-                
-                break;
-
-            case SpecialCardData specialCardData:
-                for (int i = 0; i < SpecialCard_Data.Length; i++)
-                {
-                    if (SpecialCard_Data[i].Card_Code == cardCode)
-                    {
-                        get_cardData = SpecialCard_Data[i];
-                        return true;
-                    }
-                }
-
-
-                break;
-
-            case TargetCardData targetCardData:
-                for (int i = 0; i < TargetCard_Data.Length; i++)
-                {
-                    if (TargetCard_Data[i].Card_Code == cardCode)
-                    {
-                        get_cardData = TargetCard_Data[i];
-                        return true;
-                    }
-                }
-
-
-                break;
+        if (CommonCardDatas.ContainsKey(cardCode)) 
+        { 
+            isData = true;
+            get_cardData = CommonCardDatas[cardCode];
+        }
+        if (CardStatusDatas.ContainsKey(cardCode)) 
+        { 
+            isData = true; 
+            get_cardData = CardStatusDatas[cardCode]; 
         }
 
-
-        return false;
+        return isData;
     }
 
 
@@ -195,33 +194,8 @@ public class CardDataBase
     {
         bool isData = false;
 
-        for (int i = 0; i < CommonCard_Data.Length; i++)
-        {
-            if (CommonCard_Data[i].Card_Code == CardCode)
-            {
-
-                isData = true;
-            }
-        }
-
-
-        for (int i = 0; i < SpecialCard_Data.Length; i++)
-        {
-            if (SpecialCard_Data[i].Card_Code == CardCode)
-            {
-
-                isData = true;
-            }
-        }
-
-        for (int i = 0; i < TargetCard_Data.Length; i++)
-        {
-            if (TargetCard_Data[i].Card_Code == CardCode)
-            {
-
-                isData = true;
-            }
-        }
+        if (CommonCardDatas.ContainsKey(CardCode)) isData = true;
+        if (CardStatusDatas.ContainsKey(CardCode)) isData = true;
 
         return isData;
     }

@@ -37,14 +37,14 @@ public class CardMixtureSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI MixtureName;
     [SerializeField] TextMeshProUGUI Descript;
 
-    
+
 
     [SerializeField] Dack[] dack;
 
     [SerializeField] AudioClip[] slot;
     [SerializeField] AudioSource audioSource;
 
-  
+
 
     [SerializeField] GuitarSkill GuitarSkill;
 
@@ -52,87 +52,80 @@ public class CardMixtureSystem : MonoBehaviour
 
     bool isGradeAttack = false;
 
-    public void GuitarSetUp()
-    {
-        if (UpgradePercent == 100)
-        {
-            isGradeAttack = true;
-        }
-    }
+    //public void GuitarSetUp()
+    //{
+    //    if (UpgradePercent == 100)
+    //    {
+    //        isGradeAttack = true;
+    //    }
+    //}
 
-    public void Return()
-    {
-        List<Card> CDdata = CDMixtureSlotGroup.ReadData<Card>();
-        for (int i = 0; i < CDdata.Count; i++)
-        {
-            // CDdata[i].GetComponent<Animator>().Play("Idle");
+    //public void Return()
+    //{
+    //    List<Card> CDdata = CDMixtureSlotGroup.ReadData<Card>();
+    //    for (int i = 0; i < CDdata.Count; i++)
+    //    {
+    //        // CDdata[i].GetComponent<Animator>().Play("Idle");
 
-            if (CDdata[i].GetUpGradeCard() == null)
-            {
-                CDdata[i].transform.position = new Vector3(100, 100, 1000);
-            }
+    //        if (CDdata[i].GetUpGradeCard() == null)
+    //        {
+    //            CDdata[i].transform.position = new Vector3(100, 100, 1000);
+    //        }
 
-            Cemetery[i].Insert(CDdata[i]);
+    //        Cemetery[i].Insert(CDdata[i]);
 
-        }
+    //    }
 
-        DamageText.text = "";
-        Descriptobj.SetActive(false);
-    }
+    //    DamageText.text = "";
+    //    Descriptobj.SetActive(false);
+    //}
 
     public void Initialize()
     {
         CDMixtureSlotGroup.Initialize(SelectionCard);
     }
-  
+
 
 
     void SelectionCard()
     {
         CardData = CDMixtureSlotGroup.ReadData<Card>();
-     
+
         if (CardData.Count == 3)
         {
             GameManager.instance.Player.PlayerCardAnime();
-          
+
             Descript.text = MaidAttackData.Explain_Down;
 
             if (isGradeAttack == false)
             {
-                StartCoroutine(SendAttack()); // 타이밍바 실행
+               
             }
 
             if (isGradeAttack == true)
-            { 
-          
+            {
+
             }
 
-           
+
             return;
         }
 
         if (CardData.Count == 2)
         {
 
-            if (GameDataSystem.StaticGameDataSchema.RECIPE_DATA_BASE.SearchData(CardData[0].GetID() + CardData[1].GetID(),ref MaidAttackData))
-            {
-               
-              
-                DamageText.text = MaidAttackData.Base_Damage_1.ToString();
-                Descript.text = MaidAttackData.Explain_Down;
-                Debug.Log(MaidAttackData.Add_Code);
-            }
+            
 
             GameManager.instance.Player.PlayerCardAnime();
-            
+
         }
 
         if (CardData.Count == 1)
         {
             Descriptobj.SetActive(true);
-            MixtureName.text = CardData[0].Example;
-            Descript.text = "";
            
+            Descript.text = "";
+
             GameManager.instance.Player.PlayerCardAnime();
         }
 
@@ -140,10 +133,10 @@ public class CardMixtureSystem : MonoBehaviour
     }
 
 
-    //스위치문 수정 필요 데미지 증감
-    IEnumerator SendAttack()
-    {
-        GameManager.instance.AttackManager.Attack(MaidAttackData);
-        yield return null;
-    }
+    ////스위치문 수정 필요 데미지 증감
+    //IEnumerator SendAttack()
+    //{
+    //    GameManager.instance.AttackManager.Attack(MaidAttackData);
+    //    yield return null;
+    //}
 }

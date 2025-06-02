@@ -13,13 +13,13 @@ public class CamShake : MonoBehaviour
         StartCoroutine(Shake(.3f));
     }
 
-    //public void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        PlayShake();
-    //    }
-    //}
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayShake();
+        }
+    }
 
 
     IEnumerator Shake(float duration)

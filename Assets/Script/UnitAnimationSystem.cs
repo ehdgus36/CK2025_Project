@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 using Spine.Unity;
 using System.Collections.Generic;
+using System.Linq;
+using Spine;
+using static Spine.AnimationState;
 
 public class UnitAnimationSystem : MonoBehaviour
 {
@@ -26,10 +29,11 @@ public class UnitAnimationSystem : MonoBehaviour
 
     Dictionary<string, AnimationReferenceAsset> AnimationDatas = new Dictionary<string, AnimationReferenceAsset>();
 
-    //private void Start()
-    //{
-    //    Initialize();
-    //}
+
+    public void Awake()
+    {
+        Initialize();
+    }
 
     public void Initialize()
     {
@@ -39,11 +43,14 @@ public class UnitAnimationSystem : MonoBehaviour
         {
             AnimationDatas.Add(AddAnimation[i].key, AddAnimation[i].animeData);
         }
+        
 
-        if (AnimationDatas.ContainsKey(IDLE)) UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[IDLE], true);           
+        if (AnimationDatas.Count > 0 ) 
+            UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[AnimationDatas.FirstOrDefault().Key], true);           
+
     }
 
-    public void PlayAnimation(string animeKey , bool loop = false)
+    public void PlayAnimation(string animeKey , bool loop = false , TrackEntryEventDelegate eventDelegate = null , TrackEntryDelegate CompleteDelegate = null)
     {
         if (loop)
         {
@@ -53,18 +60,15 @@ public class UnitAnimationSystem : MonoBehaviour
 
         if (!loop)
         {
-            if (AnimationDatas.ContainsKey(animeKey)) 
-                UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop).Complete += clear => 
-                                                                                                      { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, .1f); };
+            if (AnimationDatas.ContainsKey(animeKey))
+            {
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
+                track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0.1f); };
+                track.Complete += CompleteDelegate;
+                track.Event += eventDelegate;
+            }
         }
     }
 
-    //private void Update()
-    //{
-    //    if (isattack)
-    //    { 
-    //        isattack = false;
-    //        PlayAnimation(ATTACK);
-    //    }
-    //}
+ 
 }

@@ -22,12 +22,13 @@ public class Player : Unit
             Debug.LogError("Player데이터를 가져오지 못함");
         }
        
-        StartTurnEvent += GameManager.instance.PlayerAttackSystem.GuitarSetUp;
+       
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
-
-        EndTurnEvent += GameManager.instance.PlayerAttackSystem.Return;
-        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
         
+
+        EndTurnEvent += CDSlotGroup.ReturnCard;
+        EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 
 

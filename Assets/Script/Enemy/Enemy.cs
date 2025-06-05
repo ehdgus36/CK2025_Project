@@ -6,6 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using GameDataSystem;
 using UnityEngine.InputSystem;
+using TMPro;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 
@@ -28,7 +30,7 @@ public class EnemyData
     [SerializeField] public string EnemyName;
     
     [SerializeField] public int MaxDamage;
-    [HideInInspector] public int CurrentDamage;
+    [SerializeField] public int CurrentDamage;
 
     [SerializeField] public int MaxDefense;
     [HideInInspector] public int CurrentDefense;
@@ -38,19 +40,20 @@ public class EnemyData
 
 public class Enemy : Unit, IPointerDownHandler
 {
-    public EnemyData EnemyData;
-
+    //Unit정보 체력 공격력 등등
+    [SerializeField] public EnemyData EnemyData;
     [SerializeField] UnitAnimationSystem EnemyAnimator;
+
+    //애니메이션
     [SerializeField] EnemyStatus EnemyStatus;
-
-    [SerializeField] GameObject BG;
-
+  
     protected DieEnemy DieEvent;
     protected bool IsAttack;
 
+
     [SerializeField] BuffLayer buffLayer;
     [SerializeField] ImageFontSystem fontSystem;
-    [SerializeField] NoteSystem noteSystem;
+
 
     int EnemyIndex = 0;
 
@@ -59,53 +62,50 @@ public class Enemy : Unit, IPointerDownHandler
 
     Vector3 StargPos = Vector3.zero;
 
-    public bool isAttack { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
+   
+    public bool isAttackEnd { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
 
-    public void SetIsAttack(bool b)
-    {
-        IsAttack = b;
-    }
-  
     public virtual void Initialize(int index)
     {
-        EnemyIndex = index;
-      
-
-        EnemyStatus?.Initialize(EnemyData.EnemyUnitData.MaxHp, EnemyData.MaxDamage, EnemyIndex, EnemyData.EnemyName);
-
-       
         CurrentBuff = new List<Buff>();
 
+        // 받을수 있는 버프 제작
         if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1)) ;
         if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new ElecBuff(BuffType.End, 0, 1));
         if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.End, 0, 1));
         if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.End, 0, 1));
 
+       
+        //EnemyUnitData 설정 
         UnitData = EnemyData.EnemyUnitData;
         EnemyData.buffs = CurrentBuff;
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
         EnemyData.CurrentDefense = EnemyData.MaxDefense;
+
+
+        EnemyStatus?.Initialize(EnemyData); // UI 초기화
+
         StartTurnEvent = () =>
         {
-            isAttack = false; //공격 안함
-            EnemyStatus?.UpdateBuffIcon(CurrentBuff);
-           
-            StartCoroutine("SampleAi");
+            isAttackEnd = false; //턴 시작시 공격가능하게 초기화
+            EnemyStatus?.UpdateBuffIcon(CurrentBuff); //UI 갱신
 
+            StartCoroutine("EnemyAi"); //AI 실행
         };
 
 
         EndTurnEvent = () =>
         {
-            EnemyStatus?.UpdateStatus(UnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
-            EnemyStatus?.UpdateBuffIcon(CurrentBuff);
             //턴 종료시 버프로 감소된 변수 원상복구
             EnemyData.CurrentDamage = EnemyData.MaxDamage;
             EnemyData.CurrentDefense = EnemyData.MaxDefense;
-            StopCoroutine("SampleAi");
-        };
 
-       // DynamicGameDataSchema.AddDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
+            //UI 갱신
+            EnemyStatus?.UpdateStatus(EnemyData);
+          
+            //AI 정지
+            StopCoroutine("EnemyAi");
+        };
     }
 
     public void SetDieEvent(DieEnemy dieEvent)
@@ -113,20 +113,23 @@ public class Enemy : Unit, IPointerDownHandler
         DieEvent += dieEvent;
     }
 
-    IEnumerator SampleAi()
+    IEnumerator EnemyAi()
     {
+        // 위치 이동
         StargPos = transform.position;
 
         transform.position = GameManager.instance.Player.transform.position + new Vector3(2, 0, 0);
 
+        yield return new WaitForSeconds(.5f);
 
-        EnemyAnimator.PlayAnimation("attack");
+
+        //애니메이션 재생및 공격
+        EnemyAnimator.PlayAnimation("attack",false , (entry, e) => { GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage); } , null); 
         yield return new WaitForSeconds(1.0f);
-        GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage);
 
-        yield return new WaitForSeconds(1.0f);
 
-        isAttack = true; // 공격함
+        //완료 이벤트
+        isAttackEnd = true; // 공격함
         transform.position = StargPos;
         yield return null;
     }
@@ -136,7 +139,7 @@ public class Enemy : Unit, IPointerDownHandler
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        EnemyStatus?.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
+        EnemyStatus?.UpdateStatus(EnemyData);
         EnemyAnimator.PlayAnimation("hit");
         GameManager.instance.Shake.PlayShake();
     }
@@ -169,8 +172,8 @@ public class Enemy : Unit, IPointerDownHandler
        
         base.TakeDamage(damage - EnemyData.CurrentDefense);
         EnemyAnimator.PlayAnimation("hit");
-        EnemyStatus?.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
-        EnemyStatus?.UpdateBuffIcon(CurrentBuff);
+        EnemyStatus?.UpdateStatus(EnemyData);
+        
 
 
         fontSystem.FontConvert(damage.ToString(), null);
@@ -226,9 +229,10 @@ public class Enemy : Unit, IPointerDownHandler
     }
 
 
-    public void Setindex(int index)
-    { 
-        EnemyIndex = index;
-        EnemyStatus?.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
+    
+
+    public void CurrentDamageDown(int downDamage)
+    {
+        EnemyData.CurrentDamage -= downDamage;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class CardCastPlace : MonoBehaviour
 {
@@ -57,27 +58,37 @@ public class CardCastPlace : MonoBehaviour
         GameManager.instance.UIManager.Black.SetActive(false);
         PlayerStartPos = GameManager.instance.Player.transform.position;
 
-        GameManager.instance.Player.transform.position = _TargetEnemy.transform.position - new Vector3(2, 0, 0);
         int count = cards.Count;
-        StartCoroutine(TargetAttack(count));
+        StartCoroutine(TargetAttack());
     }
 
-    IEnumerator TargetAttack(int count)
+    IEnumerator TargetAttack()
     {
-        
+        int count = cards.Count;
+       
         for (int i = 0; i < count; i++)
         {
-            cards[0].TargetExcute(_TargetEnemy);
+            if(cards[0].cardData.MoveType == "M")
+            {
+                GameManager.instance.Player.transform.position = _TargetEnemy.transform.position - new Vector3(2, 0, 0);
+            }
+
+            yield return new WaitForSeconds(.1f); // 이동 후 딜레이
+
+            if (cards.Count >= 2) cards[0].TargetExcute(_TargetEnemy, cards[1]);
+            if (cards.Count == 1) cards[0].TargetExcute(_TargetEnemy);
+
+            Debug.Log("aaaaa");
             yield return new WaitUntil(() => cards[0].IsCardEnd); // 카드효과가 마무리 할때까지 대기
             yield return new WaitForSeconds(.5f); // 너무 바로 시작하는 느낌들어서 딜레이 줌
+
+            GameManager.instance.Player.transform.position = PlayerStartPos;
             cards.RemoveAt(0);
+            yield return new WaitForSeconds(.2f);
         }
 
         yield return null;
-
-        GameManager.instance.Player.transform.position = PlayerStartPos;
+   
         status.Reset();
-      
-       
     }
 }

@@ -6,10 +6,12 @@ using UnityEngine;
 
 
 
+[System.Serializable]
 public struct CardData
 {
     public readonly string Card_ID;
-    public readonly int    CardType;
+    public readonly int    Card_Type;
+    public readonly string MoveType;
 
     public readonly int Range_Type;
     public readonly int Attack_Count;
@@ -24,28 +26,25 @@ public struct CardData
     public readonly string Ani_Code;
     public readonly string Effect_Code;
 
-
-
     public CardData(Dictionary<string, object> data)
     {
-        Card_ID = data["Card_ID"].ToString();
-        CardType = (int)data["Card_ID"];
+        Card_ID  = data["Card_ID"].ToString();
+        Card_Type = (int)data["Card_Type"];
+        MoveType = data["MoveType"].ToString(); // M : 이동함 , P : 이동안함
 
-        Range_Type = (int)data["Card_ID"];
-        Attack_Count = (int)data["Card_ID"];
+        Range_Type   = (int)data["Range_Type"];
+        Attack_Count = (int)data["Attack_Count"];
 
-        Damage = (int)data["Card_ID"];
-        Status_Type = (int)data["Card_ID"];
-        Status_Turn = (int)data["Card_ID"];
+        Damage      = (int)data["Damage"];
+        Status_Type = (int)data["Status_Type"];
+        Status_Turn = (int)data["Status_Turn"];
 
-        Damage_Buff = (int)data["Card_ID"];
-        Recover_HP = (int)data["Card_ID"];
+        Damage_Buff = (int)data["Damage_Buff"];
+        Recover_HP  = (int)data["Recover_HP"];
 
-        Ani_Code = data["Card_ID"].ToString();
-        Effect_Code = data["Card_ID"].ToString();
+        Ani_Code    = data["Ani_Code"].ToString();
+        Effect_Code = data["Effect_Code"].ToString();
     }
-
-
 
 }
 
@@ -75,7 +74,6 @@ public struct CommonCardData
     public readonly int     Base_Damage_2;
 
     public readonly int     Recover_HP;
-
     public readonly string  Explain;
 }
 
@@ -110,25 +108,6 @@ public struct SpecialCardData
 }
 
 
-public struct TargetCardData
-{
-    public TargetCardData(Dictionary<string, object> data)
-    {
-        Card_Code    = data["Card_Code"].ToString();
-        Card_Name_EN = data["Card_Name_EN"].ToString();
-        Card_Name_KR = data["Card_Name_KR"].ToString();
-       
-        Explain      = data["Explain"].ToString();
-        
-    }
-
-    public readonly string Card_Code;
-    public readonly string Card_Name_EN;
-    public readonly string Card_Name_KR;
-   
-    public readonly string Explain;
-   
-}
 
 public struct CardStatusData
 {
@@ -152,11 +131,27 @@ public class CardDataBase
     
 
     Dictionary<string, CardStatusData> CardStatusDatas = new Dictionary<string, CardStatusData>();
-    Dictionary<string, CommonCardData> CommonCardDatas = new Dictionary<string, CommonCardData>();
-    public CardDataBase( TextAsset CardStatusDataTable)
+    Dictionary<string, CardData> CommonCardDatas = new Dictionary<string, CardData>();
+    public CardDataBase(TextAsset CardStatusDataTable , TextAsset CardDataTable)
     { 
    
+        int CardDataIndex = CSVReader.Read(CardDataTable).Count;
         int CardStatusIndex = CSVReader.Read(CardStatusDataTable).Count;
+
+        Debug.Log("수치 :" +CardDataIndex);
+
+        for (int i = 0; i < CardDataIndex; i++)
+        {
+            string key = CSVReader.Read(CardDataTable)[i]["Card_ID"].ToString();
+            
+            CardData data = new CardData(CSVReader.Read(CardDataTable)[i]);
+           
+
+            CommonCardDatas.Add(key, data);
+
+            Debug.Log("수치 :" + key +" " +key.Length);
+        }
+
 
         for (int i = 0; i < CardStatusIndex; i++)
         {
@@ -172,14 +167,14 @@ public class CardDataBase
         bool isData = false;
         
         get_cardData = null;
-        if (CommonCardDatas.Count == 0) return false;
-        if (CardStatusDatas.Count == 0) return false;
-
+      
         if (CommonCardDatas.ContainsKey(cardCode)) 
         { 
             isData = true;
             get_cardData = CommonCardDatas[cardCode];
         }
+
+      
         if (CardStatusDatas.ContainsKey(cardCode)) 
         { 
             isData = true; 

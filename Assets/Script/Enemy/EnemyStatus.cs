@@ -5,55 +5,40 @@ using TMPro;
 using System.Collections.Generic;
 using System;
 
-public class EnemyStatus : DynamicUIObject
+public class EnemyStatus : MonoBehaviour
 {
-
-    public override string DynamicDataKey => UI_keyData;
-    [SerializeField] string UI_keyData;
-
-    [SerializeField] GameObject SkillPoint;
+   
+    //HP
     [SerializeField] Image Hpfill;
-
     [SerializeField] TextMeshProUGUI HpText;
+    
+    //Damage UI
     [SerializeField] TextMeshProUGUI DamageText;
-    [SerializeField] TextMeshProUGUI indexText;
-    [SerializeField] TextMeshProUGUI NameText;
-    [SerializeField] TextMeshProUGUI PassiveDescText;
+   
+  
+ 
     [SerializeField] GameObject PassiveDescription;
 
     [SerializeField] TextMeshProUGUI[] BuffIcon;
     [SerializeField] Image num;
     [SerializeField] Sprite[] numIndex;
 
-    int MaxHP;
-    int CurrentHP;
+ 
 
 
 
-    public void Initialize(int maxHp, int damage, int index , string name)
+    public void Initialize(EnemyData enemyData)
     {
-        (MaxHP) = maxHp;
-        CurrentHP = MaxHP;
-
-        string enemyname ="";
-        for (int i = 0; i < name.Length -1;i++)
-        {
-            enemyname += name[i];
-        }
-
-
-        HpText.text = "50"+"/"+CurrentHP.ToString();
-        NameText.text = (enemyname + "<color=#EA133D>") + name[name.Length-1] +"</color>";
-        DamageText.text = damage.ToString();
-        //indexText.text = index.ToString();
-
-
-        PassiveDescription.SetActive(false);
+        HpText.text = enemyData.EnemyUnitData.CurrentHp.ToString();
+        DamageText.text = enemyData.CurrentDamage.ToString();
+        
 
         for (int i = 0; i < BuffIcon.Length; i++)
         {
             BuffIcon[i].gameObject.transform.parent.gameObject.SetActive(false);
         }
+
+        PassiveDescription.SetActive(false);
     }
 
     public void UpdateBuffIcon(List<Buff> buffs)
@@ -97,24 +82,24 @@ public class EnemyStatus : DynamicUIObject
         }
     }
 
-    public void UpdateStatus(int hp, int damage, int index  )
+    public void UpdateStatus(EnemyData enemyData)
     {
-        CurrentHP = hp;
-        Hpfill.fillAmount = (float)CurrentHP / (float)MaxHP;
+
+        Hpfill.fillAmount = (float)enemyData.EnemyUnitData.CurrentHp / (float)enemyData.EnemyUnitData.MaxHp;
+        HpText.text = enemyData.EnemyUnitData.CurrentHp.ToString();
 
 
-        HpText.text = "50" + "/" + CurrentHP.ToString();
-        DamageText.text =  damage.ToString();
 
-        num.sprite = numIndex[index];
-        ///indexText.text = index.ToString();
+        DamageText.text = enemyData.CurrentDamage.ToString();
+
+      
 
         for (int i = 0; i < BuffIcon.Length; i++)
         {
             BuffIcon[i].gameObject.transform.parent.gameObject.SetActive(false);
         }
 
-        
+        UpdateBuffIcon(enemyData.buffs);
     }
 
     public void OnPassiveDescription()
@@ -127,15 +112,5 @@ public class EnemyStatus : DynamicUIObject
         PassiveDescription.SetActive(false);
     }
 
-    public override void UpdateUIData(object update_ui_data)
-    {
-        EnemyData uiEnemyData = (EnemyData)update_ui_data;
-
-        if (uiEnemyData != null)
-        {
-            UpdateStatus(uiEnemyData.EnemyUnitData.CurrentHp, uiEnemyData.CurrentDamage, 0);
-            UpdateBuffIcon(uiEnemyData.buffs);
-        }
-        //여기에서 업데이트 
-    }
+ 
 }

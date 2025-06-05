@@ -49,11 +49,13 @@ namespace GameDataSystem
     public static class StaticGameDataSchema
     {
         static TextAsset RecipeDataTable = new TextAsset();
-        static TextAsset CommonCardDataTable = new TextAsset();
         static TextAsset CardStatusDataTable = new TextAsset();
+        static TextAsset CardDataTable = Resources.Load<TextAsset>("CardDataTable/CardDataTable");
+        static TextAsset NoteDataTable = new TextAsset();
 
         public readonly static RecipeDataBase RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
-        public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase( CardStatusDataTable);
+        public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CardStatusDataTable , CardDataTable);
+        public readonly static NoteDataBase NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
 
     }
 
@@ -80,7 +82,7 @@ namespace GameDataSystem
 
             AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
-            AddDynamicDataBase(DynamicGameDataKeys.TARGET_CARD_DATA, new List<TargetCard>());
+    
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA,"1-1");
 
         }

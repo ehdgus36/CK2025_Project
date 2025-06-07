@@ -7,8 +7,6 @@ using UnityEngine.Events;
 public class RhythmGameSystem : MonoBehaviour
 {
 
-   
-    
     [SerializeField] List<RhythmGameTrack> RhythmGameTracks;
 
 

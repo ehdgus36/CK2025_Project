@@ -11,7 +11,7 @@ public class Player : Unit
     [SerializeField] UnitAnimationSystem AnimationSystem;
 
 
-    [HideInInspector] public int DamageBuff = 0;
+ 
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
     public void Initialize()
     {

@@ -5,37 +5,33 @@ using GameDataSystem;
 
 public class Player : Unit
 {
-    [SerializeField] Animator DamageEffect;
+   
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
-   // [SerializeField] PlayerStatus playerStatus;
-    [SerializeField] AudioSource AudioSource;
-    [SerializeField] AudioClip[] audioClip;
+    [SerializeField] ImageFontSystem fontSystem;
+    [SerializeField] UnitAnimationSystem AnimationSystem;
 
-  
+
+ 
+    public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
     public void Initialize()
     {
        
-        if (DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
+        UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
+
+
+        if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
         }
        
-        StartTurnEvent += GameManager.instance.PlayerAttackSystem.GuitarSetUp;
-        StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
-
-
-        EndTurnEvent += GameManager.instance.PlayerAttackSystem.Return;
-
-
        
-
-        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+        StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
         
+
+        EndTurnEvent += CDSlotGroup.ReturnCard;
+        EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
-
-
-
- 
 
     protected override void Die()
     {
@@ -48,16 +44,44 @@ public class Player : Unit
     {
         base.TakeDamage(damage);
         Debug.Log("hit");
-        if (DamageEffect != null)
+
+        
+        if (AnimationSystem != null)
         {
 
-            DamageEffect.Play("hit");
+            AnimationSystem.PlayAnimation("hit");
         }
-        AudioSource.PlayOneShot(audioClip[2]);
+
         GameManager.instance.Shake.PlayShake();
 
         //playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
-        //DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
+        DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
+    }
+
+    public void TakeDamage(int damage , string notes)
+    {
+        TakeDamage(damage);
+
+        Color fontColor = new Color(239f / 255f, 86.0f / 255.0f, 110f / 225f);
+
+        switch (notes)
+        {
+            case "Miss":
+                fontColor = new Color(239f/255f, 86f/ 255f, 110/255f);
+                break;
+            case "Bad":
+                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
+                break;
+            case "Normal":
+                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
+                break;
+            case "Good":
+                fontColor = new Color(254f / 255f, 249f / 255f, 57f/255f);
+                break;
+        }
+
+        fontSystem.FontConvert(damage.ToString(), null , fontColor);
+
     }
 
     public void PlayerSave()
@@ -67,15 +91,20 @@ public class Player : Unit
 
     public void PlayerAttackAnime()
     {
-        DamageEffect.Play("attack");
-        AudioSource.PlayOneShot(audioClip[0]);
-        AudioSource.PlayOneShot(audioClip[1]);
+        AnimationSystem.PlayAnimation("attack");
+    }
+       
+
+    public void PlayerHamoniAttackAnime()
+    {
+        AnimationSystem.PlayAnimation("hamoni");
+       
     }
 
     public void PlayerCardAnime()
     {
-        AudioSource.PlayOneShot(audioClip[3]);
-        DamageEffect.Play("card");
+
+        AnimationSystem.PlayAnimation("card");
     }
 
     public void addHP(int HP)
@@ -87,6 +116,7 @@ public class Player : Unit
             UnitData.CurrentHp = UnitData.MaxHp;
         }
 
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
     }
 }

@@ -7,6 +7,7 @@ public class StageUIView : DynamicUIObject
     [SerializeField] TextMeshProUGUI StageText;
     public override void UpdateUIData(object update_ui_data)
     {
-        StageText.text = update_ui_data.ToString();
+        StageText.text = (string)update_ui_data;
     }
+
 }

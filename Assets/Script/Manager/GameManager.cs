@@ -43,18 +43,31 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
 
+    public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
+    public CardCastPlace PlayerCardCastPlace { get { return _PlayerCardCastPlace; } }
 
+    public CemeteryUI CardCemetery { get { return _CardCemetery; } }
 
     //인스펙터에서 데이터 받아옴
 
+    [SerializeField] CardCastPlace _PlayerCardCastPlace;
     [SerializeField] CardMixtureSystem _PlayerAttackSystem;
+    [SerializeField] CemeteryUI _CardCemetery;
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
-   
-     IEnumerator Initialize()
+    [SerializeField] GameObject _CardSlot;
+    [SerializeField] GameObject PlayerTurnMark;
+    [SerializeField] GameObject EnemyTurnMark;
+    [SerializeField] GameObject GameStartMark;
+    [SerializeField] Button EndTurnButton;
+    GameObject ThisTrunMark;
+    GameObject NextTrunMark;
+
+    bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
+    IEnumerator Initialize()
      {
         _Player = FindFirstObjectByType<Player>();
         _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
@@ -62,6 +75,8 @@ public class GameManager : MonoBehaviour
         ThisTurnUnit = Player;
         NextTurnUnit = EnemysGroup;
 
+        ThisTrunMark = PlayerTurnMark;
+        NextTrunMark = EnemyTurnMark;
        
         yield return null;
 
@@ -102,9 +117,14 @@ public class GameManager : MonoBehaviour
 
         yield return null;
 
+        EndTurnButton?.onClick.AddListener(TurnSwap);
+        //EndTurnButton?.gameObject.SetActive(false);
+
+
+        _PlayerCardCastPlace.Reset();
         ThisTurnUnit.StartTurn();
-        Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
-      
+        //Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
+        StartCoroutine(TurnMark());
      }
 
 
@@ -133,7 +153,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DeleyLoadScene()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Title");
+        GameClear.SetActive(true);
         Player.PlayerSave();
     }
 
@@ -146,14 +166,69 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void TurnSwap()
-    {     
 
+    public void EndTurn()
+    {
+        EndTurnButton.gameObject.SetActive(true);
+    }
+
+    public void TurnSwap()
+    {  
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
         ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
-    }
-  
 
+        StartCoroutine(TurnMark());
+    }
+
+    IEnumerator TurnMark()
+    {
+        if (isStart == false)
+        {    
+            isStart = true;
+            yield return new WaitForSeconds(.2f);
+            GameStartMark.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            GameStartMark.SetActive(false);
+        }
+
+
+        yield return new WaitForSeconds(.2f);
+        ThisTrunMark.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        ThisTrunMark.SetActive(false);
+
+        (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
+
+    }
+
+    public void MapEvent()
+    {
+        SceneManager.LoadScene("Map");
+    }
+
+
+
+    /// <summary>
+    /// Combo의 수치를 업그레이드
+    /// </summary>
+    /// <param name="data"></param>
+    public void ComboUpdate(int data)
+    {
+        StartCoroutine(UPdateComboCount(data));
+    }
+
+    IEnumerator UPdateComboCount(int count)
+    {
+        int combo = 0;
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, out combo);
+        for (int i = 0; i < count; i++)
+        {
+            combo++;
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, combo);
+            
+            if(i % 200 == 0)yield return null;
+        }
+    }
 }

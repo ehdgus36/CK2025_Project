@@ -18,7 +18,7 @@ public class UnitData
         set
         {
             _CurrentHp = value;
-            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
+            //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
         }
     }
 
@@ -89,7 +89,7 @@ public class Unit : MonoBehaviour
     protected virtual void Die() 
     {
         Debug.Log("Die() 활성화");
-       // DieEvent?.Invoke();
+        //DieEvent?.Invoke();
     }
 
     //Unit의 턴이 시작했을 때 호출

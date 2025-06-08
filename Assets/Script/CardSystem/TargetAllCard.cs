@@ -1,12 +1,6 @@
 using UnityEngine;
 
-public class TargetAllCard : TargetCard
+public class TargetAllCard 
 {
  
-    public override int GetTargetIndex() 
-    {
-
-
-        return 1000;
-    }
 }

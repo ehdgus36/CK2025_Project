@@ -5,23 +5,11 @@ using UnityEngine.UI;
 public class PlayerStatus : DynamicUIObject
 {
     public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
-    [SerializeField] Image Hpfill;
-    [SerializeField] TextMeshProUGUI Hptext;
-
-    int MaxHP;
-    int CurrentHP;
-
-
-   
-    void UpdataStatus(int maxHp , int currentHp)
+    [SerializeField] HP_Bar HP_bar;
+  
+    void UpdataStatus(UnitData data)
     {
-        (MaxHP, CurrentHP) = (maxHp, currentHp);
-
-
-        Hpfill.fillAmount = (float)CurrentHP / (float)MaxHP;
-
-
-        Hptext.text = CurrentHP.ToString();
+        HP_bar.UpdateUI(data.MaxHp, data.CurrentHp);
     }
 
     public override void UpdateUIData(object update_ui_data)
@@ -29,9 +17,8 @@ public class PlayerStatus : DynamicUIObject
         UnitData playerData = (UnitData)update_ui_data;
 
         if (playerData != null)
-        {
-
-            UpdataStatus(playerData.MaxHp, playerData.CurrentHp);
+        { 
+            UpdataStatus(playerData);
         }
     }
 }

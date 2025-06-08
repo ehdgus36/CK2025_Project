@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using GameDataSystem;
+using UnityEngine.InputSystem;
+using TMPro;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 
@@ -27,7 +30,7 @@ public class EnemyData
     [SerializeField] public string EnemyName;
     
     [SerializeField] public int MaxDamage;
-    [HideInInspector] public int CurrentDamage;
+    [SerializeField] public int CurrentDamage;
 
     [SerializeField] public int MaxDefense;
     [HideInInspector] public int CurrentDefense;
@@ -35,72 +38,74 @@ public class EnemyData
     public List<Buff> buffs;
 }
 
-public class Enemy : Unit, IPointerDownHandler
+public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointerExitHandler
 {
-    public EnemyData EnemyData;
+    //Unit정보 체력 공격력 등등
+    [SerializeField] public EnemyData EnemyData;
+    [SerializeField] UnitAnimationSystem EnemyAnimator;
 
-    [SerializeField] Animator EnemyAnimator;
+    //애니메이션
     [SerializeField] EnemyStatus EnemyStatus;
-
-    [SerializeField] GameObject BG;
-
+  
     protected DieEnemy DieEvent;
     protected bool IsAttack;
 
+
     [SerializeField] BuffLayer buffLayer;
+    [SerializeField] ImageFontSystem fontSystem;
+
 
     int EnemyIndex = 0;
 
     int startLayer = 0;
     bool isDescription = false;
 
-    public bool isAttack { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
+    Vector3 StargPos = Vector3.zero;
 
-    public void SetIsAttack(bool b)
-    {
-        IsAttack = b;
-    }
-  
+   
+    public bool isAttackEnd { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
+
     public virtual void Initialize(int index)
     {
-        EnemyIndex = index;
-      
-
-        EnemyStatus.Initialize(EnemyData.EnemyUnitData.MaxHp, EnemyData.MaxDamage, EnemyIndex, EnemyData.EnemyName);
-
-        UnitData.CurrentHp = UnitData.MaxHp;
         CurrentBuff = new List<Buff>();
 
+        // 받을수 있는 버프 제작
         if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1)) ;
         if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new ElecBuff(BuffType.End, 0, 1));
         if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.End, 0, 1));
         if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.End, 0, 1));
 
-        EnemyData.EnemyUnitData = UnitData;
+       
+        //EnemyUnitData 설정 
+        UnitData = EnemyData.EnemyUnitData;
         EnemyData.buffs = CurrentBuff;
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
         EnemyData.CurrentDefense = EnemyData.MaxDefense;
+
+
+        EnemyStatus?.Initialize(EnemyData); // UI 초기화
+
         StartTurnEvent = () =>
         {
-            isAttack = false; //공격 안함
-            EnemyStatus.UpdateBuffIcon(CurrentBuff);
-           
-            StartCoroutine("SampleAi");
+            isAttackEnd = false; //턴 시작시 공격가능하게 초기화
+            EnemyStatus?.UpdateStatus(EnemyData); //UI 갱신
 
+            StartCoroutine("EnemyAi"); //AI 실행
         };
 
 
         EndTurnEvent = () =>
         {
-            EnemyStatus.UpdateStatus(UnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
-            EnemyStatus.UpdateBuffIcon(CurrentBuff);
             //턴 종료시 버프로 감소된 변수 원상복구
             EnemyData.CurrentDamage = EnemyData.MaxDamage;
             EnemyData.CurrentDefense = EnemyData.MaxDefense;
-            StopCoroutine("SampleAi");
-        };
 
-        DynamicGameDataSchema.AddDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
+            //UI 갱신
+            EnemyStatus?.UpdateStatus(EnemyData);
+          
+            //AI 정지
+            StopCoroutine("EnemyAi");
+        };
     }
 
     public void SetDieEvent(DieEnemy dieEvent)
@@ -108,21 +113,36 @@ public class Enemy : Unit, IPointerDownHandler
         DieEvent += dieEvent;
     }
 
-    IEnumerator SampleAi()
+    IEnumerator EnemyAi()
     {
+        // 위치 이동
+        StargPos = transform.position;
 
-        EnemyAnimator.Play("attack");
+        transform.position = GameManager.instance.Player.transform.position + new Vector3(2, 0, 0);
+
+        yield return new WaitForSeconds(.5f);
+
+
+        //애니메이션 재생및 공격
+        EnemyAnimator.PlayAnimation("attack",false , (entry, e) => { GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage); } , null); 
         yield return new WaitForSeconds(1.0f);
-        GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage);
 
-        yield return new WaitForSeconds(1.0f);
 
-        isAttack = true; // 공격함
+        //완료 이벤트
+        isAttackEnd = true; // 공격함
+        transform.position = StargPos;
         yield return null;
     }
 
 
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        EnemyStatus?.UpdateStatus(EnemyData);
+        EnemyAnimator.PlayAnimation("hit");
+        GameManager.instance.Shake.PlayShake();
+    }
 
     public void TakeDamage(int damage, Buff buff)
     {
@@ -151,10 +171,12 @@ public class Enemy : Unit, IPointerDownHandler
        
        
         base.TakeDamage(damage - EnemyData.CurrentDefense);
-        EnemyAnimator.Play("hit");
-        EnemyStatus.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
-        EnemyStatus.UpdateBuffIcon(CurrentBuff);
+        EnemyAnimator.PlayAnimation("hit");
+        EnemyStatus?.UpdateStatus(EnemyData);
+        
 
+
+        fontSystem.FontConvert(damage.ToString(), null);
         EnemyData.EnemyUnitData = UnitData;
         DynamicGameDataSchema.UpdateDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
         
@@ -163,8 +185,10 @@ public class Enemy : Unit, IPointerDownHandler
 
     protected override void Die()
     {
-        this.gameObject.SetActive(false);
+        //DynamicGameDataSchema.RemoveDynamicDataBase(UnitData.DataKey);
+        //this.gameObject.SetActive(false);
         DieEvent?.Invoke(this);
+       
 
     }
 
@@ -173,7 +197,7 @@ public class Enemy : Unit, IPointerDownHandler
         if(onoff == false)
         {
 
-            EnemyStatus.OnPassiveDescription();
+            EnemyStatus?.OnPassiveDescription();
             startLayer = this.gameObject.layer;
 
             ChangeLayerRecursively(this.gameObject, 7);
@@ -183,7 +207,7 @@ public class Enemy : Unit, IPointerDownHandler
 
         if (onoff == true)
         {
-            EnemyStatus.OffPassiveDescription();
+            EnemyStatus?.OffPassiveDescription();
             ChangeLayerRecursively(this.gameObject, startLayer);
             isDescription = false;
             return;
@@ -192,26 +216,9 @@ public class Enemy : Unit, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (isDescription == false)
-        {
-
-            EnemyStatus.OnPassiveDescription();
-            startLayer = this.gameObject.layer;
-
-            ChangeLayerRecursively(this.gameObject, 7);
-            isDescription = true;
-            return;
-        }
-
-        if (isDescription == true)
-        {
-            EnemyStatus.OffPassiveDescription();
-            ChangeLayerRecursively(this.gameObject, startLayer);
-            isDescription = false;
-            return;
-        }
+        GameManager.instance.PlayerCardCastPlace.TargetEnemy = this;
+        Debug.Log("select Enemy");
     }
-
     private void ChangeLayerRecursively(GameObject obj, int layer)
     {
         obj.layer = layer;
@@ -223,9 +230,20 @@ public class Enemy : Unit, IPointerDownHandler
     }
 
 
-    public void Setindex(int index)
-    { 
-        EnemyIndex = index;
-        EnemyStatus.UpdateStatus(EnemyData.EnemyUnitData.CurrentHp, EnemyData.CurrentDamage, EnemyIndex);
+    
+
+    public void CurrentDamageDown(int downDamage)
+    {
+        EnemyData.CurrentDamage -= downDamage;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        EnemyStatus.StatusPopUp.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        EnemyStatus.StatusPopUp.SetActive(false);
     }
 }

@@ -13,13 +13,14 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _UseCardCountText;
     [SerializeField] GameObject _Black;
+    
 
 
     public TextMeshProUGUI UseCardCountText { get { return _UseCardCountText; } }
     public GameObject Black { get { return _Black; } }
 
 
-    List<DynamicUIObject> GameUIObj;
+    List<DynamicUIObject> GameUIObj = new List<DynamicUIObject>();
     [SerializeField] bool isStart;
 
 

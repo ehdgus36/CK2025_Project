@@ -1,21 +1,23 @@
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using GameDataSystem;
 using Spine;
-using UnityEngine.InputSystem;
+
+
 
 
 public class Card : MonoBehaviour
 {
-    
-
-    [SerializeField] String CardID;
+    [SerializeField] protected string CardID;
     [SerializeField] public Sprite DescSprite;
-    public CardData cardData;
-    [HideInInspector]public int DamageBuff = 0;
+    public CardData cardData { get; private set; }
+
+    [HideInInspector] public int DamageBuff = 0;
+    [HideInInspector] public int Buff_Recover_HP = 0 ;
+
     bool isCardEnd = false;
     Enemy EnemyTarget;
     public bool IsCardEnd { get { return isCardEnd; } }
@@ -52,6 +54,9 @@ public class Card : MonoBehaviour
     {
          EnemyTarget.TakeDamage(cardData.Damage + DamageBuff);
          Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현   
+         GameManager.instance.ComboUpdate(Random.Range(17010, 21204));
+
+        GameManager.instance.Player.addHP(cardData.Recover_HP + Buff_Recover_HP);
     }
 
     // 애니메이션이 마무리 될때 할거
@@ -59,5 +64,8 @@ public class Card : MonoBehaviour
     {
         isCardEnd=true;
         DamageBuff = 0; // 추가버프는 1회용이기 때문에 항상 초기화
+        Buff_Recover_HP = 0;
+
+
     }
 }

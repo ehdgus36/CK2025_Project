@@ -19,8 +19,10 @@ namespace GameDataSystem.KeyCode
         public static readonly string ITME_DATA = "ITME_DATA";
         public static readonly string STAGE_DATA = "STAGE_DATA";
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
+        public static readonly string COMBO_DATA = "COMBO_DATA";
 
-        
+
+
     }
 }
 
@@ -84,6 +86,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
     
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA,"1-1");
+            AddDynamicDataBase(DynamicGameDataKeys.COMBO_DATA, 0);
 
         }
 

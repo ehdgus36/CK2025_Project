@@ -54,7 +54,8 @@ public class RhythmGameTrack : MonoBehaviour
                     && SpawnNotes[0].transform.position.y > SelectZone.bounds.min.y)
                 {
                     TargetEnemy.CurrentDamageDown(1); //Enemy 의 데미지를 감소 시킴
-                   
+
+                    GameManager.instance.ComboUpdate(Random.Range(9024, 10025));
 
                     DelectNote();      
                 }

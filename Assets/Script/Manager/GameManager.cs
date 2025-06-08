@@ -61,10 +61,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _CardSlot;
     [SerializeField] GameObject PlayerTurnMark;
     [SerializeField] GameObject EnemyTurnMark;
+    [SerializeField] GameObject GameStartMark;
     [SerializeField] Button EndTurnButton;
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
 
+    bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
     IEnumerator Initialize()
      {
         _Player = FindFirstObjectByType<Player>();
@@ -171,9 +173,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void TurnSwap()
-    {
-
-       
+    {  
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
@@ -184,6 +184,17 @@ public class GameManager : MonoBehaviour
 
     IEnumerator TurnMark()
     {
+        if (isStart == false)
+        {    
+            isStart = true;
+            yield return new WaitForSeconds(.2f);
+            GameStartMark.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            GameStartMark.SetActive(false);
+        }
+
+
+        yield return new WaitForSeconds(.2f);
         ThisTrunMark.SetActive(true);
         yield return new WaitForSeconds(1f);
         ThisTrunMark.SetActive(false);
@@ -197,4 +208,27 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Map");
     }
 
+
+
+    /// <summary>
+    /// Combo의 수치를 업그레이드
+    /// </summary>
+    /// <param name="data"></param>
+    public void ComboUpdate(int data)
+    {
+        StartCoroutine(UPdateComboCount(data));
+    }
+
+    IEnumerator UPdateComboCount(int count)
+    {
+        int combo = 0;
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, out combo);
+        for (int i = 0; i < count; i++)
+        {
+            combo++;
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, combo);
+            
+            if(i % 200 == 0)yield return null;
+        }
+    }
 }

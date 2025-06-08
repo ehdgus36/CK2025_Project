@@ -38,7 +38,7 @@ public class EnemyData
     public List<Buff> buffs;
 }
 
-public class Enemy : Unit, IPointerDownHandler
+public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointerExitHandler
 {
     //Unit정보 체력 공격력 등등
     [SerializeField] public EnemyData EnemyData;
@@ -88,7 +88,7 @@ public class Enemy : Unit, IPointerDownHandler
         StartTurnEvent = () =>
         {
             isAttackEnd = false; //턴 시작시 공격가능하게 초기화
-            EnemyStatus?.UpdateBuffIcon(CurrentBuff); //UI 갱신
+            EnemyStatus?.UpdateStatus(EnemyData); //UI 갱신
 
             StartCoroutine("EnemyAi"); //AI 실행
         };
@@ -185,9 +185,10 @@ public class Enemy : Unit, IPointerDownHandler
 
     protected override void Die()
     {
-        DynamicGameDataSchema.RemoveDynamicDataBase(UnitData.DataKey);
-        this.gameObject.SetActive(false);
+        //DynamicGameDataSchema.RemoveDynamicDataBase(UnitData.DataKey);
+        //this.gameObject.SetActive(false);
         DieEvent?.Invoke(this);
+       
 
     }
 
@@ -234,5 +235,15 @@ public class Enemy : Unit, IPointerDownHandler
     public void CurrentDamageDown(int downDamage)
     {
         EnemyData.CurrentDamage -= downDamage;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        EnemyStatus.StatusPopUp.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        EnemyStatus.StatusPopUp.SetActive(false);
     }
 }

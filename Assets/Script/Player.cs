@@ -33,10 +33,6 @@ public class Player : Unit
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 
-
-
- 
-
     protected override void Die()
     {
         GameManager.instance.GameOver.SetActive(true);
@@ -120,6 +116,7 @@ public class Player : Unit
             UnitData.CurrentHp = UnitData.MaxHp;
         }
 
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
     }
 }

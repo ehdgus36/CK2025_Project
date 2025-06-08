@@ -85,7 +85,7 @@ public void Update()
         {
             if (Notes[0].transform.position.x > HitBox.bounds.max.x)
             {
-                Notes[0].gameObject.SetActive(false);
+                Destroy(Notes[0].gameObject);
                 Notes.RemoveAt(0);
                
                 return;
@@ -95,7 +95,7 @@ public void Update()
             {
                 if (Notes[0].transform.position.x >= HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x)
                 {
-                    Notes[0].gameObject.SetActive(false);
+                    Destroy(Notes[0].gameObject);
                     Notes.RemoveAt(0);
 
                     Score++;
@@ -103,7 +103,7 @@ public void Update()
                 }
                 else if (Notes[0].transform.position.x < HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x)
                 {
-                    Notes[0].gameObject.SetActive(false);
+                    Destroy( Notes[0].gameObject);
                     Notes.RemoveAt(0);
                     TotalScore++;
 

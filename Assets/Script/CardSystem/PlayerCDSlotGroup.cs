@@ -27,7 +27,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
 
 
         Player_CardSlot[0].gameObject.SetActive(true);
-        Player_CardSlot[0].GetComponent<Animator>().Play("Drow");
+        //Player_CardSlot[0].GetComponent<Animator>().Play("Drow");
        
     }
 
@@ -60,7 +60,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
         }
 
         Player_CardSlot[0].gameObject.SetActive(true);
-        Player_CardSlot[0].GetComponent<Animator>().Play("Drow");
+        //Player_CardSlot[0].GetComponent<Animator>().Play("Drow");
     }
 
     public void SwapCardSlots()
@@ -70,7 +70,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
 
     public void ReturnCard()
     {
-        Player_CardSlot[0].GetComponent<Animator>().Play("CardReturn");
+       // Player_CardSlot[0].GetComponent<Animator>().Play("CardReturn");
 
         
     }

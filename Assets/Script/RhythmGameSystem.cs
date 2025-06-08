@@ -8,7 +8,7 @@ public class RhythmGameSystem : MonoBehaviour
 {
 
     [SerializeField] List<RhythmGameTrack> RhythmGameTracks;
-
+    
 
     public bool isEndGame = false;
 
@@ -61,7 +61,7 @@ public class RhythmGameSystem : MonoBehaviour
 
     public void RhythmGameTracksRemove(int index )
     {
-        RhythmGameTracks[index].Setup();
+       
         RhythmGameTracks.RemoveAt(index);
     }
 

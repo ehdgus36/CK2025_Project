@@ -72,8 +72,8 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         // 받을수 있는 버프 제작
         if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1)) ;
         if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new ElecBuff(BuffType.End, 0, 1));
-        if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.End, 0, 1));
-        if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.End, 0, 1));
+        if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.Start, 0, 1));
+        if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.Start, 0, 2));
 
        
         //EnemyUnitData 설정 
@@ -134,17 +134,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         yield return null;
     }
 
-
-
-    public override void TakeDamage(int damage)
-    {
-        base.TakeDamage(damage);
-        EnemyStatus?.UpdateStatus(EnemyData);
-        EnemyAnimator.PlayAnimation("hit");
-        GameManager.instance.Shake.PlayShake();
-    }
-
-    public void TakeDamage(int damage, Buff buff)
+    public void TakeDamage(int damage, Buff buff = null)
     {
         if (damage <= 0)
         {
@@ -173,14 +163,10 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         base.TakeDamage(damage - EnemyData.CurrentDefense);
         EnemyAnimator.PlayAnimation("hit");
         EnemyStatus?.UpdateStatus(EnemyData);
-        
+        GameManager.instance.Shake.PlayShake();
 
 
-        fontSystem.FontConvert(damage.ToString(), null);
-        EnemyData.EnemyUnitData = UnitData;
-        DynamicGameDataSchema.UpdateDynamicDataBase(EnemyData.EnemyUnitData.DataKey, EnemyData);
-        
-
+        //fontSystem.FontConvert(damage.ToString(), null);
     }
 
     protected override void Die()

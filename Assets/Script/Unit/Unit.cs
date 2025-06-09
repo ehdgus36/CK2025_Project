@@ -95,9 +95,9 @@ public class Unit : MonoBehaviour
     //Unit의 턴이 시작했을 때 호출
     public void StartTurn() 
     {
-       
         IsTurn = true;
         BuffExecution(BuffType.Start);
+      
 
         if (IsTurn == false) return; 
         
@@ -117,6 +117,8 @@ public class Unit : MonoBehaviour
     void BuffExecution(BuffType type)
     {
         if (CurrentBuff == null) return;
+
+        Debug.Log("buffCount :"+ CurrentBuff.Count.ToString());
         if (CurrentBuff.Count != 0)
         {
             for (int i = 0; i < CurrentBuff.Count; i++)

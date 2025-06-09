@@ -13,6 +13,8 @@ public class Card : MonoBehaviour
 {
     [SerializeField] protected string CardID;
     [SerializeField] public Sprite DescSprite;
+
+    Buff CardBuff = null;
     public CardData cardData { get; private set; }
 
     [HideInInspector] public int DamageBuff = 0;
@@ -52,7 +54,7 @@ public class Card : MonoBehaviour
     //스파인에서 AttackEvent가 발생할 때 실행할거
     public virtual void AttackEvent(TrackEntry entry, Spine.Event e)
     {
-         EnemyTarget.TakeDamage(cardData.Damage + DamageBuff);
+         EnemyTarget.TakeDamage(cardData.Damage + DamageBuff,cardData.CardBuff);
          Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현   
          GameManager.instance.ComboUpdate(Random.Range(17010, 21204));
 

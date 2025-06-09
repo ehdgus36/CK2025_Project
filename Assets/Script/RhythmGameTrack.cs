@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -23,13 +24,18 @@ public class RhythmGameTrack : MonoBehaviour
     [SerializeField] GameObject _MainRhythemObj;
     [SerializeField] Enemy TargetEnemy;
 
+    [SerializeField] TextMeshProUGUI _EnemyDamageText;
+
     public GameObject MainRhythmRhythemObj { get { return _MainRhythemObj; } }
+    public GameObject EnemyDamageText { get { return _EnemyDamageText.gameObject; } }
 
     public void Setup()
     {
         SpawnNotes.Clear();
         _MainRhythemObj.SetActive(true);
-        currentBeat = 0;
+        _EnemyDamageText.gameObject.SetActive(true);
+        _EnemyDamageText.text = TargetEnemy.EnemyData.CurrentDamage.ToString();
+       currentBeat = 0;
       
         isEndTrack = false;
         DelectNoteCount = 0;
@@ -56,7 +62,7 @@ public class RhythmGameTrack : MonoBehaviour
                     TargetEnemy.CurrentDamageDown(1); //Enemy 의 데미지를 감소 시킴
 
                     GameManager.instance.ComboUpdate(Random.Range(9024, 10025));
-
+                    _EnemyDamageText.text = TargetEnemy.EnemyData.CurrentDamage.ToString();
                     DelectNote();      
                 }
                 else  // 키입력시 범위 내에 없을때
@@ -94,6 +100,7 @@ public class RhythmGameTrack : MonoBehaviour
             if (DelectNoteCount == Notes.Count) // 생성된 노트가 모두 처리 되었으면 게임 종료
             {
                 isEndTrack = true;
+               
                 Debug.Log("끝 : " + isEndTrack);
             }
 

@@ -57,6 +57,7 @@ public class Card : MonoBehaviour
         if (cardData.Range_Type == 1)
         {
             EnemyTarget.TakeDamage(cardData.Damage + DamageBuff, cardData.CardBuff);
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
         }
 
         if (cardData.Range_Type == 2)
@@ -64,6 +65,7 @@ public class Card : MonoBehaviour
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
                 GameManager.instance.EnemysGroup.Enemys[i].TakeDamage(cardData.Damage + DamageBuff, cardData.CardBuff);
+                GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, GameManager.instance.EnemysGroup.Enemys[i].transform.position);
             }
         }
 

@@ -11,8 +11,11 @@ public class Player : Unit
     [SerializeField] UnitAnimationSystem AnimationSystem;
     [SerializeField] GameObject Combo;
     [SerializeField] GameObject TurnEnd;
+
+    [SerializeField] EffectSystem _PlayerEffectSystem;
     Vector3 StartPos;
 
+    public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
     public void Initialize()
     {

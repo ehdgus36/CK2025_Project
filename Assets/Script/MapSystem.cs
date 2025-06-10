@@ -31,6 +31,13 @@ public class MapSystem : MonoBehaviour
         }
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        { 
+        
+        }
+    }
     public void UpdateData()
     {
         for (int i = 0; i < loadingScreens.Length; i++)

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class LobbyScene : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class LobbyScene : MonoBehaviour
     [SerializeField] Button SETTING_Button;
 
     [SerializeField] GameObject SettingView;
+    [SerializeField] GameObject VideoPlayObject;
+
+    [SerializeField] VideoPlayer CutScenePlayer;
 
     private void Awake()
     {
@@ -24,6 +28,12 @@ public class LobbyScene : MonoBehaviour
             if (Input.GetMouseButtonDown(0) == false)
             {
                 if (Input.anyKeyDown)
+                {
+                    LoadScene();
+                   
+                }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     SceneManager.LoadScene(SceneName);
                 }
@@ -43,7 +53,9 @@ public class LobbyScene : MonoBehaviour
 
     public void LoadScene()
     {
-        SceneManager.LoadScene(SceneName);
+        CutScenePlayer.Play();
+        VideoPlayObject.SetActive(true);
+        CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName); };
     }
-
+   
 }

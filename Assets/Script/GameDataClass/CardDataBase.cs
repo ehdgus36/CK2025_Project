@@ -173,7 +173,7 @@ public class CardDataBase
         int CardDataIndex = CSVReader.Read(CardDataTable).Count;
         int CardStatusIndex = CSVReader.Read(CardStatusDataTable).Count;
 
-        Debug.Log("수치 :" +CardDataIndex);
+       
 
         for (int i = 0; i < CardDataIndex; i++)
         {
@@ -184,7 +184,7 @@ public class CardDataBase
 
             CommonCardDatas.Add(key, data);
 
-            Debug.Log("수치 :" + key +" " +key.Length);
+            
         }
 
 

@@ -9,27 +9,38 @@ public class Player : Unit
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
     [SerializeField] ImageFontSystem fontSystem;
     [SerializeField] UnitAnimationSystem AnimationSystem;
+    [SerializeField] GameObject Combo;
+    [SerializeField] GameObject TurnEnd;
+    Vector3 StartPos;
 
-
- 
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
     public void Initialize()
     {
        
         UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
 
-
+        StartPos = Combo.transform.position;
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
-        }
-       
+        }       
        
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
-        
+        StartTurnEvent += () => { Combo.transform.position = StartPos; Combo.transform.localScale = new Vector3(1, 1, 1);
+            TurnEnd.SetActive(true);
+        };
 
         EndTurnEvent += CDSlotGroup.ReturnCard;
         EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
+        
+        EndTurnEvent += () => {
+            Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(70, -271, 0);
+            Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
+            TurnEnd.SetActive(false);
+        };
+
+
+
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 

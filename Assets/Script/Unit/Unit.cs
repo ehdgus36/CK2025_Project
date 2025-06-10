@@ -62,6 +62,7 @@ public class Unit : MonoBehaviour
 
         if (UnitData.CurrentHp <= 0)
         {
+            UnitData.CurrentHp = 0;
             Die();
         }
 

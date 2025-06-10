@@ -8,7 +8,10 @@ public class PlayerCDSlotGroup : MonoBehaviour
     [SerializeField] GameObject[] Player_CardSlot;
     [SerializeField] Transform[] player;
     [SerializeField] List<Dack> PlayerDacks;
-    int index; 
+    int index;
+
+    Vector3 startPos;
+
     private void Start()
     {
         for (int i = 0; i < Player_CardSlot.Length; i++)
@@ -28,7 +31,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
 
         Player_CardSlot[0].gameObject.SetActive(true);
         //Player_CardSlot[0].GetComponent<Animator>().Play("Drow");
-       
+        
     }
 
     public void PlayerTurnDrow()
@@ -61,6 +64,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
 
         Player_CardSlot[0].gameObject.SetActive(true);
         //Player_CardSlot[0].GetComponent<Animator>().Play("Drow");
+        Player_CardSlot[0].gameObject.SetActive(true);
     }
 
     public void SwapCardSlots()
@@ -70,9 +74,10 @@ public class PlayerCDSlotGroup : MonoBehaviour
 
     public void ReturnCard()
     {
-       // Player_CardSlot[0].GetComponent<Animator>().Play("CardReturn");
+        //Player_CardSlot[0].GetComponent<Animator>().Play("CardReturn");
 
-        
+        Player_CardSlot[0].gameObject.SetActive(false);
+
     }
     
 }

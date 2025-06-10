@@ -21,7 +21,8 @@ public class SlotUI : MonoBehaviour,IDropHandler
 
     public virtual void OnDrop(PointerEventData eventData)
     {          
-        InsertData(eventData.pointerDrag);     
+        InsertData(eventData.pointerDrag);
+        this.transform.localScale = imageScale;
     }
 
     public virtual void InsertData(GameObject data)
@@ -34,9 +35,11 @@ public class SlotUI : MonoBehaviour,IDropHandler
        
         data.transform.position = transform.position;
         data.transform.rotation = transform.rotation;
-        data.transform.localScale = imageScale;
 
         data.transform.SetParent(transform);
+        data.transform.localScale = imageScale;
+
+        
 
         InsertDataEvent?.Invoke();
 

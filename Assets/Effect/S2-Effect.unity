@@ -721,7 +721,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &55923091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,6 +740,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!1 &57774710
 GameObject:
   m_ObjectHideFlags: 0
@@ -2367,6 +2367,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &249683503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2381,7 +2382,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 466611042}
 --- !u!114 &249683504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3362,13 +3362,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C11
-  _DescSprite: {fileID: 0}
-  CardName: 
-  Example: 
-  SubExample: 
-  Grade_Point: 1
-  icon: {fileID: 0}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &342487150
 Animator:
   serializedVersion: 7
@@ -4115,13 +4111,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C11
-  _DescSprite: {fileID: 0}
-  CardName: 
-  Example: 
-  SubExample: 
-  Grade_Point: 1
-  icon: {fileID: 0}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &508312902
 Animator:
   serializedVersion: 7
@@ -4928,6 +4920,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &573545253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4942,7 +4935,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 466611042}
 --- !u!114 &573545254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6306,6 +6298,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 0}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &715708880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6320,7 +6313,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 0}
-  BG: {fileID: 0}
 --- !u!114 &715708881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6641,6 +6633,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &737411136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6655,7 +6648,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &737411137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8829,8 +8821,8 @@ MonoBehaviour:
     CurrentDefense: 0
   EnemyAnimator: {fileID: 613711442}
   EnemyStatus: {fileID: 4837746656780595785}
-  BG: {fileID: 0}
   buffLayer: -1
+  fontSystem: {fileID: 0}
 --- !u!61 &923755819
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9011,6 +9003,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &949000247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9025,7 +9018,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &949000248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9481,6 +9473,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &981992480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9495,7 +9488,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 466611042}
 --- !u!114 &981992481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10246,6 +10238,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageScale: {x: 30, y: 30, z: 1}
   InsertEffect: {fileID: 968395998}
+--- !u!1001 &1066750989
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -35.40925
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -18.221188
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438297703926620835, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5999477246240602994, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
+      propertyPath: m_Name
+      value: Shock Effect
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22c225b9162ff8e4489124e69ef80c76, type: 3}
 --- !u!1 &1075982151
 GameObject:
   m_ObjectHideFlags: 0
@@ -10495,6 +10544,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 0}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &1087105286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10509,7 +10559,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 0}
-  BG: {fileID: 0}
 --- !u!114 &1087105287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10844,6 +10893,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &1118756462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10858,7 +10908,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &1118756463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12125,7 +12174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &1218294429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12145,6 +12193,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!1 &1220792250
 GameObject:
   m_ObjectHideFlags: 0
@@ -12205,6 +12254,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 0}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &1220792253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12219,7 +12269,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 0}
-  BG: {fileID: 0}
 --- !u!114 &1220792254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12460,25 +12509,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f2008557bdc3840952e0e9d4b20eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI_keyData: 
-  SkillPoint: {fileID: 3552663771678290445, guid: 3d324982b9c3986468072bbf969c9b22, type: 3}
-  Hpfill: {fileID: 854669100}
-  HpText: {fileID: 101723243}
+  HP_Bar: {fileID: 0}
   DamageText: {fileID: 1742415572}
-  indexText: {fileID: 0}
-  NameText: {fileID: 1503891436}
-  PassiveDescText: {fileID: 183869375}
-  PassiveDescription: {fileID: 801758332}
-  BuffIcon:
-  - {fileID: 1886673996}
-  - {fileID: 1008824797}
-  - {fileID: 2041200067}
-  - {fileID: 2075513033}
-  num: {fileID: 157791825}
-  numIndex:
-  - {fileID: -490370425738657319, guid: 13a5177eb94728f4ea1977142adce074, type: 3}
-  - {fileID: 574314310532069079, guid: 3c5614ea43e4c46499b3dbf95ec1ef0e, type: 3}
-  - {fileID: 5444677883014261006, guid: 2f0031692c1ed77419d2398ba7a80183, type: 3}
+  ShilldText: {fileID: 0}
+  Buff_UI: {fileID: 0}
+  _StatusPopUp: {fileID: 0}
 --- !u!222 &1228634075
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13010,12 +13045,10 @@ MonoBehaviour:
   - {fileID: 2118369079}
   - {fileID: 1491956036}
   MixtureData: {fileID: 4900000, guid: 8a6bcc1a22af70649b56d0e3abe3976e, type: 3}
-  GuitarAnime: {fileID: 1416544658}
   DamageText: {fileID: 233115581}
   Descriptobj: {fileID: 341833451}
   MixtureName: {fileID: 1811479804}
   Descript: {fileID: 1772503571}
-  UpGradeBar: {fileID: 39595896}
   dack:
   - {fileID: 1381899305}
   - {fileID: 2118369076}
@@ -13026,8 +13059,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a4bec73733a7e834aa5693cf3e01e1fd, type: 3}
   - {fileID: 8300000, guid: 386c97e6fe46568428bd9b7cb67f6f83, type: 3}
   audioSource: {fileID: 1269469520}
-  UIAnime: {fileID: 0}
-  NoteBar: {fileID: 0}
   GuitarSkill: {fileID: 0}
   UpgradePercent: 0
 --- !u!82 &1269469520
@@ -13316,8 +13347,8 @@ MonoBehaviour:
     CurrentDefense: 0
   EnemyAnimator: {fileID: 1204574850}
   EnemyStatus: {fileID: 1387093796}
-  BG: {fileID: 0}
   buffLayer: 7
+  fontSystem: {fileID: 0}
 --- !u!1 &1279265759
 GameObject:
   m_ObjectHideFlags: 0
@@ -14079,8 +14110,8 @@ MonoBehaviour:
     CurrentDefense: 0
   EnemyAnimator: {fileID: 515168393}
   EnemyStatus: {fileID: 1228634074}
-  BG: {fileID: 0}
   buffLayer: -1
+  fontSystem: {fileID: 0}
 --- !u!1 &1380625426
 GameObject:
   m_ObjectHideFlags: 0
@@ -14398,25 +14429,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f2008557bdc3840952e0e9d4b20eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI_keyData: 
-  SkillPoint: {fileID: 3552663771678290445, guid: 3d324982b9c3986468072bbf969c9b22, type: 3}
-  Hpfill: {fileID: 1971787950}
-  HpText: {fileID: 1340567753}
+  HP_Bar: {fileID: 0}
   DamageText: {fileID: 553042626}
-  indexText: {fileID: 0}
-  NameText: {fileID: 1935165099}
-  PassiveDescText: {fileID: 832015408}
-  PassiveDescription: {fileID: 167559249}
-  BuffIcon:
-  - {fileID: 466491116}
-  - {fileID: 1745569451}
-  - {fileID: 1446651033}
-  - {fileID: 1597693550}
-  num: {fileID: 67619776}
-  numIndex:
-  - {fileID: -490370425738657319, guid: 13a5177eb94728f4ea1977142adce074, type: 3}
-  - {fileID: 574314310532069079, guid: 3c5614ea43e4c46499b3dbf95ec1ef0e, type: 3}
-  - {fileID: 5444677883014261006, guid: 2f0031692c1ed77419d2398ba7a80183, type: 3}
+  ShilldText: {fileID: 0}
+  Buff_UI: {fileID: 0}
+  _StatusPopUp: {fileID: 0}
 --- !u!222 &1387093797
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14705,7 +14722,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &1403292760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14725,6 +14741,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!1 &1410165267
 GameObject:
   m_ObjectHideFlags: 0
@@ -15433,10 +15450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d2c8e5437de474bac182503f118821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackEffect: {fileID: 4096340575274965945}
-  GradeAttackEffect: {fileID: 1251324273}
-  PlayerAnime: {fileID: 0}
-  AllEffect: {fileID: 1967476270}
+  AttackEffectDatas: []
   audioSource: {fileID: 1458305801}
 --- !u!114 &1458305798
 MonoBehaviour:
@@ -15450,11 +15464,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ea04e97cc80544ea53ee5ce07f341f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Player: {fileID: 0}
+  _PlayerCardCastPlace: {fileID: 0}
   _PlayerAttackSystem: {fileID: 1269469519}
+  _CardCemetery: {fileID: 0}
   GameClear: {fileID: 0}
   GameOver: {fileID: 1449857903}
   _Shaker: {fileID: 339026988}
+  _CardSlot: {fileID: 0}
+  PlayerTurnMark: {fileID: 0}
+  EnemyTurnMark: {fileID: 0}
+  GameStartMark: {fileID: 0}
+  EndTurnButton: {fileID: 0}
 --- !u!4 &1458305799
 Transform:
   m_ObjectHideFlags: 0
@@ -15579,7 +15599,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96edf04a6af2e804297845e1a37fb811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameUIObj: []
+  _UseCardCountText: {fileID: 0}
+  _Black: {fileID: 0}
+  isStart: 0
 --- !u!1 &1467381119
 GameObject:
   m_ObjectHideFlags: 0
@@ -16273,6 +16295,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &1506907732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16287,7 +16310,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 466611042}
 --- !u!114 &1506907733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16779,7 +16801,7 @@ MonoBehaviour:
   - {fileID: 923755818}
   - {fileID: 1278345600}
   - {fileID: 1365719982}
-  NoteControl: {fileID: 0}
+  RhythmGameSystem: {fileID: 0}
 --- !u!1 &1552213092
 GameObject:
   m_ObjectHideFlags: 0
@@ -16839,6 +16861,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &1552213095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16853,7 +16876,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &1552213096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17265,7 +17287,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 1953795090}
-  BG: {fileID: 80016230}
 --- !u!114 &1577253432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17285,6 +17306,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 1812307656}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!1 &1584498201
 GameObject:
   m_ObjectHideFlags: 0
@@ -17966,6 +17988,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 0}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &1635284391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17980,7 +18003,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 0}
-  BG: {fileID: 0}
 --- !u!114 &1635284392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18395,13 +18417,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C11
-  _DescSprite: {fileID: 0}
-  CardName: 
-  Example: 
-  SubExample: 
-  Grade_Point: 1
-  icon: {fileID: 0}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &1700543563
 Animator:
   serializedVersion: 7
@@ -19013,14 +19031,11 @@ MonoBehaviour:
     _CurrentHp: 0
   IsTurn: 0
   HitEffect: {fileID: 30504261}
-  DamageEffect: {fileID: 1708141220}
   CDSlotGroup: {fileID: 1812307656}
-  AudioSource: {fileID: 1720659879}
-  audioClip:
-  - {fileID: 8300000, guid: 0f003f9529ba04f4291d5988f6bb5f61, type: 3}
-  - {fileID: 8300000, guid: f8af038689d959143a8abc5b3ea7ce43, type: 3}
-  - {fileID: 8300000, guid: 386c97e6fe46568428bd9b7cb67f6f83, type: 3}
-  - {fileID: 8300000, guid: 7f250380817e5b94491286e8cd5315fc, type: 3}
+  fontSystem: {fileID: 0}
+  AnimationSystem: {fileID: 0}
+  Combo: {fileID: 0}
+  TurnEnd: {fileID: 0}
 --- !u!4 &1720659878
 Transform:
   m_ObjectHideFlags: 0
@@ -19519,13 +19534,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C11
-  _DescSprite: {fileID: 0}
-  CardName: 
-  Example: 
-  SubExample: 
-  Grade_Point: 1
-  icon: {fileID: 0}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &1747039749
 Animator:
   serializedVersion: 7
@@ -19609,8 +19620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d96b507541fe61047bfb219faac87d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hpfill: {fileID: 1510229697}
-  Hptext: {fileID: 1145642073}
+  HP_bar: {fileID: 0}
 --- !u!1 &1753259830
 GameObject:
   m_ObjectHideFlags: 0
@@ -20548,13 +20558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C11
-  _DescSprite: {fileID: 0}
-  CardName: 
-  Example: 
-  SubExample: 
-  Grade_Point: 1
-  icon: {fileID: 0}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &1798338151
 Animator:
   serializedVersion: 7
@@ -23120,11 +23126,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 559aa0340fa4fb348aee4d3a79e5676b, type: 3}
---- !u!1 &1967476270 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2568562596643781843, guid: 559aa0340fa4fb348aee4d3a79e5676b, type: 3}
-  m_PrefabInstance: {fileID: 1967476269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1971787948
 GameObject:
   m_ObjectHideFlags: 0
@@ -23260,6 +23261,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 0}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &1977321786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23274,7 +23276,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 0}
-  BG: {fileID: 0}
 --- !u!114 &1977321787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24660,6 +24661,7 @@ MonoBehaviour:
   PlayerCardSlotManager: {fileID: 0}
   IsMove: 1
   ItemPos: {fileID: 0}
+  ImageSwap: {fileID: 0}
 --- !u!114 &2120489852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24674,7 +24676,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverScale: 1.2
   cardDescription: {fileID: 0}
-  BG: {fileID: 0}
 --- !u!114 &2120489853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24837,13 +24838,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C11
-  _DescSprite: {fileID: 0}
-  CardName: 
-  Example: 
-  SubExample: 
-  Grade_Point: 1
-  icon: {fileID: 0}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &2125484170
 Animator:
   serializedVersion: 7
@@ -30325,13 +30322,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C1A
-  _DescSprite: {fileID: 0}
-  CardName: "\uBE0C\uB808\uC774\uD06C"
-  Example: "\uC801\uC5D0\uAC8C 6 \uB370\uBBF8\uC9C0"
-  SubExample: "\uD2B9\uC218 \uACF5\uACA9 \uD30C\uC6CC \uC5C5!"
-  Grade_Point: 0
-  icon: {fileID: -3692115529690694389, guid: 08ed13660d88e8347bab6453c719eb3a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!224 &1260267596813514171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40706,14 +40699,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C3A
-  _DescSprite: {fileID: 0}
-  CardName: "\uC194\uB85C"
-  Example: "\uC801\uC5D0\uAC8C 2 \uB370\uBBF8\uC9C0 2~3\uD68C \uACF5\uACA9"
-  SubExample: "3\uD68C \uD0C0\uACA9 \uC131\uACF5\uC2DC \uD2B9\uC218 \uD6A8\uACFC
-    \uD30C\uC6CC \uC5C5!"
-  Grade_Point: 0
-  icon: {fileID: -3692115529690694389, guid: 08ed13660d88e8347bab6453c719eb3a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!1 &2641720704857088272
 GameObject:
   m_ObjectHideFlags: 0
@@ -46031,13 +46019,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: V1A
-  _DescSprite: {fileID: 0}
-  CardName: "\uBCFC\uB968 \uC5C5!"
-  Example: "\uB370\uBBF8\uC9C0 50% \uC99D\uAC00"
-  SubExample: "\uC74C\uC545 \uBCFC\uB969 UP!"
-  Grade_Point: 0
-  icon: {fileID: 440560833465758986, guid: 4c869513a12f24345834c23a67a90b5a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &3729190039888894003
 Animator:
   serializedVersion: 7
@@ -51104,13 +51088,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C4A
-  _DescSprite: {fileID: 0}
-  CardName: "\uD558\uBAA8\uB2C9 \uC6E8\uC774\uBE0C"
-  Example: "\uC801\uC5D0\uAC8C 4 \uB370\uBBF8\uC9C0"
-  SubExample: "\uB370\uBBF8\uC9C0 \uC808\uBC18\uB9CC\uD07C \uCCB4\uB825 \uD761\uC218!"
-  Grade_Point: 0
-  icon: {fileID: -3692115529690694389, guid: 08ed13660d88e8347bab6453c719eb3a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!33 &4361124614807482268
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -51335,25 +51315,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f2008557bdc3840952e0e9d4b20eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI_keyData: 
-  SkillPoint: {fileID: 3552663771678290445, guid: 3d324982b9c3986468072bbf969c9b22, type: 3}
-  Hpfill: {fileID: 3921927270737007418}
-  HpText: {fileID: 1412156185069273186}
+  HP_Bar: {fileID: 0}
   DamageText: {fileID: 636014374}
-  indexText: {fileID: 0}
-  NameText: {fileID: 868730312}
-  PassiveDescText: {fileID: 1106192078}
-  PassiveDescription: {fileID: 1953153933}
-  BuffIcon:
-  - {fileID: 1798376662}
-  - {fileID: 902429961}
-  - {fileID: 1762940325}
-  - {fileID: 1326151073}
-  num: {fileID: 657129203}
-  numIndex:
-  - {fileID: -490370425738657319, guid: 13a5177eb94728f4ea1977142adce074, type: 3}
-  - {fileID: 574314310532069079, guid: 3c5614ea43e4c46499b3dbf95ec1ef0e, type: 3}
-  - {fileID: 5444677883014261006, guid: 2f0031692c1ed77419d2398ba7a80183, type: 3}
+  ShilldText: {fileID: 0}
+  Buff_UI: {fileID: 0}
+  _StatusPopUp: {fileID: 0}
 --- !u!198 &4857032265249442247
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -56276,13 +56242,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: M1A
-  _DescSprite: {fileID: 0}
-  CardName: "\uB85C\uB9E8\uD2F1 \uBBA4\uC9C1"
-  Example: "\uC801 \uD63C\uB780 1\uD134 \uBD80\uC5EC"
-  SubExample: "\uD63C\uB780: \uC77C\uC815 \uD655\uB960\uB85C \uACF5\uACA9 \uC2E4\uD328 "
-  Grade_Point: 0
-  icon: {fileID: 440560833465758986, guid: 4c869513a12f24345834c23a67a90b5a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!1 &5237980237368291424
 GameObject:
   m_ObjectHideFlags: 0
@@ -56314,13 +56276,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: E1A
-  _DescSprite: {fileID: 0}
-  CardName: "\uC2A4\uD30C\uD06C"
-  Example: "\uC801 \uC190\uC0C1 2\uD134 \uBD80\uC5EC"
-  SubExample: "\uC190\uC0C1: \uD53C\uACA9\uC2DC \uBC1B\uB294 \uB370\uBBF8\uC9C0 \uCD94\uAC00"
-  Grade_Point: 0
-  icon: {fileID: 440560833465758986, guid: 4c869513a12f24345834c23a67a90b5a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!4 &5305118627130332110
 Transform:
   m_ObjectHideFlags: 0
@@ -61439,14 +61397,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: C2A
-  _DescSprite: {fileID: 0}
-  CardName: "\uB514\uC2A4\uD1A0\uC158"
-  Example: "\uC801\uC5D0\uAC8C 4 \uB370\uBBF8\uC9C0"
-  SubExample: "\uC8FC\uBCC0 \uC801\uB4E4\uB3C4 1 \uB370\uBBF8\uC9C0\uC640 \uD2B9\uC218
-    \uD6A8\uACFC\uAE4C\uC9C0 \uB3D9\uC2DC\uC5D0!"
-  Grade_Point: 0
-  icon: {fileID: -3692115529690694389, guid: 08ed13660d88e8347bab6453c719eb3a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!114 &6188845679918745028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95888,13 +95841,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: G1A
-  _DescSprite: {fileID: 0}
-  CardName: "\uB370\uBE4C \uD06C\uB77C\uC774"
-  Example: "\uC801 \uC57D\uD654 2\uD134 \uBD80\uC5EC"
-  SubExample: "\uC57D\uD654: \uACF5\uACA9\uB825 \uAC10\uC18C"
-  Grade_Point: 0
-  icon: {fileID: 440560833465758986, guid: 4c869513a12f24345834c23a67a90b5a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!95 &8629016122950959244
 Animator:
   serializedVersion: 7
@@ -110684,14 +110633,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardID: F1A
-  _DescSprite: {fileID: 0}
-  CardName: "\uBC84\uB2DD"
-  Example: "\uC801 \uD654\uC0C1 2\uD134 \uBD80\uC5EC"
-  SubExample: "\uD654\uC0C1: \uD134 \uC885\uB8CC\uC2DC \uD654\uC5FC \uB370\uBBF8\uC9C0
-    \uBD80\uC5EC"
-  Grade_Point: 0
-  icon: {fileID: 440560833465758986, guid: 4c869513a12f24345834c23a67a90b5a, type: 3}
-  UpGradeCard: {fileID: 0}
+  DescSprite: {fileID: 0}
+  DamageBuff: 0
+  Buff_Recover_HP: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -110716,3 +110660,4 @@ SceneRoots:
   - {fileID: 1396580186}
   - {fileID: 1553831900}
   - {fileID: 856441975}
+  - {fileID: 1066750989}

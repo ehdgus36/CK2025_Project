@@ -17,6 +17,7 @@ public struct CardData
     public readonly int Attack_Count;
 
     public readonly int Damage;
+
     public readonly int Status_Type;
     public readonly int Status_Turn;
 
@@ -25,6 +26,8 @@ public struct CardData
 
     public readonly string Ani_Code;
     public readonly string Effect_Code;
+
+    public Buff CardBuff { get; private set; }
 
     public CardData(Dictionary<string, object> data)
     {
@@ -37,6 +40,8 @@ public struct CardData
 
         Damage      = (int)data["Damage"];
         Status_Type = (int)data["Status_Type"];
+
+
         Status_Turn = (int)data["Status_Turn"];
 
         Damage_Buff = (int)data["Damage_Buff"];
@@ -44,6 +49,36 @@ public struct CardData
 
         Ani_Code    = data["Ani_Code"].ToString();
         Effect_Code = data["Effect_Code"].ToString();
+
+        CardBuff = null;
+        CardBuff = GetBuff();
+    }
+
+
+   
+    // 1: fire , 2: Eletric , 3: Captivate , 4: Curse
+    Buff GetBuff()
+    { 
+        Buff buff = null;
+
+        switch (Status_Type)
+        {
+            case 1:
+                buff = new FireBuff(BuffType.End, Status_Turn, 2);
+                break;
+            case 2:
+                buff = new ElecBuff(BuffType.End, Status_Turn, 2);
+                break;
+            case 3:
+                buff = new CaptivBuff(BuffType.Start, Status_Turn, 2);
+                break;
+            case 4:
+                buff = new CurseBuff(BuffType.Start, 3, 2);
+                break;
+        }
+
+
+        return buff;
     }
 
 }
@@ -138,7 +173,7 @@ public class CardDataBase
         int CardDataIndex = CSVReader.Read(CardDataTable).Count;
         int CardStatusIndex = CSVReader.Read(CardStatusDataTable).Count;
 
-        Debug.Log("수치 :" +CardDataIndex);
+       
 
         for (int i = 0; i < CardDataIndex; i++)
         {
@@ -149,7 +184,7 @@ public class CardDataBase
 
             CommonCardDatas.Add(key, data);
 
-            Debug.Log("수치 :" + key +" " +key.Length);
+            
         }
 
 

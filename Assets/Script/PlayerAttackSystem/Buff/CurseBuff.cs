@@ -11,13 +11,13 @@ public class CurseBuff : Buff
     }
     public override void StartBuff(Unit unit)
     {
-        
         if (BuffDurationTurn == 0) return;
         if (unit.GetComponent<Enemy>())
         {
             unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
+            Debug.Log("CuserBuffExcut :" + unit.GetComponent<Enemy>().EnemyData.CurrentDamage.ToString());
         }
-
+     
         BuffDurationTurn--;
     }
 }

@@ -46,6 +46,7 @@ public class RhythmGameSystem : MonoBehaviour
         for (int i = 0; i < RhythmGameTracks.Count; i++)
         {
             RhythmGameTracks[i].MainRhythmRhythemObj.SetActive(false);
+            RhythmGameTracks[i].EnemyDamageText.SetActive(false);
         }
     }
 

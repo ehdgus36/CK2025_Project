@@ -94,8 +94,8 @@ public class CardCastPlace : MonoBehaviour
             if (_TargetEnemy.EnemyData.EnemyUnitData.CurrentHp <= 0) // 적 사망했을 때 BreakOut기능
             {
 
-                BreakOutCut.SetActive(true);
-                GameManager.instance.Shake.PlayShake();
+              
+                //GameManager.instance.Shake.PlayShake();
                 yield return new WaitForSeconds(.5f);
               
                 GameManager.instance.Player.transform.position = _TargetEnemy.transform.position - new Vector3(2, 0, 0); // 압으로 가기
@@ -104,17 +104,19 @@ public class CardCastPlace : MonoBehaviour
 
                 GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
                 yield return new WaitForSeconds(.2f); // 애니메이션 타이밍 나중에 이벤트로 처리
-                Time.timeScale = 0;
-                BreakOutCut.SetActive(false);
-                yield return new WaitForSecondsRealtime(.5f);
+                // Time.timeScale = 0;
+                BreakOutCut.SetActive(true);
+               
+                //yield return new WaitForSecondsRealtime(.5f);
                 
                 Time.timeScale = 1;
-                GameManager.instance.Shake.PlayShake();
+                //GameManager.instance.Shake.PlayShake();
                 GameManager.instance.ComboUpdate(Random.Range(30024, 32025));
                 StartCoroutine(BreakOut(_TargetEnemy.gameObject)); // 브레이크 아웃실행
                 yield return new WaitForSeconds(.33f);
                 GameManager.instance.Player.transform.position = PlayerStartPos;
-               
+                BreakOutCut.SetActive(false);
+
             }
         }
 

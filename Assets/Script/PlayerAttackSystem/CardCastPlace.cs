@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class CardCastPlace : MonoBehaviour
 {
@@ -9,9 +10,10 @@ public class CardCastPlace : MonoBehaviour
     [SerializeField] PlayerCastCardStatus status;
     [SerializeField] int MaxCardCount;
     [SerializeField] int CurrentCount;
-
-
+    [SerializeField] Button TurnEnd;
     [SerializeField] GameObject BreakOutCut;
+
+
 
 
     public Enemy TargetEnemy 
@@ -48,12 +50,13 @@ public class CardCastPlace : MonoBehaviour
         if (CurrentCount == 0) return;
          cards.Add(addCard);
         GameManager.instance.CardCemetery.Insert(addCard);
-        status.UpdateUI(cards.Count);
+        status.UpdateUI(cards.Count, addCard.cardData.Card_Type);
 
         CurrentCount--;
 
         GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
         GameManager.instance.UIManager.Black.SetActive(true);
+        TurnEnd.interactable = false;
     }
 
     public void Excute()
@@ -123,6 +126,7 @@ public class CardCastPlace : MonoBehaviour
         yield return null;
    
         status.Reset();
+        TurnEnd.interactable = true;
     }
 
     IEnumerator BreakOut(GameObject Target)

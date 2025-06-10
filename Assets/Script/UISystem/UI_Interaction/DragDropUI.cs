@@ -42,8 +42,6 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         onDragParent = GameObject.Find("Filds").gameObject.transform;
 
         // 백업용 포지션과 부모 트랜스폼을 백업 해둔다.
-        
-
 
         startParent = transform.parent;
        
@@ -61,7 +59,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         transform.position = Input.mousePosition;
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
-        transform.localScale = startScale;
+        //transform.localScale = startScale;
     
     }
 
@@ -74,6 +72,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             transform.position = startParent.position;
             transform.SetParent(startParent);
             transform.rotation = startParent.rotation;
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
         CardDropArea.SetActive(false);

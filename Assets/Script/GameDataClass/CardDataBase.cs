@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 
@@ -27,6 +26,8 @@ public struct CardData
     public readonly string Ani_Code;
     public readonly string Effect_Code;
 
+    public readonly string Effect_Pos;
+
     public Buff CardBuff { get; private set; }
 
     public CardData(Dictionary<string, object> data)
@@ -49,6 +50,8 @@ public struct CardData
 
         Ani_Code    = data["Ani_Code"].ToString();
         Effect_Code = data["Effect_Code"].ToString();
+
+        Effect_Pos = data["Effect_Pos"].ToString();
 
         CardBuff = null;
         CardBuff = GetBuff();

@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour
 
     public void MapEvent()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("LobbyScene");
     }
 
 

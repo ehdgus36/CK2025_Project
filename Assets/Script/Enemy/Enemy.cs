@@ -63,10 +63,12 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
     Vector3 StargPos = Vector3.zero;
 
    
+    public bool isDie { get; private set; }
     public bool isAttackEnd { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
 
     public virtual void Initialize(int index)
     {
+        isDie = false;  
         CurrentBuff = new List<Buff>();
 
         // 받을수 있는 버프 제작
@@ -174,7 +176,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         //DynamicGameDataSchema.RemoveDynamicDataBase(UnitData.DataKey);
         //this.gameObject.SetActive(false);
         DieEvent?.Invoke(this);
-       
+        isDie = true;
 
     }
 

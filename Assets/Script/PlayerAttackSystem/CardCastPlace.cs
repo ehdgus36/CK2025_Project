@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine.UI;
 
 public class CardCastPlace : MonoBehaviour
@@ -117,6 +116,9 @@ public class CardCastPlace : MonoBehaviour
                 GameManager.instance.ComboUpdate(Random.Range(30024, 32025));
                 StartCoroutine(BreakOut(_TargetEnemy.gameObject)); // 브레이크 아웃실행
                 yield return new WaitForSeconds(.33f);
+
+
+                yield return new WaitForSeconds(.5f);
                 GameManager.instance.Player.transform.position = PlayerStartPos;
                 BreakOutCut.SetActive(false);
 

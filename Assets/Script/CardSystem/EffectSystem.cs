@@ -22,4 +22,9 @@ public class EffectSystem : MonoBehaviour
             }
         }
     }
+
+    public void PlayEffectAllTarget(string effectCode, Vector3 TargetPos)
+    { 
+    
+    }
 }

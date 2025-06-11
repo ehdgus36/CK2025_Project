@@ -18,6 +18,8 @@ public class RhythmGameTrack : MonoBehaviour
     [SerializeField] List<GameObject> Notes;
     List<GameObject> SpawnNotes = new List<GameObject>();
 
+    [SerializeField] ParticleSystem SelectEffect;
+
     [SerializeField] Transform StartNotePos;
     [SerializeField] KeyCode NoteKey;
     [SerializeField] SpriteRenderer SelectZone;
@@ -60,6 +62,7 @@ public class RhythmGameTrack : MonoBehaviour
                     && SpawnNotes[0].transform.position.y > SelectZone.bounds.min.y)
                 {
                     TargetEnemy.CurrentDamageDown(1); //Enemy 의 데미지를 감소 시킴
+                    SelectEffect.Play();
 
                     GameManager.instance.ComboUpdate(Random.Range(9024, 10025));
                     _EnemyDamageText.text = TargetEnemy.EnemyData.CurrentDamage.ToString();

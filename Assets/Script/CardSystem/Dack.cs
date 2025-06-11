@@ -31,12 +31,15 @@ public class Dack : MonoBehaviour
         }
 
 
-        DackDatas[0].Initialized();
+        DackDatas[0].Initialized(CardSlots);
         Card result = DackDatas[0];
       
         return result;
     }
 
+
+
+    //외부에서 덱의 카드를 드로우 할때 호출
     public void DrawFromDeck()
     {
         for (int i = 0; i < CardSlots.Getsloat().Length ; i++)

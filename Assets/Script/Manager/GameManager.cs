@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq.Expressions;
 using UnityEngine.EventSystems;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class GameManager : MonoBehaviour
 {
@@ -44,22 +45,25 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
 
-    public GameObject PlayerCardSlot { get { return _CardSlot; } }
+    //public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
     public CardCastPlace PlayerCardCastPlace { get { return _PlayerCardCastPlace; } }
 
     public CemeteryUI CardCemetery { get { return _CardCemetery; } }
+
+    public PlayerCDSlotGroup PlayerCDSlotGroup { get { return _PlayerCDSlotGroup; } }
 
     //인스펙터에서 데이터 받아옴
 
     [SerializeField] CardCastPlace _PlayerCardCastPlace;
     [SerializeField] CardMixtureSystem _PlayerAttackSystem;
     [SerializeField] CemeteryUI _CardCemetery;
+    [SerializeField] PlayerCDSlotGroup _PlayerCDSlotGroup;
     [SerializeField] public GameObject GameClear;
     [SerializeField] public GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
-    [SerializeField] GameObject _CardSlot;
+   // [SerializeField] GameObject _CardSlot;
     [SerializeField] GameObject PlayerTurnMark;
     [SerializeField] GameObject EnemyTurnMark;
     [SerializeField] GameObject GameStartMark;
@@ -158,6 +162,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         GameClear.SetActive(true);
         Player.PlayerSave();
+        
     }
 
     public void Update()

@@ -15,7 +15,7 @@ public class Card : MonoBehaviour
     [SerializeField] public Sprite DescSprite;
 
     Buff CardBuff = null;
-    public CardData cardData { get; private set; }
+    public CardData cardData { get; protected set; }
 
     [HideInInspector] public int DamageBuff = 0;
     [HideInInspector] public int Buff_Recover_HP = 0 ;
@@ -24,7 +24,7 @@ public class Card : MonoBehaviour
     Enemy EnemyTarget;
     public bool IsCardEnd { get { return isCardEnd; } }
 
-    SlotGroup CardSloats;
+    protected SlotGroup CardSloats;
     public virtual void Initialized(SlotGroup slotGroup ) 
     {
         CardSloats = slotGroup;

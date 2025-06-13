@@ -15,10 +15,7 @@ public class CamShake : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayShake();
-        }
+   
     }
 
 

@@ -204,8 +204,11 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        GameManager.instance.PlayerCardCastPlace.TargetEnemy = this;
-        Debug.Log("select Enemy");
+        if (GameManager.instance.PlayerCardCastPlace.TargetEnemy == null)
+        {
+            GameManager.instance.PlayerCardCastPlace.TargetEnemy = this;
+            Debug.Log("select Enemy");
+        }
     }
     private void ChangeLayerRecursively(GameObject obj, int layer)
     {

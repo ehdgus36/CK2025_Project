@@ -118,7 +118,7 @@ public class Player : Unit
     public void PlayerCardAnime()
     {
 
-        AnimationSystem.PlayAnimation("card");
+        //AnimationSystem.PlayAnimation("card");
     }
 
     public void addHP(int HP)

@@ -56,8 +56,11 @@ public class Card : MonoBehaviour
                     CardSloats.Getsloat()[i].InsertData(this.gameObject);
                 }
             }
+            isCardEnd = true;
             return;
         }
+
+
         if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현   
 

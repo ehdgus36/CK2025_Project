@@ -24,7 +24,7 @@ public class CardCastPlace : MonoBehaviour
             if (cards.Count != 0)
             {
                 _TargetEnemy = value;
-                GameManager.instance.DisableMouseClick();
+                
                 Excute();
             }
             
@@ -60,7 +60,7 @@ public class CardCastPlace : MonoBehaviour
 
         GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
         GameManager.instance.UIManager.Black.SetActive(true);
-        GameManager.instance.EnableMouseClick();
+       
         TurnEnd.interactable = false;
     }
 

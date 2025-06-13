@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject GameStartMark;
     [SerializeField] Button EndTurnButton;
 
-    [SerializeField] Physics2DRaycaster Physics2DRaycaster;
+    
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
 
@@ -240,12 +240,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DisableMouseClick()
-    {
-        Physics2DRaycaster.enabled = false;
-    }
-    public void EnableMouseClick()
-    {
-        Physics2DRaycaster.enabled = true;
-    }
+  
 }

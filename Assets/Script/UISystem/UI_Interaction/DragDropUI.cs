@@ -56,7 +56,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnDrag(PointerEventData eventData)
     {
         //드래그중에는 Icon을 마우스나 터치된 포인트의 위치로 이동시킨다.
-        transform.position = Input.mousePosition;
+        this.GetComponent<RectTransform>().anchoredPosition = eventData.pointerDrag.transform.position;
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
         //transform.localScale = startScale;

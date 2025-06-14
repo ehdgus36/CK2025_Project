@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     //Public
 
     public static GameManager instance { get; private set; }
-    public AttackManager AttackManager { get; private set; }
+   
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
 
@@ -97,15 +97,7 @@ public class GameManager : MonoBehaviour
             Metronome = GetComponent<MetronomeSystem>();        
         }  
 
-        if (AttackManager == null)
-        {
-            AttackManager = GetComponent<AttackManager>();
-            AttackManager.Initialize();
-        }
-        else
-        {
-            AttackManager.Initialize();
-        }
+       
 
         _EnemysGroup?.Initialize();
         _Player?.Initialize();

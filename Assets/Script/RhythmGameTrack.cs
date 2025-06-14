@@ -18,7 +18,8 @@ public class RhythmGameTrack : MonoBehaviour
     [SerializeField] List<GameObject> Notes;
     List<GameObject> SpawnNotes = new List<GameObject>();
 
-    [SerializeField] ParticleSystem SelectEffect;
+    [SerializeField] EffectSystem EffectSystem;
+    [SerializeField] UnitAnimationSystem UnitAnime;
 
     [SerializeField] Transform StartNotePos;
     [SerializeField] KeyCode NoteKey;
@@ -62,10 +63,19 @@ public class RhythmGameTrack : MonoBehaviour
                     && SpawnNotes[0].transform.position.y > SelectZone.bounds.min.y)
                 {
                     TargetEnemy.CurrentDamageDown(1); //Enemy 의 데미지를 감소 시킴
-                    SelectEffect.Play();
 
+                    //애니메이션 이펙트 실행
+                    EffectSystem.PlayEffect("Rhythm_Effect", SelectZone.transform.position);
+                    EffectSystem.PlayEffect("Rhythm_Suare", TargetEnemy.transform.position);
+                    UnitAnime.PlayAnimation("hit");
+
+                    GameManager.instance.Shake.PlayShake();
+
+                    //점수업데이트
                     GameManager.instance.ComboUpdate(Random.Range(9024, 10025));
                     _EnemyDamageText.text = TargetEnemy.EnemyData.CurrentDamage.ToString();
+
+                    //노트 삭제
                     DelectNote();      
                 }
                 else  // 키입력시 범위 내에 없을때

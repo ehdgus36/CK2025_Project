@@ -13,7 +13,7 @@ public class CardCastPlace : MonoBehaviour
     [SerializeField] Button TurnEnd;
     [SerializeField] GameObject BreakOutCut;
 
-
+    [SerializeField] Animator ByeByeCut;
 
 
     public Enemy TargetEnemy
@@ -34,9 +34,15 @@ public class CardCastPlace : MonoBehaviour
     [SerializeField]Enemy _TargetEnemy;
     Vector3 PlayerStartPos;
     bool isByeBye = false; // ByeBye는 한번 공격에 1회만 실행 true = 공격함, false = 안함
+    bool _isByeByeEnd = false;
 
+    List<Enemy> ByeByeEnemys = new List<Enemy>();
+
+    public bool isByeByeEnd { get { return _isByeByeEnd; } }
     public void Reset()
     {
+        PlayerStartPos = GameManager.instance.Player.transform.position;
+
         CurrentCount = MaxCardCount;
         cards.Clear();
         status.Reset();
@@ -100,37 +106,7 @@ public class CardCastPlace : MonoBehaviour
             cards.RemoveAt(0);
             yield return new WaitForSeconds(.2f);
 
-            if (_TargetEnemy.EnemyData.EnemyUnitData.CurrentHp <= 0 && isByeBye == false) // 적 사망했을 때 ByeBye;기능
-            {
-            
-                yield return new WaitForSeconds(.5f);
-              
-                GameManager.instance.Player.transform.position = _TargetEnemy.transform.position - new Vector3(2, 0, 0); // 압으로 가기
-               
-                yield return new WaitForSeconds(.2f);
-
-                GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
-                yield return new WaitForSeconds(.2f); // 애니메이션 타이밍 나중에 이벤트로 처리
-               
-                BreakOutCut.SetActive(true);
-               
-               
-                
-                Time.timeScale = 1;
-                GameManager.instance.ComboUpdate(Random.Range(30024, 32025));
-                StartCoroutine(ByeBye(_TargetEnemy.gameObject)); // 브레이크 아웃실행
-                yield return new WaitForSeconds(.33f);
-
-
-                yield return new WaitForSeconds(.5f);
-                GameManager.instance.Player.transform.position = PlayerStartPos;
-                BreakOutCut.SetActive(false);
-
-                isByeBye = true;
-
-
-
-            }
+           
         }
 
         yield return null;
@@ -140,13 +116,71 @@ public class CardCastPlace : MonoBehaviour
         _TargetEnemy = null;
     }
 
+    public void AddByeByeSystem(Enemy target)
+    {
+        if (target.EnemyData.EnemyUnitData.CurrentHp <= 0)
+        {
+            _isByeByeEnd = false;
+            ByeByeEnemys.Add(target);
+
+
+            if (ByeByeEnemys.Count == 1)
+            {
+                StartCoroutine(ByeBye(target.gameObject));
+            }
+        }
+    }
+
+
     IEnumerator ByeBye(GameObject Target)
     {
-        for (int i = 0; i < 10; i++)
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < ByeByeEnemys.Count; i++)
         {
-            Target.transform.position += new Vector3(2f, 2f ,0);
+            yield return new WaitForSeconds(.5f);
+
+            GameManager.instance.Player.transform.position = ByeByeEnemys[i].gameObject.transform.position - new Vector3(2, 0, 0); // 앞으로 가기
+
+            yield return new WaitForSeconds(.2f);
+
+            GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
+            yield return new WaitForSeconds(.15f); // 애니메이션 타이밍 나중에 이벤트로 처리
+
+
+            BreakOutCut.SetActive(true);
+            ByeByeEnemys[i].UnitAnimationSystem.PlayAnimation("hit");
+
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect("ByeBye_Effect", GameManager.instance.Player.transform.position);
+            StartCoroutine(ByeByeEnemyMove(ByeByeEnemys[i].gameObject));
+
+
+            Time.timeScale = 1;
+            GameManager.instance.ComboUpdate(Random.Range(30024, 32025));
+
+            // 브레이크 아웃실행
+            yield return new WaitForSeconds(.33f);
+
+            yield return new WaitForSeconds(1f);
+            GameManager.instance.Player.transform.position = PlayerStartPos;
+
+            ByeByeCut.Play("ByeByeCutAnimeReturn");
+           
+            yield return new WaitForSeconds(1f);
+            BreakOutCut.SetActive(false);
+
+           
+           
+        }
+    }
+
+
+    IEnumerator ByeByeEnemyMove(GameObject target)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            target.transform.position += new Vector3(2f, 2f, 0);
             yield return new WaitForSeconds(.1f);
         }
-       
     }
 }
+

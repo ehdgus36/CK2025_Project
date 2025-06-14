@@ -65,9 +65,11 @@ public class RhythmGameTrack : MonoBehaviour
                     TargetEnemy.CurrentDamageDown(1); //Enemy 의 데미지를 감소 시킴
 
                     //애니메이션 이펙트 실행
+                    GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Defense/Defense_Success");
                     EffectSystem.PlayEffect("Rhythm_Effect", SelectZone.transform.position);
                     EffectSystem.PlayEffect("Rhythm_Suare", TargetEnemy.transform.position);
                     UnitAnime.PlayAnimation("hit");
+                    GameManager.instance.PostProcessingSystem.ChangeVolume("Rhythem_Game");
 
                     GameManager.instance.Shake.PlayShake();
 
@@ -80,6 +82,7 @@ public class RhythmGameTrack : MonoBehaviour
                 }
                 else  // 키입력시 범위 내에 없을때
                 {
+                    GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Defense/Defense_Fail");
                     DelectNote();
                 }
             }
@@ -89,6 +92,7 @@ public class RhythmGameTrack : MonoBehaviour
         {
             if (SpawnNotes[0].transform.position.y < SelectZone.bounds.min.y) // 키입력 없고 판정공간 넘어 갔을때
             {
+                GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Defense/Defense_Fail");
                 DelectNote();
 
             }

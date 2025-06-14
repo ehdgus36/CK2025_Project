@@ -36,7 +36,7 @@ public class Unit : MonoBehaviour
 
     [HideInInspector]public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
 
-    [SerializeField] GameObject HitEffect;
+    
     protected int TurnCount = 0;
 
     [SerializeField] protected UnityAction StartTurnEvent;
@@ -66,11 +66,7 @@ public class Unit : MonoBehaviour
             Die();
         }
 
-        if (HitEffect != null)
-        {
-            HitEffect.SetActive(false);
-            HitEffect.SetActive(true);
-        }
+       
     }
 
     public virtual void TakeDamage(AttackData data)
@@ -79,11 +75,7 @@ public class Unit : MonoBehaviour
         {
             Die();
         }
-        HitEffect.SetActive(false);
-
-
-        HitEffect.SetActive(true);
-        HitEffect.GetComponent<ParticleSystem>().Play();
+        
       
     }
 

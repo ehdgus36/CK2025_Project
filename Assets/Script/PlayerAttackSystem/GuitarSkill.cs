@@ -12,7 +12,7 @@ public class GuitarSkill : MonoBehaviour
     [SerializeField] float BPM;
     [SerializeField] List<Note> Notes;
     [SerializeField] SkeletonAnimation SkillAnime;
-    [SerializeField] AudioSource aaa;
+    
 
     
     double CurrentTime;
@@ -46,12 +46,12 @@ public class GuitarSkill : MonoBehaviour
         Score = 0;
         TotalScore = 0;
 
-       
+        SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", true);
     }
 
 
 
-public void Update()
+    public void Update()
     {
         if (isPlay == false) return;
 
@@ -85,6 +85,7 @@ public void Update()
         {
             if (Notes[0].transform.position.x > HitBox.bounds.max.x)
             {
+                GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Strength_Button_Fa");
                 Destroy(Notes[0].gameObject);
                 Notes.RemoveAt(0);
                
@@ -95,24 +96,32 @@ public void Update()
             {
                 if (Notes[0].transform.position.x >= HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x)
                 {
-                    SkillAnime.AnimationState.ClearTrack(0);
-                    SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false);
+                   SkillAnime.AnimationState.ClearTrack(0);
+                   SkillAnime.Skeleton.SetSlotsToSetupPose();
+                    // SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false);
+
+                    GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Strength_Button_Su");
+                    GameManager.instance.PostProcessingSystem.ChangeVolume("Skill");
                     switch (Notes[0].key)
                     {
                         case KeyCode.LeftArrow:
-                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-left", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); }; 
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-left", false);
+                            SkillAnime.AnimationState.AddAnimation(0, "ultimate-hamoni", true, 1f);
                             break;
 
                         case KeyCode.RightArrow:
-                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-right", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); };
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-right", false);
+                            SkillAnime.AnimationState.AddAnimation(0, "ultimate-hamoni", true, 1f);
                             break;
 
                         case KeyCode.UpArrow:
-                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-up", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); };
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-up", false);
+                            SkillAnime.AnimationState.AddAnimation(0, "ultimate-hamoni", true, 1f);
                             break;
 
                         case KeyCode.DownArrow:
-                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-down", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); };
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-down", false);
+                            SkillAnime.AnimationState.AddAnimation(0, "ultimate-hamoni", true, 1f);
                             break;
 
                     }
@@ -127,6 +136,7 @@ public void Update()
                 }
                 else if (Notes[0].transform.position.x < HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x)
                 {
+                    GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Strength_Button_Fa");
                     Destroy( Notes[0].gameObject);
                     Notes.RemoveAt(0);
                     TotalScore++;
@@ -134,7 +144,7 @@ public void Update()
                 }
 
                 
-                aaa.Play();
+               
             }
         }
        

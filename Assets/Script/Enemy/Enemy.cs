@@ -53,6 +53,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
 
     [SerializeField] BuffLayer buffLayer;
     [SerializeField] ImageFontSystem fontSystem;
+    [SerializeField] EffectSystem EffectSystem;
 
 
     int EnemyIndex = 0;
@@ -166,18 +167,29 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
        
        
         base.TakeDamage(damage - EnemyData.CurrentDefense);
+
+
+
+        //애니메이션 재생
         EnemyAnimator.PlayAnimation("hit");
+
+        //이팩트 , 사운드
+        EffectSystem.PlayEffect("Rhythm_Effect", this.transform.position); // 자신에게
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Hurt");
+
+        //UI 갱신
         EnemyStatus?.UpdateStatus(EnemyData);
+        
+        
         GameManager.instance.Shake.PlayShake();
 
 
-        //fontSystem.FontConvert(damage.ToString(), null);
+        fontSystem.FontConvert(damage.ToString());
     }
 
     protected override void Die()
     {
-        //DynamicGameDataSchema.RemoveDynamicDataBase(UnitData.DataKey);
-        //this.gameObject.SetActive(false);
+        
         DieEvent?.Invoke(this);
         isDie = true;
 

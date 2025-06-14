@@ -49,7 +49,8 @@ public class Player : Unit
 
     protected override void Die()
     {
-        GameManager.instance.GameOver.SetActive(true);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Die");
+        GameManager.instance.GameFail();
     }
 
    
@@ -57,19 +58,18 @@ public class Player : Unit
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        Debug.Log("hit");
-
+              
+        AnimationSystem?.PlayAnimation("hit");
         
-        if (AnimationSystem != null)
-        {
-
-            AnimationSystem.PlayAnimation("hit");
-        }
-
+        //카메라 효과 , 사운드 , 이펙트효과
         GameManager.instance.Shake.PlayShake();
-
-        //playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+        GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true , 0.2f, 0.0f , 0.2f);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Hurt");
+        
+        //UI 갱신
         DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
+
+        fontSystem.FontConvert(damage.ToString());
     }
 
     public void TakeDamage(int damage , string notes)
@@ -94,7 +94,7 @@ public class Player : Unit
                 break;
         }
 
-        fontSystem.FontConvert(damage.ToString(), null , fontColor);
+        
 
     }
 

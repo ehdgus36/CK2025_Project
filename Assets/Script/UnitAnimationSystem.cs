@@ -50,7 +50,8 @@ public class UnitAnimationSystem : MonoBehaviour
 
     }
 
-    public void PlayAnimation(string animeKey , bool loop = false , TrackEntryEventDelegate eventDelegate = null , TrackEntryDelegate CompleteDelegate = null)
+    public void PlayAnimation(string animeKey , bool loop = false ,
+                              TrackEntryEventDelegate eventDelegate = null , TrackEntryDelegate CompleteDelegate = null, bool notEmpty = false)// notEmpty idle 로 돌아가지 않음
     {
         if (loop)
         {
@@ -63,7 +64,10 @@ public class UnitAnimationSystem : MonoBehaviour
             if (AnimationDatas.ContainsKey(animeKey))
             {
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
-                track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0.1f); };
+
+                if(notEmpty == false)
+                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0.1f); };
+
                 track.Complete += CompleteDelegate;
                 track.Event += eventDelegate;
             }

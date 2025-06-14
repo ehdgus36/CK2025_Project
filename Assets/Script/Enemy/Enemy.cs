@@ -66,6 +66,9 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
     public bool isDie { get; private set; }
     public bool isAttackEnd { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
 
+    public UnitAnimationSystem UnitAnimationSystem { get { return EnemyAnimator; } }
+
+
     public virtual void Initialize(int index)
     {
         isDie = false;  
@@ -177,6 +180,8 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         //this.gameObject.SetActive(false);
         DieEvent?.Invoke(this);
         isDie = true;
+
+        GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);
 
     }
 

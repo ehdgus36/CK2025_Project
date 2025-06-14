@@ -95,8 +95,32 @@ public void Update()
             {
                 if (Notes[0].transform.position.x >= HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x)
                 {
+                    SkillAnime.AnimationState.ClearTrack(0);
+                    SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false);
+                    switch (Notes[0].key)
+                    {
+                        case KeyCode.LeftArrow:
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-left", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); }; 
+                            break;
+
+                        case KeyCode.RightArrow:
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-right", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); };
+                            break;
+
+                        case KeyCode.UpArrow:
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-up", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); };
+                            break;
+
+                        case KeyCode.DownArrow:
+                            SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni-down", false).Complete += clear => { SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false); };
+                            break;
+
+                    }
+
                     Destroy(Notes[0].gameObject);
                     Notes.RemoveAt(0);
+
+                  
 
                     Score++;
                     TotalScore++;
@@ -109,7 +133,7 @@ public void Update()
 
                 }
 
-                SkillAnime.AnimationState.SetAnimation(0,"ultimate-hamoni-ding", false);
+                
                 aaa.Play();
             }
         }

@@ -79,15 +79,18 @@ public class Card : MonoBehaviour
             if (cardData.Effect_Pos == "E") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
 
             if (cardData.Effect_Pos == "P") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, GameManager.instance.Player.transform.position);
+
         }
 
         if (cardData.Range_Type == 2)
         {
+
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
                 GameManager.instance.EnemysGroup.Enemys[i].TakeDamage(cardData.Damage + DamageBuff, cardData.CardBuff);
                 
             }
+
         }
 
         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현       

@@ -11,19 +11,23 @@ public class PlayerSkillSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SkillCutScene.Play();
-
-            int GradeData = 0;
-            if (GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradeData))
-            {
-
-                if (GradeData >= 100)
-                {
-                    SkillCutScene.Play();
-                }
-            }
-            
+            StartSkill();
         }
         
+    }
+
+    public void StartSkill()
+    {
+        SkillCutScene.Play();
+
+        int GradeData = 0;
+        if (GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradeData))
+        {
+
+            if (GradeData >= 100)
+            {
+                SkillCutScene.Play();
+            }
+        }
     }
 }

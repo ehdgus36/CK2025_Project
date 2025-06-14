@@ -19,8 +19,14 @@ public class EffectSystem : MonoBehaviour
             {
                 EffectDatas[i].EffectObject.gameObject.transform.position = TargetPos + EffectDatas[i].EffectOffSet;
                 EffectDatas[i].EffectObject.Play();
+
+                return;
             }
         }
+
+        /// 만약 Effect가 없으면
+        EffectDatas[0].EffectObject.gameObject.transform.position = TargetPos + EffectDatas[0].EffectOffSet;
+        EffectDatas[0].EffectObject.Play();
     }
 
     public void PlayEffectAllTarget(string effectCode, Vector3 TargetPos)

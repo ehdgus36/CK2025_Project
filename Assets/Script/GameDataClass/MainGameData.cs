@@ -21,6 +21,8 @@ namespace GameDataSystem.KeyCode
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
         public static readonly string COMBO_DATA = "COMBO_DATA";
 
+        public static readonly string DACK_DATA = "DACK_DATA";
+
 
 
     }
@@ -99,6 +101,34 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.COMBO_DATA, 0);
 
             AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, new List<string>());
+
+            //기본 카드데이터 삽입
+            List<string> CardCodes = new List<string>();
+
+            CardCodes.Add("C111");
+            CardCodes.Add("C121");
+            CardCodes.Add("C211");
+            CardCodes.Add("C321");
+            CardCodes.Add("C311");
+
+            CardCodes.Add("C111");
+            CardCodes.Add("C121");
+            CardCodes.Add("C211");
+            CardCodes.Add("C321");
+            CardCodes.Add("C311");
+
+            CardCodes.Add("C111");
+            CardCodes.Add("C121");
+            CardCodes.Add("C211");
+            CardCodes.Add("C321");
+            CardCodes.Add("C311");
+
+
+
+            AddDynamicDataBase(DynamicGameDataKeys.DACK_DATA, CardCodes);
+
+
+
            
         }
 

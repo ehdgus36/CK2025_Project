@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Linq.Expressions;
 using UnityEngine.EventSystems;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     private Unit ThisTurnUnit;
     private Unit NextTurnUnit;
 
-    private AudioSource BGMAudioSource;
+   
     //Get; Set;
 
     public CardMixtureSystem PlayerAttackSystem { get { return _PlayerAttackSystem; } }
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviour
     public MetronomeSystem Metronome { get; private set; }
 
     //public GameObject PlayerCardSlot { get { return _CardSlot; } }
+
+    public ItemDataLoader ItemDataLoader { get; private set; }
 
     public CardCastPlace PlayerCardCastPlace { get { return _PlayerCardCastPlace; } }
 
@@ -76,9 +79,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PostProcessingSystem _PostProcessingSystem;
     [SerializeField] FMODManagerSystem _FMODManagerSystem;
-    
 
 
+    [SerializeField] int GetGold = 0;
     
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
@@ -86,6 +89,12 @@ public class GameManager : MonoBehaviour
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
     IEnumerator Initialize()
      {
+
+        ItemDataLoader = gameObject.GetComponent<ItemDataLoader>();
+
+
+        ItemDataLoader?.LoadData();
+
         _Player = FindFirstObjectByType<Player>();
         _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
 
@@ -97,10 +106,7 @@ public class GameManager : MonoBehaviour
        
         yield return null;
 
-        if (BGMAudioSource == null)
-        {
-            BGMAudioSource = GetComponent<AudioSource>();
-        }
+     
 
         if (Metronome == null)
         {
@@ -169,10 +175,15 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DeleyLoadScene()
     {
+
         yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => PlayerCardCastPlace.isByeByeStart == false );
+
         _FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage"); // 클리어 사운드
         GameClear.SetActive(true);
         Player.PlayerSave();
+
+        // 돈 입금기능 해야함
         
     }
 
@@ -227,9 +238,16 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void MapEvent()
+
+
+    public void FailEvent()
     {
         SceneManager.LoadScene("LobbyScene");
+    }
+
+    public void MapEvent()
+    {
+        SceneManager.LoadScene("GameMap");
     }
 
 

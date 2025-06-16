@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler 
 {
@@ -26,11 +27,13 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     [SerializeField] GameObject CardDropArea;
 
+    private Canvas canvas;
+
     void Start()
     {
         startScale = transform.localScale; // 일단 야매
         card = GetComponent<Card>();
-       
+        canvas = GetComponentInParent<Canvas>();
     }
 
     // 인터페이스 IBeginDragHandler를 상속 받았을 때 구현해야하는 콜백함수
@@ -56,11 +59,20 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnDrag(PointerEventData eventData)
     {
         //드래그중에는 Icon을 마우스나 터치된 포인트의 위치로 이동시킨다.
-        this.GetComponent<RectTransform>().anchoredPosition = eventData.pointerDrag.transform.position;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        //transform.position = (Input.mousePosition / 211);
 
+
+        Vector2 localPoint;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            eventData.position,
+            canvas.worldCamera,
+            out localPoint))
+        {
+            transform.localPosition = localPoint;
+        }
         //transform.localScale = startScale;
-    
+
     }
 
     // 인터페이스 IEndDragHandler 상속 받았을 때 구현 해야하는 콜백함수

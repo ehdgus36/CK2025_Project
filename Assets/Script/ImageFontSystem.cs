@@ -11,7 +11,7 @@ public class ImageFontSystem : MonoBehaviour
     [SerializeField] float speed;
 
 
-    [SerializeField]Image mainFont;
+    [SerializeField ]Image mainFont;
     [SerializeField] Image mainFont2;
 
     Vector3 StartPos = Vector3.zero;
@@ -36,6 +36,22 @@ public class ImageFontSystem : MonoBehaviour
             transform.position += new Vector3(0, speed /60f, 0);
             yield return new WaitForSeconds(1.0f / 60);
         }
+
+        Alpha.a = 1.0f;
+
+        if (mainFont != null)
+            mainFont.color = Alpha;
+
+        if(mainFont2 != null)
+            mainFont2.color = Alpha;
+
+
+        Hyphen.color = Alpha;
+
+
+        mainFont?.gameObject.SetActive(false);
+        mainFont2?.gameObject.SetActive(false);
+        Hyphen.gameObject.SetActive(false);
 
         this.transform.position = StartPos;
     }

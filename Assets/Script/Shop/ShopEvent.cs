@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ShopEvent : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] SelectItemDescPopUP SelectDescPopUp;
 
     [SerializeField] TextMeshProUGUI CoinText;
+    [SerializeField] GameObject NoGold;  // 골드가 없으면 나옴
 
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
     public List<ShopItemObj> PeakList { get { return _PeakList; } }
@@ -78,9 +80,18 @@ public class ShopEvent : MonoBehaviour
 
     }
 
+    public void ExitShop()
+    {
+        SceneManager.LoadScene("GameMap");
+    }
+
     public void BuyEvent()
     {
 
+        NoGold.SetActive(false);
+
+
+        //구매를 위한 데이터 가져오기
         ItemData data;
         int coins = 0;
         List<string> playerItemData = new List<string>();
@@ -89,10 +100,23 @@ public class ShopEvent : MonoBehaviour
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out coins);
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, out playerItemData);
 
+
+        if (coins < data.Price) // 돈없으면 리턴
+        {
+            NoGold.SetActive(true);
+            return;
+        }
+
+
+        //실질적인 구매 실행
         playerItemData.Add(SelectItemID);
         coins -= data.Price;
 
+        //UI 업데이트
         CoinText.text = coins.ToString();
+
+
+        //정보 갱신
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, coins);
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, playerItemData);
 

@@ -14,6 +14,7 @@ public class RhythmGameSystem : MonoBehaviour
 
     public void StartGame()
     {
+        CamAnime.enabled = true;
         CamAnime.Play("EnemyTurnCamAnime");
         isEndGame = false;
         for (int i = 0; i < RhythmGameTracks.Count; i++)
@@ -51,6 +52,10 @@ public class RhythmGameSystem : MonoBehaviour
         }
 
         CamAnime.Play("EnemyTurnCamReturn");
+        GameManager.instance.Player.ReturnPlayer();
+
+        yield return new WaitForSeconds(1f);
+        CamAnime.enabled = false;
     }
 
 

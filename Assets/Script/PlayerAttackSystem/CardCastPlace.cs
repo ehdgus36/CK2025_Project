@@ -34,15 +34,16 @@ public class CardCastPlace : MonoBehaviour
     [SerializeField]Enemy _TargetEnemy;
     Vector3 PlayerStartPos;
     bool isByeBye = false; // ByeBye는 한번 공격에 1회만 실행 true = 공격함, false = 안함
-    bool _isByeByeEnd = false;
+   
 
     List<Enemy> ByeByeEnemys = new List<Enemy>();
 
-    public bool isByeByeEnd { get { return _isByeByeEnd; } }
+    public bool isByeByeStart { get; private set; }
     public void Reset()
     {
         PlayerStartPos = GameManager.instance.Player.transform.position;
 
+        isByeByeStart = false;
         CurrentCount = MaxCardCount;
         cards.Clear();
         status.Reset();
@@ -122,7 +123,7 @@ public class CardCastPlace : MonoBehaviour
     {
         if (target.EnemyData.EnemyUnitData.CurrentHp <= 0)
         {
-            _isByeByeEnd = false;
+           
             ByeByeEnemys.Add(target);
 
 
@@ -136,6 +137,7 @@ public class CardCastPlace : MonoBehaviour
 
     IEnumerator ByeBye(GameObject Target)
     {
+        isByeByeStart = true;
         yield return new WaitForSeconds(1f);
         for (int i = 0; i < ByeByeEnemys.Count; i++)
         {
@@ -177,6 +179,7 @@ public class CardCastPlace : MonoBehaviour
            
            
         }
+        isByeByeStart = false;
     }
 
 

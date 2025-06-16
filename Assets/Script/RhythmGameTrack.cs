@@ -64,6 +64,10 @@ public class RhythmGameTrack : MonoBehaviour
                 {
                     TargetEnemy.CurrentDamageDown(1); //Enemy 의 데미지를 감소 시킴
 
+                    //플레이어 위치 애니매이션 실행
+                    GameManager.instance.Player.transform.position = TargetEnemy.transform.position - new Vector3(2, 0, 0);
+                    GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard"+((int)Random.Range(1,3)).ToString());
+
                     //애니메이션 이펙트 실행
                     GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Defense/Defense_Success");
                     EffectSystem.PlayEffect("Rhythm_Effect", SelectZone.transform.position);

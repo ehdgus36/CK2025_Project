@@ -60,6 +60,9 @@ namespace GameDataSystem
         public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CardStatusDataTable , CardDataTable);
         public readonly static NoteDataBase NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
         public readonly static ItemDataBase ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+
+
+        public readonly static UnitData StartPlayerData = new UnitData();
     }
 
 
@@ -74,13 +77,19 @@ namespace GameDataSystem
 
         static DynamicGameDataSchema()
         {
+            //기본 스펙
+            StaticGameDataSchema.StartPlayerData.MaxHp = 50;
+            StaticGameDataSchema.StartPlayerData.CurrentHp = StaticGameDataSchema.StartPlayerData.MaxHp;
+            StaticGameDataSchema.StartPlayerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
+           
+            
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
             AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
 
             UnitData playerData = new UnitData();
-            playerData.MaxHp = 50;
+            playerData.MaxHp = StaticGameDataSchema.StartPlayerData.MaxHp;
             playerData.CurrentHp = playerData.MaxHp;
-            playerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
+            playerData.DataKey = StaticGameDataSchema.StartPlayerData.DataKey;
             AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
 
             AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
@@ -90,7 +99,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.COMBO_DATA, 0);
 
             AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, new List<string>());
-
+           
         }
 
         /// <summary> 동적으로 변하는 데이터를 등록 </summary>

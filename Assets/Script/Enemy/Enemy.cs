@@ -76,7 +76,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         CurrentBuff = new List<Buff>();
 
         // 받을수 있는 버프 제작
-        if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1)) ;
+        if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1 + GameManager.instance.ItemDataLoader.FireDm_UP)) ;
         if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new ElecBuff(BuffType.End, 0, 1));
         if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.Start, 0, 1));
         if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.Start, 0, 2));
@@ -85,6 +85,9 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         //EnemyUnitData 설정 
         UnitData = EnemyData.EnemyUnitData;
         EnemyData.buffs = CurrentBuff;
+        EnemyData.MaxDamage -= GameManager.instance.ItemDataLoader.EnDm_Down;
+        EnemyData.MaxDefense -= GameManager.instance.ItemDataLoader.EnDf_Down;
+
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
         EnemyData.CurrentDefense = EnemyData.MaxDefense;
 
@@ -123,9 +126,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
     {
         // 위치 이동
         StargPos = transform.position;
-
         transform.position = GameManager.instance.Player.transform.position + new Vector3(2, 0, 0);
-
         yield return new WaitForSeconds(.5f);
 
 

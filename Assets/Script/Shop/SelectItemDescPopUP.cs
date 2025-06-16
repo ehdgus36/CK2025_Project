@@ -34,8 +34,8 @@ public class SelectItemDescPopUP : MonoBehaviour
         {
             if (popUpItemDatas[i].itemID == itemID)
             { 
-                ItemTag.text = popUpItemDatas[i].itemTag;
-                ItemDesc.text = popUpItemDatas[i].Desc;
+                ItemTag.text =data.Tag;
+                ItemDesc.text = data.Example;
                 ItemImage.sprite = popUpItemDatas[i].itemImage;
             }
         }

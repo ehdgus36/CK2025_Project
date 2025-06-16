@@ -11,7 +11,7 @@ using Spine;
 
 public class Card : MonoBehaviour
 {
-    [SerializeField] protected string CardID;
+    [SerializeField] public string CardID;
     [SerializeField] public Sprite DescSprite;
 
     Buff CardBuff = null;

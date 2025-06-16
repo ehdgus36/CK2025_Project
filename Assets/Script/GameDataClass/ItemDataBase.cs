@@ -17,6 +17,10 @@ public struct ItemData
 
     public readonly int EnDf_Down;
 
+    public readonly string Tag;
+
+    public readonly string Example;
+
     public ItemData(Dictionary<string, object> data)
     {
         Item_ID = data["Item_ID"].ToString();
@@ -31,6 +35,9 @@ public struct ItemData
         EnDm_Down  = (int)data["EnDm_Down"];
 
         EnDf_Down  = (int)data["EnDf_Down"];
+
+        Tag = data["Tag"].ToString();
+        Example = data["Example"].ToString();
 
     }
 }

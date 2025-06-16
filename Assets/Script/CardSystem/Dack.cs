@@ -15,15 +15,20 @@ public class Dack : MonoBehaviour
 
     
 
-    [SerializeReference] List<Card> DackDatas;
+    [SerializeField] List<Card> DackDatas = new List<Card>();
     [SerializeField] Transform CardPos;
 
 
+    [SerializeField] List<Card> CardDatas;
 
-   
+
+    bool isOnce = false;
+
+
     //현재 덱에 있는 카드를 반환 덱에 카드가 없다면 묘지에서 카드를 가져온후 반환
     Card CardDrow()
     {
+        
         if (DackDatas.Count == 0)
         {
             DackDatas = Cemetery.GetCemeteryCards();
@@ -42,6 +47,44 @@ public class Dack : MonoBehaviour
     //외부에서 덱의 카드를 드로우 할때 호출
     public void DrawFromDeck()
     {
+        if (isOnce == false)
+        {
+            List<string> DackData = new List<string>();
+            if (GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData))
+            {
+                Debug.Log("카드 가능?"+ DackData.Count.ToString());
+                for (int i = 0; i < DackData.Count; i++)
+                {
+                    Debug.Log("카드 가능?" + DackData[i]);
+                    for (int j = 0; j < CardDatas.Count; j++)
+                    {
+                        Debug.Log("카드 가능?" + CardDatas[j].cardData.Card_ID);
+                        if (DackData[i] == CardDatas[j].CardID)
+                        {
+                            GameObject NewCard = Instantiate(CardDatas[j].gameObject);
+                            NewCard.transform.SetParent(CardPos);
+                            NewCard.transform.position = CardPos.position;
+                            NewCard.transform.localScale = Vector3.one;
+
+                            DackDatas.Add(NewCard.GetComponent<Card>());
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                Debug.Log("카드 불가능?");
+                //덱 못가져옴
+            }
+
+
+
+
+            isOnce = true;
+        }
+
+
         for (int i = 0; i < CardSlots.Getsloat().Length ; i++)
         {
             Debug.Log(gameObject.name + "Drow");

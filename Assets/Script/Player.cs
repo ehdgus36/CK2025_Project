@@ -15,13 +15,17 @@ public class Player : Unit
     [SerializeField] EffectSystem _PlayerEffectSystem;
     Vector3 StartPos;
 
+    Vector3 StartPlayerPos;
     public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
     public void Initialize()
     {
        
+
         UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
 
+
+        StartPlayerPos = this.transform.position;
         StartPos = Combo.transform.position;
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
@@ -42,6 +46,7 @@ public class Player : Unit
             TurnEnd.SetActive(false);
         };
 
+        UnitData.MaxHp += GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
 
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
@@ -132,5 +137,11 @@ public class Player : Unit
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+    }
+
+
+    public void ReturnPlayer()
+    {
+        this.transform.position = StartPlayerPos;
     }
 }

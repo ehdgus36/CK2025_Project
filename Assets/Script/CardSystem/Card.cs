@@ -80,6 +80,8 @@ public class Card : MonoBehaviour
 
             if (cardData.Effect_Pos == "P") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, GameManager.instance.Player.transform.position);
 
+            GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
+
         }
 
         if (cardData.Range_Type == 2)

@@ -58,7 +58,9 @@ public class CardCastPlace : MonoBehaviour
     {
         if (cards.Count == MaxCardCount) return;
         if (CurrentCount == 0) return;
-         cards.Add(addCard);
+
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Select");
+        cards.Add(addCard);
         GameManager.instance.CardCemetery.Insert(addCard);
         status.UpdateUI(cards.Count, addCard.cardData.Card_Type);
 
@@ -150,11 +152,15 @@ public class CardCastPlace : MonoBehaviour
             BreakOutCut.SetActive(true);
             ByeByeEnemys[i].UnitAnimationSystem.PlayAnimation("hit");
 
+            //이펙트랑 날라가는거 사운드 구현부
             GameManager.instance.Player.PlayerEffectSystem.PlayEffect("ByeBye_Effect", GameManager.instance.Player.transform.position);
+            GameManager.instance.PostProcessingSystem.ChangeVolume("BYEBYE",true, 0.2f , 0.0f , 0.2f);
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Go_Voice");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Hit_Die_Monster");
             StartCoroutine(ByeByeEnemyMove(ByeByeEnemys[i].gameObject));
 
 
-            Time.timeScale = 1;
+            //점수 
             GameManager.instance.ComboUpdate(Random.Range(30024, 32025));
 
             // 브레이크 아웃실행

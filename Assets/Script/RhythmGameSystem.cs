@@ -8,12 +8,13 @@ public class RhythmGameSystem : MonoBehaviour
 {
 
     [SerializeField] List<RhythmGameTrack> RhythmGameTracks;
-    
+    [SerializeField] Animator CamAnime;
 
     public bool isEndGame = false;
 
     public void StartGame()
-    { 
+    {
+        CamAnime.Play("EnemyTurnCamAnime");
         isEndGame = false;
         for (int i = 0; i < RhythmGameTracks.Count; i++)
         {
@@ -48,6 +49,8 @@ public class RhythmGameSystem : MonoBehaviour
             RhythmGameTracks[i].MainRhythmRhythemObj.SetActive(false);
             RhythmGameTracks[i].EnemyDamageText.SetActive(false);
         }
+
+        CamAnime.Play("EnemyTurnCamReturn");
     }
 
 

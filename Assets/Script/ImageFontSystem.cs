@@ -6,34 +6,53 @@ public class ImageFontSystem : MonoBehaviour
 {
     [SerializeField] GameObject[] MainFont;
     [SerializeField] GameObject[] MainFont2;
-    [SerializeField] GameObject[] SubFont;
-    [SerializeField] GameObject[] SubFont2;
+    [SerializeField] Image Hyphen;
 
-    [SerializeField] GameObject Parentheses1;
-    [SerializeField] GameObject Parentheses2;
-    [SerializeField] GameObject hyphen;
-
-    [SerializeField] GameObject Mainhyphen;
-
-    [SerializeField] string mainfont;
-    [SerializeField] string subfont;
-
-    private void Start()
-    {
-        FontConvert(mainfont, subfont);
-    }
+    [SerializeField] float speed;
 
 
+    [SerializeField]Image mainFont;
+    [SerializeField] Image mainFont2;
+
+    Vector3 StartPos = Vector3.zero;
     IEnumerator DelayDisable()
     {
-        yield return new WaitForSeconds(1.2f);
-        this.gameObject.SetActive(false);
+        Color Alpha = Hyphen.color;
+
+        for (int i = 0; i < 60; i++)
+        {
+            if (Hyphen != null)
+                Hyphen.color = Alpha;
+
+
+            if (mainFont != null)
+                mainFont.color = Alpha;
+
+            if (mainFont2 != null)
+                mainFont2.color = Alpha;
+
+
+            Alpha.a -= 1.0f / 60;
+            transform.position += new Vector3(0, speed /60f, 0);
+            yield return new WaitForSeconds(1.0f / 60);
+        }
+
+        this.transform.position = StartPos;
     }
 
-    public void FontConvert(string num, string subFont)
+    public void FontConvert(string num)
     {
         this.gameObject.SetActive(false);
         this.gameObject.SetActive(true);
+
+
+        Hyphen.gameObject.SetActive(false);
+        if (StartPos.x == Vector3.zero.x)
+        {
+            StartPos = this.transform.position;
+        }
+
+        this.transform.position = StartPos;
 
 
         for (int i = 0; i < MainFont.Length;i++)
@@ -48,22 +67,15 @@ public class ImageFontSystem : MonoBehaviour
             
         }
 
-        for (int i = 0; i < SubFont.Length; i++)
-        {
-            SubFont[i].SetActive(false);
-        }
 
-        for (int i = 0; i < SubFont2.Length; i++)
-        {
-            SubFont2[i].SetActive(false);
-        }
-
+        Hyphen.gameObject.SetActive(true);
 
         if (num != null)
         {
             if (num.Length == 1)
             {
                 int index = int.Parse(num);
+                mainFont = MainFont[index].gameObject.GetComponent<Image>();
                 MainFont[index].SetActive(true);
             }
 
@@ -74,38 +86,10 @@ public class ImageFontSystem : MonoBehaviour
 
                 int index = int.Parse(f);
                 MainFont[index].SetActive(true);
+                mainFont = MainFont[index].gameObject.GetComponent<Image>();
                 index = int.Parse(b);
                 MainFont2[index].SetActive(true);
-            }
-
-            if (subFont != null)
-            {
-                Parentheses1.SetActive(true);
-                Parentheses2.SetActive(true);
-                hyphen.SetActive(true);
-
-                if (subFont.Length == 1)
-                {
-                    int index = int.Parse(subFont);
-                    MainFont[index].SetActive(true);
-                }
-
-                if (subFont.Length == 2)
-                {
-                    string f = subFont[0].ToString();
-                    string b = subFont[1].ToString();
-
-                    int index = int.Parse(f);
-                    SubFont[index].SetActive(true);
-                    index = int.Parse(b);
-                    SubFont2[index].SetActive(true);
-                }
-            }
-            else
-            {
-                Parentheses1.SetActive(false);
-                Parentheses2.SetActive(false);
-                hyphen.SetActive(false);
+                mainFont2 = MainFont2[index].gameObject.GetComponent<Image>();
             }
 
         }
@@ -114,26 +98,4 @@ public class ImageFontSystem : MonoBehaviour
         
     }
 
-    public void FontConvert(string num, string subFont , Color fontColor)
-    {
-        this.gameObject.SetActive(true);
-
-        Mainhyphen.GetComponent<Image>().color = fontColor;
-
-        for (int i = 0; i < MainFont.Length; i++)
-        {
-            MainFont[i].SetActive(true);
-            MainFont[i].GetComponent<Image>().color = fontColor;
-          
-        }
-
-        for (int i = 0; i < MainFont2.Length; i++)
-        {
-            MainFont2[i].SetActive(true);
-            MainFont2[i].GetComponent<Image>().color = fontColor;
-            
-        }
-
-        FontConvert(num, null);
-    }
 }

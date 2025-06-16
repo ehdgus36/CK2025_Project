@@ -53,14 +53,19 @@ public class GameManager : MonoBehaviour
 
     public PlayerCDSlotGroup PlayerCDSlotGroup { get { return _PlayerCDSlotGroup; } }
 
+
+    public PostProcessingSystem PostProcessingSystem { get { return _PostProcessingSystem; } }
+
+    public FMODManagerSystem FMODManagerSystem { get { return _FMODManagerSystem; } }
+
     //인스펙터에서 데이터 받아옴
 
     [SerializeField] CardCastPlace _PlayerCardCastPlace;
     [SerializeField] CardMixtureSystem _PlayerAttackSystem;
     [SerializeField] CemeteryUI _CardCemetery;
     [SerializeField] PlayerCDSlotGroup _PlayerCDSlotGroup;
-    [SerializeField] public GameObject GameClear;
-    [SerializeField] public GameObject GameOver;
+    [SerializeField] GameObject GameClear;
+    [SerializeField] GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
    // [SerializeField] GameObject _CardSlot;
@@ -68,6 +73,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject EnemyTurnMark;
     [SerializeField] GameObject GameStartMark;
     [SerializeField] Button EndTurnButton;
+
+    [SerializeField] PostProcessingSystem _PostProcessingSystem;
+    [SerializeField] FMODManagerSystem _FMODManagerSystem;
+    
+
 
     
     GameObject ThisTrunMark;
@@ -95,10 +105,11 @@ public class GameManager : MonoBehaviour
         if (Metronome == null)
         {
             Metronome = GetComponent<MetronomeSystem>();        
-        }  
+        }
 
-       
 
+        _FMODManagerSystem?.Initialize();
+        _PostProcessingSystem?.Initialized();
         _EnemysGroup?.Initialize();
         _Player?.Initialize();
 
@@ -117,6 +128,8 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         EndTurnButton?.onClick.AddListener(TurnSwap);
+        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/Turn_End"); }); // 클릭시 사운드
+        
         //EndTurnButton?.gameObject.SetActive(false);
 
 
@@ -143,6 +156,11 @@ public class GameManager : MonoBehaviour
         Player.addHP(100);
     }
 
+    public void GameFail()
+    { 
+        GameOver.SetActive(true);
+        _FMODManagerSystem.PlayEffectSound("event:/UI/Fail_Stage");
+    }
 
     public void GameClearFun()
     {
@@ -152,6 +170,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DeleyLoadScene()
     {
         yield return new WaitForSeconds(1f);
+        _FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage"); // 클리어 사운드
         GameClear.SetActive(true);
         Player.PlayerSave();
         
@@ -173,13 +192,16 @@ public class GameManager : MonoBehaviour
     }
 
     public void TurnSwap()
-    {  
+    {
+         // 턴앤드 클릭시 TurnSwap함수 재생
+
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
         ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
 
         StartCoroutine(TurnMark());
+
     }
 
     IEnumerator TurnMark()
@@ -188,6 +210,7 @@ public class GameManager : MonoBehaviour
         {    
             isStart = true;
             yield return new WaitForSeconds(.2f);
+            _FMODManagerSystem.PlayEffectSound("event:/UI/Game_Start"); // 사운드도 같이
             GameStartMark.SetActive(true);
             yield return new WaitForSeconds(1f);
             GameStartMark.SetActive(false);
@@ -195,6 +218,7 @@ public class GameManager : MonoBehaviour
 
 
         yield return new WaitForSeconds(.2f);
+        _FMODManagerSystem.PlayEffectSound("event:/UI/Change_Turn"); // 사운드도 같이
         ThisTrunMark.SetActive(true);
         yield return new WaitForSeconds(1f);
         ThisTrunMark.SetActive(false);

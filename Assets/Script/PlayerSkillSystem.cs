@@ -31,6 +31,7 @@ public class PlayerSkillSystem : MonoBehaviour
         {
             enemies[i].TakeDamage(SkillDamage);
         }
+        GameManager.instance.FMODManagerSystem.FMODChangeNomal();
     }
 
     
@@ -48,5 +49,7 @@ public class PlayerSkillSystem : MonoBehaviour
                 SkillCutScene.Play();
             }
         }
+        GameManager.instance.FMODManagerSystem.FMODChangeUpgrade();
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Button");
     }
 }

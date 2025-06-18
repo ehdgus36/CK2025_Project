@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyRhythmNote : MonoBehaviour
 {
-    [SerializeField] float NoteSpeed = 5;
+    float NoteSpeed = 0.7f *1.5f;
    
 
     // Update is called once per frame

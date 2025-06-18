@@ -76,7 +76,7 @@ public class ShopEvent : MonoBehaviour
         PeakSelectList[index].gameObject.SetActive(true);
         SelectPeakIndex = index;
         SelectDescPopUp.gameObject.SetActive(true);
-        // SelectDescPopUp.ViewPopUP(SelectItemID);
+        SelectDescPopUp.ViewPopUP(SelectItemID);
 
         BuyButton.interactable = true;
     }
@@ -144,7 +144,7 @@ public class ShopEvent : MonoBehaviour
 
         if (SelectPeakIndex != -1)
         {
-            List<string> playerDackDatas = null;
+            List<string> playerDackDatas = new List<string>();
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out playerDackDatas);
 
             if (playerDackDatas != null)
@@ -153,6 +153,7 @@ public class ShopEvent : MonoBehaviour
                 coins -= data.Price;
             }
 
+            CoinText.text = coins.ToString();
 
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, playerDackDatas);
 

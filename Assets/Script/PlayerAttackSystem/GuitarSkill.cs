@@ -12,7 +12,7 @@ public class GuitarSkill : MonoBehaviour
     [SerializeField] float BPM;
     [SerializeField] List<Note> Notes;
     [SerializeField] SkeletonAnimation SkillAnime;
-    
+    [SerializeField] EffectSystem EffectSystem;
 
     
     double CurrentTime;
@@ -26,11 +26,11 @@ public class GuitarSkill : MonoBehaviour
     bool isPlay = false;
 
 
-    private void Start()
+    public void OnEnable()
     {
         PlaySkill();
     }
-
+  
     public void SkillAttack()
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation("ultimate");
@@ -83,9 +83,10 @@ public class GuitarSkill : MonoBehaviour
 
         if (Notes.Count != 0)
         {
-            if (Notes[0].transform.position.x > HitBox.bounds.max.x)
+            if (Notes[0].transform.position.x > HitBox.bounds.max.x) // 채보 실패
             {
                 GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Strength_Button_Fa");
+                EffectSystem.PlayEffect("Miss_Effect", HitBox.transform.position);
                 Destroy(Notes[0].gameObject);
                 Notes.RemoveAt(0);
                
@@ -94,14 +95,15 @@ public class GuitarSkill : MonoBehaviour
 
             if (Input.GetKeyDown(Notes[0].key))
             {
-                if (Notes[0].transform.position.x >= HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x)
+                if (Notes[0].transform.position.x >= HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x) // 채보 처리
                 {
                    SkillAnime.AnimationState.ClearTrack(0);
                    SkillAnime.Skeleton.SetSlotsToSetupPose();
-                    // SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false);
+                  // SkillAnime.AnimationState.SetAnimation(0, "ultimate-hamoni", false);
 
                     GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Strength_Button_Su");
                     GameManager.instance.PostProcessingSystem.ChangeVolume("Skill");
+                    EffectSystem.PlayEffect("Perfect_Effect", HitBox.transform.position);
                     switch (Notes[0].key)
                     {
                         case KeyCode.LeftArrow:
@@ -134,9 +136,10 @@ public class GuitarSkill : MonoBehaviour
                     Score++;
                     TotalScore++;
                 }
-                else if (Notes[0].transform.position.x < HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x)
+                else if (Notes[0].transform.position.x < HitBox.bounds.min.x && Notes[0].transform.position.x <= HitBox.bounds.max.x) // 채보 미스
                 {
                     GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Strength_Button_Fa");
+                    EffectSystem.PlayEffect("Miss_Effect", HitBox.transform.position);
                     Destroy( Notes[0].gameObject);
                     Notes.RemoveAt(0);
                     TotalScore++;

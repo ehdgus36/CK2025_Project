@@ -61,6 +61,12 @@ public class GameManager : MonoBehaviour
 
     public FMODManagerSystem FMODManagerSystem { get { return _FMODManagerSystem; } }
 
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     //인스펙터에서 데이터 받아옴
 
     [SerializeField] CardCastPlace _PlayerCardCastPlace;
@@ -81,7 +87,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] FMODManagerSystem _FMODManagerSystem;
 
 
-    [SerializeField] int GetGold = 0;
+    [SerializeField] int ClearGold = 0;
     
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
@@ -179,6 +185,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         yield return new WaitUntil(() => PlayerCardCastPlace.isByeByeStart == false );
 
+        int gold = 0;
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA,out gold);
+        gold += ClearGold;
+
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, gold);
         _FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage"); // 클리어 사운드
         GameClear.SetActive(true);
         Player.PlayerSave();
@@ -258,7 +270,7 @@ public class GameManager : MonoBehaviour
     /// <param name="data"></param>
     public void ComboUpdate(int data)
     {
-        StartCoroutine(UPdateComboCount(data));
+        StartCoroutine(UPdateComboCount(data*2));
     }
 
     IEnumerator UPdateComboCount(int count)

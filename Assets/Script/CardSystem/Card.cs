@@ -84,13 +84,14 @@ public class Card : MonoBehaviour
 
         }
 
+
+
         if (cardData.Range_Type == 2)
         {
-
-            for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
+            List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
+            for (int i = 0; i < AttackEnemies.Count; i++)
             {
-                GameManager.instance.EnemysGroup.Enemys[i].TakeDamage(cardData.Damage + DamageBuff, cardData.CardBuff);
-                
+                AttackEnemies[i].TakeDamage(cardData.Damage + DamageBuff, cardData.CardBuff);
             }
 
         }

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{6c0ab4a5-7156-424a-9993-d63773365d4c}">
-		<property name="color">
-			<value>Red</value>
-		</property>
 		<property name="name">
 			<value>Monster_Attack</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{50e16c31-3e70-43dc-b533-415f4e3b7d0e}</destination>
@@ -62,11 +59,18 @@
 	<object class="EventAutomatableProperties" id="{34c339a3-e131-4285-b7f3-9213c539c7c5}" />
 	<object class="MarkerTrack" id="{c8832fce-4626-4496-939c-83c80e83663c}" />
 	<object class="GroupTrack" id="{ecb9bb32-252b-40f0-9de1-633b0845dd84}">
+		<relationship name="modules">
+			<destination>{4d641594-691a-4c37-ba4e-f4956363ba54}</destination>
+		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{48e516cf-dcde-4b23-8026-ec5d1b555c31}</destination>
 		</relationship>
 	</object>
-	<object class="Timeline" id="{2230d464-3416-46ea-9d81-39c3d71d7a93}" />
+	<object class="Timeline" id="{2230d464-3416-46ea-9d81-39c3d71d7a93}">
+		<relationship name="modules">
+			<destination>{4d641594-691a-4c37-ba4e-f4956363ba54}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerMaster" id="{f7b28631-374a-4b1c-9a60-0a87595e8209}">
 		<relationship name="effectChain">
 			<destination>{1b9277fa-9f55-4057-8226-b3f428c1163d}</destination>
@@ -84,6 +88,17 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{72f23b64-2fd2-4093-8b00-717abe1954d3}" />
+	<object class="SingleSound" id="{4d641594-691a-4c37-ba4e-f4956363ba54}">
+		<property name="length">
+			<value>0.47999999999999998</value>
+		</property>
+		<property name="timelockedOffset">
+			<value>0.23999999999999999</value>
+		</property>
+		<relationship name="audioFile">
+			<destination>{7f0754cd-4486-42c5-8eae-dffe1d5bf15b}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerGroup" id="{48e516cf-dcde-4b23-8026-ec5d1b555c31}">
 		<property name="name">
 			<value>Audio 1</value>

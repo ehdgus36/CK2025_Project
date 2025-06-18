@@ -34,7 +34,9 @@ public class CardCastPlace : MonoBehaviour
     [SerializeField]Enemy _TargetEnemy;
     Vector3 PlayerStartPos;
     bool isByeBye = false; // ByeBye는 한번 공격에 1회만 실행 true = 공격함, false = 안함
-   
+
+
+    bool isAttackClear = true;
 
     List<Enemy> ByeByeEnemys = new List<Enemy>();
 
@@ -49,7 +51,7 @@ public class CardCastPlace : MonoBehaviour
         status.Reset();
         _TargetEnemy = null;
         isByeBye = false;
-
+        isAttackClear = true;
         GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
         GameManager.instance.UIManager.Black.SetActive(false);
     }
@@ -85,8 +87,10 @@ public class CardCastPlace : MonoBehaviour
 
     IEnumerator TargetAttack()
     {
+        GameManager.instance.PlayerCDSlotGroup.gameObject.SetActive(false);
+        GameManager.instance.Player.MaxButtonDisable();
         int count = cards.Count;
-       
+        isAttackClear = false;
         for (int i = 0; i < count; i++)
         {
             if(cards[0].cardData.MoveType == "M" && isByeBye == false)
@@ -99,7 +103,7 @@ public class CardCastPlace : MonoBehaviour
             if (cards.Count >= 2) cards[0].TargetExcute(_TargetEnemy, cards[1]);
             if (cards.Count == 1) cards[0].TargetExcute(_TargetEnemy);
 
-            Debug.Log("aaaaa");
+            
             yield return new WaitUntil(() => cards[0].IsCardEnd); // 카드효과가 마무리 할때까지 대기
             yield return new WaitForSeconds(.5f); // 너무 바로 시작하는 느낌들어서 딜레이 줌
 
@@ -113,10 +117,12 @@ public class CardCastPlace : MonoBehaviour
         }
 
         yield return null;
-   
+        GameManager.instance.PlayerCDSlotGroup.gameObject.SetActive(true);
+        GameManager.instance.Player.MaxButtonEnable();
         status.Reset();
         TurnEnd.interactable = true;
         _TargetEnemy = null;
+        isAttackClear = true;
     }
 
     public void AddByeByeSystem(Enemy target)
@@ -137,11 +143,16 @@ public class CardCastPlace : MonoBehaviour
 
     IEnumerator ByeBye(GameObject Target)
     {
+
+        yield return new WaitUntil(() => isAttackClear == true);
+
+        TurnEnd.interactable = false;
         isByeByeStart = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         for (int i = 0; i < ByeByeEnemys.Count; i++)
         {
-            yield return new WaitForSeconds(.5f);
+
+            yield return new WaitForSeconds(.2f);
 
             GameManager.instance.Player.transform.position = ByeByeEnemys[i].gameObject.transform.position - new Vector3(2, 0, 0); // 앞으로 가기
 
@@ -180,6 +191,7 @@ public class CardCastPlace : MonoBehaviour
            
         }
         isByeByeStart = false;
+        TurnEnd.interactable = true;
     }
 
 

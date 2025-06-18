@@ -12,7 +12,8 @@ public class ComboUIView : DynamicUIObject
 
     public override void UpdateUIData(object update_ui_data)
     {
-        if ((int)update_ui_data >= 99999)
+        
+        if ((int)update_ui_data >= 999999)
         {
             ComboText.gameObject.SetActive(false);
             MaxButtonUI.gameObject.SetActive(true);
@@ -20,9 +21,19 @@ public class ComboUIView : DynamicUIObject
             return;
         }
 
+
+        ComboText.gameObject.SetActive(true);
         comboNum = (int)update_ui_data;
-        ComboText.text = "x" + ((int)comboNum).ToString("D5");
+        ComboText.text = "x" + ((int)comboNum).ToString("D6");
     }
 
-    
+    public void DisableButton()
+    {
+        MaxButtonUI.GetComponent<Button>().interactable = false;
+    }
+    public void EnableButton()
+    {
+        MaxButtonUI.GetComponent<Button>().interactable = true;
+    }
+
 }

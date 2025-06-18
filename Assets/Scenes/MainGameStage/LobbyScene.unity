@@ -132,6 +132,8 @@ GameObject:
   - component: {fileID: 399799604}
   - component: {fileID: 399799603}
   - component: {fileID: 399799602}
+  - component: {fileID: 399799608}
+  - component: {fileID: 399799607}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -151,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cb140ee2e1f9b4a908fec24a38b740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName: Map
+  SceneName: GameMap
   EXIT_Button: {fileID: 850012533}
   SETTING_Button: {fileID: 1653711621}
   SettingView: {fileID: 2119812093}
@@ -245,6 +247,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &399799607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399799601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e293011e898ab8479faf32bc42cf963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainBgm: event:/BGM/Lobby_BGM
+  isStartBgm: 1
+--- !u!114 &399799608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399799601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &850012531
 GameObject:
   m_ObjectHideFlags: 0

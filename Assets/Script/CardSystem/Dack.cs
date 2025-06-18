@@ -52,13 +52,13 @@ public class Dack : MonoBehaviour
             List<string> DackData = new List<string>();
             if (GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData))
             {
-                Debug.Log("카드 가능?"+ DackData.Count.ToString());
+                Debug.Log("DackData Count" + DackData.Count.ToString());
                 for (int i = 0; i < DackData.Count; i++)
                 {
-                    Debug.Log("카드 가능?" + DackData[i]);
+                   
                     for (int j = 0; j < CardDatas.Count; j++)
                     {
-                        Debug.Log("카드 가능?" + CardDatas[j].cardData.Card_ID);
+                        
                         if (DackData[i] == CardDatas[j].CardID)
                         {
                             GameObject NewCard = Instantiate(CardDatas[j].gameObject);

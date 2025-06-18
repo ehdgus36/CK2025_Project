@@ -5,15 +5,18 @@ public class PlayerCastCardStatus : MonoBehaviour
 {
     [SerializeField] GameObject[] PeakIcon;
     [SerializeField] Sprite[] PeakIconSprite;
+
+    int index = 0;
     public void UpdateUI(int count, int cardType)
     {
         if (count > PeakIcon.Length) return;
 
-        for (int i = 0; i < count; i++)
-        { 
-            PeakIcon[i].SetActive(true);
-            PeakIcon[i].GetComponent<Image>().sprite = PeakIconSprite[cardType - 1];
-        }
+
+
+        PeakIcon[index].SetActive(true);
+        PeakIcon[index].GetComponent<Image>().sprite = PeakIconSprite[cardType - 1];
+        index++;
+
     }
 
     public void Reset()
@@ -22,5 +25,7 @@ public class PlayerCastCardStatus : MonoBehaviour
         {
             PeakIcon[i].SetActive(false);
         }
+
+        index = 0;
     }
 }

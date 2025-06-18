@@ -2,6 +2,7 @@ using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 enum FMODLabeled
 {
@@ -12,11 +13,25 @@ enum FMODLabeled
 public class FMODManagerSystem : MonoBehaviour
 {
     [SerializeField] string MainBgm;
+    [SerializeField] string SubBgm;
     private EventInstance bgmInstance;
+    private EventInstance bgmInstance2;
+    [SerializeField] bool isStartBgm = false;
+
+    public void Start()
+    {
+        if (isStartBgm == true) Initialize();
+    }
 
     public void Initialize()
     {
-        PlayBGM(MainBgm);
+        
+
+        if (MainBgm != null) PlayBGM(MainBgm);
+
+        if (SubBgm != null) PlayBGMSub(SubBgm);
+
+        SceneManager.sceneUnloaded += (Scene) => { OnEndSound(); };
     }
 
     public void FMODChangeNomal()
@@ -29,11 +44,30 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Upgrad);
     }
 
+    public void FMODChangeNomal2()
+    {
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Nomal);
+    }
+
+    public void FMODChangeUpgrade2()
+    {
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Upgrad);
+    }
+
     void PlayBGM(string key)
     {
         bgmInstance = RuntimeManager.CreateInstance(key);
         bgmInstance.start();
         FMODChangeNomal();
+
+
+    }
+
+    void PlayBGMSub(string key)
+    {
+        bgmInstance2 = RuntimeManager.CreateInstance(key);
+        bgmInstance2.start();
+        FMODChangeNomal2();
     }
 
     public void PlayEffectSound(string key)
@@ -41,10 +75,22 @@ public class FMODManagerSystem : MonoBehaviour
         RuntimeManager.PlayOneShot(key);
     }
 
-    void OnDestroy()
+    private void OnDestroy()
+    {
+        bgmInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        bgmInstance.release();
+
+        bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        bgmInstance2.release();
+    }
+
+    void OnEndSound()
     {
         // BGM 페이드아웃 후 정지 및 해제
-        bgmInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        bgmInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance.release();
+
+        bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        bgmInstance2.release();
     }
 }

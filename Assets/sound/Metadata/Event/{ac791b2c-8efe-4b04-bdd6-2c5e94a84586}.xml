@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{ac791b2c-8efe-4b04-bdd6-2c5e94a84586}">
-		<property name="color">
-			<value>Red</value>
-		</property>
 		<property name="name">
 			<value>Attack_Strength</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{e50e5831-8217-412d-8bbf-4e9c7e928fec}</destination>
@@ -62,11 +59,18 @@
 	<object class="EventAutomatableProperties" id="{7998ef5a-2745-4758-92e2-c3655f865699}" />
 	<object class="MarkerTrack" id="{250e1f6b-fbc5-4d52-810e-08fa59670d5b}" />
 	<object class="GroupTrack" id="{7f35d1d0-cecd-43c2-9057-41cf1026b0c9}">
+		<relationship name="modules">
+			<destination>{ef99e073-40fc-409a-b44f-29ae1477891a}</destination>
+		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{baaf322b-32b3-4be9-8222-d3de0fd39125}</destination>
 		</relationship>
 	</object>
-	<object class="Timeline" id="{8f1c3794-76e1-4225-bce6-06b904851b72}" />
+	<object class="Timeline" id="{8f1c3794-76e1-4225-bce6-06b904851b72}">
+		<relationship name="modules">
+			<destination>{ef99e073-40fc-409a-b44f-29ae1477891a}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerMaster" id="{18c43698-828b-4c51-97f5-d2cb85e110c4}">
 		<relationship name="effectChain">
 			<destination>{a96fb42c-fdf0-45de-ad8a-a47313c6f8f0}</destination>
@@ -84,6 +88,14 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{a9840cb0-18a7-4f3b-91d0-b449bce08b00}" />
+	<object class="SingleSound" id="{ef99e073-40fc-409a-b44f-29ae1477891a}">
+		<property name="length">
+			<value>15.048</value>
+		</property>
+		<relationship name="audioFile">
+			<destination>{0d89d9c4-3fb9-4f06-ba9f-c18f5410a067}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerGroup" id="{baaf322b-32b3-4be9-8222-d3de0fd39125}">
 		<property name="name">
 			<value>Audio 1</value>

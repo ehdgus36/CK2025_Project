@@ -63,7 +63,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
 
     Vector3 StargPos = Vector3.zero;
 
-   
+    [SerializeField] Vector3 AttackOffset = new Vector3(2, 0, 0);
     public bool isDie { get; private set; }
     public bool isAttackEnd { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
 
@@ -126,7 +126,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
     {
         // 위치 이동
         StargPos = transform.position;
-        transform.position = GameManager.instance.Player.transform.position + new Vector3(2, 0, 0);
+        transform.position = GameManager.instance.Player.transform.position + AttackOffset;
         yield return new WaitForSeconds(.5f);
 
 

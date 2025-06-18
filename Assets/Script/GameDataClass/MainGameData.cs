@@ -40,7 +40,11 @@ public abstract class DynamicUIObject : MonoBehaviour
     /// <summary> update_ui_data를 저장되어있는 데이터 타입과 동일하게 형변환 후 사용 </summary>
     public abstract void UpdateUIData(object update_ui_data);
 
-   
+    public void OnDestroy()
+    {
+        GameDataSystem.DynamicGameDataSchema.RemoveDynamicUIDataBase(DynamicDataKey);
+    }
+
 
 }
 
@@ -80,7 +84,7 @@ namespace GameDataSystem
         static DynamicGameDataSchema()
         {
             //기본 스펙
-            StaticGameDataSchema.StartPlayerData.MaxHp = 50;
+            StaticGameDataSchema.StartPlayerData.MaxHp = 100;
             StaticGameDataSchema.StartPlayerData.CurrentHp = StaticGameDataSchema.StartPlayerData.MaxHp;
             StaticGameDataSchema.StartPlayerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
            
@@ -247,6 +251,11 @@ namespace GameDataSystem
         public static void RemoveAllDynamicUIDataBase()
         {
             DynamicUIDataBase.Clear();
+        }
+
+        public static bool DynamicDataBaseContainsKey(string key)
+        { 
+            return DynamicDataBase.ContainsKey(key);
         }
         //데이터 변화시 UI갱신
         //데이터 전달에 필요한 동적 데이터 등록

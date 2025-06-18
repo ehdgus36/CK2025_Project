@@ -18,6 +18,18 @@ public class Player : Unit
     Vector3 StartPlayerPos;
     public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
+
+
+    public void MaxButtonDisable()    
+    {
+        Combo.GetComponent<ComboUIView>().DisableButton();
+    }
+
+    public void MaxButtonEnable()
+    {
+        Combo.GetComponent<ComboUIView>().EnableButton();
+    }
+
     public void Initialize()
     {
        
@@ -34,6 +46,7 @@ public class Player : Unit
        
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
         StartTurnEvent += () => { Combo.transform.position = StartPos; Combo.transform.localScale = new Vector3(1, 1, 1);
+            Combo.GetComponent<ComboUIView>().EnableButton();
             TurnEnd.SetActive(true);
         };
 
@@ -43,10 +56,11 @@ public class Player : Unit
         EndTurnEvent += () => {
             Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(70, -271, 0);
             Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
+            Combo.GetComponent<ComboUIView>().DisableButton();
             TurnEnd.SetActive(false);
         };
 
-        UnitData.MaxHp += GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
+        UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
 
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);

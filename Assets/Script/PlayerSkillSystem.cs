@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -40,16 +41,11 @@ public class PlayerSkillSystem : MonoBehaviour
     {
         SkillCutScene.Play();
 
-        int GradeData = 0;
-        if (GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.UPGRADE_POINT_DATA, out GradeData))
-        {
-
-            if (GradeData >= 100)
-            {
-                SkillCutScene.Play();
-            }
-        }
+       
         GameManager.instance.FMODManagerSystem.FMODChangeUpgrade();
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Button");
+
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, 0);
     }
 }

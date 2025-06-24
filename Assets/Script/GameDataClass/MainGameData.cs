@@ -56,11 +56,13 @@ namespace GameDataSystem
     /// <summary> 데이터 테이블에서 가져온 데이터를 관리하는 클래스 </summary>
     public static class StaticGameDataSchema
     {
+
+       
         static TextAsset RecipeDataTable = new TextAsset();
         static TextAsset CardStatusDataTable = new TextAsset();
-        static TextAsset CardDataTable = Resources.Load<TextAsset>("CardDataTable/CardDataTable");
+        static TextAsset CardDataTable = Resources.Load<TextAsset>("DataTable/CardDataTable");
         static TextAsset NoteDataTable = new TextAsset();
-        static TextAsset ItemDataTable = Resources.Load<TextAsset>("ItemDataTable/ItemDataTable");
+        static TextAsset ItemDataTable = Resources.Load<TextAsset>("DataTable/ItemDataTable");
 
         public readonly static RecipeDataBase RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
         public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CardStatusDataTable , CardDataTable);

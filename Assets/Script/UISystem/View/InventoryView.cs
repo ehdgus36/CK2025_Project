@@ -45,12 +45,6 @@ public class InventoryView : MonoBehaviour
                 ItemImage[i].sprite = itemsData[itemCodeData[i]];
             }
         }
-
-
-        
-
-
-
     }
 
     public void Exit()

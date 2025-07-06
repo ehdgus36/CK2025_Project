@@ -72,7 +72,7 @@ public class EnemysGroup :Unit
             yield return new WaitForSeconds(.5f);
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.5f);
         GameManager.instance.TurnSwap();
         yield return null;
     }

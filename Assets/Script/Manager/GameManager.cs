@@ -257,10 +257,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("LobbyScene");
     }
 
-    public void MapEvent()
-    {
-        SceneManager.LoadScene("GameMap");
-    }
+
 
 
 

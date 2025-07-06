@@ -7,6 +7,6 @@ public class ClearSystem : MonoBehaviour
 
     public void LoadMap()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("GameMap");
     }
 }

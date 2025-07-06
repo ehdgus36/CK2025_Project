@@ -143,12 +143,12 @@ public class CardCastPlace : MonoBehaviour
 
     IEnumerator ByeBye(GameObject Target)
     {
-
+        isByeByeStart = true;
         yield return new WaitUntil(() => isAttackClear == true);
 
         TurnEnd.interactable = false;
-        isByeByeStart = true;
-        yield return new WaitForSeconds(2f);
+      
+        yield return new WaitForSeconds(1f);
         for (int i = 0; i < ByeByeEnemys.Count; i++)
         {
 
@@ -192,6 +192,7 @@ public class CardCastPlace : MonoBehaviour
         }
         isByeByeStart = false;
         TurnEnd.interactable = true;
+        ByeByeEnemys.Clear(); // 실행 다 하면 초기화
     }
 
 

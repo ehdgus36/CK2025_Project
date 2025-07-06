@@ -39,6 +39,8 @@ public class EffectSystem : MonoBehaviour
         }
 
 
+        if (EffectSystemInstanceData.ContainsKey(effectCode) == false) return; //여기 까지 와서 안돼면 없는거
+
         //생성된 이펙트 실행
         EffectSystemInstanceData[effectCode].transform.position = TargetPos + offset;
         EffectSystemInstanceData[effectCode].Play();

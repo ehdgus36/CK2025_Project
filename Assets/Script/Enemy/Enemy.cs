@@ -175,7 +175,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         EnemyAnimator.PlayAnimation("hit");
 
         //이팩트 , 사운드
-        EffectSystem.PlayEffect("Rhythm_Effect", this.transform.position); // 자신에게
+        EffectSystem.PlayEffect("Hit_Effect", this.transform.position); // 자신에게
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Hurt");
 
         //UI 갱신

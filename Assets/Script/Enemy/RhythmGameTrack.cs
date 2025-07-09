@@ -71,7 +71,7 @@ public class RhythmGameTrack : MonoBehaviour
                     //애니메이션 이펙트 실행
                     GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Defense/Defense_Success");
                     EffectSystem.PlayEffect("Rhythm_Effect", SelectZone.transform.position);
-                    EffectSystem.PlayEffect("Rhythm_Suare", TargetEnemy.transform.position);
+                    EffectSystem.PlayEffect("Rhythm_Square", TargetEnemy.transform.position);
                     EffectSystem.PlayEffect("Perfect_Effect", TargetEnemy.transform.position);
                    
                     UnitAnime.PlayAnimation("hit");

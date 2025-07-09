@@ -84,6 +84,8 @@ public class Player : Unit
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true , 0.2f, 0.0f , 0.2f);
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Hurt");
+
+        _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
         
         //UI °»½Å
         DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);

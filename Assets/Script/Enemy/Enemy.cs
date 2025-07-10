@@ -38,7 +38,7 @@ public class EnemyData
     public List<Buff> buffs;
 }
 
-public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointerExitHandler
+public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnterHandler , IPointerExitHandler
 {
     //Unit정보 체력 공격력 등등
     [SerializeField] public EnemyData EnemyData;
@@ -222,11 +222,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (GameManager.instance.PlayerCardCastPlace.TargetEnemy == null)
-        {
-            GameManager.instance.PlayerCardCastPlace.TargetEnemy = this;
-            Debug.Log("select Enemy");
-        }
+       // GameManager.instance.ExcutSelectCardSystem.SetTargetEnemy(this);
     }
     private void ChangeLayerRecursively(GameObject obj, int layer)
     {
@@ -249,10 +245,16 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
     public void OnPointerEnter(PointerEventData eventData)
     {
         EnemyStatus.StatusPopUp.SetActive(true);
+        GameManager.instance.ExcutSelectCardSystem.SetTargetEnemy(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         EnemyStatus.StatusPopUp.SetActive(false);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+       
     }
 }

@@ -10,9 +10,10 @@ public class EffectSystem : MonoBehaviour
 
     public void PlayEffect(string effectCode, Vector3 TargetPos) // 수정 필요 스크립터블 오브젝트에서 데이터 받아서 이펙트 생성하고 사용 딕셔너리로 관리
     {
-
+        Debug.Log(effectCode);
         if (EffectSystemInstanceData.ContainsKey(effectCode) == false) // 이펙트가 생성되지 않았다면 생성후 딕셔너리에 저장
         {
+           
             for (int i = 0; i < EffectData.EffectDatas.Length; i++)
             {
                 if (EffectData.EffectDatas[i].EffectCode == effectCode)
@@ -20,7 +21,7 @@ public class EffectSystem : MonoBehaviour
                     GameObject EffectParticleSystem = Instantiate(EffectData.EffectDatas[i].EffectObject);
                     EffectParticleSystem.transform.SetParent(this.transform);
                     EffectSystemInstanceData.Add(effectCode, EffectParticleSystem.GetComponent<ParticleSystem>());
-
+                   
                     break;
                 }
             }

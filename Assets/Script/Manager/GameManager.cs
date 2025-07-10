@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
 
+    public ExcutSelectCardSystem ExcutSelectCardSystem { get; private set; }
+
     //public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
     public ItemDataLoader ItemDataLoader { get; private set; }
@@ -85,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PostProcessingSystem _PostProcessingSystem;
     [SerializeField] FMODManagerSystem _FMODManagerSystem;
-
+    [SerializeField] GameObject EventSystem;
 
     [SerializeField] int ClearGold = 0;
     
@@ -96,11 +98,11 @@ public class GameManager : MonoBehaviour
 
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
     IEnumerator Initialize()
-     {
+    {
 
         ItemDataLoader = gameObject.GetComponent<ItemDataLoader>();
 
-
+        ExcutSelectCardSystem = gameObject.GetComponent<ExcutSelectCardSystem>();
         ItemDataLoader?.LoadData();
 
         _Player = FindFirstObjectByType<Player>();
@@ -259,10 +261,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("LobbyScene");
     }
 
-
-
-
-
     /// <summary>
     /// Combo의 수치를 업그레이드
     /// </summary>
@@ -285,5 +283,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-  
+
+    public void UIInputSetActive(bool active)
+    {
+        EventSystem?.SetActive(active);
+    }
 }

@@ -19,12 +19,14 @@ public class CardArrowSystem : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnEnable()
     {
+        Arrow.gameObject.SetActive(true);
         UpdateArrow =StartCoroutine(UpdateArrowPos());  
        
     }
 
     private void OnDisable()
     {
+        Arrow.gameObject.SetActive(false);
         StopCoroutine(UpdateArrow);
     }
 
@@ -48,7 +50,7 @@ public class CardArrowSystem : MonoBehaviour
             Arrow.rotation = Quaternion.Euler(0, 0, -angle);
 
             BezierCurveDrowArrow();
-            yield return new WaitForSeconds(.05f);
+            yield return new WaitForSeconds(.03f);
         }
     }
 
@@ -59,9 +61,11 @@ public class CardArrowSystem : MonoBehaviour
         float t = 0;
         for (int i = 0; i < CurveDotObj.Count; i++)
         {
+            
             Vector3 dotPos =  BezierCurve(CardPos.position, P01.position, Arrow.position, t);
             CurveDotObj[i].transform.position = dotPos;
             t += curve_t;
+
         }
        
     }

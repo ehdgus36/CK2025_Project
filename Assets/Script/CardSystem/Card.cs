@@ -65,7 +65,9 @@ public class Card : MonoBehaviour
         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현   
 
         EnemyTarget = Target;
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code,false ,AttackEvent , CompleteEvent); // 최종형 
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code,false ,AttackEvent , CompleteEvent); // 최종형
+        GameManager.instance.UIInputSetActive(false);
+                                                                              
     }
 
 
@@ -89,6 +91,8 @@ public class Card : MonoBehaviour
         if (cardData.Range_Type == 2)
         {
             List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+
             for (int i = 0; i < AttackEnemies.Count; i++)
             {
                 AttackEnemies[i].TakeDamage(cardData.Damage + DamageBuff, cardData.CardBuff);
@@ -114,6 +118,6 @@ public class Card : MonoBehaviour
             GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
         }
 
-
+        GameManager.instance.UIInputSetActive(true);
     }
 }

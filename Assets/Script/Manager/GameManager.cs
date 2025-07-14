@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
 
 
         _PlayerCardCastPlace.Reset();
+        ExcutSelectCardSystem.Reset();
         ThisTurnUnit.StartTurn();
         //Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
         StartCoroutine(TurnMark());

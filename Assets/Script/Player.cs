@@ -52,7 +52,8 @@ public class Player : Unit
 
         EndTurnEvent += CDSlotGroup.ReturnCard;
         EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
-        
+        EndTurnEvent += GameManager.instance.ExcutSelectCardSystem.Reset; ;
+
         EndTurnEvent += () => {
             Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(70, -271, 0);
             Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);

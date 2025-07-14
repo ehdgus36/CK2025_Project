@@ -52,7 +52,7 @@ public class CardCastPlace : MonoBehaviour
         _TargetEnemy = null;
         isByeBye = false;
         isAttackClear = true;
-        GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
+        //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
         GameManager.instance.UIManager.Black.SetActive(false);
     }
 
@@ -69,7 +69,7 @@ public class CardCastPlace : MonoBehaviour
 
         CurrentCount--;
 
-        GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
+        //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
         GameManager.instance.UIManager.Black.SetActive(true);
        
         TurnEnd.interactable = false;
@@ -148,7 +148,7 @@ public class CardCastPlace : MonoBehaviour
 
         TurnEnd.interactable = false;
       
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         for (int i = 0; i < ByeByeEnemys.Count; i++)
         {
 
@@ -179,12 +179,12 @@ public class CardCastPlace : MonoBehaviour
             // 브레이크 아웃실행
             yield return new WaitForSeconds(.33f);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.7f);
             GameManager.instance.Player.transform.position = PlayerStartPos;
 
             ByeByeCut.Play("ByeByeCutAnimeReturn");
            
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
             BreakOutCut.SetActive(false);
 
            

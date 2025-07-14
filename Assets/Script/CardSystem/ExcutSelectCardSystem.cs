@@ -11,6 +11,12 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     bool isTargeting = false; // 몬스터 타겟팅이 가능한지 확인
 
+    public void Reset()
+    {
+        CurrentExcutCardCount = 0;
+        GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
+    }
+
     public void SetSelectCard(Card card) // 선택한 카드를 등록
     {
         if (MaxExcutCardCount == CurrentExcutCardCount) return;

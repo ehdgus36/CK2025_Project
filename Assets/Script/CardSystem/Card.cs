@@ -25,6 +25,8 @@ public class Card : MonoBehaviour
     public bool IsCardEnd { get { return isCardEnd; } }
 
     protected SlotGroup CardSloats;
+
+    Vector3 PlayerStartPos;
     public virtual void Initialized(SlotGroup slotGroup ) 
     {
         CardSloats = slotGroup;
@@ -47,6 +49,8 @@ public class Card : MonoBehaviour
 
     public virtual void TargetExcute(Enemy Target , Card nextCard = null)
     {
+        PlayerStartPos = GameManager.instance.Player.transform.position;// 플레이어 처음 위치 저장
+
         if (Target.isDie == true) //카드 넣기
         {
             for (int i = 0; i < CardSloats.Getsloat().Length; i++)
@@ -59,6 +63,13 @@ public class Card : MonoBehaviour
             isCardEnd = true;
             return;
         }
+
+        
+
+        if (cardData.MoveType == "M")
+        {
+            GameManager.instance.Player.transform.position = Target.gameObject.transform.position - new Vector3(2, 0, 0);
+        } 
 
 
         if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
@@ -119,5 +130,6 @@ public class Card : MonoBehaviour
         }
 
         GameManager.instance.UIInputSetActive(true);
+        GameManager.instance.Player.transform.position = PlayerStartPos;
     }
 }

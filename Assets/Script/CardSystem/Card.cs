@@ -130,6 +130,12 @@ public class Card : MonoBehaviour
         }
 
         GameManager.instance.UIInputSetActive(true);
+        StartCoroutine(PlayerReturnDelay());
+    }
+
+    IEnumerator PlayerReturnDelay()
+    {
+        yield return new WaitForSeconds(.2f);
         GameManager.instance.Player.transform.position = PlayerStartPos;
     }
 }

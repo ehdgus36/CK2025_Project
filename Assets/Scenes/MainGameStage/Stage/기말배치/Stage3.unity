@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e03c640b5047b4d46b4463c934a51115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectData: {fileID: 0}
+  EffectData: {fileID: 11400000, guid: a54c277876051774380d66d46ff7b825, type: 2}
 --- !u!114 &80505426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3145,7 +3145,7 @@ MonoBehaviour:
   - {fileID: 903489625}
   - {fileID: 1589645587}
   - {fileID: 284741296}
-  CamAnime: {fileID: 0}
+  CamAnime: {fileID: 853587472}
   isEndGame: 0
 --- !u!114 &542545209
 MonoBehaviour:
@@ -3789,6 +3789,10 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5922118838296879726, guid: 8ea4f2f14f02d6b4b8f461ff3e1f0858, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5931556213503486184, guid: 8ea4f2f14f02d6b4b8f461ff3e1f0858, type: 3}
       propertyPath: playOnAwake
       value: 1
@@ -3942,6 +3946,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ea4f2f14f02d6b4b8f461ff3e1f0858, type: 3}
+--- !u!1 &600898104 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5922118838296879726, guid: 8ea4f2f14f02d6b4b8f461ff3e1f0858, type: 3}
+  m_PrefabInstance: {fileID: 600898103}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &616350856
 GameObject:
   m_ObjectHideFlags: 0
@@ -6573,9 +6582,9 @@ PlayableDirector:
   - key: {fileID: 4638566574771871458, guid: 7186a6c56eb9da64bb8e936f976fd31b, type: 2}
     value: {fileID: 80505424}
   - key: {fileID: 430004037402462135, guid: 7186a6c56eb9da64bb8e936f976fd31b, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 542545207}
   - key: {fileID: -154141858487169632, guid: 7186a6c56eb9da64bb8e936f976fd31b, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 600898104}
   - key: {fileID: 8707269273988558618, guid: 7186a6c56eb9da64bb8e936f976fd31b, type: 2}
     value: {fileID: 841503784}
   - key: {fileID: -1653879744357430168, guid: 7186a6c56eb9da64bb8e936f976fd31b, type: 2}
@@ -13102,15 +13111,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 06e44acbef492c7459f9b38312ed03b6, type: 2}
   - {fileID: 2100000, guid: a8e4ca02a36863b4eae56a5ed6d0787b, type: 2}
-  - {fileID: 2100000, guid: 06e44acbef492c7459f9b38312ed03b6, type: 2}
-  - {fileID: 2100000, guid: dd1fbab6de63eb148b858c33c3c79918, type: 2}
-  - {fileID: 2100000, guid: 06e44acbef492c7459f9b38312ed03b6, type: 2}
-  - {fileID: 2100000, guid: a8e4ca02a36863b4eae56a5ed6d0787b, type: 2}
-  - {fileID: 2100000, guid: a77690772557faf48a4ff0e0907dd884, type: 2}
-  - {fileID: 2100000, guid: 263c855a77639004cb2b0e29b06421f2, type: 2}
-  - {fileID: 2100000, guid: 06e44acbef492c7459f9b38312ed03b6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -5,7 +5,7 @@ using UnityEngine.Video;
 
 public class LobbyScene : MonoBehaviour
 {
-    [SerializeField] string SceneName = "Title";
+    [SerializeField] string SceneName = "GameMap";
     [SerializeField] Button EXIT_Button;
     [SerializeField] Button SETTING_Button;
 

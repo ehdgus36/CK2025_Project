@@ -38,7 +38,7 @@ public class EnemyData
     public List<Buff> buffs;
 }
 
-public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointerExitHandler
+public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnterHandler , IPointerExitHandler
 {
     //Unit정보 체력 공격력 등등
     [SerializeField] public EnemyData EnemyData;
@@ -53,6 +53,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
 
     [SerializeField] BuffLayer buffLayer;
     [SerializeField] ImageFontSystem fontSystem;
+    [SerializeField] EffectSystem EffectSystem;
 
 
     int EnemyIndex = 0;
@@ -62,15 +63,20 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
 
     Vector3 StargPos = Vector3.zero;
 
-   
+    [SerializeField] Vector3 AttackOffset = new Vector3(2, 0, 0);
+    public bool isDie { get; private set; }
     public bool isAttackEnd { get; private set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
+
+    public UnitAnimationSystem UnitAnimationSystem { get { return EnemyAnimator; } }
+
 
     public virtual void Initialize(int index)
     {
+        isDie = false;  
         CurrentBuff = new List<Buff>();
 
         // 받을수 있는 버프 제작
-        if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1)) ;
+        if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1 + GameManager.instance.ItemDataLoader.FireDm_UP)) ;
         if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new ElecBuff(BuffType.End, 0, 1));
         if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.Start, 0, 1));
         if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.Start, 0, 2));
@@ -79,6 +85,9 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
         //EnemyUnitData 설정 
         UnitData = EnemyData.EnemyUnitData;
         EnemyData.buffs = CurrentBuff;
+        EnemyData.MaxDamage -= GameManager.instance.ItemDataLoader.EnDm_Down;
+        EnemyData.MaxDefense -= GameManager.instance.ItemDataLoader.EnDf_Down;
+
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
         EnemyData.CurrentDefense = EnemyData.MaxDefense;
 
@@ -117,9 +126,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
     {
         // 위치 이동
         StargPos = transform.position;
-
-        transform.position = GameManager.instance.Player.transform.position + new Vector3(2, 0, 0);
-
+        transform.position = GameManager.instance.Player.transform.position + AttackOffset;
         yield return new WaitForSeconds(.5f);
 
 
@@ -161,20 +168,33 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
        
        
         base.TakeDamage(damage - EnemyData.CurrentDefense);
+
+
+
+        //애니메이션 재생
         EnemyAnimator.PlayAnimation("hit");
+
+        //이팩트 , 사운드
+        EffectSystem.PlayEffect("Hit_Effect", this.transform.position); // 자신에게
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Hurt");
+
+        //UI 갱신
         EnemyStatus?.UpdateStatus(EnemyData);
+        
+        
         GameManager.instance.Shake.PlayShake();
 
 
-        //fontSystem.FontConvert(damage.ToString(), null);
+        fontSystem.FontConvert(damage.ToString());
     }
 
     protected override void Die()
     {
-        //DynamicGameDataSchema.RemoveDynamicDataBase(UnitData.DataKey);
-        //this.gameObject.SetActive(false);
+        
         DieEvent?.Invoke(this);
-       
+        isDie = true;
+
+        GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);
 
     }
 
@@ -202,8 +222,7 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        GameManager.instance.PlayerCardCastPlace.TargetEnemy = this;
-        Debug.Log("select Enemy");
+       // GameManager.instance.ExcutSelectCardSystem.SetTargetEnemy(this);
     }
     private void ChangeLayerRecursively(GameObject obj, int layer)
     {
@@ -226,10 +245,16 @@ public class Enemy : Unit, IPointerDownHandler , IPointerEnterHandler , IPointer
     public void OnPointerEnter(PointerEventData eventData)
     {
         EnemyStatus.StatusPopUp.SetActive(true);
+        GameManager.instance.ExcutSelectCardSystem.SetTargetEnemy(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         EnemyStatus.StatusPopUp.SetActive(false);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+       
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using GameDataSystem.KeyCode;
-using UnityEditor.Rendering;
+
 using UnityEngine;
 
 
@@ -21,6 +21,8 @@ namespace GameDataSystem.KeyCode
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
         public static readonly string COMBO_DATA = "COMBO_DATA";
 
+        public static readonly string DACK_DATA = "DACK_DATA";
+
 
 
     }
@@ -38,7 +40,11 @@ public abstract class DynamicUIObject : MonoBehaviour
     /// <summary> update_ui_data를 저장되어있는 데이터 타입과 동일하게 형변환 후 사용 </summary>
     public abstract void UpdateUIData(object update_ui_data);
 
-   
+    public void OnDestroy()
+    {
+        GameDataSystem.DynamicGameDataSchema.RemoveDynamicUIDataBase(DynamicDataKey);
+    }
+
 
 }
 
@@ -50,16 +56,21 @@ namespace GameDataSystem
     /// <summary> 데이터 테이블에서 가져온 데이터를 관리하는 클래스 </summary>
     public static class StaticGameDataSchema
     {
+
+       
         static TextAsset RecipeDataTable = new TextAsset();
         static TextAsset CardStatusDataTable = new TextAsset();
-        static TextAsset CardDataTable = Resources.Load<TextAsset>("CardDataTable/CardDataTable");
+        static TextAsset CardDataTable = Resources.Load<TextAsset>("DataTable/CardDataTable");
         static TextAsset NoteDataTable = new TextAsset();
-        static TextAsset ItemDataTable = Resources.Load<TextAsset>("ItemDataTable/ItemDataTable");
+        static TextAsset ItemDataTable = Resources.Load<TextAsset>("DataTable/ItemDataTable");
 
         public readonly static RecipeDataBase RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
         public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CardStatusDataTable , CardDataTable);
         public readonly static NoteDataBase NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
         public readonly static ItemDataBase ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+
+
+        public readonly static UnitData StartPlayerData = new UnitData();
     }
 
 
@@ -74,13 +85,19 @@ namespace GameDataSystem
 
         static DynamicGameDataSchema()
         {
+            //기본 스펙
+            StaticGameDataSchema.StartPlayerData.MaxHp = 100;
+            StaticGameDataSchema.StartPlayerData.CurrentHp = StaticGameDataSchema.StartPlayerData.MaxHp;
+            StaticGameDataSchema.StartPlayerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
+           
+            
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
             AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
 
             UnitData playerData = new UnitData();
-            playerData.MaxHp = 50;
+            playerData.MaxHp = StaticGameDataSchema.StartPlayerData.MaxHp;
             playerData.CurrentHp = playerData.MaxHp;
-            playerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
+            playerData.DataKey = StaticGameDataSchema.StartPlayerData.DataKey;
             AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
 
             AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
@@ -91,6 +108,34 @@ namespace GameDataSystem
 
             AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, new List<string>());
 
+            //기본 카드데이터 삽입
+            List<string> CardCodes = new List<string>();
+
+            CardCodes.Add("C111");
+            CardCodes.Add("C121");
+            CardCodes.Add("C211");
+            CardCodes.Add("C321");
+            CardCodes.Add("C311");
+
+            CardCodes.Add("C111");
+            CardCodes.Add("C121");
+            CardCodes.Add("C211");
+            CardCodes.Add("C321");
+            CardCodes.Add("C311");
+
+            CardCodes.Add("C111");
+            CardCodes.Add("C121");
+            CardCodes.Add("C211");
+            CardCodes.Add("C321");
+            CardCodes.Add("C311");
+
+
+
+            AddDynamicDataBase(DynamicGameDataKeys.DACK_DATA, CardCodes);
+
+
+
+           
         }
 
         /// <summary> 동적으로 변하는 데이터를 등록 </summary>
@@ -208,6 +253,11 @@ namespace GameDataSystem
         public static void RemoveAllDynamicUIDataBase()
         {
             DynamicUIDataBase.Clear();
+        }
+
+        public static bool DynamicDataBaseContainsKey(string key)
+        { 
+            return DynamicDataBase.ContainsKey(key);
         }
         //데이터 변화시 UI갱신
         //데이터 전달에 필요한 동적 데이터 등록

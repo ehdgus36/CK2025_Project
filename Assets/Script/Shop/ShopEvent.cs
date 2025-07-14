@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ShopEvent : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] SelectItemDescPopUP SelectDescPopUp;
 
     [SerializeField] TextMeshProUGUI CoinText;
+    [SerializeField] GameObject NoGold;  // 골드가 없으면 나옴
+
+    [SerializeField] Button BuyButton;
 
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
     public List<ShopItemObj> PeakList { get { return _PeakList; } }
@@ -27,19 +32,19 @@ public class ShopEvent : MonoBehaviour
     {
         for (int i = 0; i < TapeSelectList.Count; i++)
         {
-            TapeList[i].ShopEvent=this;
-            
+            TapeList[i].ShopEvent = this;
+
 
         }
 
         for (int i = 0; i < PeakSelectList.Count; i++)
         {
             PeakList[i].ShopEvent = this;
-            
+
         }
         SelectDescPopUp.gameObject.SetActive(false);
         int coin = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA,out coin);
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out coin);
 
         CoinText.text = coin.ToString();
 
@@ -57,6 +62,8 @@ public class ShopEvent : MonoBehaviour
         SelectTapeIndex = index;
         SelectDescPopUp.gameObject.SetActive(true);
         SelectDescPopUp.ViewPopUP(SelectItemID);
+
+        BuyButton.interactable = true;
     }
 
     public void SelectPeak(int index)
@@ -69,33 +76,94 @@ public class ShopEvent : MonoBehaviour
         PeakSelectList[index].gameObject.SetActive(true);
         SelectPeakIndex = index;
         SelectDescPopUp.gameObject.SetActive(true);
-       // SelectDescPopUp.ViewPopUP(SelectItemID);
+        SelectDescPopUp.ViewPopUP(SelectItemID);
+
+        BuyButton.interactable = true;
     }
 
     public void SoldOutEvent(int index)
     {
-        
 
+
+    }
+
+    public void ExitShop()
+    {
+        SceneManager.LoadScene("GameMap");
     }
 
     public void BuyEvent()
     {
 
+        NoGold.SetActive(false);
+
         ItemData data;
         int coins = 0;
-        List<string> playerItemData = new List<string>();
-
-        GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(SelectItemID, out data);
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out coins);
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, out playerItemData);
+        GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(SelectItemID, out data);
 
-        playerItemData.Add(SelectItemID);
-        coins -= data.Price;
 
-        CoinText.text = coins.ToString();
+        if (coins < data.Price) // 돈없으면 리턴
+        {
+            NoGold.SetActive(true);
+            return;
+        }
+
+        if (SelectTapeIndex != -1)
+        {
+            //구매를 위한 데이터 가져오기
+           
+            
+            List<string> playerItemData = new List<string>();
+
+                    
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, out playerItemData);
+
+
+           
+
+            //실질적인 구매 실행
+            playerItemData.Add(SelectItemID);
+            coins -= data.Price;
+
+            //UI 업데이트
+            CoinText.text = coins.ToString();
+
+
+            //정보 갱신
+          
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, playerItemData);
+
+
+
+
+            TapeSelectList[SelectTapeIndex].SetActive(false);
+            _TapeList[SelectTapeIndex].SoldOut();
+        }
+
+
+        if (SelectPeakIndex != -1)
+        {
+            List<string> playerDackDatas = new List<string>();
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out playerDackDatas);
+
+            if (playerDackDatas != null)
+            {
+                playerDackDatas.Add(SelectItemID);
+                coins -= data.Price;
+            }
+
+            CoinText.text = coins.ToString();
+
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, playerDackDatas);
+
+           PeakSelectList[SelectPeakIndex].SetActive(false);
+            _PeakList[SelectPeakIndex].SoldOut();
+        }
+
+        SelectTapeIndex = -1;
+        SelectPeakIndex = -1;
+        BuyButton.interactable = false;
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, coins);
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, playerItemData);
-
-       
     }
 }

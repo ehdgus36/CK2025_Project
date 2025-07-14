@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 
@@ -25,7 +24,10 @@ public struct CardData
     public readonly int Recover_HP;
 
     public readonly string Ani_Code;
+    public readonly string Sound_Code;
     public readonly string Effect_Code;
+
+    public readonly string Effect_Pos;
 
     public Buff CardBuff { get; private set; }
 
@@ -48,7 +50,10 @@ public struct CardData
         Recover_HP  = (int)data["Recover_HP"];
 
         Ani_Code    = data["Ani_Code"].ToString();
+        Sound_Code = data["Sound_Code"].ToString();
         Effect_Code = data["Effect_Code"].ToString();
+
+        Effect_Pos = data["Effect_Pos"].ToString();
 
         CardBuff = null;
         CardBuff = GetBuff();
@@ -81,65 +86,6 @@ public struct CardData
         return buff;
     }
 
-}
-
-public struct CommonCardData
-{
-    public CommonCardData(Dictionary<string, object> data)
-    {
-        Card_Code     =       data["Card_Code"].ToString();
-        Card_Name_EN  =       data["Card_Name_EN"].ToString();
-        Card_Name_KR  =       data["Card_Name_KR"].ToString();
-        Card_Level    =  (int)data["Card_Level"];
-       
-        Base_Damage_1 =  (int)data["Base_Damage_1"];
-        Base_Damage_2 =  (int)data["Base_Damage_2"];
-
-        Recover_HP    =  (int)data["Recover_HP"];
-
-        Explain       = data["Explain"].ToString();
-    }
-
-    public readonly string  Card_Code;
-    public readonly string  Card_Name_EN;
-    public readonly string  Card_Name_KR;
-    public readonly int     Card_Level;
-  
-    public readonly int     Base_Damage_1;
-    public readonly int     Base_Damage_2;
-
-    public readonly int     Recover_HP;
-    public readonly string  Explain;
-}
-
-public struct SpecialCardData
-{
-    public SpecialCardData(Dictionary<string, object> data)
-    {
-        Card_Code    =      data["Card_Code"].ToString();
-        Card_Name_EN =      data["Card_Name_EN"].ToString();
-        Card_Name_KR =      data["Card_Name_KR"].ToString();
-        Card_Level   = (int)data["Card_Level"];
-
-        Status_Type  = (int)data["Status_Type"];
-        Gain_Damage  = (int)data["Gain_Damage"];
-        Status_Turn  = (int)data["Status_Turn"];
-
-        Explain      =      data["Explain"].ToString();
-       
-    }
-
-    public readonly string  Card_Code;
-    public readonly string  Card_Name_EN;
-    public readonly string  Card_Name_KR;
-    public readonly int     Card_Level;
-
-    public readonly int     Status_Type;
-    public readonly int     Gain_Damage;
-    public readonly int     Status_Turn;
-
-    public readonly string  Explain;
-   
 }
 
 

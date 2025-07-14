@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class EventStage : MonoBehaviour
 {
@@ -12,8 +14,8 @@ public class EventStage : MonoBehaviour
    
     [SerializeField]EventChoice[] Choices;
     [SerializeField] Animator Animator;
-    
 
+    [SerializeField] GameObject EXitButton;
     [SerializeField] TextMeshProUGUI Result_TMP;
 
     private void Awake()
@@ -39,12 +41,34 @@ public class EventStage : MonoBehaviour
     {
 
         Animator.Play("TakeItem");
+        Choices[0].Choice_TMP.gameObject.transform.parent.gameObject.SetActive(false);
+        Choices[1].Choice_TMP.gameObject.transform.parent.gameObject.SetActive(false);
+        EXitButton.SetActive(true);
+
+
+
+        List<string> playerItemData = new List<string>();
+
+
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, out playerItemData);
+
+        playerItemData.Add("IT03");
+
+        //정보 갱신
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, playerItemData);
         // 클릭시 처리할 이벤트 적용
     }
 
     public void Choice2()
     {
+        Exit();
         // 클릭시 처리할 이벤트 적용
     }
 
+    public void Exit()
+    {
+        SceneManager.LoadScene("GameMap");
+
+    }
 }

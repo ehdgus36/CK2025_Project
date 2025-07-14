@@ -1,4 +1,5 @@
-using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 
 [CustomEditor(typeof(EnemysGroup))]
@@ -25,3 +26,4 @@ public class EnemyGroupCustomEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

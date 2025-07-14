@@ -11,14 +11,33 @@ public class Player : Unit
     [SerializeField] UnitAnimationSystem AnimationSystem;
     [SerializeField] GameObject Combo;
     [SerializeField] GameObject TurnEnd;
+
+    [SerializeField] EffectSystem _PlayerEffectSystem;
     Vector3 StartPos;
 
+    Vector3 StartPlayerPos;
+    public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
+
+
+    public void MaxButtonDisable()    
+    {
+        Combo.GetComponent<ComboUIView>().DisableButton();
+    }
+
+    public void MaxButtonEnable()
+    {
+        Combo.GetComponent<ComboUIView>().EnableButton();
+    }
+
     public void Initialize()
     {
        
+
         UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
 
+
+        StartPlayerPos = this.transform.position;
         StartPos = Combo.transform.position;
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
@@ -27,18 +46,22 @@ public class Player : Unit
        
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
         StartTurnEvent += () => { Combo.transform.position = StartPos; Combo.transform.localScale = new Vector3(1, 1, 1);
+            Combo.GetComponent<ComboUIView>().EnableButton();
             TurnEnd.SetActive(true);
         };
 
         EndTurnEvent += CDSlotGroup.ReturnCard;
         EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
-        
+        EndTurnEvent += GameManager.instance.ExcutSelectCardSystem.Reset; ;
+
         EndTurnEvent += () => {
             Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(70, -271, 0);
             Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
+            Combo.GetComponent<ComboUIView>().DisableButton();
             TurnEnd.SetActive(false);
         };
 
+        UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
 
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
@@ -46,7 +69,8 @@ public class Player : Unit
 
     protected override void Die()
     {
-        GameManager.instance.GameOver.SetActive(true);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Die");
+        GameManager.instance.GameFail();
     }
 
    
@@ -54,19 +78,20 @@ public class Player : Unit
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        Debug.Log("hit");
-
+              
+        AnimationSystem?.PlayAnimation("hit");
         
-        if (AnimationSystem != null)
-        {
-
-            AnimationSystem.PlayAnimation("hit");
-        }
-
+        //카메라 효과 , 사운드 , 이펙트효과
         GameManager.instance.Shake.PlayShake();
+        GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true , 0.2f, 0.0f , 0.2f);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Hurt");
 
-        //playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+        _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
+        
+        //UI 갱신
         DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
+
+        fontSystem.FontConvert(damage.ToString());
     }
 
     public void TakeDamage(int damage , string notes)
@@ -91,7 +116,7 @@ public class Player : Unit
                 break;
         }
 
-        fontSystem.FontConvert(damage.ToString(), null , fontColor);
+        
 
     }
 
@@ -115,7 +140,7 @@ public class Player : Unit
     public void PlayerCardAnime()
     {
 
-        AnimationSystem.PlayAnimation("card");
+        //AnimationSystem.PlayAnimation("card");
     }
 
     public void addHP(int HP)
@@ -129,5 +154,11 @@ public class Player : Unit
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+    }
+
+
+    public void ReturnPlayer()
+    {
+        this.transform.position = StartPlayerPos;
     }
 }

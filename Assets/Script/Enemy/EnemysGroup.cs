@@ -41,7 +41,7 @@ public class EnemysGroup :Unit
     void EnemysDieEvent(Enemy thisEnemy)
     {
         //사망한 Enemy 삭제
-        RhythmGameSystem.RhythmGameTracksRemove(Enemys.IndexOf(thisEnemy));
+        RhythmGameSystem?.RhythmGameTracksRemove(Enemys.IndexOf(thisEnemy));
 
         Enemys.Remove(thisEnemy);
 
@@ -60,9 +60,9 @@ public class EnemysGroup :Unit
     // 이것도 나중에 시퀀스 다시
     IEnumerator AttackSequenceEvent()
     {
-        RhythmGameSystem.StartGame();
+        RhythmGameSystem?.StartGame();
 
-        yield return new WaitUntil(() => RhythmGameSystem.isEndGame == true);
+        yield return new WaitUntil(() => RhythmGameSystem?.isEndGame == true);
 
         yield return new WaitForSeconds(2f);
         for (int i = 0; i < Enemys.Count; i++)
@@ -72,7 +72,7 @@ public class EnemysGroup :Unit
             yield return new WaitForSeconds(.5f);
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.5f);
         GameManager.instance.TurnSwap();
         yield return null;
     }

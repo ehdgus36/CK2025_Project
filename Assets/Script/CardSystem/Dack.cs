@@ -31,7 +31,12 @@ public class Dack : MonoBehaviour
         
         if (DackDatas.Count == 0)
         {
-            DackDatas = Cemetery.GetCemeteryCards();
+            for (int i = 0; i < Cemetery.GetCemeteryCards().Count; i++)
+            {
+                DackDatas.Add(Cemetery.GetCemeteryCards()[i]);
+            }
+
+            Cemetery.GetCemeteryCards().Clear();
             ShuffleList<Card>(DackDatas);
         }
 

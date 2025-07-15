@@ -9,9 +9,6 @@ struct PopUpItemData
 {
     [SerializeField]public string itemID;
     [SerializeField]public Sprite itemImage;
-    [TextArea(2, 3)] public string Desc;
-    [SerializeField]public string itemTag;
-
 }
 public class SelectItemDescPopUP : MonoBehaviour
 {
@@ -28,7 +25,9 @@ public class SelectItemDescPopUP : MonoBehaviour
         ItemData data;
         GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(itemID, out data);
         ItemName.text = data.Name;
-        
+       
+
+
 
         for (int i = 0; i < popUpItemDatas.Length; i++)
         {
@@ -37,6 +36,10 @@ public class SelectItemDescPopUP : MonoBehaviour
                 ItemTag.text =data.Tag;
                 ItemDesc.text = data.Example;
                 ItemImage.sprite = popUpItemDatas[i].itemImage;
+
+                if (itemID[0] == 'I') ItemImage.rectTransform.sizeDelta = new Vector2(1024f, 1024f);
+
+                if (itemID[0] == 'C') ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
             }
         }
     

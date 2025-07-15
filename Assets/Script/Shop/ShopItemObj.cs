@@ -14,7 +14,15 @@ public class ShopItemObj :MonoBehaviour, IPointerDownHandler
 
     bool isSoldOut = false;
 
-    
+    private void Start()
+    {
+        ItemData data;       
+        GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
+
+        ItemNameText.text = data.Name;
+        ItemPriceText.text = "Coin: "+ data.Price.ToString();
+
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {

@@ -30,17 +30,17 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < TapeSelectList.Count; i++)
+        for (int i = 0; i < TapeList.Count; i++)
         {
             TapeList[i].ShopEvent = this;
-
+            TapeSelectList[i].GetComponent<SelectShopItemObj>().Initialize(TapeList[i].gameObject);
 
         }
 
-        for (int i = 0; i < PeakSelectList.Count; i++)
+        for (int i = 0; i < PeakList.Count; i++)
         {
             PeakList[i].ShopEvent = this;
-
+            PeakSelectList[i].GetComponent<SelectShopItemObj>().Initialize(PeakList[i].gameObject);
         }
         SelectDescPopUp.gameObject.SetActive(false);
         int coin = 0;

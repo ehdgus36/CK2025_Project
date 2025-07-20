@@ -13,7 +13,7 @@ public class Player : Unit
     [SerializeField] GameObject TurnEnd;
 
     [SerializeField] EffectSystem _PlayerEffectSystem;
-    Vector3 StartPos;
+    [SerializeField]Vector3 StartPos;
 
     Vector3 StartPlayerPos;
     public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
@@ -38,14 +38,16 @@ public class Player : Unit
 
 
         StartPlayerPos = this.transform.position;
-        StartPos = Combo.transform.position;
+        StartPos = Combo.GetComponent<RectTransform>().anchoredPosition;
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
         }       
        
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
-        StartTurnEvent += () => { Combo.transform.position = StartPos; Combo.transform.localScale = new Vector3(1, 1, 1);
+        StartTurnEvent += () => {
+            Combo.GetComponent<RectTransform>().anchoredPosition = StartPos; 
+            Combo.transform.localScale = new Vector3(1, 1, 1);
             Combo.GetComponent<ComboUIView>().EnableButton();
             TurnEnd.SetActive(true);
         };
@@ -55,7 +57,7 @@ public class Player : Unit
         EndTurnEvent += GameManager.instance.ExcutSelectCardSystem.Reset; ;
 
         EndTurnEvent += () => {
-            Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(70, -271, 0);
+            Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(659, 94, 0);
             Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
             Combo.GetComponent<ComboUIView>().DisableButton();
             TurnEnd.SetActive(false);

@@ -8,11 +8,11 @@ using UnityEngine.Events;
 [System.Serializable]
 public class UnitData
 {
-   [SerializeField] public string DataKey;
-   [SerializeField] public int MaxHp;
+    [SerializeField] public string DataKey;
+    [SerializeField] public int MaxHp;
 
     [SerializeField]private int _CurrentHp;
-   [HideInInspector] public int CurrentHp
+    [HideInInspector] public int CurrentHp
     {
         get { return _CurrentHp; }
         set
@@ -21,6 +21,21 @@ public class UnitData
             //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
         }
     }
+
+    [SerializeField] private int _CurrentBarrier;
+    [HideInInspector] public int CurrentBarrier
+    {
+        get { return _CurrentBarrier; }
+        set
+        {
+            _CurrentBarrier = value;
+            //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
+        }
+    }
+
+
+
+
 
 }
 

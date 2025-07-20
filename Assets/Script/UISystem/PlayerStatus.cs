@@ -6,10 +6,12 @@ public class PlayerStatus : DynamicUIObject
 {
     public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
     [SerializeField] HP_Bar HP_bar;
+    [SerializeField] Barrier_ViewUI Barrier_viewUI;
   
     void UpdataStatus(UnitData data)
     {
         HP_bar.UpdateUI(data.MaxHp, data.CurrentHp);
+        Barrier_viewUI.UpdateUI(data.CurrentBarrier);
     }
 
     public override void UpdateUIData(object update_ui_data)

@@ -18,6 +18,7 @@ public class LobbyScene : MonoBehaviour
     {
         EXIT_Button.onClick.AddListener(Exit); ;
         SETTING_Button.onClick.AddListener(SETTING);
+        CutScenePlayer.time = 0;
     }
 
     // Update is called once per frame
@@ -53,6 +54,7 @@ public class LobbyScene : MonoBehaviour
 
     public void LoadScene()
     {
+        CutScenePlayer.time = 0;
         CutScenePlayer.Play();
         VideoPlayObject.SetActive(true);
         CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName); };

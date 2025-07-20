@@ -34,6 +34,7 @@ public class RhythmGameTrack : MonoBehaviour
 
     public void Setup()
     {
+        _EnemyDamageText = TargetEnemy.GetEnemyStatus.RhythmDamageText;
         SpawnNotes.Clear();
         _MainRhythemObj.SetActive(true);
         _EnemyDamageText.gameObject.SetActive(true);

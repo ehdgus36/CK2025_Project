@@ -25,6 +25,8 @@ public enum BuffLayer
 public class EnemyData
 {
     [SerializeField] public UnitData EnemyUnitData;
+    [SerializeField] public int MaxSkillPoint;
+    [SerializeField] public int CurrentSkillPoint;
 
     [SerializeField] public string EnemyCode;
     [SerializeField] public string EnemyName;
@@ -69,6 +71,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public UnitAnimationSystem UnitAnimationSystem { get { return EnemyAnimator; } }
 
+    public EnemyStatus GetEnemyStatus { get { return EnemyStatus; } }
 
     public virtual void Initialize(int index)
     {

@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
    
     //Get; Set;
 
-    public CardMixtureSystem PlayerAttackSystem { get { return _PlayerAttackSystem; } }
+   
     public CamShake Shake { get { return _Shaker; } }
     public Player Player { get { return _Player; } }
 
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     //인스펙터에서 데이터 받아옴
 
     [SerializeField] CardCastPlace _PlayerCardCastPlace;
-    [SerializeField] CardMixtureSystem _PlayerAttackSystem;
+   
     [SerializeField] CemeteryUI _CardCemetery;
     [SerializeField] PlayerCDSlotGroup _PlayerCDSlotGroup;
     [SerializeField] GameObject GameClear;
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         _EnemysGroup?.Initialize();
         _Player?.Initialize();
 
-        _PlayerAttackSystem?.Initialize();
+       
 
         if (UIManager == null)
         {

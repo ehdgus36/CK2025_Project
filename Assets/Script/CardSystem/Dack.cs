@@ -28,7 +28,7 @@ public class Dack : MonoBehaviour
     //현재 덱에 있는 카드를 반환 덱에 카드가 없다면 묘지에서 카드를 가져온후 반환
     Card CardDrow()
     {
-        
+        ShuffleList<Card>(DackDatas);
         if (DackDatas.Count == 0)
         {
             for (int i = 0; i < Cemetery.GetCemeteryCards().Count; i++)
@@ -37,13 +37,13 @@ public class Dack : MonoBehaviour
             }
 
             Cemetery.GetCemeteryCards().Clear();
-            ShuffleList<Card>(DackDatas);
+            
         }
 
 
         DackDatas[0].Initialized(CardSlots);
         Card result = DackDatas[0];
-      
+       
         return result;
     }
 
@@ -95,8 +95,10 @@ public class Dack : MonoBehaviour
             Debug.Log(gameObject.name + "Drow");
             if (CardSlots.Getsloat()[i].ReadData<Card>() == null)
             {
-                CardSlots.Getsloat()[i].InsertData(CardDrow().gameObject);
-                DackDatas.Remove(CardDrow());
+                Card drowCard = CardDrow();
+                CardSlots.Getsloat()[i].InsertData(drowCard.gameObject);
+                
+                DackDatas.Remove(drowCard);
 
                 Debug.Log(gameObject.name + "Drow");
             }

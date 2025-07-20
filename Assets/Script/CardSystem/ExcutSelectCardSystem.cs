@@ -7,6 +7,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
     [SerializeField] int CurrentExcutCardCount;
 
     Enemy _TargetEnemy;
+
+    Card _PreviousCard;
     Card _SelectCard;
 
     bool isTargeting = false; // 몬스터 타겟팅이 가능한지 확인
@@ -45,6 +47,11 @@ public class ExcutSelectCardSystem : MonoBehaviour
         {
             if (_TargetEnemy != null)
             {
+                if (_PreviousCard != null)
+                {
+                    _SelectCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
+                }
+
                 _SelectCard.TargetExcute(_TargetEnemy);
 
                 isTargeting = false;
@@ -57,6 +64,9 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
 
             }
+
+            _PreviousCard = _SelectCard;
+
             _TargetEnemy = null;
             _SelectCard = null;
             ArrowUIObject.SetActive(false);

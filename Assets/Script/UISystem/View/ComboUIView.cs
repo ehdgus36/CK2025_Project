@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 public class ComboUIView : DynamicUIObject
 {
-    public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA;
+    public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA;
 
     [SerializeField] TextMeshProUGUI ComboText;
     [SerializeField] GameObject MaxButtonUI;

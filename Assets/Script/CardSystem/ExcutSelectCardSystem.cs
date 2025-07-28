@@ -13,10 +13,21 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     bool isTargeting = false; // 몬스터 타겟팅이 가능한지 확인
 
-    public void Reset()
+    ManaSystem ManaSystem = new ManaSystem(); // 마나 시스템
+
+    public void initialize() // 1회성으로 초기화 해야하는것
+    {
+       // ManaSystem.Initialize();
+    }
+
+    public void Reset()// 시스템 로직에서 특정타이밍 마다 초기화 해야하는것
     {
         CurrentExcutCardCount = 0;
-        GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
+        GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);// 리셋하면서 한번 UI 갱신
+        _PreviousCard = null;
+        _SelectCard = null;
+        _TargetEnemy = null;
+        // ManaSystem.EndTurnReset();
     }
 
     public void SetSelectCard(Card card) // 선택한 카드를 등록
@@ -50,6 +61,11 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 if (_PreviousCard != null)
                 {
                     _SelectCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
+
+                    if (_PreviousCard.GetType() == typeof(Drain_Card))
+                    {
+                        _SelectCard.Buff_Recover_HP = _SelectCard.cardData.Damage;
+                    }
                 }
 
                 _SelectCard.TargetExcute(_TargetEnemy);

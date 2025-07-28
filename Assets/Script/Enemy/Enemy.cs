@@ -254,6 +254,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     public void OnPointerExit(PointerEventData eventData)
     {
         EnemyStatus.StatusPopUp.SetActive(false);
+        GameManager.instance.ExcutSelectCardSystem.SetTargetEnemy(null);
     }
 
     public void OnPointerUp(PointerEventData eventData)

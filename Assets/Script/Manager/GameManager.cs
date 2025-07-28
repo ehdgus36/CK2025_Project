@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
 
 
         _PlayerCardCastPlace.Reset();
-        ExcutSelectCardSystem.Reset();
+        ExcutSelectCardSystem.initialize();
         ThisTurnUnit.StartTurn();
         //Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
         StartCoroutine(TurnMark());
@@ -274,11 +274,11 @@ public class GameManager : MonoBehaviour
     IEnumerator UPdateComboCount(int count)
     {
         int combo = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, out combo);
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
         for (int i = 0; i < count; i++)
         {
             combo++;
-            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, combo);
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
             
             if(i % 200 == 0)yield return null;
         }

@@ -46,6 +46,6 @@ public class PlayerSkillSystem : MonoBehaviour
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Strength_Attack/Click_Button");
 
 
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, 0);
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, 0);
     }
 }

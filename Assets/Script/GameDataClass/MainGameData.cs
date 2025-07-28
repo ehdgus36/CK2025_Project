@@ -19,7 +19,7 @@ namespace GameDataSystem.KeyCode
         public static readonly string ITME_DATA = "ITME_DATA";
         public static readonly string STAGE_DATA = "STAGE_DATA";
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
-        public static readonly string COMBO_DATA = "COMBO_DATA";
+        public static readonly string SKILL_POINT_DATA = "SKILL_POINT_DATA";
 
         public static readonly string DACK_DATA = "DACK_DATA";
 
@@ -42,6 +42,7 @@ public abstract class DynamicUIObject : MonoBehaviour
 
     public void OnDestroy()
     {
+        //UI 표시해주는 오브젝트 파괴시 자신의 UI데이터 지움
         GameDataSystem.DynamicGameDataSchema.RemoveDynamicUIDataBase(DynamicDataKey);
     }
 
@@ -104,7 +105,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
     
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA,"1-1");
-            AddDynamicDataBase(DynamicGameDataKeys.COMBO_DATA, 0);
+            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA, 999999);
 
             AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, new List<string>());
 
@@ -219,8 +220,12 @@ namespace GameDataSystem
             //기존 key가 있으면 UI추가 등록
             if (DynamicUIDataBase.ContainsKey(key))
             {
+
+                //등록
                 DynamicUIDataBase[key].Add(data);
-                DynamicUIDataBase[key].Find(n => n == data).UpdateUIData(DynamicDataBase[key]);
+
+                //등록후 한번 갱신
+                data.UpdateUIData(DynamicDataBase[key]);
                
                 return;
             }
@@ -229,9 +234,9 @@ namespace GameDataSystem
             if (DynamicUIDataBase.TryAdd(key, new List<DynamicUIObject>()))
             {
                 DynamicUIDataBase[key].Add(data);
-                
+
                 //데이터가 들어오면 UI 한번 갱신    
-                DynamicUIDataBase[key][0].UpdateUIData(DynamicDataBase[key]);
+                data.UpdateUIData(DynamicDataBase[key]);
                 
                 return;
             }

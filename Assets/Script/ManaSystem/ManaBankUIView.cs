@@ -29,7 +29,7 @@ public class ManaBankUIView : DynamicUIObject
         }
 
 
-        ManaBankFill.fillAmount = mana / ManaBankSystem.MAX_BANK_MANA;
+        ManaBankFill.fillAmount = (float)mana / (float)ManaBankSystem.MAX_BANK_MANA;
         
     }
 

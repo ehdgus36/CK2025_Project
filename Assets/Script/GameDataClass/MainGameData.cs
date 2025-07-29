@@ -105,7 +105,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
     
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA,"1-1");
-            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA, 999999);
+            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA, 10);
 
             AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, new List<string>());
 

@@ -881,6 +881,7 @@ MonoBehaviour:
     DataKey: 
     MaxHp: 0
     _CurrentHp: 0
+    _CurrentBarrier: 0
   IsTurn: 0
   _Enemys:
   - {fileID: 1277228072}
@@ -1140,6 +1141,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3981157281267211777, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981157281267211777, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981157281267211777, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981157281267211777, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4233427402162041606, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_SizeDelta.x
       value: 44
@@ -1169,6 +1186,38 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5356487592266258090, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799578285802974470, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799578285802974470, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799578285802974470, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799578285802974470, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416980302696873321, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416980302696873321, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416980302696873321, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416980302696873321, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -1261,17 +1310,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
---- !u!114 &195792922 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2219500600437932389, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-  m_PrefabInstance: {fileID: 195792921}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &195792923 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3735151378901583738, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
@@ -4190,7 +4228,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PlayerCardCastPlace: {fileID: 642573140}
-  _PlayerAttackSystem: {fileID: 0}
   _CardCemetery: {fileID: 1342366044}
   _PlayerCDSlotGroup: {fileID: 1540842680}
   GameClear: {fileID: 1000167785}
@@ -4364,6 +4401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _UseCardCountText: {fileID: 1260327865}
   _Black: {fileID: 1078584620}
+  _ManaUI: {fileID: 0}
   isStart: 0
 --- !u!4 &642573148
 Transform:
@@ -5466,7 +5504,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 642573142}
         m_TargetAssemblyTypeName: PlayerSkillSystem, Assembly-CSharp
         m_MethodName: StartSkill
         m_Mode: 1
@@ -7243,7 +7281,7 @@ MonoBehaviour:
   SelectZone: {fileID: 393113971}
   _MainRhythemObj: {fileID: 1758014807}
   TargetEnemy: {fileID: 1277228072}
-  _EnemyDamageText: {fileID: 195792922}
+  _EnemyDamageText: {fileID: 0}
 --- !u!4 &1277228071
 Transform:
   m_ObjectHideFlags: 0
@@ -7278,12 +7316,16 @@ MonoBehaviour:
     DataKey: 
     MaxHp: 0
     _CurrentHp: 0
+    _CurrentBarrier: 0
   IsTurn: 0
   EnemyData:
     EnemyUnitData:
       DataKey: 
       MaxHp: 100
       _CurrentHp: 100
+      _CurrentBarrier: 0
+    MaxSkillPoint: 0
+    CurrentSkillPoint: 0
     EnemyCode: 
     EnemyName: 
     MaxDamage: 15

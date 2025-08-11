@@ -17,6 +17,7 @@ public class ManaSystem
     {
         CurrentMana = MaxMana;
         ManaUIView = GameManager.instance?.UIManager?.ManaUI;
+        ManaUIView?.UpdateUI(ManaTextData());
     }
 
     public void EndTurnReset() //턴종료후 다시 실행해야 할때마다 리셋 해야 할거
@@ -32,8 +33,23 @@ public class ManaSystem
     /// </summary>
     /// <param name="useMana"></param>
     /// <returns></returns>
-    public bool UseMana(int useMana)
+    public bool UseMana(int costType)
     {
+        if (CurrentMana <= 0) return false;
+
+
+        int useMana = 1;
+
+        switch (costType)
+        {
+            case 1:
+                useMana = 1;
+                break;
+            case 2:
+                useMana = CurrentMana;
+                break;
+        }
+
         if (useMana > CurrentMana) return false;
 
         CurrentMana -= useMana;

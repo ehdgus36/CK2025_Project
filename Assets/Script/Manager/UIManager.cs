@@ -16,10 +16,18 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] ManaUIView _ManaUI;
 
+    [SerializeField] CardCemeteryUIView _CardCemeteryUI;
+
+    [SerializeField] CardNotUseUIView _CardNotUseUI;
+
     public TextMeshProUGUI UseCardCountText { get { return _UseCardCountText; } }
     public GameObject Black { get { return _Black; } }
 
     public ManaUIView ManaUI { get { return _ManaUI; } }
+
+    public CardCemeteryUIView CardCemeteryUI { get { return _CardCemeteryUI; } }
+
+    public CardNotUseUIView CardNotUseUI { get { return _CardNotUseUI; } }
 
 
     List<DynamicUIObject> GameUIObj = new List<DynamicUIObject>();

@@ -65,7 +65,7 @@ public class CardCastPlace : MonoBehaviour
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Select");
         cards.Add(addCard);
         GameManager.instance.CardCemetery.Insert(addCard);
-        status.UpdateUI(cards.Count, addCard.cardData.Card_Type);
+        //status.UpdateUI(cards.Count, addCard.cardData.Card_Type);
 
         CurrentCount--;
 

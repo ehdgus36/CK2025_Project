@@ -15,11 +15,15 @@ public class Dack : MonoBehaviour
 
     
 
+    public List<Card> GetDackDatas { get { return DackDatas; } }
     [SerializeField] List<Card> DackDatas = new List<Card>();
+
     [SerializeField] Transform CardPos;
 
 
     [SerializeField] List<Card> CardDatas;
+
+    [SerializeField] Card BaseCardPrefab;
 
 
     bool isOnce = false;
@@ -58,6 +62,10 @@ public class Dack : MonoBehaviour
             if (GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData))
             {
                 Debug.Log("DackData Count" + DackData.Count.ToString());
+
+
+                //이전 생성
+                /*
                 for (int i = 0; i < DackData.Count; i++)
                 {
                    
@@ -75,6 +83,19 @@ public class Dack : MonoBehaviour
                         }
                     }
 
+                }
+                */
+
+                //신규 오토 생성
+                for (int i = 0; i < DackData.Count; i++)
+                {
+                    GameObject NewCard = Instantiate(BaseCardPrefab.gameObject);
+                    NewCard.transform.SetParent(CardPos);
+                    NewCard.transform.position = CardPos.position;
+                    NewCard.transform.localScale = Vector3.one;
+
+                    NewCard.GetComponent<Card>().Initialized(DackData[i]);
+                    DackDatas.Add(NewCard.GetComponent<Card>());
                 }
             }
             else
@@ -107,7 +128,7 @@ public class Dack : MonoBehaviour
         if(TextCardCount != null)
             TextCardCount.text = DackDatas.Count.ToString() + "/" + DackDatas.Count.ToString();
 
-
+        GameManager.instance.UIManager.CardNotUseUI.UpdateUI(DackDatas.Count);
     }
 
     //카드 다시 넣기

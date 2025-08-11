@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using GameDataSystem;
 using Spine;
+using UnityEngine.UI;
 
 
 
@@ -13,6 +14,8 @@ public class Card : MonoBehaviour
 {
     [SerializeField] public string CardID;
     [SerializeField] public Sprite DescSprite;
+    [SerializeField] Image cardImage;
+    [SerializeField] Material BaseMaterial;
 
     Buff CardBuff = null;
     public CardData cardData { get; protected set; }
@@ -44,6 +47,33 @@ public class Card : MonoBehaviour
         }
 
         Debug.Log("수치 :" + cardData.Damage);
+    }
+
+    public virtual void Initialized(string cardID)
+    {
+        object data = null;
+        if (StaticGameDataSchema.CARD_DATA_BASE.SearchData(cardID, out data))
+        {
+            cardData = (CardData)data;
+            Debug.Log("카드 데이터 입력완료");
+        }
+        else
+        {
+            Debug.LogError("카드데이터를 불러오지못했습니다. CardID를 확인해주세요. 혹은 저장된 값이 없습니다 " + this.gameObject.name);
+        }
+
+        Debug.Log("수치 :" + cardData.Damage);
+
+        string Path = "CardImage/" + cardData.Card_Im;
+        Sprite cardSprite= Resources.Load<Sprite>(Path);
+        
+        Material instanceMaterial = Instantiate(BaseMaterial);
+        instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
+
+        cardImage.material = instanceMaterial;
+
+        this.CardID = cardID;
+        this.gameObject.name = cardData.Card_Name_EN;
     }
 
 

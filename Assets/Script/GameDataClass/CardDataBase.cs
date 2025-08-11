@@ -3,14 +3,30 @@ using UnityEngine;
 
 
 
-
+//Card_ID	Card_Rank	Card_Level	MoveType	Card_Name_KR	
+//Card_Name_EN	
+//Cost_Type	Ability_Con1	Ability_Con2	Ability_Act1	Ability_Act2	
+//Range_Type	Attack_Count	Damage	Status_Type	Status_Turn	Damage_Buff	HP_Recover	HP_Loss	Barrier_Get	
+//Barrier_Loss	Ani_Code	Effect_Code	Effect_Pos	Sound_Code	Card_Des
 
 [System.Serializable]
 public struct CardData
 {
     public readonly string Card_ID;
-    public readonly int    Card_Type;
+    public readonly int    Card_Rank;
+    public readonly int    Card_Level;
     public readonly string MoveType;
+    public readonly string Card_Name_KR;
+    public readonly string Card_Name_EN;
+
+    public readonly int    Cost_Type;
+    public readonly string Ability_Con1;
+    public readonly string Ability_Con2;
+    public readonly string Ability_Act1;
+    public readonly string Ability_Act2;
+
+
+
 
     public readonly int Range_Type;
     public readonly int Attack_Count;
@@ -23,37 +39,65 @@ public struct CardData
     public readonly int Damage_Buff;
     public readonly int Recover_HP;
 
+    public readonly int HP_Loss;
+
+    public readonly int Barrier_Get;
+    public readonly int Barrier_Loss;
+
+
     public readonly string Ani_Code;
-    public readonly string Sound_Code;
+   
     public readonly string Effect_Code;
 
     public readonly string Effect_Pos;
+    public readonly string Sound_Code;
+
+    public readonly string Card_Des;
+
+    public readonly string Card_Im;
 
     public Buff CardBuff { get; private set; }
 
     public CardData(Dictionary<string, object> data)
     {
         Card_ID  = data["Card_ID"].ToString();
-        Card_Type = (int)data["Card_Type"];
+        Card_Rank = (int)data["Card_Rank"];
+        Card_Level = (int)data["Card_Level"];
         MoveType = data["MoveType"].ToString(); // M : 이동함 , P : 이동안함
+
+        Card_Name_KR = data["Card_Name_KR"].ToString();
+        Card_Name_EN = data["Card_Name_EN"].ToString();
+
+        Cost_Type = (int)data["Cost_Type"];
+        Ability_Con1 = data["Ability_Con1"].ToString();
+        Ability_Con2 = data["Ability_Con2"].ToString();
+        Ability_Act1 = data["Ability_Act1"].ToString();
+        Ability_Act2 = data["Ability_Act2"].ToString();
+
 
         Range_Type   = (int)data["Range_Type"];
         Attack_Count = (int)data["Attack_Count"];
 
         Damage      = (int)data["Damage"];
+        
         Status_Type = (int)data["Status_Type"];
-
-
         Status_Turn = (int)data["Status_Turn"];
 
         Damage_Buff = (int)data["Damage_Buff"];
-        Recover_HP  = (int)data["Recover_HP"];
+        Recover_HP  = (int)data["HP_Recover"];
 
-        Ani_Code    = data["Ani_Code"].ToString();
-        Sound_Code = data["Sound_Code"].ToString();
+        HP_Loss = (int)data["HP_Loss"];
+
+        Barrier_Get = (int)data["Barrier_Get"];
+        Barrier_Loss = (int)data["Barrier_Loss"];
+
+        Ani_Code    = data["Ani_Code"].ToString();      
         Effect_Code = data["Effect_Code"].ToString();
-
         Effect_Pos = data["Effect_Pos"].ToString();
+        Sound_Code = data["Sound_Code"].ToString();
+
+        Card_Des = data["Card_Des"].ToString();
+        Card_Im = data["Card_Im"].ToString();
 
         CardBuff = null;
         CardBuff = GetBuff();

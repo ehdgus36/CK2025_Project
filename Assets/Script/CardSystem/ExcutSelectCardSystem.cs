@@ -17,7 +17,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     public void initialize() // 1회성으로 초기화 해야하는것
     {
-       // ManaSystem.Initialize();
+        ManaSystem.Initialize();
     }
 
     public void Reset()// 시스템 로직에서 특정타이밍 마다 초기화 해야하는것
@@ -27,7 +27,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _PreviousCard = null;
         _SelectCard = null;
         _TargetEnemy = null;
-        // ManaSystem.EndTurnReset();
+         ManaSystem.EndTurnReset();
     }
 
     public void SetSelectCard(Card card) // 선택한 카드를 등록
@@ -56,7 +56,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) == true)
         {
-            if (_TargetEnemy != null)
+            if (_TargetEnemy != null && ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
             {
                 if (_PreviousCard != null)
                 {

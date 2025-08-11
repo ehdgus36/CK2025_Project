@@ -64,6 +64,7 @@ namespace GameDataSystem
         static TextAsset CardDataTable = Resources.Load<TextAsset>("DataTable/CardDataTable");
         static TextAsset NoteDataTable = new TextAsset();
         static TextAsset ItemDataTable = Resources.Load<TextAsset>("DataTable/ItemDataTable");
+        static TextAsset Status_Table;
 
         public readonly static RecipeDataBase RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
         public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CardStatusDataTable , CardDataTable);
@@ -107,28 +108,36 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA,"1-1");
             AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA, 10);
 
-            AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, new List<string>());
+
+            List<string> testItem = new List<string>();
+            testItem.Add("IT01");
+            testItem.Add("IT02");
+            testItem.Add("IT03");
+            testItem.Add("IT04");
+            testItem.Add("IT05");
+
+            AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, testItem);
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();
 
-            CardCodes.Add("C111");
-            CardCodes.Add("C121");
-            CardCodes.Add("C211");
-            CardCodes.Add("C321");
-            CardCodes.Add("C311");
+            CardCodes.Add("C1011");
+            CardCodes.Add("C1021");
+            CardCodes.Add("C1031");
+            CardCodes.Add("C1041");
+            CardCodes.Add("C1051");
 
-            CardCodes.Add("C111");
-            CardCodes.Add("C121");
-            CardCodes.Add("C211");
-            CardCodes.Add("C321");
-            CardCodes.Add("C311");
+            CardCodes.Add("C1011");
+            CardCodes.Add("C1021");
+            CardCodes.Add("C1031");
+            CardCodes.Add("C1041");
+            CardCodes.Add("C1051");
 
-            CardCodes.Add("C111");
-            CardCodes.Add("C121");
-            CardCodes.Add("C211");
-            CardCodes.Add("C321");
-            CardCodes.Add("C311");
+            CardCodes.Add("C1011");
+            CardCodes.Add("C1021");
+            CardCodes.Add("C1031");
+            CardCodes.Add("C1041");
+            CardCodes.Add("C1051");
 
 
 

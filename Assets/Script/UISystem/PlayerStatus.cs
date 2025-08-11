@@ -10,8 +10,8 @@ public class PlayerStatus : DynamicUIObject
   
     void UpdataStatus(UnitData data)
     {
-        HP_bar.UpdateUI(data.MaxHp, data.CurrentHp);
-        Barrier_viewUI.UpdateUI(data.CurrentBarrier);
+        HP_bar?.UpdateUI(data.MaxHp, data.CurrentHp);
+        Barrier_viewUI?.UpdateUI(data.CurrentBarrier);
     }
 
     public override void UpdateUIData(object update_ui_data)

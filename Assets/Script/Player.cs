@@ -140,6 +140,17 @@ public class Player : Unit
        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
     }
 
+    public void AddBarrier(int Barrie)
+    {
+        UnitData.CurrentBarrier += Barrie;
+
+        if (UnitData.CurrentBarrier <= 0 )
+        {
+            UnitData.CurrentBarrier = 0;
+        }
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+    }
 
     public void ReturnPlayer()
     {

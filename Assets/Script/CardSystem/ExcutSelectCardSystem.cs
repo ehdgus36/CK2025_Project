@@ -59,12 +59,12 @@ public class ExcutSelectCardSystem : MonoBehaviour
     {
         ManaSystem = new ManaSystem(MaxExcutCardCount);
         ManaSystem.Initialize();
-        AbilityConditionData.Add("0", true); // 항상 참인 조건
-        AbilityConditionData.Add("IsBarrierActive", false);
-        AbilityConditionData.Add("IsCardPlayed", false);
-        AbilityConditionData.Add("IsNotFullHP", false);
-        AbilityConditionData.Add("IsEnemyHit", false);
-        AbilityConditionData.Add("IsPlayerHit", false);
+        AbilityConditionData.TryAdd("0", true); // 항상 참인 조건
+        AbilityConditionData.TryAdd("IsBarrierActive", false);
+        AbilityConditionData.TryAdd("IsCardPlayed", false);
+        AbilityConditionData.TryAdd("IsNotFullHP", false);
+        AbilityConditionData.TryAdd("IsEnemyHit", false);
+        AbilityConditionData.TryAdd("IsPlayerHit", false);
     }
 
     public void Reset()// 시스템 로직에서 특정타이밍 마다 초기화 해야하는것

@@ -204,7 +204,7 @@ public class Card : MonoBehaviour
 
         if (cardData.MoveType == "M")
         {
-            GameManager.instance.Player.transform.position = Target.gameObject.transform.position - new Vector3(2, 0, 0);
+            GameManager.instance.Player.transform.position = Target.gameObject.transform.position - new Vector3(4, 0, 0);
         } 
 
 
@@ -269,9 +269,10 @@ public class Card : MonoBehaviour
         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현       
         GameManager.instance.ComboUpdate(Random.Range(17010, 21204));
         GameManager.instance.Player.addHP(CardDataVariable["HP_Recover"] + Buff_Recover_HP);
-        GameManager.instance.Player.TakeDamage(CardDataVariable["Barrier_Loss"] + CardDataVariable["HP_Loss"]);// 배리어 혹은 체력 까기
+        GameManager.instance.Player.TakeDamage(CardDataVariable["HP_Loss"]);// 배리어 혹은 체력 까기
 
-        GameManager.instance.Player.PlayerUnitData.CurrentBarrier += CardDataVariable["Barrier_Get"];
+        GameManager.instance.Player.AddBarrier(CardDataVariable["Barrier_Get"]);
+        GameManager.instance.Player.AddBarrier(-CardDataVariable["Barrier_Loss"]);
 
     }
 

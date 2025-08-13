@@ -34,7 +34,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
         CemeteryCard.Add(card);
         card.gameObject.SetActive(true);
-        GameManager.instance.UIManager.CardNotUseUI.UpdateUI(CemeteryCard.Count);
+        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
     }
 
     public void Insert(List <Card> cards)
@@ -51,6 +51,6 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
             CemeteryCard.Add(card);
             card.gameObject.SetActive(true);
         }
-        GameManager.instance.UIManager.CardNotUseUI.UpdateUI(CemeteryCard.Count);
+        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
     }
 }

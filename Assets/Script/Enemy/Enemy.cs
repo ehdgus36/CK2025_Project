@@ -34,10 +34,13 @@ public class EnemyData
     [SerializeField] public int MaxDamage;
     [SerializeField] public int CurrentDamage;
 
-    [SerializeField] public int MaxDefense;
-    [HideInInspector] public int CurrentDefense;
 
-    public List<Buff> buffs;
+    [SerializeField] public float VulnerabilityPercent;
+
+
+    [SerializeField] public int Barrier;
+
+    [SerializeReference]public List<Buff> buffs;
 }
 
 public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnterHandler , IPointerExitHandler
@@ -80,19 +83,19 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
         // 받을수 있는 버프 제작
         if ((buffLayer & BuffLayer.Fire_1) != 0 ) CurrentBuff.Add(new FireBuff(BuffType.End, 0, 1 + GameManager.instance.ItemDataLoader.FireDm_UP)) ;
-        if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new ElecBuff(BuffType.End, 0, 1));
+        if ((buffLayer & BuffLayer.Eletric_1) != 0) CurrentBuff.Add(new DefenseDebuff(BuffType.End, 0, 1));
         if ((buffLayer & BuffLayer.Captivate_1) != 0) CurrentBuff.Add(new CaptivBuff(BuffType.Start, 0, 1));
-        if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new CurseBuff(BuffType.Start, 0, 2));
+        if ((buffLayer & BuffLayer.Curse_1) != 0) CurrentBuff.Add(new AttackDamageDownBuff(BuffType.Start, 0, 2));
 
        
         //EnemyUnitData 설정 
         UnitData = EnemyData.EnemyUnitData;
         EnemyData.buffs = CurrentBuff;
         EnemyData.MaxDamage -= GameManager.instance.ItemDataLoader.EnDm_Down;
-        EnemyData.MaxDefense -= GameManager.instance.ItemDataLoader.EnDf_Down;
+        EnemyData.VulnerabilityPercent -= GameManager.instance.ItemDataLoader.EnDf_Down;
 
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
-        EnemyData.CurrentDefense = EnemyData.MaxDefense;
+        //EnemyData.CurrentDefense = EnemyData.MaxDefense;
 
 
         EnemyStatus?.Initialize(EnemyData); // UI 초기화
@@ -104,7 +107,9 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
             isAttackEnd = false; //턴 시작시 공격가능하게 초기화
             EnemyStatus?.UpdateStatus(EnemyData); //UI 갱신
             EnemyStatus?.NextAttackUI.gameObject.SetActive(false);// 다음 공격 표시끄기
-            
+
+
+            EnemyData.VulnerabilityPercent = 0;
             if (EnemyData.CurrentSkillPoint >= EnemyData.MaxSkillPoint)
             {
                 EnemyData.CurrentSkillPoint = 0;
@@ -133,7 +138,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         {
             //턴 종료시 버프로 감소된 변수 원상복구
             EnemyData.CurrentDamage = EnemyData.MaxDamage;
-            EnemyData.CurrentDefense = EnemyData.MaxDefense;
+            
 
             //UI 갱신
             EnemyStatus?.UpdateStatus(EnemyData);
@@ -183,11 +188,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public void TakeDamage(int damage, Buff buff = null)
     {
-        if (damage <= 0)
-        {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-            return;
-        }
+        
 
         if (buff != null)
         {
@@ -198,6 +199,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
                     if (CurrentBuff[i].GetType() == buff.GetType())
                     {
                         CurrentBuff[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+                        CurrentBuff[i].StartBuff(this);
                         break;
                     }
                 }
@@ -205,9 +207,35 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
           
         }
 
-       
-       
-        base.TakeDamage(damage - EnemyData.CurrentDefense);
+        if (damage <= 0)
+        {
+
+        }
+        else
+        {
+            //취약 효과에 따른 데미지 구현/ 원래 데미지 + 취약효과 데미지(값이 0 이면 추가 데미지 0)
+            int resultDamage = damage + (int)((float)damage * (EnemyData.VulnerabilityPercent/100f));
+
+            if (EnemyData.Barrier > 0)
+            {
+                EnemyData.Barrier -= resultDamage;
+
+                if (EnemyData.Barrier >=0)
+                {
+                    resultDamage = 0;
+                }
+
+                if (EnemyData.Barrier < 0)
+                {
+                    resultDamage = -EnemyData.Barrier;
+                    EnemyData.Barrier = 0;
+                }
+            }
+
+
+            base.TakeDamage(resultDamage);
+            fontSystem.FontConvert(resultDamage.ToString());
+        }
 
 
 
@@ -225,7 +253,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         GameManager.instance.Shake.PlayShake();
 
 
-        fontSystem.FontConvert(damage.ToString());
+        
 
         GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsEnemyHit");
 

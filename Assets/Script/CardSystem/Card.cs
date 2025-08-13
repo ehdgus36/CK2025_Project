@@ -178,10 +178,7 @@ public class Card : MonoBehaviour
     public virtual void TargetExcute(Enemy Target , Card nextCard = null)
     {
         //스킬 포인트 올리기
-        int combo = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);       
-        combo++;
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
+        
 
         
 
@@ -204,7 +201,7 @@ public class Card : MonoBehaviour
 
         if (cardData.MoveType == "M")
         {
-            GameManager.instance.Player.transform.position = Target.gameObject.transform.position - new Vector3(4, 0, 0);
+            GameManager.instance.Player.transform.position = Target.gameObject.transform.position - new Vector3(6, 0, 0);
         } 
 
 
@@ -237,14 +234,22 @@ public class Card : MonoBehaviour
 
         if (cardData.Range_Type == 2) // 전체 공격
         {
-            List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
-            GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
-
-            for (int i = 0; i < AttackEnemies.Count; i++)
+            if (cardData.Ani_Code == "notebomb_Ani") //  임시 로직 새로 생각하기
             {
-                AttackEnemies[i].TakeDamage(CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
+                //GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+                StartCoroutine(NoteBomb());
             }
+            else
+            {
 
+                List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
+                GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+
+                for (int i = 0; i < AttackEnemies.Count; i++)
+                {
+                    AttackEnemies[i].TakeDamage(CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
+                }
+            }
         }
 
         if (cardData.Range_Type == 3)//PlayerBuff
@@ -258,12 +263,8 @@ public class Card : MonoBehaviour
         if (cardData.Range_Type == 4) // 랜덤 공격
         {
             List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
-            GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
-
-           
-            AttackEnemies[Random.Range(0,AttackEnemies.Count)].TakeDamage(CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
-            
-
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position); 
+            AttackEnemies[Random.Range(0,AttackEnemies.Count)].TakeDamage(CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);          
         }
 
         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현       
@@ -283,19 +284,59 @@ public class Card : MonoBehaviour
         DamageBuff = 0; // 추가버프는 1회용이기 때문에 항상 초기화
         Buff_Recover_HP = 0;
 
-        if (cardData.Effect_Code == "Break_Attack")
+        
+
+        if (cardData.Ani_Code == "notebomb_Ani") // 공격이 끝날때 데미지
         {
-            EnemyTarget.TakeDamage(cardData.Damage + DamageBuff, cardData.CardBuff);
+            List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
             GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+
+            for (int i = 0; i < AttackEnemies.Count; i++)
+            {
+                AttackEnemies[i].TakeDamage(CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
+            }
         }
 
         GameManager.instance.UIInputSetActive(true);
-        StartCoroutine(PlayerReturnDelay());
+        if (this.gameObject.activeInHierarchy == true)
+        {
+            StartCoroutine(PlayerReturnDelay());
+        }
     }
 
     IEnumerator PlayerReturnDelay()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.5f);
         GameManager.instance.Player.transform.position = PlayerStartPos;
     }
+
+    IEnumerator NoteBomb()
+    {
+       
+        GameObject controllObject =  GameManager.instance.Player.PlayerEffectSystem.EffectObject("notebomb_Effect_ball", EnemyTarget.transform.position);
+
+        System.Func<Vector3, Vector3, Vector3, float, Vector3> Bezier =
+        (P0, P1, P2, t) =>
+        {
+            var M0 = Vector3.Lerp(P0, P1, t);
+            var M1 = Vector3.Lerp(P1, P2, t);
+            return Vector3.Lerp(M0, M1, t);
+        };
+
+
+        
+        float T = 0f;
+
+        for (int i = 0; i < 20; i++)
+        {
+            controllObject.transform.position = Bezier(GameManager.instance.Player.transform.position, EnemyTarget.transform.position + new Vector3(0,3,0), EnemyTarget.transform.position, T);
+            T +=0.05f;
+            yield return new WaitForSeconds(0.02f);  
+        }
+
+
+        yield return null;
+    }
+
+    
 }

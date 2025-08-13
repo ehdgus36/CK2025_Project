@@ -1,25 +1,20 @@
 using UnityEngine;
 
-public class ElecBuff : Buff
+public class DefenseDebuff : Buff
 {
     int Down = 1;
-
-    public ElecBuff(BuffType type, int buffDurationTurn, int down) : base(type, buffDurationTurn)
+    float DefenseDebuffPercent = 20f;
+    public DefenseDebuff(BuffType type, int buffDurationTurn, int down) : base(type, buffDurationTurn)
     {
         Down = down;
     }
 
 
-    public override void StartBuff(Unit unit)
+    public override void BuffEvent(Unit unit)
     {
-
-
-        if (BuffDurationTurn == 0) return;
         if (unit.GetComponent<Enemy>())
-        {
-            unit.GetComponent<Enemy>().EnemyData.CurrentDefense -= Down;
+        {         
+            unit.GetComponent<Enemy>().EnemyData.VulnerabilityPercent = DefenseDebuffPercent; //취약 퍼센트 연산
         }
-
-        BuffDurationTurn--;
     }
 }

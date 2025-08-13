@@ -7,7 +7,7 @@ public class Drain_Card : Card
         int Recover_hp = 0;
         if (nextCard != null)
         {
-            Recover_hp = nextCard.cardData.Damage - Target.EnemyData.CurrentDefense;
+            Recover_hp = nextCard.cardData.Damage;
             nextCard.Buff_Recover_HP = Recover_hp;
         }
 

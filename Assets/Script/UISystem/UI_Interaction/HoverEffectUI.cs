@@ -6,7 +6,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     [SerializeField] 
     [Range(1,2)]float hoverScale = 1f;
-    Vector3 StartScale = new Vector3(.8f, .8f, 1f);
+    [SerializeField] Vector3 StartScale = new Vector3(.8f, .8f, 1f);
     Vector3 StartPos;
 
     [SerializeField] CardDescription cardDescription;
@@ -16,6 +16,10 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (cardDescription == null)
+        {
+            cardDescription = GameManager.instance.UIManager.CardDescription;
+        }
        
         ///StartScale = transform.localScale;
         StartPos = transform.position;

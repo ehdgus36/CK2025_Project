@@ -10,10 +10,10 @@ public class CaptivBuff : Buff
     
     }
 
-    public override void StartBuff(Unit unit)
+    public override void BuffEvent(Unit unit)
     {
 
-        if (BuffDurationTurn == 0) return;
+        
         int rand = Random.Range(0, 2);
 
         if (rand == 0)
@@ -21,7 +21,7 @@ public class CaptivBuff : Buff
             unit.IsTurn = false;
         }
 
-        BuffDurationTurn--;
+      
 
     }
 }

@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] CardNotUseUIView _CardNotUseUI;
 
+    [SerializeField] CardDescription _CardDescription;
+
     public TextMeshProUGUI UseCardCountText { get { return _UseCardCountText; } }
     public GameObject Black { get { return _Black; } }
 
@@ -28,6 +30,8 @@ public class UIManager : MonoBehaviour
     public CardCemeteryUIView CardCemeteryUI { get { return _CardCemeteryUI; } }
 
     public CardNotUseUIView CardNotUseUI { get { return _CardNotUseUI; } }
+
+    public CardDescription CardDescription { get { return _CardDescription; } }
 
 
     List<DynamicUIObject> GameUIObj = new List<DynamicUIObject>();

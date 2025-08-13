@@ -1,23 +1,21 @@
 using System.Runtime.Serialization;
 using UnityEngine;
 
-public class CurseBuff : Buff
+public class AttackDamageDownBuff : Buff
 {
     int Down_Attack = 0;
-
-    public CurseBuff(BuffType type, int buffDurationTurn, int down_attack) : base(type, buffDurationTurn)
+    float DownPercent = 20f;
+    public AttackDamageDownBuff(BuffType type, int buffDurationTurn, int down_attack) : base(type, buffDurationTurn)
     {
-        Down_Attack = down_attack;
+         
     }
-    public override void StartBuff(Unit unit)
-    {
-        if (BuffDurationTurn == 0) return;
+    public override void BuffEvent(Unit unit)
+    {      
         if (unit.GetComponent<Enemy>())
         {
+            Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.CurrentDamage * (DownPercent/100f));
             unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
             Debug.Log("CuserBuffExcut :" + unit.GetComponent<Enemy>().EnemyData.CurrentDamage.ToString());
         }
-     
-        BuffDurationTurn--;
     }
 }

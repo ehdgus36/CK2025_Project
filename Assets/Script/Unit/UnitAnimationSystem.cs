@@ -43,11 +43,13 @@ public class UnitAnimationSystem : MonoBehaviour
         {
             AnimationDatas.Add(AddAnimation[i].key, AddAnimation[i].animeData);
         }
-        
 
-        if (AnimationDatas.Count > 0 ) 
-            UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[AnimationDatas.FirstOrDefault().Key], true);           
 
+
+        if (AnimationDatas.Count > 0)
+        {
+            UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[AnimationDatas.FirstOrDefault().Key], true);
+        }
     }
 
     public void PlayAnimation(string animeKey , bool loop = false ,
@@ -70,20 +72,22 @@ public class UnitAnimationSystem : MonoBehaviour
         {
             if (AnimationDatas.ContainsKey(animeKey))
             {
+                
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
-                track.HoldPrevious = true;
+                
+
 
                 if (notEmpty == false)
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
-
+                
                 track.Complete += CompleteDelegate;
                 track.Event += eventDelegate;
+                
             }
             else 
             {
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["break_Ani"], loop);
-                track.HoldPrevious = true;
-
+               
                 if (notEmpty == false)
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
 
@@ -93,5 +97,7 @@ public class UnitAnimationSystem : MonoBehaviour
         }
     }
 
- 
+   
+
+
 }

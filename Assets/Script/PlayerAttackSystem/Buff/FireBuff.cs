@@ -9,11 +9,10 @@ public class FireBuff : Buff
         Damage = damage;
     }
 
-    public override void StartBuff(Unit unit)
+    public override void BuffEvent(Unit unit)
     {
-        if ( BuffDurationTurn == 0) return;
-
-        unit.TakeDamage(Damage);
-        BuffDurationTurn--;
+        
+        unit.GetComponent<Enemy>()?.TakeDamage(Damage,null);
+        
     }
 }

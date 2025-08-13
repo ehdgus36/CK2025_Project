@@ -54,10 +54,11 @@ public class LobbyScene : MonoBehaviour
 
     public void LoadScene()
     {
+        GameDataSystem.DynamicGameDataSchema.NewGameDataInit(); // 로비에서 다시시작시 게임 데이터 초기화
         CutScenePlayer.time = 0;
         CutScenePlayer.Play();
         VideoPlayObject.SetActive(true);
-        CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName); };
+        CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName);  };
     }
    
 }

@@ -46,7 +46,7 @@ public class EnemyStatus : MonoBehaviour
         
         _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
 
-        Barrier_viewUI.UpdateUI(enemyData.CurrentDefense);
+        Barrier_viewUI.UpdateUI(enemyData.Barrier);
 
         DamageText.text = enemyData.CurrentDamage.ToString();
         Buff_UI.UpdateBuffIcon(enemyData.buffs);
@@ -61,8 +61,8 @@ public class EnemyStatus : MonoBehaviour
 
         _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
 
-        Barrier_viewUI.UpdateUI(enemyData.CurrentDefense);
 
+        Barrier_viewUI.UpdateUI(enemyData.Barrier);
         DamageText.text = enemyData.CurrentDamage.ToString();
 
         Buff_UI.UpdateBuffIcon(enemyData.buffs);

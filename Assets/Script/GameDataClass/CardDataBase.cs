@@ -114,17 +114,17 @@ public struct CardData
 
         switch (Status_Type)
         {
-            case 1:
+            case 3:
                 buff = new FireBuff(BuffType.End, Status_Turn, 2);
                 break;
-            case 2:
-                buff = new ElecBuff(BuffType.End, Status_Turn, 2);
+            case 1:
+                buff = new DefenseDebuff(BuffType.End, Status_Turn, 2);
                 break;
-            case 3:
+            case 5:
                 buff = new CaptivBuff(BuffType.Start, Status_Turn, 2);
                 break;
-            case 4:
-                buff = new CurseBuff(BuffType.Start, 3, 2);
+            case 2:
+                buff = new AttackDamageDownBuff(BuffType.Start, 3, 2);
                 break;
         }
 

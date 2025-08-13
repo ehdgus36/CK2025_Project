@@ -3,12 +3,14 @@ using UnityEngine;
 public class ManaSystem 
 {
     int CurrentMana;
-    const int MaxMana = 5;
+    int MaxMana = 5;
     ManaUIView ManaUIView = null;
     ManaBankSystem ManaBank = new ManaBankSystem();
 
-    public ManaSystem()
+
+    public ManaSystem(int maxMana)
     {
+        MaxMana = maxMana;
         Initialize();
     }
 
@@ -76,4 +78,5 @@ public class ManaSystem
         return CurrentMana.ToString() + "/" + MaxMana.ToString();
     }
 
+    public int UseManaCount() { return MaxMana - CurrentMana; }
 }

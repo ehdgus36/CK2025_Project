@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ExcutSelectCardSystem : MonoBehaviour
 {
@@ -13,11 +14,57 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     bool isTargeting = false; // 몬스터 타겟팅이 가능한지 확인
 
-    ManaSystem ManaSystem = new ManaSystem(); // 마나 시스템
+    ManaSystem ManaSystem; // 마나 시스템
+
+    List<Card> ThisTurnExcutCard = new List<Card>();
+    Dictionary<string, bool> AbilityConditionData = new Dictionary<string, bool>();
+
+    public int UseManaCount{ get { return ManaSystem.UseManaCount(); } }
+   
+    //1회성 어빌리티가 아닌 다회성 어빌리티 관리
+    public void ExcutAbiltyCondition(string key)
+    {
+        if (AbilityConditionData.ContainsKey(key))
+        {
+            AbilityConditionData[key] = true;// 조건을 발동 상태로 만듬
+
+            //이번턴에 사용한 카드 중에서 조건에 맞을때 실행할 어빌리티 
+            for (int i = 0; i < ThisTurnExcutCard.Count; i++)
+            {
+                ThisTurnExcutCard[i].AbilieySystem();
+
+                if (ThisTurnExcutCard[i].cardData.Ability_Type == "None" || ThisTurnExcutCard[i].cardData.Ability_Type == "Onec")
+                {
+                    ThisTurnExcutCard.Remove(ThisTurnExcutCard[i]);
+                }
+            }
+
+            AbilityConditionData[key] = false;
+        }
+    }
+
+    public bool GetAbiltyCondition(string key)
+    {
+        if (AbilityConditionData.ContainsKey(key))
+        {
+            return AbilityConditionData[key];
+        }
+
+        return false;
+    }
+
+
 
     public void initialize() // 1회성으로 초기화 해야하는것
     {
+        ManaSystem = new ManaSystem(MaxExcutCardCount);
         ManaSystem.Initialize();
+        AbilityConditionData.Add("0", true); // 항상 참인 조건
+        AbilityConditionData.Add("IsBarrierActive", false);
+        AbilityConditionData.Add("IsCardPlayed", false);
+        AbilityConditionData.Add("IsNotFullHP", false);
+        AbilityConditionData.Add("IsEnemyHit", false);
+        AbilityConditionData.Add("IsPlayerHit", false);
     }
 
     public void Reset()// 시스템 로직에서 특정타이밍 마다 초기화 해야하는것
@@ -52,41 +99,69 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     private void Update()
     {
+        //배리어 있을때
+        if (GameManager.instance.Player.PlayerUnitData.CurrentBarrier > 0)
+        {
+            AbilityConditionData["IsBarrierActive"] = true;
+        }
+        else
+        {
+            AbilityConditionData["IsBarrierActive"] = false;
+        }
+
+        if (GameManager.instance.Player.PlayerUnitData.CurrentHp < GameManager.instance.Player.PlayerUnitData.MaxHp)
+        {
+            AbilityConditionData["IsNotFullHP"] = true;
+        }
+        else
+        {
+            AbilityConditionData["IsNotFullHP"] = false;
+        }
+
+
         if (isTargeting == false) return;
 
         if (Input.GetMouseButtonUp(0) == true)
         {
-            if (_TargetEnemy != null && ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
+            if (_SelectCard != null)
             {
-                if (_PreviousCard != null)
+                if (_TargetEnemy != null && ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
                 {
-                    _SelectCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
+                    
+                     ThisTurnExcutCard.Add(_SelectCard);
+                    
 
-                    if (_PreviousCard.GetType() == typeof(Drain_Card))
+                    ExcutAbiltyCondition("IsCardPlayed");
+                    if (_PreviousCard != null)
                     {
-                        _SelectCard.Buff_Recover_HP = _SelectCard.cardData.Damage;
+                        _SelectCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
+
+                        if (_PreviousCard.GetType() == typeof(Drain_Card))
+                        {
+                            _SelectCard.Buff_Recover_HP = _SelectCard.cardData.Damage;
+                        }
                     }
+
+                    _SelectCard.TargetExcute(_TargetEnemy);
+
+                    isTargeting = false;
+                    // 사용한 카드 묘지로 보내는 기능
+                    GameManager.instance.CardCemetery.Insert(_SelectCard);
+                    // 사용한 카드 저장
+                    
+
+
+                    CurrentExcutCardCount++;
+                    GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
+
                 }
 
-                _SelectCard.TargetExcute(_TargetEnemy);
+                _PreviousCard = _SelectCard;
 
-                isTargeting = false;
-                // 사용한 카드 묘지로 보내는 기능
-                GameManager.instance.CardCemetery.Insert(_SelectCard);
-
-              
-
-                CurrentExcutCardCount++;
-                GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
-
+                _TargetEnemy = null;
+                _SelectCard = null;
+                ArrowUIObject.SetActive(false);
             }
-
-            _PreviousCard = _SelectCard;
-
-            _TargetEnemy = null;
-            _SelectCard = null;
-            ArrowUIObject.SetActive(false);
-            
         }
 
 

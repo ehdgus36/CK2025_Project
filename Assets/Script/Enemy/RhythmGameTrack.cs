@@ -44,6 +44,9 @@ public class RhythmGameTrack : MonoBehaviour
         isEndTrack = false;
         DelectNoteCount = 0;
 
+        //불필요한 UI 끄기
+        TargetEnemy.GetEnemyStatus.NextAttackUI.gameObject.SetActive(false);
+
         // 노트 위치 초기화
         for (int i = 0; i < Notes.Count; i++)
         {

@@ -19,6 +19,8 @@ public class Player : Unit
     public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
 
+    public UnitData PlayerUnitData { get { return UnitData; } }
+
 
     public void MaxButtonDisable()    
     {
@@ -79,6 +81,8 @@ public class Player : Unit
 
     public override void TakeDamage(int damage)
     {
+        if (damage <= 0) return;
+
         base.TakeDamage(damage);
               
         AnimationSystem?.PlayAnimation("hit");
@@ -94,33 +98,11 @@ public class Player : Unit
         DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
 
         fontSystem.FontConvert(damage.ToString());
+
+        GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsPlayerHit");
     }
 
-    public void TakeDamage(int damage , string notes)
-    {
-        TakeDamage(damage);
-
-        Color fontColor = new Color(239f / 255f, 86.0f / 255.0f, 110f / 225f);
-
-        switch (notes)
-        {
-            case "Miss":
-                fontColor = new Color(239f/255f, 86f/ 255f, 110/255f);
-                break;
-            case "Bad":
-                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
-                break;
-            case "Normal":
-                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
-                break;
-            case "Good":
-                fontColor = new Color(254f / 255f, 249f / 255f, 57f/255f);
-                break;
-        }
-
-        
-
-    }
+    
 
     public void PlayerSave()
     {

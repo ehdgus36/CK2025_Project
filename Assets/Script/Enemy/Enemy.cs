@@ -97,12 +97,35 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
         EnemyStatus?.Initialize(EnemyData); // UI 초기화
 
+        EnemyStatus?.NextAttackUI.UpdateUI(EnemyData.CurrentDamage.ToString(), NextAttackUIView.AttackIconEnum.Attack);
+        EnemyStatus?.NextAttackUI.gameObject.SetActive(true);
         StartTurnEvent = () =>
         {
             isAttackEnd = false; //턴 시작시 공격가능하게 초기화
             EnemyStatus?.UpdateStatus(EnemyData); //UI 갱신
+            EnemyStatus?.NextAttackUI.gameObject.SetActive(false);// 다음 공격 표시끄기
+            
+            if (EnemyData.CurrentSkillPoint >= EnemyData.MaxSkillPoint)
+            {
+                EnemyData.CurrentSkillPoint = 0;
+                
 
-            StartCoroutine("EnemyAi"); //AI 실행
+                // 스킬 실행
+                EnemyData.EnemyUnitData.CurrentHp += 5;// 5회복
+                isAttackEnd = true;
+
+                EnemyStatus?.UpdateStatus(EnemyData);// ui갱신
+            }
+            else
+            {
+                EnemyData.CurrentSkillPoint++;
+                StartCoroutine("EnemyAi"); //AI 실행
+            }
+
+           
+           
+
+
         };
 
 
@@ -117,6 +140,20 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
           
             //AI 정지
             StopCoroutine("EnemyAi");
+
+            // 다음 공격 표시
+            EnemyStatus?.NextAttackUI.gameObject.SetActive(true);
+
+            if (EnemyData.CurrentSkillPoint >= EnemyData.MaxSkillPoint)
+            {
+                // 다음 스킬 표시
+                EnemyStatus?.NextAttackUI.UpdateUI("", NextAttackUIView.AttackIconEnum.RecverHP);
+            }
+            else
+            {
+                EnemyStatus?.NextAttackUI.UpdateUI(EnemyData.CurrentDamage.ToString(), NextAttackUIView.AttackIconEnum.Attack);
+            }
+
         };
     }
 
@@ -189,6 +226,9 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
 
         fontSystem.FontConvert(damage.ToString());
+
+        GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsEnemyHit");
+
     }
 
     protected override void Die()

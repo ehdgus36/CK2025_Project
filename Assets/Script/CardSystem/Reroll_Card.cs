@@ -2,17 +2,16 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-public class Reroll_Card : Card
+public class Reroll_Card : MonoBehaviour
 {
-    public override void TargetExcute(Enemy Target, Card nextCard = null)
+    public void Excute(SlotGroup CardSloats, out int discardCount)
     {
-        StartCoroutine(ExcuteReroll());
-        
+        discardCount = CardSloats.ReadData<Card>().Count;
 
-        base.TargetExcute(Target, nextCard);
+        StartCoroutine(ExcuteReroll(CardSloats));
     }
 
-    IEnumerator ExcuteReroll() // 더 좋은 방법 찾아보기
+    IEnumerator ExcuteReroll(SlotGroup CardSloats) // 더 좋은 방법 찾아보기
     {
         yield return new WaitForSeconds(.95f);
         for (int i = 0; i < CardSloats.Getsloat().Length; i++)

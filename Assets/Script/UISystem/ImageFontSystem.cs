@@ -98,6 +98,7 @@ public class ImageFontSystem : MonoBehaviour
             if (num.Length == 2)
             {
                 string f = num[0].ToString();
+                Debug.Log("FFFFFFFRF:" + f);
                 string b = num[1].ToString();
 
                 int index = int.Parse(f);

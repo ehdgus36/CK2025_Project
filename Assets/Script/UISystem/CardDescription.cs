@@ -21,7 +21,15 @@ public class CardDescription : MonoBehaviour
         Icon.sprite = icon;
     }
 
-    public void UpdateDescription( Sprite img)
+    public void UpdateDescription(string name, string desc)
+    {
+        CardName.text = name;
+        Desc.text = desc;
+       
+    }
+
+
+    public void UpdateDescription(Sprite img)
     {
         DescImage.sprite = img;
     }

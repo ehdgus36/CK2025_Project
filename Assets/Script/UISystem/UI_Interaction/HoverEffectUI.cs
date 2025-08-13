@@ -28,7 +28,8 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (card != null)
         {
-            cardDescription.UpdateDescription(card.DescSprite);
+            //cardDescription.UpdateDescription(card.DescSprite); ±¸¹öÀü
+            cardDescription.UpdateDescription(card.cardData.Card_Name_KR, card.cardData.Card_Des);
             cardDescription.gameObject.SetActive(true);
             cardDescription.transform.position = this.transform.position;
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Mouse_UP");

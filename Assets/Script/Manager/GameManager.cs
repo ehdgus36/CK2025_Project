@@ -268,7 +268,7 @@ public class GameManager : MonoBehaviour
     /// <param name="data"></param>
     public void ComboUpdate(int data)
     {
-        StartCoroutine(UPdateComboCount(data*2));
+        //StartCoroutine(UPdateComboCount(data*2));
     }
 
     IEnumerator UPdateComboCount(int count)

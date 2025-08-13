@@ -67,7 +67,7 @@ public class Unit : MonoBehaviour
     {
         
 
-        if (damage < 0)
+        if (damage <= 0)
         {
             Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
             return;

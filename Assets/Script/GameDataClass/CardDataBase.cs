@@ -20,6 +20,7 @@ public struct CardData
     public readonly string Card_Name_EN;
 
     public readonly int    Cost_Type;
+    public readonly string Ability_Type;
     public readonly string Ability_Con1;
     public readonly string Ability_Con2;
     public readonly string Ability_Act1;
@@ -69,6 +70,7 @@ public struct CardData
         Card_Name_EN = data["Card_Name_EN"].ToString();
 
         Cost_Type = (int)data["Cost_Type"];
+        Ability_Type = data["Ability_Type"].ToString();
         Ability_Con1 = data["Ability_Con1"].ToString();
         Ability_Con2 = data["Ability_Con2"].ToString();
         Ability_Act1 = data["Ability_Act1"].ToString();

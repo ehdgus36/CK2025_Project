@@ -55,8 +55,14 @@ public class UnitAnimationSystem : MonoBehaviour
     {
         if (loop)
         {
-            if (AnimationDatas.ContainsKey(animeKey)) 
+            if (AnimationDatas.ContainsKey(animeKey))
+            {
                 UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
+            }
+            else
+            {
+                UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["break_Ani"], loop);
+            }
         }
 
         if (!loop)
@@ -65,7 +71,17 @@ public class UnitAnimationSystem : MonoBehaviour
             {
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
 
-                if(notEmpty == false)
+                if (notEmpty == false)
+                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0.1f); };
+
+                track.Complete += CompleteDelegate;
+                track.Event += eventDelegate;
+            }
+            else 
+            {
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["break_Ani"], loop);
+
+                if (notEmpty == false)
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0.1f); };
 
                 track.Complete += CompleteDelegate;

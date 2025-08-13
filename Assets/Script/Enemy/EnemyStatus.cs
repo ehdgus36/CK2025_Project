@@ -30,10 +30,13 @@ public class EnemyStatus : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI _RhythmDamageText;
 
+    [SerializeField] NextAttackUIView _NextAttackUI;
+
     public TextMeshProUGUI RhythmDamageText { get { return _RhythmDamageText; } }
 
     public GameObject StatusPopUp { get { return _StatusPopUp; } }
  
+    public NextAttackUIView NextAttackUI { get { return _NextAttackUI; } }
 
 
 

@@ -11,8 +11,11 @@ public class FireBuff : Buff
 
     public override void BuffEvent(Unit unit)
     {
-        
+        float DmPercent = (10f + (float)GameManager.instance.ItemDataLoader.FireDm_UP)/100f;
+
+        Damage =(int)((float) unit.GetComponent<Enemy>().EnemyData.EnemyUnitData.MaxHp * DmPercent);
         unit.GetComponent<Enemy>()?.TakeDamage(Damage,null);
+        unit.GetComponent<Enemy>()?.GetEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
         
     }
 }

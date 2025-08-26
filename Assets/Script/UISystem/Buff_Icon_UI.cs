@@ -27,6 +27,7 @@ public class Buff_Icon_UI : MonoBehaviour
                     case FireBuff F: // »¡
                         BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(true);
                         BuffIcon[0].text = buffTurn;
+                        if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                         break;
 
                     case DefenseDebuff F:// ÆÄ

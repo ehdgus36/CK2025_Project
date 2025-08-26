@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GameDataSystem;
+using UnityEngine.EventSystems;
 
-public class Player : Unit
+public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 {
    
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
@@ -14,6 +15,8 @@ public class Player : Unit
 
     [SerializeField] EffectSystem _PlayerEffectSystem;
     [SerializeField]Vector3 StartPos;
+
+    public Enemy AttackEnemy { get; private set; } //나를 공격한 enemy
 
     Vector3 StartPlayerPos;
     public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
@@ -52,6 +55,13 @@ public class Player : Unit
             Combo.transform.localScale = new Vector3(1, 1, 1);
             Combo.GetComponent<ComboUIView>().EnableButton();
             TurnEnd.SetActive(true);
+
+            AttackEnemy = null;
+
+            PlayerUnitData.CurrentBarrier = 0;
+            GameManager.instance.ExcutSelectCardSystem.StartTurnRest();
+            GameManager.instance.UIManager.ManaUI.gameObject.SetActive(true);
+            DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
         };
 
         EndTurnEvent += CDSlotGroup.ReturnCard;
@@ -63,6 +73,7 @@ public class Player : Unit
             Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
             Combo.GetComponent<ComboUIView>().DisableButton();
             TurnEnd.SetActive(false);
+            GameManager.instance.UIManager.ManaUI.gameObject.SetActive(false);
         };
 
         UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
@@ -77,13 +88,39 @@ public class Player : Unit
         GameManager.instance.GameFail();
     }
 
-   
+    public void TakeDamage(int damage, Enemy enemy)
+    {
+        AttackEnemy = enemy;
+        TakeDamage(damage);
+    }
+
+
 
     public override void TakeDamage(int damage)
     {
         if (damage <= 0) return;
+        int resultDamage = damage;
 
-        base.TakeDamage(damage);
+        if (UnitData.CurrentBarrier > 0)
+        {
+            UnitData.CurrentBarrier -= resultDamage;
+
+            if (UnitData.CurrentBarrier >= 0)
+            {
+                resultDamage = 0;
+            }
+
+            if (UnitData.CurrentBarrier < 0)
+            {
+                resultDamage = -UnitData.CurrentBarrier;
+                UnitData.CurrentBarrier = 0;
+            }
+        }
+
+
+
+
+        base.TakeDamage(resultDamage);
               
         AnimationSystem?.PlayAnimation("hit");
         
@@ -109,17 +146,6 @@ public class Player : Unit
         PlayerPrefs.SetInt("PlayerHP", UnitData.CurrentHp);
     }
 
-    public void PlayerAttackAnime()
-    {
-        AnimationSystem.PlayAnimation("attack");
-    }
-       
-
-    public void PlayerHamoniAttackAnime()
-    {
-        AnimationSystem.PlayAnimation("hamoni");
-       
-    }
 
     public void PlayerCardAnime()
     {
@@ -140,6 +166,20 @@ public class Player : Unit
        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
     }
 
+    public void LossHP(int HP)
+    {
+        UnitData.CurrentHp -= HP;
+
+        if (UnitData.CurrentHp <= 0)
+        {
+            GameManager.instance.Player.TakeDamage(1);
+        }
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+    }
+
+
     public void AddBarrier(int Barrie)
     {
         UnitData.CurrentBarrier += Barrie;
@@ -152,8 +192,30 @@ public class Player : Unit
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 
+    public void LossBarrier(int Barrie)
+    {
+        UnitData.CurrentBarrier -= Barrie;
+
+        if (UnitData.CurrentBarrier <= 0)
+        {
+            UnitData.CurrentBarrier = 0;
+        }
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+    }
+
     public void ReturnPlayer()
     {
         this.transform.position = StartPlayerPos;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        GameManager.instance.ExcutSelectCardSystem.SetTargetPlayer(this);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        GameManager.instance.ExcutSelectCardSystem.SetTargetPlayer(null);
     }
 }

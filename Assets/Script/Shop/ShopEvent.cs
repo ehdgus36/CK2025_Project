@@ -53,6 +53,9 @@ public class ShopEvent : MonoBehaviour
 
     public void SelectTape(int index)
     {
+        SelectPeakIndex = -1;
+        SelectTapeIndex = -1;
+
         for (int i = 0; i < TapeSelectList.Count; i++)
         {
             TapeSelectList[i].gameObject.SetActive(false);
@@ -68,6 +71,9 @@ public class ShopEvent : MonoBehaviour
 
     public void SelectPeak(int index)
     {
+        SelectPeakIndex = -1;
+        SelectTapeIndex = -1;
+
         for (int i = 0; i < PeakSelectList.Count; i++)
         {
             PeakSelectList[i].gameObject.SetActive(false);

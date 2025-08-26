@@ -10,7 +10,7 @@ public class CardViewObject : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
 
     [HideInInspector] public bool isSelect = false;
 
-    CardData Data;
+   [SerializeField] CardData Data;
     public void UpdateCardViewObject(CardData CardData)
     {
         Data = CardData;

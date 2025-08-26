@@ -9,7 +9,6 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler
     {
         if (CardSlot.ReadData<Card>() == null) return;
         
-
         GameManager.instance.ExcutSelectCardSystem.SetSelectCard(CardSlot.ReadData<Card>());
     }
 }

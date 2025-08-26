@@ -19,7 +19,7 @@ public class ManaBankUIView : DynamicUIObject
     {
 
         int mana = Mathf.Clamp((int)update_ui_data, 0, ManaBankSystem.MAX_BANK_MANA); 
-        if (mana >= 20)
+        if (mana >= 10)
         {
             SkillButton?.gameObject.SetActive(true);
             

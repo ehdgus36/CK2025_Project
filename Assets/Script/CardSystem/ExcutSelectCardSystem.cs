@@ -6,7 +6,9 @@ public class ExcutSelectCardSystem : MonoBehaviour
     [SerializeField] GameObject ArrowUIObject;
     [SerializeField] int MaxExcutCardCount;
     [SerializeField] int CurrentExcutCardCount;
+    [SerializeField] DimBackGroundObject DimObject;
 
+    [SerializeField] List<dicobj> disobject = new List<dicobj>();
     Enemy _TargetEnemy;
 
     Card _PreviousCard;
@@ -16,14 +18,17 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     ManaSystem ManaSystem; // 마나 시스템
 
-    List<Card> ThisTurnExcutCard = new List<Card>();
+    [SerializeField] List<Card> ThisTurnExcutCard = new List<Card>();
     Dictionary<string, bool> AbilityConditionData = new Dictionary<string, bool>();
+
+    public int BuffDamage; // 임시 구조생각하기
+
 
     public int UseManaCount{ get { return ManaSystem.UseManaCount(); } }
    
     //1회성 어빌리티가 아닌 다회성 어빌리티 관리
     public void ExcutAbiltyCondition(string key)
-    {
+    {  
         if (AbilityConditionData.ContainsKey(key))
         {
             AbilityConditionData[key] = true;// 조건을 발동 상태로 만듬
@@ -65,6 +70,18 @@ public class ExcutSelectCardSystem : MonoBehaviour
         AbilityConditionData.TryAdd("IsNotFullHP", false);
         AbilityConditionData.TryAdd("IsEnemyHit", false);
         AbilityConditionData.TryAdd("IsPlayerHit", false);
+
+        List<string> keys = new List<string>(AbilityConditionData.Keys);
+
+        for (int i = 0; i < keys.Count; i++)
+        {
+            dicobj obj = new dicobj();
+            obj.key = keys[i];
+            obj.value = AbilityConditionData[keys[i]];
+
+            disobject.Add(obj);
+        }
+
     }
 
     public void Reset()// 시스템 로직에서 특정타이밍 마다 초기화 해야하는것
@@ -74,27 +91,59 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _PreviousCard = null;
         _SelectCard = null;
         _TargetEnemy = null;
-         ManaSystem.EndTurnReset();
+         BuffDamage = 0;
+         
+    }
+
+    public void StartTurnRest()
+    {
+        ManaSystem.EndTurnReset();
     }
 
     public void SetSelectCard(Card card) // 선택한 카드를 등록
     {
-        if (MaxExcutCardCount == CurrentExcutCardCount) return;
+        //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         _SelectCard = card;
         isTargeting = true;
         ArrowUIObject.SetActive(true);
         ArrowUIObject.transform.position = card.transform.position;
+
+        //player에게 사용하는 카드
+        if (card.cardData.Range_Type == 3)
+        {
+            DimObject.SetActiveDim("Enemy");//enemy를 어둡게
+        }
+        else
+        {
+            DimObject.SetActiveDim("Player");
+        }
     }
 
     public void SetTargetEnemy(Enemy enemy) // 타겟팅한 몬스터 등록
     {
-        if (MaxExcutCardCount == CurrentExcutCardCount) return;
-        if (_SelectCard == null && isTargeting == false) return;
+        //if (MaxExcutCardCount == CurrentExcutCardCount) return;
+        if (_SelectCard == null || isTargeting == false) return;
+
+        if (_SelectCard.cardData.Range_Type == 3) return;
 
         _TargetEnemy = enemy;
         
 
         
+    }
+
+    public void SetTargetPlayer(Player player) // 타겟팅한 몬스터 등록
+    {
+        if (player == null) _TargetEnemy = null; 
+        //if (MaxExcutCardCount == CurrentExcutCardCount) return;
+        if (_SelectCard == null || isTargeting == false) return;
+
+
+        if (_SelectCard.cardData.Range_Type != 3) return;
+        _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
+
+
+
     }
 
     private void Update()
@@ -118,6 +167,16 @@ public class ExcutSelectCardSystem : MonoBehaviour
             AbilityConditionData["IsNotFullHP"] = false;
         }
 
+        if (disobject != null)
+        {
+            for (int i = 0; i < disobject.Count; i++)
+            {
+                var ddd = disobject[i];
+                ddd.value = AbilityConditionData[disobject[i].key];
+
+                disobject[i] = ddd;// AbilityConditionData[disobject[i].key];
+            }
+        }
 
         if (isTargeting == false) return;
 
@@ -175,13 +234,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 _TargetEnemy = null;
                 _SelectCard = null;
                 ArrowUIObject.SetActive(false);
+                DimObject.gameObject.SetActive(false);
             }
         }
-
-
-
-        
-
-        
     }
 }

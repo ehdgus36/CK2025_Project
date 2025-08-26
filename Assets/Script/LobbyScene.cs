@@ -14,6 +14,7 @@ public class LobbyScene : MonoBehaviour
 
     [SerializeField] VideoPlayer CutScenePlayer;
 
+    bool startCutScene = false;
     private void Awake()
     {
         EXIT_Button.onClick.AddListener(Exit); ;
@@ -28,13 +29,13 @@ public class LobbyScene : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) == false)
             {
-                if (Input.anyKeyDown)
+                if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && !Input.GetKeyDown(KeyCode.LeftAlt) && !Input.GetKeyDown(KeyCode.Tab))
                 {
                     LoadScene();
                    
                 }
 
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (startCutScene == true && Input.GetKeyDown(KeyCode.Escape))
                 {
                     SceneManager.LoadScene(SceneName);
                 }
@@ -59,6 +60,7 @@ public class LobbyScene : MonoBehaviour
         CutScenePlayer.Play();
         VideoPlayObject.SetActive(true);
         CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName);  };
+        startCutScene = true;
     }
    
 }

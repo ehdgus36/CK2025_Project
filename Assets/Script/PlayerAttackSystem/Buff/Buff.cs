@@ -52,7 +52,10 @@ public abstract class Buff
 
     public abstract void BuffEvent(Unit unit);
 
-    public void AddBuffTurnCount(int addCount) { BuffDurationTurn += addCount; }
+    public void AddBuffTurnCount(int addCount) {
+        State = BuffState.Enable;
+        BuffDurationTurn += addCount; 
+    }
 
     //public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
 

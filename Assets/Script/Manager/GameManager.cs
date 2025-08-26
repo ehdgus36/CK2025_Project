@@ -221,7 +221,8 @@ public class GameManager : MonoBehaviour
 
     public void TurnSwap()
     {
-         // 턴앤드 클릭시 TurnSwap함수 재생
+        // 턴앤드 클릭시 TurnSwap함수 재생
+        Debug.Log("턴앤드 클릭");
 
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
@@ -287,6 +288,6 @@ public class GameManager : MonoBehaviour
 
     public void UIInputSetActive(bool active)
     {
-        EventSystem?.SetActive(active);
+        EventSystem.SetActive(active);
     }
 }

@@ -24,9 +24,11 @@ public class ManaSystem
 
     public void EndTurnReset() //턴종료후 다시 실행해야 할때마다 리셋 해야 할거
     {
-        ManaBank.SaveMana(MaxMana - CurrentMana); // 남은 마나를 저장함
+        //ManaBank.SaveMana(MaxMana - CurrentMana); // 남은 마나를 저장함
        
         CurrentMana = MaxMana;// 마나 초기화
+
+        ManaUIView.UpdateUI(ManaTextData());
     }
 
 

@@ -12,10 +12,7 @@ public class PlayerSkillSystem : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            StartSkill();
-        }
+   
         
     }
 

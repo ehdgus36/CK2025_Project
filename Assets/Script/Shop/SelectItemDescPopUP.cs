@@ -32,15 +32,44 @@ public class SelectItemDescPopUP : MonoBehaviour
         for (int i = 0; i < popUpItemDatas.Length; i++)
         {
             if (popUpItemDatas[i].itemID == itemID)
-            { 
-                ItemTag.text =data.Tag;
-                ItemDesc.text = data.Example;
-                ItemImage.sprite = popUpItemDatas[i].itemImage;
+            {
+                if (itemID[0] == 'I')
+                {
+                    ItemImage.rectTransform.sizeDelta = new Vector2(1024f, 1024f);
+                    ItemTag.text = data.Tag;
+                    ItemDesc.text = data.Example;
+                    ItemImage.sprite = popUpItemDatas[i].itemImage;
+                }
 
-                if (itemID[0] == 'I') ItemImage.rectTransform.sizeDelta = new Vector2(1024f, 1024f);
+                if (itemID[0] == 'C')
+                {
+                    ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
+                    ItemTag.text = data.Tag;
+                    ItemDesc.text = data.Example;
+                    object cardData;
 
-                if (itemID[0] == 'C') ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
+                    GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(itemID, out cardData);
+
+                    ItemImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+
+                }
             }
+            else
+            {
+                if (itemID[0] == 'C')
+                {
+                    ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
+                    ItemTag.text = data.Tag;
+                    ItemDesc.text = data.Example;
+                    object cardData;
+
+                    GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(itemID, out cardData);
+
+                    ItemImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+
+                }
+            }
+
         }
     
     }

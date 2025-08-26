@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using GameDataSystem.KeyCode;
 
 using UnityEngine;
@@ -53,26 +54,72 @@ public abstract class DynamicUIObject : MonoBehaviour
 
 namespace GameDataSystem
 {
-   
+
+    public static class DataTableLoader
+    {
+
+        public static TextAsset LoadTextAsset(string fileName)
+        {
+            fileName += ".csv";
+            string path = Path.Combine(Application.streamingAssetsPath, fileName);
+
+            if (!File.Exists(path))
+            {
+                Debug.Log("파일 없음: " + path);
+                return null;
+            }
+
+            string text = File.ReadAllText(path);
+            // TextAsset 객체 생성
+            TextAsset asset = new TextAsset(text);
+            return asset;
+        }
+    }
+
     /// <summary> 데이터 테이블에서 가져온 데이터를 관리하는 클래스 </summary>
     public static class StaticGameDataSchema
     {
 
        
-        static TextAsset RecipeDataTable = new TextAsset();
-        static TextAsset CardStatusDataTable = new TextAsset();
-        static TextAsset CardDataTable = Resources.Load<TextAsset>("DataTable/CardDataTable");
-        static TextAsset NoteDataTable = new TextAsset();
-        static TextAsset ItemDataTable = Resources.Load<TextAsset>("DataTable/ItemDataTable");
-        static TextAsset Status_Table;
+        private static TextAsset RecipeDataTable = new TextAsset();
+        private static TextAsset CardStatusDataTable = new TextAsset();
+        private static TextAsset CardDataTable = DataTableLoader.LoadTextAsset("CardDataTable");// Resources.Load<TextAsset>("DataTable/CardDataTable");
+        private static TextAsset NoteDataTable = new TextAsset();
+        private static TextAsset ItemDataTable = DataTableLoader.LoadTextAsset("ItemDataTable");// Resources.Load<TextAsset>("DataTable/ItemDataTable");
+        private static TextAsset Status_Table;
+        // 카드의 기본 시작 덱이 설정되어있는 거
 
-        public readonly static RecipeDataBase RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
-        public readonly static CardDataBase CARD_DATA_BASE = new CardDataBase(CardStatusDataTable , CardDataTable);
-        public readonly static NoteDataBase NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
-        public readonly static ItemDataBase ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+
+        private static RecipeDataBase _RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
+        private static CardDataBase _CARD_DATA_BASE = new CardDataBase(CardStatusDataTable, CardDataTable);
+        private static NoteDataBase _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
+        private static ItemDataBase _ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+
+
+
+        public static RecipeDataBase RECIPE_DATA_BASE => _RECIPE_DATA_BASE;
+        public static CardDataBase CARD_DATA_BASE => _CARD_DATA_BASE;
+        public static NoteDataBase NOTE_DATA_BASE => _NOTE_DATA_BASE;
+        public static ItemDataBase ITEM_DATA_BASE => _ITEM_DATA_BASE;
 
 
         public readonly static UnitData StartPlayerData = new UnitData();
+        public readonly static TextAsset PlayerDeckDataTable = DataTableLoader.LoadTextAsset("PlayerDeckDataTable");
+
+
+        public static void Initialize()
+        {
+            RecipeDataTable = new TextAsset();
+            CardStatusDataTable = new TextAsset();
+            CardDataTable = DataTableLoader.LoadTextAsset("CardDataTable");
+            NoteDataTable = new TextAsset();
+            ItemDataTable = DataTableLoader.LoadTextAsset("ItemDataTable");
+
+            _RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
+            _CARD_DATA_BASE = new CardDataBase(CardStatusDataTable, CardDataTable);
+            _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
+            _ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+        }
     }
 
 
@@ -91,6 +138,8 @@ namespace GameDataSystem
         }
         public static void NewGameDataInit()
         {
+            DynamicDataBase.Clear();
+            DynamicUIDataBase.Clear();
             Initialize();
         }
 
@@ -115,38 +164,54 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
 
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA, "1-1");
-            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA, 19);
+            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,0);
+
+            AddDynamicDataBase("MapSave", "");
 
 
             List<string> testItem = new List<string>();
-            testItem.Add("IT01");
-            testItem.Add("IT02");
-            testItem.Add("IT03");
-            testItem.Add("IT04");
-            testItem.Add("IT05");
-
+            //testItem.Add("IT03");
             AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, testItem);
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();
 
-            CardCodes.Add("C1011");
-            CardCodes.Add("C1021");
-            CardCodes.Add("C1031");
-            CardCodes.Add("C1041");
-            CardCodes.Add("C1051");
+            for (int i = 0; i < CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable).Count; i++)
+            {
+                CardCodes.Add(CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable)[i]["Card_Code"].ToString());
+            }
 
-            CardCodes.Add("C1011");
-            CardCodes.Add("C1021");
-            CardCodes.Add("C1031");
-            CardCodes.Add("C1041");
-            CardCodes.Add("C1051");
 
-            CardCodes.Add("C1011");
-            CardCodes.Add("C1021");
-            CardCodes.Add("C1031");
-            CardCodes.Add("C1041");
-            CardCodes.Add("C1051");
+            //CardCodes.Add("C1011");
+            //CardCodes.Add("C1021");
+            //CardCodes.Add("C1011");
+            //CardCodes.Add("C1021");
+
+
+            //CardCodes.Add("C1011");
+            //CardCodes.Add("C1021");
+            //CardCodes.Add("C1011");
+            //CardCodes.Add("C1021");
+            //CardCodes.Add("C1011");
+            //CardCodes.Add("C1021");
+            //CardCodes.Add("C1011");
+            //CardCodes.Add("C1021");
+
+            //CardCodes.Add("C1031");
+            //CardCodes.Add("C1031");
+
+            //CardCodes.Add("C1041");
+            //CardCodes.Add("C1061");
+            //CardCodes.Add("C1071");
+            //CardCodes.Add("C1101");
+
+            //CardCodes.Add("C2031");
+            //CardCodes.Add("C2031");
+
+           
+            
+
+
 
             AddDynamicDataBase(DynamicGameDataKeys.DACK_DATA, CardCodes);
         }

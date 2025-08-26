@@ -54,6 +54,8 @@ public struct CardData
     public readonly string Sound_Code;
 
     public readonly string Card_Des;
+    public readonly string Buff_Ex;
+    public readonly string Buff_Ex2;
 
     public readonly string Card_Im;
 
@@ -99,6 +101,9 @@ public struct CardData
         Sound_Code = data["Sound_Code"].ToString();
 
         Card_Des = data["Card_Des"].ToString();
+        Buff_Ex = data["Buff_Ex"].ToString();
+        Buff_Ex2 = data["Buff_Ex2"].ToString(); ;
+
         Card_Im = data["Card_Im"].ToString();
 
         CardBuff = null;
@@ -124,7 +129,7 @@ public struct CardData
                 buff = new CaptivBuff(BuffType.Start, Status_Turn, 2);
                 break;
             case 2:
-                buff = new AttackDamageDownBuff(BuffType.Start, 3, 2);
+                buff = new AttackDamageDownBuff(BuffType.Start, Status_Turn, 2);
                 break;
         }
 
@@ -220,6 +225,19 @@ public class CardDataBase
         if (CardStatusDatas.ContainsKey(CardCode)) isData = true;
 
         return isData;
+    }
+
+    public string RandomCard()
+    {
+        List<string> keys = new List<string>(CommonCardDatas.Keys);
+
+        string code = keys[Random.Range(0, keys.Count)];
+
+        if (code == "SKILL" || code == "C2102" || code == "C2101" || code == "C3031" || code == "C3032" ) code = "C1031";
+
+        return code;
+
+
     }
 
 }

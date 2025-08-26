@@ -151,14 +151,14 @@ public class CardCastPlace : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         for (int i = 0; i < ByeByeEnemys.Count; i++)
         {
-
+            GameManager.instance.UIInputSetActive(false);
             yield return new WaitForSeconds(.2f);
 
             GameManager.instance.Player.transform.position = ByeByeEnemys[i].gameObject.transform.position - new Vector3(2, 0, 0); // 앞으로 가기
 
             yield return new WaitForSeconds(.2f);
 
-            GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
+            GameManager.instance.Player.PlayerAnimator.PlayAnimation("ByeBye_Ani");
             yield return new WaitForSeconds(.15f); // 애니메이션 타이밍 나중에 이벤트로 처리
 
 
@@ -193,6 +193,8 @@ public class CardCastPlace : MonoBehaviour
         isByeByeStart = false;
         TurnEnd.interactable = true;
         ByeByeEnemys.Clear(); // 실행 다 하면 초기화
+
+        GameManager.instance.UIInputSetActive(true);
     }
 
 

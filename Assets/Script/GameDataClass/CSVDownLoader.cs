@@ -1,41 +1,34 @@
-#if UNITY_EDITOR
 using UnityEngine;
-using UnityEditor;
 using System.IO;
 using UnityEngine.Networking;
 using System.Collections;
-using Unity.EditorCoroutines.Editor;
 using System.Collections.Generic;
 
-public class CSVDownloader : EditorWindow
+
+
+public class CSVDownLoader : MonoBehaviour
 {
     private const string DeffultURL = "https://docs.google.com/spreadsheets/d/1RpGLto7vEkCxZXFkMZJgvgTofoX4ccSQFoRKTGL_W2s/export?format=csv&gid=613876710";
-    private string sheetUrl;
+    private static string sheetUrl;
     
-    private string fileName = "DownLoadCSVDataTable.csv";
-    private string saveFolder = "Assets/Resources/DataTable";
+    private static string fileName = "DownLoadCSVDataTable.csv";
+    private static string saveFolder = "Assets/Resources/DataTable";
 
-    [MenuItem("Tools/Google Sheet CSV Downloader")]
-    public static void ShowWindow()
+
+    [SerializeField] GameObject DownLoadTextObj;
+   
+    public  void DataTableDownLoadButton()
     {
-        GetWindow<CSVDownloader>("CSV Downloader");
-    }
-
-    private void OnGUI()
-    {
-
-        EditorGUILayout.LabelField("Google Sheet CSV URL", EditorStyles.boldLabel);
+        StartCoroutine(DownloadAndSaveCSV());
      
-
-        if (GUILayout.Button("CSV 데이터 갱신"))
-        {
-            EditorCoroutineUtility.StartCoroutineOwnerless(DownloadAndSaveCSV());
-        }
-
     }
+
+   
 
     private IEnumerator DownloadAndSaveCSV()
     {
+        DownLoadTextObj.SetActive(true);
+        saveFolder = Application.streamingAssetsPath;
 
         UnityWebRequest www = UnityWebRequest.Get(DeffultURL);
         yield return www.SendWebRequest();
@@ -53,10 +46,23 @@ public class CSVDownloader : EditorWindow
         File.WriteAllText(fullPath, www.downloadHandler.text);
         Debug.Log($"? CSV 저장 완료: {fullPath}");
 
-        AssetDatabase.Refresh(); // 에셋 갱신
+        //AssetDatabase.Refresh(); // 에셋 갱신
 
-        TextAsset DownLoadCSVDataTable = Resources.Load<TextAsset>("DataTable/DownLoadCSVDataTable");
+        //TextAsset DownLoadCSVDataTable = Resources.Load<TextAsset>("DataTable/DownLoadCSVDataTable");
 
+
+        TextAsset DownLoadCSVDataTable = new TextAsset() ;
+        string filePath = Path.Combine(Application.persistentDataPath, "DownLoadCSVDataTable.csv");
+
+        if (File.Exists(filePath))
+        {
+            DownLoadCSVDataTable =  new TextAsset(File.ReadAllText(filePath));
+            
+        }
+        else
+        {
+            Debug.LogError("파일 없음: " + filePath);
+        }
 
         List<Dictionary<string, object>> DownLoad = CSVReader.Read(DownLoadCSVDataTable);
         for (int i = 0;i < DownLoad.Count; i++)
@@ -80,10 +86,12 @@ public class CSVDownloader : EditorWindow
             File.WriteAllText(fullPath, www.downloadHandler.text);
             Debug.Log($"? CSV 저장 완료: {fullPath}");
 
-            AssetDatabase.Refresh(); // 에셋 갱신
+            //AssetDatabase.Refresh(); // 에셋 갱신
 
         }
 
+        GameDataSystem.StaticGameDataSchema.Initialize(); //신규 데이터 테이블 다운로드시 초기화
+        DownLoadTextObj.SetActive(false);
     }
 }
-#endif
+

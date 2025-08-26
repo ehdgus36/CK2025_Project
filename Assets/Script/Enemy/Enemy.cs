@@ -74,6 +74,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public UnitAnimationSystem UnitAnimationSystem { get { return EnemyAnimator; } }
 
+    public EffectSystem GetEffectSystem { get { return EffectSystem; } }
     public EnemyStatus GetEnemyStatus { get { return EnemyStatus; } }
 
     public virtual void Initialize(int index)
@@ -91,11 +92,11 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         //EnemyUnitData 설정 
         UnitData = EnemyData.EnemyUnitData;
         EnemyData.buffs = CurrentBuff;
-        EnemyData.MaxDamage -= GameManager.instance.ItemDataLoader.EnDm_Down;
+        //EnemyData.MaxDamage -= GameManager.instance.ItemDataLoader.EnDm_Down;
         EnemyData.VulnerabilityPercent -= GameManager.instance.ItemDataLoader.EnDf_Down;
 
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
-        //EnemyData.CurrentDefense = EnemyData.MaxDefense;
+       // EnemyData.CurrentDefense = EnemyData.MaxDefense;
 
 
         EnemyStatus?.Initialize(EnemyData); // UI 초기화
@@ -176,7 +177,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
 
         //애니메이션 재생및 공격
-        EnemyAnimator.PlayAnimation("attack",false , (entry, e) => { GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage); } , null); 
+        EnemyAnimator.PlayAnimation("attack",false , (entry, e) => { GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage,this); } , null); 
         yield return new WaitForSeconds(1.0f);
 
 
@@ -188,9 +189,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public void TakeDamage(int damage, Buff buff = null)
     {
-        
-
-        if (buff != null)
+        if (buff != null )
         {
             if (CurrentBuff != null)
             {
@@ -199,17 +198,25 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
                     if (CurrentBuff[i].GetType() == buff.GetType())
                     {
                         CurrentBuff[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+
+                        if (buff is FireBuff)
+                        {
+                            break;
+                        }
+
+
                         CurrentBuff[i].StartBuff(this);
                         break;
                     }
                 }
             }
-          
+            EnemyStatus?.UpdateStatus(EnemyData);
         }
+        EnemyStatus?.UpdateStatus(EnemyData);
 
         if (damage <= 0)
         {
-
+            return;
         }
         else
         {
@@ -251,9 +258,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         
         
         GameManager.instance.Shake.PlayShake();
-
-
-        
 
         GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsEnemyHit");
 
@@ -311,6 +315,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     public void CurrentDamageDown(int downDamage)
     {
         EnemyData.CurrentDamage -= downDamage;
+        EnemyData.CurrentDamage = Mathf.Clamp(EnemyData.CurrentDamage, 0, 100);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

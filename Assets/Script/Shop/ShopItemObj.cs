@@ -16,11 +16,28 @@ public class ShopItemObj :MonoBehaviour, IPointerDownHandler
 
     private void Start()
     {
-        ItemData data;       
-        GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
+        if (ItemID == "")
+        {
+            
+            string randomCard = GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.RandomCard();
+            ItemID = randomCard;
+            ItemData data;
+            GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(randomCard, out data);
 
-        ItemNameText.text = data.Name;
-        ItemPriceText.text = "Coin: "+ data.Price.ToString();
+            ItemNameText.text = data.Name;
+            ItemPriceText.text = "Coin: " + data.Price.ToString();
+        }
+        else
+        {
+            if (ItemID[0] == 'I')
+            {
+                ItemData data;
+                GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
+
+                ItemNameText.text = data.Name;
+                ItemPriceText.text = "Coin: " + data.Price.ToString();
+            }
+        }
 
     }
 

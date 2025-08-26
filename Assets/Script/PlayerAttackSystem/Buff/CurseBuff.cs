@@ -10,7 +10,10 @@ public class AttackDamageDownBuff : Buff
          
     }
     public override void BuffEvent(Unit unit)
-    {      
+    {
+        DownPercent = 20f + GameManager.instance.ItemDataLoader.EnDf_Down;
+
+
         if (unit.GetComponent<Enemy>())
         {
             Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.CurrentDamage * (DownPercent/100f));

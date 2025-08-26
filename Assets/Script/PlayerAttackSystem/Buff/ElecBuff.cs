@@ -14,7 +14,7 @@ public class DefenseDebuff : Buff
     {
         if (unit.GetComponent<Enemy>())
         {         
-            unit.GetComponent<Enemy>().EnemyData.VulnerabilityPercent = DefenseDebuffPercent; //취약 퍼센트 연산
+            unit.GetComponent<Enemy>().EnemyData.VulnerabilityPercent = DefenseDebuffPercent + GameManager.instance.ItemDataLoader.EnDf_Down; //취약 퍼센트 연산
         }
     }
 }

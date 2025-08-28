@@ -382,7 +382,7 @@ public class Card : MonoBehaviour
         GameManager.instance.Player.transform.position = PlayerStartPos;
     }
 
-    IEnumerator NoteBomb()
+    IEnumerator NoteBomb() //ºÐ¸®
     {
        
         GameObject controllObject =  GameManager.instance.Player.PlayerEffectSystem.EffectObject("notebomb_Effect_ball", EnemyTarget.transform.position);

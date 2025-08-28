@@ -186,47 +186,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
             {
                 if (_TargetEnemy != null )
                 {
-                    if (_SelectCard.GetComponent<SkillCard>() == true)
-                    {
-                        _SelectCard.TargetExcute(_TargetEnemy);
-                    }
-                    else
-                    {
-                        if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
-                        {
-                            int combo = 0;
-                            GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
-                            combo++;
-                            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
-
-                            ThisTurnExcutCard.Add(_SelectCard);
-
-
-                            ExcutAbiltyCondition("IsCardPlayed");
-                            if (_PreviousCard != null)
-                            {
-                                _SelectCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
-
-                                if (_PreviousCard.GetType() == typeof(Drain_Card))
-                                {
-                                    _SelectCard.Buff_Recover_HP = _SelectCard.cardData.Damage;
-                                }
-                            }
-
-                            //카드 사용
-                            _SelectCard.TargetExcute(_TargetEnemy);
-
-                            isTargeting = false;
-                            // 사용한 카드 묘지로 보내는 기능
-                            GameManager.instance.CardCemetery.Insert(_SelectCard);
-                            // 사용한 카드 저장
-
-
-
-                            CurrentExcutCardCount++;
-                            //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
-                        }
-                    }
+                    CardExcutEvent();
                 }
 
                 _PreviousCard = _SelectCard;
@@ -235,6 +195,64 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 _SelectCard = null;
                 ArrowUIObject.SetActive(false);
                 DimObject.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void CardExcutEvent()
+    {
+        if (_SelectCard.GetComponent<SkillCard>() == true)
+        {
+            if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
+            {
+                //카드 사용
+                _SelectCard.TargetExcute(_TargetEnemy);
+
+                isTargeting = false;
+                
+               
+
+
+
+               
+            }
+        }
+        else
+        {
+            if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
+            {
+                int combo = 0;
+                GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
+                combo++;
+                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
+
+                // 사용한 카드 저장
+                ThisTurnExcutCard.Add(_SelectCard);
+
+
+                ExcutAbiltyCondition("IsCardPlayed");
+                if (_PreviousCard != null)
+                {
+                    _SelectCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
+
+                    if (_PreviousCard.GetType() == typeof(Drain_Card))
+                    {
+                        _SelectCard.Buff_Recover_HP = _SelectCard.cardData.Damage;
+                    }
+                }
+
+                //카드 사용
+                _SelectCard.TargetExcute(_TargetEnemy);
+
+                isTargeting = false;
+                // 사용한 카드 묘지로 보내는 기능
+                GameManager.instance.CardCemetery.Insert(_SelectCard);
+               
+
+
+
+                CurrentExcutCardCount++;
+                //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
             }
         }
     }

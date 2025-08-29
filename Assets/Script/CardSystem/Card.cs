@@ -235,24 +235,31 @@ public class Card : MonoBehaviour
 
     public virtual void TargetExcute(Enemy Target , Card nextCard = null)
     {
-        AbilieySystem();
+        
 
         PlayerStartPos = GameManager.instance.Player.transform.position;// 플레이어 처음 위치 저장
 
         if (Target.isDie == true) //카드 넣기
         {
-            for (int i = 0; i < CardSloats.Getsloat().Length; i++)
-            {
-                if (CardSloats.Getsloat()[i].ReadData<Card>() == null)
-                {
-                    CardSloats.Getsloat()[i].InsertData(this.gameObject);
-                }
-            }
+            //for (int i = 0; i < CardSloats.Getsloat().Length; i++)
+            //{
+            //    if (CardSloats.Getsloat()[i].ReadData<Card>() == null)
+            //    {
+            //        CardSloats.Getsloat()[i].InsertData(this.gameObject);
+            //    }
+            //}
+
+            GameManager.instance.ExcutSelectCardSystem.RecoveryMana();
+            SetOutLineColor(Color.white);
             isCardEnd = true;
             return;
         }
 
-        
+        // 사용한 카드 묘지로 보내는 기능
+        GameManager.instance.CardCemetery.Insert(this);
+
+
+        AbilieySystem();
 
         if (cardData.MoveType == "M")
         {
@@ -410,5 +417,9 @@ public class Card : MonoBehaviour
         yield return null;
     }
 
+    public void SetOutLineColor(Color color)
+    { 
     
+        cardImage.material.SetColor("_BgColor", color);
+    }
 }

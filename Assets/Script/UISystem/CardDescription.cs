@@ -8,29 +8,16 @@ public class CardDescription : MonoBehaviour
     [SerializeField] TextMeshProUGUI Desc;
     [SerializeField] TextMeshProUGUI DescSub;
     [SerializeField] TextMeshProUGUI Grade_Point;
-    [SerializeField] Image Icon;
     [SerializeField] Image DescImage;
 
 
-    public void UpdateDescription(string name , string desc , string descsub , int point , Sprite icon)
+   
+    public void UpdateDescription(string name, string desc ,Vector3 pos )
     {
         CardName.text = name;
         Desc.text = desc;
-        DescSub.text = descsub;
-        Grade_Point.text = point.ToString();
-        Icon.sprite = icon;
-    }
-
-    public void UpdateDescription(string name, string desc)
-    {
-        CardName.text = name;
-        Desc.text = desc;
-       
+        DescImage.transform.position = pos;
     }
 
 
-    public void UpdateDescription(Sprite img)
-    {
-        DescImage.sprite = img;
-    }
 }

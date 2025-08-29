@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ManaSystem 
@@ -7,6 +8,7 @@ public class ManaSystem
     ManaUIView ManaUIView = null;
     ManaBankSystem ManaBank = new ManaBankSystem();
 
+    Stack<int> UseManaSave = new Stack<int>(); //카드를 사용하지 못했을때 마나 반환을 위해 사용마나 정보 저장
 
     public ManaSystem(int maxMana)
     {
@@ -56,6 +58,8 @@ public class ManaSystem
 
         if (useMana > CurrentMana) return false;
 
+
+        UseManaSave.Push(useMana);
         CurrentMana -= useMana;
 
         if (ManaUIView != null)
@@ -80,5 +84,10 @@ public class ManaSystem
         return CurrentMana.ToString() + "/" + MaxMana.ToString();
     }
 
+    public void RecoveryMana()
+    {
+        CurrentMana += UseManaSave.Pop();
+        ManaUIView.UpdateUI(ManaTextData());
+    }
     public int UseManaCount() { return MaxMana - CurrentMana; }
 }

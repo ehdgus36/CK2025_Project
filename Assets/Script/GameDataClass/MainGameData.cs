@@ -61,7 +61,9 @@ namespace GameDataSystem
         public static TextAsset LoadTextAsset(string fileName)
         {
             fileName += ".csv";
-            string path = Path.Combine(Application.streamingAssetsPath, fileName);
+            string path = Path.Combine(Application.streamingAssetsPath, "DataTable");
+            path = Path.Combine(path, fileName);
+
 
             if (!File.Exists(path))
             {

@@ -127,17 +127,19 @@ public class CardCastPlace : MonoBehaviour
 
     public void AddByeByeSystem(Enemy target)
     {
-        if (target.EnemyData.EnemyUnitData.CurrentHp <= 0)
-        {
+
+
+        //if (target.EnemyData.EnemyUnitData.CurrentHp <= 0)
+        //{
            
-            ByeByeEnemys.Add(target);
+        //    ByeByeEnemys.Add(target);
 
 
-            if (ByeByeEnemys.Count == 1)
-            {
-                StartCoroutine(ByeBye(target.gameObject));
-            }
-        }
+        //    if (ByeByeEnemys.Count == 1)
+        //    {
+        //        StartCoroutine(ByeBye(target.gameObject));
+        //    }
+        //}
     }
 
 

@@ -31,6 +31,7 @@ public class ManaSystem
         CurrentMana = MaxMana;// 마나 초기화
 
         ManaUIView.UpdateUI(ManaTextData());
+        UseManaSave.Clear(); // 회복 기록 초기화
     }
 
 

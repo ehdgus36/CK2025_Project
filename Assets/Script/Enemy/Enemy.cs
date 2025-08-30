@@ -270,6 +270,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         isDie = true;
 
         GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);
+        this.transform.position = new Vector3(200, 200, 200);
 
     }
 

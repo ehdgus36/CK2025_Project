@@ -249,7 +249,7 @@ public class Card : MonoBehaviour
             //    }
             //}
 
-            GameManager.instance.ExcutSelectCardSystem.RecoveryMana();
+            //GameManager.instance.ExcutSelectCardSystem.RecoveryMana();
             SetOutLineColor(Color.white);
             isCardEnd = true;
             return;

@@ -96,6 +96,8 @@ public class GameManager : MonoBehaviour
 
     public int GetClearGold { get { return ClearGold; } }
 
+    public Button GetEndTurnButton { get { return EndTurnButton; } }
+
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
     IEnumerator Initialize()
     {

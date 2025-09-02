@@ -9,11 +9,13 @@ public class FireBuff : Buff
         Damage = damage;
     }
 
-    public override void StartBuff(Unit unit)
+    public override void BuffEvent(Unit unit)
     {
-        if ( BuffDurationTurn == 0) return;
+        float DmPercent = (10f + (float)GameManager.instance.ItemDataLoader.FireDm_UP)/100f;
 
-        unit.TakeDamage(Damage);
-        BuffDurationTurn--;
+        Damage =(int)((float) unit.GetComponent<Enemy>().EnemyData.EnemyUnitData.MaxHp * DmPercent);
+        unit.GetComponent<Enemy>()?.TakeDamage(Damage,null);
+        unit.GetComponent<Enemy>()?.GetEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
+        
     }
 }

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GameDataSystem;
+using UnityEngine.EventSystems;
 
-public class Player : Unit
+public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 {
    
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
@@ -13,11 +14,15 @@ public class Player : Unit
     [SerializeField] GameObject TurnEnd;
 
     [SerializeField] EffectSystem _PlayerEffectSystem;
-    Vector3 StartPos;
+    [SerializeField]Vector3 StartPos;
+
+    public Enemy AttackEnemy { get; private set; } //나를 공격한 enemy
 
     Vector3 StartPlayerPos;
     public EffectSystem PlayerEffectSystem { get { return _PlayerEffectSystem; } }
     public UnitAnimationSystem PlayerAnimator { get { return AnimationSystem; } }
+
+    public UnitData PlayerUnitData { get { return UnitData; } }
 
 
     public void MaxButtonDisable()    
@@ -38,26 +43,37 @@ public class Player : Unit
 
 
         StartPlayerPos = this.transform.position;
-        StartPos = Combo.transform.position;
+        StartPos = Combo.GetComponent<RectTransform>().anchoredPosition;
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
         }       
        
         StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
-        StartTurnEvent += () => { Combo.transform.position = StartPos; Combo.transform.localScale = new Vector3(1, 1, 1);
+        StartTurnEvent += () => {
+            Combo.GetComponent<RectTransform>().anchoredPosition = StartPos; 
+            Combo.transform.localScale = new Vector3(1, 1, 1);
             Combo.GetComponent<ComboUIView>().EnableButton();
             TurnEnd.SetActive(true);
+
+            AttackEnemy = null;
+
+            PlayerUnitData.CurrentBarrier = 0;
+            GameManager.instance.ExcutSelectCardSystem.StartTurnRest();
+            GameManager.instance.UIManager.ManaUI.gameObject.SetActive(true);
+            DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
         };
 
         EndTurnEvent += CDSlotGroup.ReturnCard;
         EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
-        
+        EndTurnEvent += GameManager.instance.ExcutSelectCardSystem.Reset; ;
+
         EndTurnEvent += () => {
-            Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(70, -271, 0);
+            Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(659, 94, 0);
             Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
             Combo.GetComponent<ComboUIView>().DisableButton();
             TurnEnd.SetActive(false);
+            GameManager.instance.UIManager.ManaUI.gameObject.SetActive(false);
         };
 
         UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
@@ -72,11 +88,39 @@ public class Player : Unit
         GameManager.instance.GameFail();
     }
 
-   
+    public void TakeDamage(int damage, Enemy enemy)
+    {
+        AttackEnemy = enemy;
+        TakeDamage(damage);
+    }
+
+
 
     public override void TakeDamage(int damage)
     {
-        base.TakeDamage(damage);
+        if (damage <= 0) return;
+        int resultDamage = damage;
+
+        if (UnitData.CurrentBarrier > 0)
+        {
+            UnitData.CurrentBarrier -= resultDamage;
+
+            if (UnitData.CurrentBarrier >= 0)
+            {
+                resultDamage = 0;
+            }
+
+            if (UnitData.CurrentBarrier < 0)
+            {
+                resultDamage = -UnitData.CurrentBarrier;
+                UnitData.CurrentBarrier = 0;
+            }
+        }
+
+
+
+
+        base.TakeDamage(resultDamage);
               
         AnimationSystem?.PlayAnimation("hit");
         
@@ -84,55 +128,24 @@ public class Player : Unit
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true , 0.2f, 0.0f , 0.2f);
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Hurt");
+
+        _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
         
         //UI 갱신
         DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
 
         fontSystem.FontConvert(damage.ToString());
+
+        GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsPlayerHit");
     }
 
-    public void TakeDamage(int damage , string notes)
-    {
-        TakeDamage(damage);
-
-        Color fontColor = new Color(239f / 255f, 86.0f / 255.0f, 110f / 225f);
-
-        switch (notes)
-        {
-            case "Miss":
-                fontColor = new Color(239f/255f, 86f/ 255f, 110/255f);
-                break;
-            case "Bad":
-                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
-                break;
-            case "Normal":
-                fontColor = new Color(46f / 255f, 223f / 255f, 210f / 255f);
-                break;
-            case "Good":
-                fontColor = new Color(254f / 255f, 249f / 255f, 57f/255f);
-                break;
-        }
-
-        
-
-    }
+    
 
     public void PlayerSave()
     {
         PlayerPrefs.SetInt("PlayerHP", UnitData.CurrentHp);
     }
 
-    public void PlayerAttackAnime()
-    {
-        AnimationSystem.PlayAnimation("attack");
-    }
-       
-
-    public void PlayerHamoniAttackAnime()
-    {
-        AnimationSystem.PlayAnimation("hamoni");
-       
-    }
 
     public void PlayerCardAnime()
     {
@@ -153,9 +166,56 @@ public class Player : Unit
        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
     }
 
+    public void LossHP(int HP)
+    {
+        UnitData.CurrentHp -= HP;
+
+        if (UnitData.CurrentHp <= 0)
+        {
+            GameManager.instance.Player.TakeDamage(1);
+        }
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+    }
+
+
+    public void AddBarrier(int Barrie)
+    {
+        UnitData.CurrentBarrier += Barrie;
+
+        if (UnitData.CurrentBarrier <= 0 )
+        {
+            UnitData.CurrentBarrier = 0;
+        }
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+    }
+
+    public void LossBarrier(int Barrie)
+    {
+        UnitData.CurrentBarrier -= Barrie;
+
+        if (UnitData.CurrentBarrier <= 0)
+        {
+            UnitData.CurrentBarrier = 0;
+        }
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+    }
 
     public void ReturnPlayer()
     {
         this.transform.position = StartPlayerPos;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        GameManager.instance.ExcutSelectCardSystem.SetTargetPlayer(this);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        GameManager.instance.ExcutSelectCardSystem.SetTargetPlayer(null);
     }
 }

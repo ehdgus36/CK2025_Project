@@ -6,7 +6,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     [SerializeField] 
     [Range(1,2)]float hoverScale = 1f;
-    Vector3 StartScale = new Vector3(.8f, .8f, 1f);
+    [SerializeField] Vector3 StartScale = new Vector3(.8f, .8f, 1f);
     Vector3 StartPos;
 
     [SerializeField] CardDescription cardDescription;
@@ -16,6 +16,10 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (cardDescription == null)
+        {
+            cardDescription = GameManager.instance.UIManager.CardDescription;
+        }
        
         ///StartScale = transform.localScale;
         StartPos = transform.position;
@@ -28,9 +32,10 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (card != null)
         {
-            cardDescription.UpdateDescription(card.DescSprite);
+            //cardDescription.UpdateDescription(card.DescSprite); ±¸¹öÀü
+            cardDescription.UpdateDescription(card.cardData.Card_Name_KR, card.cardData.Card_Des, this.transform.position);
             cardDescription.gameObject.SetActive(true);
-            cardDescription.transform.position = this.transform.position;
+            
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Mouse_UP");
         }
 

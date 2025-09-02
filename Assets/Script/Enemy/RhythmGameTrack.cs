@@ -23,6 +23,8 @@ public class RhythmGameTrack : MonoBehaviour
 
     [SerializeField] Transform StartNotePos;
     [SerializeField] KeyCode NoteKey;
+    [SerializeField] KeyCode NoteKey2;
+
     [SerializeField] SpriteRenderer SelectZone;
     [SerializeField] GameObject _MainRhythemObj;
     [SerializeField] Enemy TargetEnemy;
@@ -34,14 +36,18 @@ public class RhythmGameTrack : MonoBehaviour
 
     public void Setup()
     {
+        _EnemyDamageText = TargetEnemy.GetEnemyStatus.RhythmDamageText;
         SpawnNotes.Clear();
         _MainRhythemObj.SetActive(true);
         _EnemyDamageText.gameObject.SetActive(true);
         _EnemyDamageText.text = TargetEnemy.EnemyData.CurrentDamage.ToString();
-       currentBeat = 0;
+        currentBeat = 0;
       
         isEndTrack = false;
         DelectNoteCount = 0;
+
+        //불필요한 UI 끄기
+        TargetEnemy.GetEnemyStatus.NextAttackUI.gameObject.SetActive(false);
 
         // 노트 위치 초기화
         for (int i = 0; i < Notes.Count; i++)
@@ -49,13 +55,26 @@ public class RhythmGameTrack : MonoBehaviour
             Notes[i].transform.position = StartNotePos.position;
             Notes[i].gameObject.SetActive(false);
         }
+
+        if (NoteKey == KeyCode.DownArrow)
+            NoteKey2 = KeyCode.S;
+
+        if (NoteKey == KeyCode.UpArrow)
+            NoteKey2 = KeyCode.W;
+
+        if (NoteKey == KeyCode.LeftArrow)
+            NoteKey2 = KeyCode.A;
+
+        if (NoteKey == KeyCode.RightArrow)
+            NoteKey2 = KeyCode.D;
+
     }
 
     private void Update()
     {
         if (SpawnNotes.Count == 0) return;
 
-        if (Input.GetKeyDown(NoteKey)) // 키 입력시
+        if (Input.GetKeyDown(NoteKey) || Input.GetKeyDown(NoteKey2)) // 키 입력시
         {
             if (SpawnNotes[0].activeSelf == true)
             {
@@ -71,7 +90,7 @@ public class RhythmGameTrack : MonoBehaviour
                     //애니메이션 이펙트 실행
                     GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Defense/Defense_Success");
                     EffectSystem.PlayEffect("Rhythm_Effect", SelectZone.transform.position);
-                    EffectSystem.PlayEffect("Rhythm_Suare", TargetEnemy.transform.position);
+                    EffectSystem.PlayEffect("Rhythm_Square", TargetEnemy.transform.position);
                     EffectSystem.PlayEffect("Perfect_Effect", TargetEnemy.transform.position);
                    
                     UnitAnime.PlayAnimation("hit");
@@ -120,13 +139,14 @@ public class RhythmGameTrack : MonoBehaviour
 
     public void SpawnNote()
     {
+        Debug.Log("처리한 노트 : "+DelectNoteCount.ToString() + "생성한노트 : "+NoteData.Length.ToString());
         if (currentBeat == NoteData.Length) // 생성 갯수만족하면 초과 생성막기
         {
             if (DelectNoteCount == Notes.Count) // 생성된 노트가 모두 처리 되었으면 게임 종료
             {
                 isEndTrack = true;
                
-                Debug.Log("끝 : " + isEndTrack);
+                Debug.Log("끝 : " );
             }
 
             return;

@@ -1,5 +1,5 @@
 using TMPro;
-
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +10,8 @@ public class SettingSystem : MonoBehaviour
 
     [SerializeField] Button ResetYes_Button;
     [SerializeField] Button ResetNo_Button;
+
+    [SerializeField] Button Title_Button;
 
     [SerializeField] GameObject ResetPopUP;
 
@@ -27,6 +29,8 @@ public class SettingSystem : MonoBehaviour
         Reset_Button.onClick.AddListener(ResetEvent);
         ResetYes_Button.onClick.AddListener(ResetYes);
         ResetNo_Button.onClick?.AddListener(ResetNo);
+
+        Title_Button.onClick?.AddListener(() => { SceneManager.LoadScene("LobbyScene"); });
         MasterVolume = 50f;
         BackGroundVolume = 50f;
         EffectVolume = 50f;

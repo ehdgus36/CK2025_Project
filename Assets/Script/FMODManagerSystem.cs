@@ -25,11 +25,15 @@ public class FMODManagerSystem : MonoBehaviour
 
     public void Initialize()
     {
-        
+        bgmInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        bgmInstance.release();
 
-        if (MainBgm != null) PlayBGM(MainBgm);
+        bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        bgmInstance2.release();
 
-        if (SubBgm != null) PlayBGMSub(SubBgm);
+        if (MainBgm != "") PlayBGM(MainBgm);
+
+        if (SubBgm != "") PlayBGMSub(SubBgm);
 
         SceneManager.sceneUnloaded += (Scene) => { OnEndSound(); };
     }
@@ -65,6 +69,8 @@ public class FMODManagerSystem : MonoBehaviour
 
     void PlayBGMSub(string key)
     {
+        if (string.IsNullOrEmpty(key)) return;
+
         bgmInstance2 = RuntimeManager.CreateInstance(key);
         bgmInstance2.start();
         FMODChangeNomal2();

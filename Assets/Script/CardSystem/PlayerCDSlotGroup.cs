@@ -65,7 +65,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
         }
 
         Player_CardSlot[0].gameObject.SetActive(true);
-        //Player_CardSlot[0].GetComponent<Animator>().Play("Drow");
+        Player_CardSlot[0].GetComponent<Animator>().Play("DrowCard");
         Player_CardSlot[0].gameObject.SetActive(true);
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Draw");
     }
@@ -80,7 +80,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
     //카드 넣기
     public void ReturnCard()
     {
-        //Player_CardSlot[0].GetComponent<Animator>().Play("CardReturn");
+        Player_CardSlot[0].GetComponent<Animator>().Play("ClearCard");
 
         Player_CardSlot[0].gameObject.SetActive(false);
 

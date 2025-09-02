@@ -6,11 +6,18 @@ public enum BuffType
 Start, End
 }
 
+public enum BuffState
+{
+    Enable, Disable
+}
 public abstract class Buff
 {
     [SerializeField] BuffType type;
-    [SerializeField] protected int BuffDurationTurn = 1;
-    protected int CurrentBuffTurn;
+    [SerializeField] private int BuffDurationTurn = 1;
+    [SerializeField] protected BuffState State = BuffState.Disable;
+
+    public BuffState GetState { get { return State; } }
+  
 
     public Buff(BuffType type, int buffDurationTurn)
     {
@@ -23,15 +30,32 @@ public abstract class Buff
 
     public virtual void Initialize()
     {
-        CurrentBuffTurn = 0;
+       
     }
 
     public int GetBuffDurationTurn() { return BuffDurationTurn; }
 
     public BuffType GetBuffType() { return type; }
-    public abstract void StartBuff(Unit unit);
+    public void StartBuff(Unit unit)
+    {
+        if (BuffDurationTurn <= 0)
+        {
+            State = BuffState.Disable;
+            return;
+        }
+        State = BuffState.Enable;
 
-    public void AddBuffTurnCount(int addCount) { BuffDurationTurn += addCount; }
+
+        BuffEvent(unit);
+        BuffDurationTurn--;
+    }
+
+    public abstract void BuffEvent(Unit unit);
+
+    public void AddBuffTurnCount(int addCount) {
+        State = BuffState.Enable;
+        BuffDurationTurn += addCount; 
+    }
 
     //public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
 

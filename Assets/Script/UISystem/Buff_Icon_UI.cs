@@ -13,30 +13,37 @@ public class Buff_Icon_UI : MonoBehaviour
 
         for (int i = 0; i < buffs.Count; i++)
         {
-            if (buffs[i].GetBuffDurationTurn() != 0)
+            if (buffs[i].GetState == BuffState.Enable)
             {
+                string buffTurn = buffs[i].GetBuffDurationTurn().ToString();
+
+                if (buffs[i].GetBuffDurationTurn() == 0)
+                {
+                    buffTurn = "";
+                }
 
                 switch (buffs[i])
                 {
                     case FireBuff F: // 빨
                         BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(true);
-                        BuffIcon[0].text = buffs[i].GetBuffDurationTurn().ToString();
+                        BuffIcon[0].text = buffTurn;
+                        if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                         break;
 
-                    case ElecBuff F:// 파
+                    case DefenseDebuff F:// 파
                         BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
-                        BuffIcon[1].text = buffs[i].GetBuffDurationTurn().ToString();
+                        BuffIcon[1].text = buffTurn;
                         break;
 
 
                     case CaptivBuff F:// 보
                         BuffIcon[2].gameObject.transform.parent.gameObject.SetActive(true);
-                        BuffIcon[2].text = buffs[i].GetBuffDurationTurn().ToString();
+                        BuffIcon[2].text = buffTurn;
                         break;
 
-                    case CurseBuff F: // 초
+                    case AttackDamageDownBuff F: // 초
                         BuffIcon[3].gameObject.transform.parent.gameObject.SetActive(true);
-                        BuffIcon[3].text = buffs[i].GetBuffDurationTurn().ToString();
+                        BuffIcon[3].text = buffTurn;
                         break;
 
                 }

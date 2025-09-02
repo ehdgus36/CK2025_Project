@@ -52,7 +52,7 @@ public class CardCastPlace : MonoBehaviour
         _TargetEnemy = null;
         isByeBye = false;
         isAttackClear = true;
-        GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
+        //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
         GameManager.instance.UIManager.Black.SetActive(false);
     }
 
@@ -65,11 +65,11 @@ public class CardCastPlace : MonoBehaviour
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Select");
         cards.Add(addCard);
         GameManager.instance.CardCemetery.Insert(addCard);
-        status.UpdateUI(cards.Count, addCard.cardData.Card_Type);
+        //status.UpdateUI(cards.Count, addCard.cardData.Card_Type);
 
         CurrentCount--;
 
-        GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
+        //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentCount, MaxCardCount);
         GameManager.instance.UIManager.Black.SetActive(true);
        
         TurnEnd.interactable = false;
@@ -127,17 +127,19 @@ public class CardCastPlace : MonoBehaviour
 
     public void AddByeByeSystem(Enemy target)
     {
-        if (target.EnemyData.EnemyUnitData.CurrentHp <= 0)
-        {
+
+
+        //if (target.EnemyData.EnemyUnitData.CurrentHp <= 0)
+        //{
            
-            ByeByeEnemys.Add(target);
+        //    ByeByeEnemys.Add(target);
 
 
-            if (ByeByeEnemys.Count == 1)
-            {
-                StartCoroutine(ByeBye(target.gameObject));
-            }
-        }
+        //    if (ByeByeEnemys.Count == 1)
+        //    {
+        //        StartCoroutine(ByeBye(target.gameObject));
+        //    }
+        //}
     }
 
 
@@ -148,17 +150,17 @@ public class CardCastPlace : MonoBehaviour
 
         TurnEnd.interactable = false;
       
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         for (int i = 0; i < ByeByeEnemys.Count; i++)
         {
-
+            GameManager.instance.UIInputSetActive(false);
             yield return new WaitForSeconds(.2f);
 
             GameManager.instance.Player.transform.position = ByeByeEnemys[i].gameObject.transform.position - new Vector3(2, 0, 0); // 앞으로 가기
 
             yield return new WaitForSeconds(.2f);
 
-            GameManager.instance.Player.PlayerAnimator.PlayAnimation("gard1");
+            GameManager.instance.Player.PlayerAnimator.PlayAnimation("ByeBye_Ani");
             yield return new WaitForSeconds(.15f); // 애니메이션 타이밍 나중에 이벤트로 처리
 
 
@@ -179,12 +181,12 @@ public class CardCastPlace : MonoBehaviour
             // 브레이크 아웃실행
             yield return new WaitForSeconds(.33f);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.7f);
             GameManager.instance.Player.transform.position = PlayerStartPos;
 
             ByeByeCut.Play("ByeByeCutAnimeReturn");
            
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
             BreakOutCut.SetActive(false);
 
            
@@ -193,6 +195,8 @@ public class CardCastPlace : MonoBehaviour
         isByeByeStart = false;
         TurnEnd.interactable = true;
         ByeByeEnemys.Clear(); // 실행 다 하면 초기화
+
+        GameManager.instance.UIInputSetActive(true);
     }
 
 

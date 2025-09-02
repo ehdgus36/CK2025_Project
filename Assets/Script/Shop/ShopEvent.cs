@@ -30,17 +30,17 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < TapeSelectList.Count; i++)
+        for (int i = 0; i < TapeList.Count; i++)
         {
             TapeList[i].ShopEvent = this;
-
+            TapeSelectList[i].GetComponent<SelectShopItemObj>().Initialize(TapeList[i].gameObject);
 
         }
 
-        for (int i = 0; i < PeakSelectList.Count; i++)
+        for (int i = 0; i < PeakList.Count; i++)
         {
             PeakList[i].ShopEvent = this;
-
+            PeakSelectList[i].GetComponent<SelectShopItemObj>().Initialize(PeakList[i].gameObject);
         }
         SelectDescPopUp.gameObject.SetActive(false);
         int coin = 0;
@@ -53,6 +53,9 @@ public class ShopEvent : MonoBehaviour
 
     public void SelectTape(int index)
     {
+        SelectPeakIndex = -1;
+        SelectTapeIndex = -1;
+
         for (int i = 0; i < TapeSelectList.Count; i++)
         {
             TapeSelectList[i].gameObject.SetActive(false);
@@ -68,6 +71,9 @@ public class ShopEvent : MonoBehaviour
 
     public void SelectPeak(int index)
     {
+        SelectPeakIndex = -1;
+        SelectTapeIndex = -1;
+
         for (int i = 0; i < PeakSelectList.Count; i++)
         {
             PeakSelectList[i].gameObject.SetActive(false);

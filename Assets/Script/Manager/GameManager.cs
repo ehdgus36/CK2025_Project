@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
    
     //Get; Set;
 
-    public CardMixtureSystem PlayerAttackSystem { get { return _PlayerAttackSystem; } }
+   
     public CamShake Shake { get { return _Shaker; } }
     public Player Player { get { return _Player; } }
 
@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
    
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
+
+    public ExcutSelectCardSystem ExcutSelectCardSystem { get; private set; }
 
     //public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
@@ -70,7 +72,7 @@ public class GameManager : MonoBehaviour
     //인스펙터에서 데이터 받아옴
 
     [SerializeField] CardCastPlace _PlayerCardCastPlace;
-    [SerializeField] CardMixtureSystem _PlayerAttackSystem;
+   
     [SerializeField] CemeteryUI _CardCemetery;
     [SerializeField] PlayerCDSlotGroup _PlayerCDSlotGroup;
     [SerializeField] GameObject GameClear;
@@ -85,20 +87,24 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PostProcessingSystem _PostProcessingSystem;
     [SerializeField] FMODManagerSystem _FMODManagerSystem;
-
+    [SerializeField] GameObject EventSystem;
 
     [SerializeField] int ClearGold = 0;
     
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
 
+    public int GetClearGold { get { return ClearGold; } }
+
+    public Button GetEndTurnButton { get { return EndTurnButton; } }
+
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
     IEnumerator Initialize()
-     {
+    {
 
         ItemDataLoader = gameObject.GetComponent<ItemDataLoader>();
 
-
+        ExcutSelectCardSystem = gameObject.GetComponent<ExcutSelectCardSystem>();
         ItemDataLoader?.LoadData();
 
         _Player = FindFirstObjectByType<Player>();
@@ -125,7 +131,7 @@ public class GameManager : MonoBehaviour
         _EnemysGroup?.Initialize();
         _Player?.Initialize();
 
-        _PlayerAttackSystem?.Initialize();
+       
 
         if (UIManager == null)
         {
@@ -146,6 +152,7 @@ public class GameManager : MonoBehaviour
 
 
         _PlayerCardCastPlace.Reset();
+        ExcutSelectCardSystem.initialize();
         ThisTurnUnit.StartTurn();
         //Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
         StartCoroutine(TurnMark());
@@ -216,7 +223,8 @@ public class GameManager : MonoBehaviour
 
     public void TurnSwap()
     {
-         // 턴앤드 클릭시 TurnSwap함수 재생
+        // 턴앤드 클릭시 TurnSwap함수 재생
+        Debug.Log("턴앤드 클릭");
 
         ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
         (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
@@ -257,31 +265,31 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("LobbyScene");
     }
 
-
-
-
-
     /// <summary>
     /// Combo의 수치를 업그레이드
     /// </summary>
     /// <param name="data"></param>
     public void ComboUpdate(int data)
     {
-        StartCoroutine(UPdateComboCount(data*2));
+        //StartCoroutine(UPdateComboCount(data*2));
     }
 
     IEnumerator UPdateComboCount(int count)
     {
         int combo = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, out combo);
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
         for (int i = 0; i < count; i++)
         {
             combo++;
-            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.COMBO_DATA, combo);
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
             
             if(i % 200 == 0)yield return null;
         }
     }
 
-  
+
+    public void UIInputSetActive(bool active)
+    {
+       // EventSystem.SetActive(active);
+    }
 }

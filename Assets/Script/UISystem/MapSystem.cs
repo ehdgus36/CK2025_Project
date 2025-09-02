@@ -2,6 +2,7 @@ using System.Text;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 struct MapIcon
 {
@@ -56,6 +57,10 @@ public class MapSystem : MonoBehaviour
 
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("LobbyScene");
+        }
         
     }
     public void UpdateData()

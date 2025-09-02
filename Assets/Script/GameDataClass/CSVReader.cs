@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 public class CSVReader
 {
     static string SPLIT_RE = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
-    static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
+    static string LINE_SPLIT_RE = @"\r\n|\n\r|\r";
     static char[] TRIM_CHARS = { '\"' };
 
     public static List<Dictionary<string, object>> Read(string file)

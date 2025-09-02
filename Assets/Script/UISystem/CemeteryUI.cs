@@ -9,11 +9,11 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
     [SerializeField] public Transform CemeteryPos;
     [SerializeField] List<Card> CemeteryCard;
 
-
+   
 
     public List<Card> GetCemeteryCards()
     {
-     return CemeteryCard;
+        return CemeteryCard;
     }
 
 
@@ -34,6 +34,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
         CemeteryCard.Add(card);
         card.gameObject.SetActive(true);
+        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
     }
 
     public void Insert(List <Card> cards)
@@ -50,5 +51,6 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
             CemeteryCard.Add(card);
             card.gameObject.SetActive(true);
         }
+        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
     }
 }

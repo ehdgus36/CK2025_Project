@@ -10,6 +10,8 @@ public class EnemyStatus : MonoBehaviour
 
     //HP
     [SerializeField] HP_Bar HP_Bar;
+
+    [SerializeField] Barrier_ViewUI Barrier_viewUI;
     
     
     //Damage UI
@@ -24,15 +26,28 @@ public class EnemyStatus : MonoBehaviour
 
     [SerializeField] GameObject _StatusPopUp;
 
+    [SerializeField] EnemySkillPoint _enemySkillPoint;
+
+    [SerializeField] TextMeshProUGUI _RhythmDamageText;
+
+    [SerializeField] NextAttackUIView _NextAttackUI;
+
+    public TextMeshProUGUI RhythmDamageText { get { return _RhythmDamageText; } }
 
     public GameObject StatusPopUp { get { return _StatusPopUp; } }
  
+    public NextAttackUIView NextAttackUI { get { return _NextAttackUI; } }
 
 
 
     public void Initialize(EnemyData enemyData)
     {
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
+        
+        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
+
+        Barrier_viewUI.UpdateUI(enemyData.Barrier);
+
         DamageText.text = enemyData.CurrentDamage.ToString();
         Buff_UI.UpdateBuffIcon(enemyData.buffs);
         _StatusPopUp.SetActive(false);
@@ -44,6 +59,10 @@ public class EnemyStatus : MonoBehaviour
 
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
 
+        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
+
+
+        Barrier_viewUI.UpdateUI(enemyData.Barrier);
         DamageText.text = enemyData.CurrentDamage.ToString();
 
         Buff_UI.UpdateBuffIcon(enemyData.buffs);

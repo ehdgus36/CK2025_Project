@@ -1,100 +1,74 @@
-Shader "Custom/URPOutlineGlow3D"
+Shader "Custom/TwoLayerSprite"
 {
     Properties
     {
-        _OutlineColor ("Outline Color", Color) = (1, 0, 0, 1)
-        _OutlineWidth ("Outline Width", Range(0.0, 1.0)) = 0.05
-        _GlowColor ("Glow Color", Color) = (0, 0, 1, 1)
-        _GlowIntensity ("Glow Intensity", Range(0.0, 10.0)) = 1.0
-        _MainTex ("Base Texture", 2D) = "white" { }
+        _MainTex("Background Texture", 2D) = "white" {}
+        _BgColor("Background Tint", Color) = (1,1,1,1)
+
+        _OverlayTex("Main Image Texture", 2D) = "white" {}
+        _OverlayColor("Main Image Tint", Color) = (1,1,1,1)
     }
-
-    SubShader
-    {
-        Tags { "RenderType"="Opaque" }
-
-        Pass
+        SubShader
         {
-            Name "OUTLINE"
-            Tags { "LightMode" = "UniversalForward" }
+            Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+            LOD 100
+            Blend SrcAlpha OneMinusSrcAlpha
+            Cull Off
+            ZWrite Off
 
-            // Outline 패스: 외곽선 그리기
-            HLSLPROGRAM
-            #pragma target 3.0
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
-            // Outline 파라미터
-            float _OutlineWidth;
-            float4 _OutlineColor;
-
-            struct Attributes
+            Pass
             {
-                float4 position : POSITION;
-                float3 normal : NORMAL;
-            };
+                CGPROGRAM
+                #pragma vertex vert
+                #pragma fragment frag
+                #include "UnityCG.cginc"
 
-            struct Varyings
-            {
-                float4 position : POSITION;
-                float4 color : COLOR;
-            };
+                sampler2D _MainTex;
+                sampler2D _OverlayTex;
+                float4 _MainTex_ST;
+                float4 _OverlayTex_ST;
+                float4 _BgColor;
+                float4 _OverlayColor;
 
-            Varyings vert(Attributes v)
-            {
-                Varyings o;
-                // 오브젝트의 normal 방향으로 외곽선 밀기
-                o.position = TransformObjectToHClip(v.position + v.normal * _OutlineWidth);
-                o.color = _OutlineColor;
-                return o;
+                struct appdata
+                {
+                    float4 vertex : POSITION;
+                    float2 uv : TEXCOORD0;
+                };
+
+                struct v2f
+                {
+                    float4 pos : SV_POSITION;
+                    float2 uvBg : TEXCOORD0;
+                    float2 uvOverlay : TEXCOORD1;
+                };
+
+                v2f vert(appdata v)
+                {
+                    v2f o;
+                    o.pos = UnityObjectToClipPos(v.vertex);
+                    o.uvBg = TRANSFORM_TEX(v.uv, _MainTex);
+                    o.uvOverlay = TRANSFORM_TEX(v.uv, _OverlayTex);
+                    return o;
+                }
+
+                fixed4 frag(v2f i) : SV_Target
+                {
+                    // 1번: 배경
+                    fixed4 bg = tex2D(_MainTex, i.uvBg) * _BgColor;
+
+                // 2번: 메인 이미지
+                fixed4 overlay = tex2D(_OverlayTex, i.uvOverlay) * _OverlayColor;
+
+                // 알파 블렌딩: 메인이 위
+                fixed4 result;
+                result.rgb = lerp(bg.rgb, overlay.rgb, overlay.a);
+                result.a = max(bg.a, overlay.a);
+
+                return result;
             }
-
-            half4 frag(Varyings i) : SV_Target
-            {
-                return i.color; // 외곽선 색상 반환
-            }
-
-            ENDHLSL
+            ENDCG
         }
-
-        Pass
-        {
-            Name "OUTLINE_GLOW"
-            Tags { "LightMode" = "UniversalForward" }
-
-            // Glow 패스: 빛나는 효과 적용
-            HLSLPROGRAM
-            #pragma target 3.0
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
-            // Glow 파라미터
-            float4 _GlowColor;
-            float _GlowIntensity;
-
-            struct Attributes
-            {
-                float4 position : POSITION;
-            };
-
-            struct Varyings
-            {
-                float4 position : POSITION;
-            };
-
-            Varyings vert(Attributes v)
-            {
-                Varyings o;
-                o.position = v.position;
-                return o;
-            }
-
-            half4 frag(Varyings i) : SV_Target
-            {
-                return _GlowColor * _GlowIntensity; // Glow 효과 적용
-            }
-
-            ENDHLSL
         }
-    }
-
-    Fallback "Diffuse"
+            FallBack "Sprites/Default"
 }

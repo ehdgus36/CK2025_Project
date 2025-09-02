@@ -43,7 +43,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
 
         StartPlayerPos = this.transform.position;
-        StartPos = Combo.GetComponent<RectTransform>().anchoredPosition;
+        //StartPos = Combo.GetComponent<RectTransform>().anchoredPosition;
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");

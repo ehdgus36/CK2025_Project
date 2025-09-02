@@ -42,7 +42,7 @@ public class ManaSystem
     /// <returns></returns>
     public bool UseMana(int costType)
     {
-        if (CurrentMana <= 0) return false;
+        //if (CurrentMana <= 0) return false;
 
 
         int useMana = 1;

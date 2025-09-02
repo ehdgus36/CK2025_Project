@@ -16,7 +16,7 @@ public class CardViewObject : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
         Data = CardData;
         string Path = "CardImage/" + CardData.Card_Im;
         cardImage.sprite = Resources.Load<Sprite>(Path);
-
+        isSelect = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

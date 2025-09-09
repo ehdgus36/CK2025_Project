@@ -44,7 +44,7 @@ public class EnemyStatus : MonoBehaviour
     {
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
         
-        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
+        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint , enemyData.MaxSkillPoint);
 
         Barrier_viewUI.UpdateUI(enemyData.Barrier);
 
@@ -59,7 +59,7 @@ public class EnemyStatus : MonoBehaviour
 
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
 
-        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
+        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint, enemyData.MaxSkillPoint);
 
 
         Barrier_viewUI.UpdateUI(enemyData.Barrier);

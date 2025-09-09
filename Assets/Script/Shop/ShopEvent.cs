@@ -18,6 +18,7 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] GameObject NoGold;  // °ñµå°¡ ¾øÀ¸¸é ³ª¿È
 
     [SerializeField] Button BuyButton;
+    [SerializeField] Button ResetButton;
 
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
     public List<ShopItemObj> PeakList { get { return _PeakList; } }
@@ -30,24 +31,36 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < TapeList.Count; i++)
-        {
-            TapeList[i].ShopEvent = this;
-            TapeSelectList[i].GetComponent<SelectShopItemObj>().Initialize(TapeList[i].gameObject);
+        //for (int i = 0; i < TapeList.Count; i++)
+        //{
+        //    TapeList[i].ShopEvent = this;
+        //    TapeSelectList[i].GetComponent<SelectShopItemObj>().Initialize(TapeList[i].gameObject);
 
-        }
+        //}
 
         for (int i = 0; i < PeakList.Count; i++)
         {
             PeakList[i].ShopEvent = this;
-            PeakSelectList[i].GetComponent<SelectShopItemObj>().Initialize(PeakList[i].gameObject);
+            //PeakSelectList[i].GetComponent<SelectShopItemObj>().Initialize(PeakList[i].gameObject);
         }
         SelectDescPopUp.gameObject.SetActive(false);
         int coin = 0;
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out coin);
 
         CoinText.text = coin.ToString();
+        ResetButton.onClick.AddListener(ResetItem);
 
+    }
+
+    private void ResetItem()
+    {
+
+        SelectDescPopUp.gameObject.SetActive(false);
+        for (int i = 0; i < PeakList.Count; i++)
+        {
+            PeakList[i].ResetCard();
+           
+        }
     }
 
 
@@ -74,12 +87,12 @@ public class ShopEvent : MonoBehaviour
         SelectPeakIndex = -1;
         SelectTapeIndex = -1;
 
-        for (int i = 0; i < PeakSelectList.Count; i++)
-        {
-            PeakSelectList[i].gameObject.SetActive(false);
-        }
+        //for (int i = 0; i < PeakSelectList.Count; i++)
+        //{
+        //    PeakSelectList[i].gameObject.SetActive(false);
+        //}
 
-        PeakSelectList[index].gameObject.SetActive(true);
+        //PeakSelectList[index].gameObject.SetActive(true);
         SelectPeakIndex = index;
         SelectDescPopUp.gameObject.SetActive(true);
         SelectDescPopUp.ViewPopUP(SelectItemID);
@@ -163,7 +176,7 @@ public class ShopEvent : MonoBehaviour
 
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, playerDackDatas);
 
-           PeakSelectList[SelectPeakIndex].SetActive(false);
+          // PeakSelectList[SelectPeakIndex].SetActive(false);
             _PeakList[SelectPeakIndex].SoldOut();
         }
 

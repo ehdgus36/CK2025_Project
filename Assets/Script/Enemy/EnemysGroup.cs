@@ -64,12 +64,12 @@ public class EnemysGroup :Unit
 
         yield return new WaitUntil(() => RhythmGameSystem?.isEndGame == true);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.5f);
         for (int i = 0; i < Enemys.Count; i++)
         {
             Enemys[i].StartTurn();
             yield return new WaitUntil(() => Enemys[i].isAttackEnd == true);
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.2f);
         }
 
         yield return new WaitForSeconds(.5f);

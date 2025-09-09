@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 public class ShopItemObj :MonoBehaviour, IPointerDownHandler
 {
 
@@ -14,18 +15,33 @@ public class ShopItemObj :MonoBehaviour, IPointerDownHandler
 
     bool isSoldOut = false;
 
+    Image CardImage;
+
     private void Start()
+    {
+        ResetCard();
+    }
+
+    public void ResetCard()
     {
         if (ItemID == "")
         {
-            
             string randomCard = GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.RandomCard();
             ItemID = randomCard;
+          
             ItemData data;
             GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(randomCard, out data);
+            Debug.Log(data.Name + " sdfdsfa d");
 
-            ItemNameText.text = data.Name;
-            ItemPriceText.text = "Coin: " + data.Price.ToString();
+            //ItemNameText.text = data.Name;
+            ItemPriceText.text = data.Price.ToString();
+
+            if (CardImage = GetComponent<Image>())
+            {
+                object cardData = null;
+                GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID,out cardData);
+                CardImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+            }
         }
         else
         {
@@ -34,12 +50,31 @@ public class ShopItemObj :MonoBehaviour, IPointerDownHandler
                 ItemData data;
                 GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
 
-                ItemNameText.text = data.Name;
+                //ItemNameText.text = data.Name;
                 ItemPriceText.text = "Coin: " + data.Price.ToString();
+            }
+            else
+            {
+
+                string randomCard = GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.RandomCard();
+                ItemID = randomCard;
+
+                ItemData data;
+                GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
+
+                //ItemNameText.text = data.Name;
+                ItemPriceText.text = "Coin: " + data.Price.ToString();
+                if (CardImage = GetComponent<Image>())
+                {
+                    object cardData = null;
+                    GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID, out cardData);
+                    CardImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+                }
             }
         }
 
     }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {

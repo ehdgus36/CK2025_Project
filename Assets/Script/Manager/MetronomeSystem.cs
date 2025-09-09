@@ -14,13 +14,33 @@ public class MetronomeSystem : MonoBehaviour
     [SerializeField]TextMeshProUGUI Text;
     int bpmCount = 0;
 
+    int BpmX2 = 0;
     void FixedUpdate()
     {
         CurrentTime += Time.deltaTime;
 
+
+
+        
+
         if (CurrentTime >= 60d / BPM)
         { 
-            bpmCount++; 
+           
+            BpmX2++;
+            if (Text != null && BpmX2 == 4)
+            {
+                Text.text = bpmCount.ToString();
+                Text.color = Color.white;
+                BpmX2 = 0;
+                bpmCount++;
+                var soundInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Effect/Defense/Defense_Fail");
+                soundInstance.setVolume(0.05f); // 볼륨 0.0 ~ 1.0
+                soundInstance.start();
+                soundInstance.release(); // 
+            }
+
+
+
             CurrentTime -= 60d / BPM;
             OnMetronomEventOnce?.Invoke(); //등록된 이벤트 실행
             OnMetronomEventOnce = null; //등록된 이벤트는 한번만 실행해야 함으로 실행한후 Null
@@ -28,10 +48,7 @@ public class MetronomeSystem : MonoBehaviour
             OnMetronomEventRecurring?.Invoke();//등록된 이벤트 실행 , 리듬게임에 사용
 
 
-            if (Text != null)
-            {
-                Text.text = bpmCount.ToString();
-            }
+           
         }
     }
 
@@ -49,6 +66,19 @@ public class MetronomeSystem : MonoBehaviour
     public void AddRecurringMetronomEvent(UnityAction action)
     {
         OnMetronomEventRecurring += action;
+    }
+
+
+    public void RemoveOnceMetronomEvent(UnityAction action)
+    {
+        OnMetronomEventOnce -= action;
+    }
+
+    
+
+    public void RemoveRecurringMetronomEvent(UnityAction action)
+    {
+        OnMetronomEventRecurring -= action;
     }
 
 

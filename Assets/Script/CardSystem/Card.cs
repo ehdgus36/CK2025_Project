@@ -100,7 +100,10 @@ public class Card : MonoBehaviour
         Material instanceMaterial = Instantiate(BaseMaterial);
         instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
 
-        cardImage.material = instanceMaterial;
+        if (cardImage != null)
+        {
+            cardImage.material = instanceMaterial;
+        }
 
         this.CardID = cardID;
         this.gameObject.name = cardData.Card_Name_EN;
@@ -418,8 +421,8 @@ public class Card : MonoBehaviour
     }
 
     public void SetOutLineColor(Color color)
-    { 
-    
-        cardImage.material.SetColor("_BgColor", color);
+    {
+        if (cardImage != null)
+            cardImage.material.SetColor("_BgColor", color);
     }
 }

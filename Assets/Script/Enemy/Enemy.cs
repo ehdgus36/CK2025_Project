@@ -173,7 +173,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         // 위치 이동
         StargPos = transform.position;
         transform.position = GameManager.instance.Player.transform.position + AttackOffset;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.0f);
 
 
         //애니메이션 재생및 공격

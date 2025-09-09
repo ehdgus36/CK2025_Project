@@ -16,29 +16,29 @@ public class EffectTestScenePlayer : MonoBehaviour
 
     [SerializeField] EffectSystem PlayerEffectSystem;
 
-    string[] CardCode = { "C111",
+    string[] CardCode = { "C1011",
                          
-                          "C121",
+                          "C1021",
                           
-                          "C131",
+                          "C1031",
                          
-                          "C141",
+                          "C1041",
                          
-                          "C211",
+                          "C2011",
                          
-                          "C221",
+                          "C2021",
                          
-                          "C231",
+                          "C2031",
                           
-                          "C241",
+                          "C2041",
                          
-                          "C311",
+                          "C3011",
                           
-                          "C321",
+                          "C3021",
                           
-                          "C331",
-                          "C341",
-                          "C351"};
+                          "C3031",
+                          "C3041",
+                          "C3051"};
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

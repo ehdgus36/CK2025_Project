@@ -15,7 +15,7 @@ public class ShopItemObj :MonoBehaviour, IPointerDownHandler
 
     bool isSoldOut = false;
 
-    Image CardImage;
+    [SerializeField]Image CardImage;
 
     private void Start()
     {
@@ -36,10 +36,17 @@ public class ShopItemObj :MonoBehaviour, IPointerDownHandler
             //ItemNameText.text = data.Name;
             ItemPriceText.text = data.Price.ToString();
 
-            if (CardImage = GetComponent<Image>())
+            if (CardImage == null)
+            {
+                CardImage = GetComponent<Image>();
+                object cardData = null;
+                GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID, out cardData);
+                CardImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+            }
+            else
             {
                 object cardData = null;
-                GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID,out cardData);
+                GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID, out cardData);
                 CardImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
             }
         }
@@ -64,7 +71,14 @@ public class ShopItemObj :MonoBehaviour, IPointerDownHandler
 
                 //ItemNameText.text = data.Name;
                 ItemPriceText.text = "Coin: " + data.Price.ToString();
-                if (CardImage = GetComponent<Image>())
+                if (CardImage == null)
+                {
+                    CardImage = GetComponent<Image>();
+                    object cardData = null;
+                    GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID, out cardData);
+                    CardImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+                }
+                else
                 {
                     object cardData = null;
                     GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID, out cardData);

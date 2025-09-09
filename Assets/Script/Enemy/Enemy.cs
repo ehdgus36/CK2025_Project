@@ -98,7 +98,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
        // EnemyData.CurrentDefense = EnemyData.MaxDefense;
 
-
         EnemyStatus?.Initialize(EnemyData); // UI 초기화
 
         EnemyStatus?.NextAttackUI.UpdateUI(EnemyData.CurrentDamage.ToString(), NextAttackUIView.AttackIconEnum.Attack);
@@ -108,7 +107,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
             isAttackEnd = false; //턴 시작시 공격가능하게 초기화
             EnemyStatus?.UpdateStatus(EnemyData); //UI 갱신
             EnemyStatus?.NextAttackUI.gameObject.SetActive(false);// 다음 공격 표시끄기
-
 
             EnemyData.VulnerabilityPercent = 0;
             if (EnemyData.CurrentSkillPoint >= EnemyData.MaxSkillPoint)
@@ -127,11 +125,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
                 EnemyData.CurrentSkillPoint++;
                 StartCoroutine("EnemyAi"); //AI 실행
             }
-
-           
-           
-
-
         };
 
 

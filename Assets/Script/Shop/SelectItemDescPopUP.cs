@@ -43,7 +43,7 @@ public class SelectItemDescPopUP : MonoBehaviour
 
                 if (itemID[0] == 'C')
                 {
-                    ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
+                    ItemImage.rectTransform.sizeDelta = new Vector2(576f, 576f);
                     ItemTag.text = data.Tag;
                     ItemDesc.text = data.Example;
                     object cardData;
@@ -58,7 +58,7 @@ public class SelectItemDescPopUP : MonoBehaviour
             {
                 if (itemID[0] == 'C')
                 {
-                    ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
+                    ItemImage.rectTransform.sizeDelta = new Vector2(576f, 576f);
                     ItemTag.text = data.Tag;
                     ItemDesc.text = data.Example;
                     object cardData;

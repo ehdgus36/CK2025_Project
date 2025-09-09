@@ -36,6 +36,8 @@ public class PlayerCardView : MonoBehaviour
     int currentPage;
     int MaxPage;
 
+    public string SelectCardCode { get; private set; }
+
     private void OnEnable()
     {
         NextButton.onClick.RemoveAllListeners();
@@ -48,24 +50,34 @@ public class PlayerCardView : MonoBehaviour
         PreviousButton.interactable = false;
         NextButton.interactable = true;
 
-        
+
 
         //GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out CardData);
 
         if (PlayerDack != null)
-        {          
+        {
             currentPage = 1;
-            MaxPage = (PlayerDack.GetDackDatas.Count + 12) / 12;
+            MaxPage = (PlayerDack.GetDackDatas.Count + 11) / 12;
         }
+       
 
         if (PlayerCemetery != null)
         {        
             currentPage = 1;
-            MaxPage = (PlayerCemetery.GetCemeteryCards().Count + 12) / 12;
+            MaxPage = (PlayerCemetery.GetCemeteryCards().Count + 11) / 12;
         }
 
-        
-        if(MaxPage == 1) NextButton.interactable = false;
+        if (PlayerCemetery == null && PlayerDack == null)
+        {
+            List<string> subDackData = new List<string>();
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out subDackData);
+            
+            currentPage = 1;
+            MaxPage = (subDackData.Count + 11) / 12;
+        }
+
+
+        if (MaxPage == 1) NextButton.interactable = false;
 
 
 
@@ -144,6 +156,7 @@ public class PlayerCardView : MonoBehaviour
             SubDesc2.text = "";
         
         SelectObject = selectObj;
+        SelectCardCode = data.Card_ID;
 
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(DescLayout);
@@ -177,7 +190,7 @@ public class PlayerCardView : MonoBehaviour
         LoadPage();
     }
 
-    void LoadPage()
+    public void LoadPage()
     {
         for (int i = 0; i < cardViewObjects.Length; i++)
         {
@@ -189,7 +202,7 @@ public class PlayerCardView : MonoBehaviour
 
         // 12개씩 페이지를 로드하기 위해 검색할 인덱스 지정
         int startIndex = 12 * (currentPage - 1);
-        int endIndex = 0;  
+        int endIndex = 0;
 
         if (PlayerDack != null)
         {
@@ -197,10 +210,11 @@ public class PlayerCardView : MonoBehaviour
 
             for (int i = startIndex; i < endIndex; i++)
             {
-                cardViewObjects[i].gameObject.SetActive(true);
-                cardViewObjects[i].UpdateCardViewObject(PlayerDack.GetDackDatas[i].cardData);
+                cardViewObjects[i - (12 * (currentPage - 1))].gameObject.SetActive(true);
+                cardViewObjects[i - (12 * (currentPage - 1))].UpdateCardViewObject(PlayerDack.GetDackDatas[i].cardData);
             }
         }
+        
 
         if (PlayerCemetery != null)
         {
@@ -208,8 +222,28 @@ public class PlayerCardView : MonoBehaviour
 
             for (int i = startIndex; i < endIndex; i++)
             {
-                cardViewObjects[i].gameObject.SetActive(true);
-                cardViewObjects[i].UpdateCardViewObject(PlayerCemetery.GetCemeteryCards()[i].cardData);
+                cardViewObjects[i - (12 * (currentPage - 1))].gameObject.SetActive(true);
+                cardViewObjects[i - (12 * (currentPage - 1))].UpdateCardViewObject(PlayerCemetery.GetCemeteryCards()[i].cardData);
+            }
+        }
+
+
+        if (PlayerCemetery == null && PlayerDack == null)
+        {
+            List<string> subDackData = new List<string>();
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out subDackData);
+
+            endIndex = Mathf.Clamp(12 * currentPage, 1, subDackData.Count);
+
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                cardViewObjects[i-(12*(currentPage -1))].gameObject.SetActive(true);
+
+                object subCardData;
+
+                GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(subDackData[i], out subCardData);
+
+                cardViewObjects[i - (12 * (currentPage - 1))].UpdateCardViewObject((CardData)subCardData);
             }
         }
 

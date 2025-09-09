@@ -24,6 +24,9 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     public UnitData PlayerUnitData { get { return UnitData; } }
 
+    //노트 버프
+
+
 
     public void MaxButtonDisable()    
     {
@@ -37,8 +40,6 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     public void Initialize()
     {
-       
-
         UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
 
 

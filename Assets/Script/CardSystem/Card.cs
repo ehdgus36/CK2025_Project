@@ -67,13 +67,13 @@ public class Card : MonoBehaviour
 
         CardDataVariable["Range_Type"] = cardData.Range_Type;
         CardDataVariable["Attack_Count"] = cardData.Attack_Count;
-        CardDataVariable["Damage"]= cardData.Damage;
-        CardDataVariable["Status_Type"]= cardData.Status_Type;
-        CardDataVariable["Status_Turn"]= cardData.Status_Turn;
-        CardDataVariable["Damage_Buff"]= cardData.Damage_Buff;
-        CardDataVariable["HP_Recover"]= cardData.Recover_HP;
-        CardDataVariable["HP_Loss"]= cardData.HP_Loss;
-        CardDataVariable["Barrier_Get"]= cardData.Barrier_Get;
+        CardDataVariable["Damage"] = cardData.Damage;
+        CardDataVariable["Status_Type"] = cardData.Status_Type;
+        CardDataVariable["Status_Turn"] = cardData.Status_Turn;
+        CardDataVariable["Damage_Buff"] = cardData.Damage_Buff;
+        CardDataVariable["HP_Recover"] = cardData.Recover_HP;
+        CardDataVariable["HP_Loss"] = cardData.HP_Loss;
+        CardDataVariable["Barrier_Get"] = cardData.Barrier_Get;
         CardDataVariable["Barrier_Loss"] = cardData.Barrier_Loss;
 
     }

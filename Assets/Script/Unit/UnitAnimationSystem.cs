@@ -8,13 +8,16 @@ using static Spine.AnimationState;
 
 public class UnitAnimationSystem : MonoBehaviour
 {
-    const string IDLE = "Idle";
-    const string ATTACK = "Attack";
-    const string HIT = "Hit";
 
+    Dictionary<string, AnimationReferenceAsset> AnimationDatas = new Dictionary<string, AnimationReferenceAsset>();
+
+    //공격 레이어
     const int AttackLayer = 1;
 
+
+    
     [System.Serializable]
+    //애니에이션 정보
     struct AnimeData
     {
         [SerializeField] public string key;
@@ -27,7 +30,7 @@ public class UnitAnimationSystem : MonoBehaviour
 
     [SerializeField] bool isattack = false;
 
-    Dictionary<string, AnimationReferenceAsset> AnimationDatas = new Dictionary<string, AnimationReferenceAsset>();
+   
 
 
     public void Awake()
@@ -45,15 +48,22 @@ public class UnitAnimationSystem : MonoBehaviour
         }
 
 
-
+        // 애니메이션이 존재한다면 
         if (AnimationDatas.Count > 0)
         {
+
+            //0번째 애니메이션을 기본 애니메이션으로 실행
             UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[AnimationDatas.FirstOrDefault().Key], true);
         }
     }
 
+
+    /// <summary> 플레이어 애니메이션을 실행하는 함수 </summary>
+    /// <remarks>필수적으로 매개변수 animekey에 값을 줘야함</remarks>
+    ///  <param name="animeKey">재생할 애니메잇션 key값 </param> <param name="loop">애니메이션을 loop시킬지 여부</param>
     public void PlayAnimation(string animeKey , bool loop = false ,
-                              TrackEntryEventDelegate eventDelegate = null , TrackEntryDelegate CompleteDelegate = null, bool notEmpty = false)// notEmpty idle 로 돌아가지 않음
+                              TrackEntryEventDelegate eventDelegate = null , 
+                              TrackEntryDelegate CompleteDelegate = null, bool notEmpty = false)
     {
         if (loop)
         {
@@ -77,14 +87,14 @@ public class UnitAnimationSystem : MonoBehaviour
                 
 
 
-                if (notEmpty == false)
+                if (notEmpty == false) // 애니메이션이 종료하면 자동적으로 idle 애니메이션으로 돌아감
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
                 
                 track.Complete += CompleteDelegate;
                 track.Event += eventDelegate;
                 
             }
-            else 
+            else //없으면 아무 애니메이션 재생
             {
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["break_Ani"], loop);
                

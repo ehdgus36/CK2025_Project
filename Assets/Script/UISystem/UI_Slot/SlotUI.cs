@@ -10,7 +10,7 @@ public class SlotUI : MonoBehaviour,IDropHandler
     
     GameObject Data;
     UnityAction InsertDataEvent; // 슬롯에 데이터가 들어가면 실행되는 이벤트
-    [SerializeField] Vector3 imageScale;
+    [SerializeField] Vector3 imageScale = new Vector3(1.0f,1.0f,1.0f);
     [SerializeField] GameObject InsertEffect;
 
 

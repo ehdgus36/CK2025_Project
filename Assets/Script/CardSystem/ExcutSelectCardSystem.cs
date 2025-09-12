@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Threading.Tasks;
 
 
 public struct CardReservedData
@@ -101,6 +102,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
             disobject.Add(obj);
         }
+
+
 
     }
 
@@ -280,8 +283,6 @@ public class ExcutSelectCardSystem : MonoBehaviour
             //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
 
         }
-
-        
     }
 
     private void ReservedCard(Card card, Enemy enemy)
@@ -302,6 +303,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 if (cardData.Target.isDie != true) //타겟이 죽지 않았을 때만
                 {
                     CardExcutEvent(cardData.card, cardData.Target);
+
+                    //카드 사용이 완료될때 까지 대기
                     yield return new WaitUntil(() => { return cardData.card.IsCardEnd == true; });
                 }
                 else // 타겟 죽으면 해당시점에 감소한 마나 회복

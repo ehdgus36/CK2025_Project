@@ -171,6 +171,8 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
         //애니메이션 재생및 공격
         EnemyAnimator.PlayAnimation("attack",false , (entry, e) => { GameManager.instance.Player.TakeDamage(EnemyData.CurrentDamage,this); } , null); 
+        
+        
         yield return new WaitForSeconds(1.0f);
 
 

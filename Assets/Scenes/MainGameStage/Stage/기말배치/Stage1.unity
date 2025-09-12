@@ -615,7 +615,7 @@ Transform:
   m_GameObject: {fileID: 147289355}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.97, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 0.023154087, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -993,7 +993,7 @@ Transform:
   m_GameObject: {fileID: 337585724}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.179, y: 1.92, z: 0}
+  m_LocalPosition: {x: -0.179, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 0.023154087, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2116,7 +2116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bb32d0ccc385fe4088332e70dbb9240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoteData: 100000000010000001
+  NoteData: 101101010101010101
   Notes:
   - {fileID: 278912193}
   - {fileID: 1586924871}
@@ -2201,11 +2201,11 @@ MonoBehaviour:
   UnitAnimation: {fileID: 1858168922}
   AddAnimation:
   - key: idle
-    animeData: {fileID: 11400000, guid: 9adc0962986e81a49823dedc7bb85833, type: 2}
+    animeData: {fileID: 11400000, guid: 7fb40e58fe13a8a459105cf076f1f0a1, type: 2}
   - key: attack
-    animeData: {fileID: 11400000, guid: 05b8715a42d8f7841aa74a58683dff50, type: 2}
+    animeData: {fileID: 11400000, guid: 462fd659ceee3654ab5ee56a840cb399, type: 2}
   - key: hit
-    animeData: {fileID: 11400000, guid: 9559288434c313042b0ad1b2c810434b, type: 2}
+    animeData: {fileID: 11400000, guid: f27208cef02d7474fa7f0aa0d2143aa0, type: 2}
   isattack: 0
 --- !u!114 &600018169
 MonoBehaviour:
@@ -2274,6 +2274,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 926534494}
     m_Modifications:
+    - target: {fileID: 1083233948059839271, guid: 8ea4f2f14f02d6b4b8f461ff3e1f0858, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1990386323053056139, guid: 8ea4f2f14f02d6b4b8f461ff3e1f0858, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.38
@@ -3263,7 +3267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: e9ca30075fadd3647b62236c09cbbc3f, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: d31aa3b0721fd7348920ec97dab3d21f, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -3317,7 +3321,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 01bf557bb97067a48a76ef2d7daf93a5, type: 2}
+  - {fileID: 2100000, guid: a29a0464fccf11d4b801db51630ed714, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4877,7 +4881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bb32d0ccc385fe4088332e70dbb9240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoteData: 100001000000100000
+  NoteData: 101101010101010101
   Notes:
   - {fileID: 869185744}
   - {fileID: 1647213667}
@@ -4962,11 +4966,11 @@ MonoBehaviour:
   UnitAnimation: {fileID: 940433633}
   AddAnimation:
   - key: idle
-    animeData: {fileID: 11400000, guid: 0c2367eccd815f24e8bc45688a056aa7, type: 2}
+    animeData: {fileID: 11400000, guid: 8247b526a867ee445a90e980b9d0c0d8, type: 2}
   - key: attack
-    animeData: {fileID: 11400000, guid: 83913202ed7f5734180dee4d7e9ff278, type: 2}
+    animeData: {fileID: 11400000, guid: a6fc408096b57c3408e207534be9a6d2, type: 2}
   - key: hit
-    animeData: {fileID: 11400000, guid: 78f1f11d09976d0489d61c34211d8952, type: 2}
+    animeData: {fileID: 11400000, guid: 5d805155812db304e95c5857007f5d33, type: 2}
   isattack: 0
 --- !u!114 &1586316888
 MonoBehaviour:
@@ -5685,7 +5689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: cc1c378b720aea9459a956c3f125b90a, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: ebd8f0a11e5a2d84cbc23d9c4e380177, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -5739,7 +5743,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 48327ca2e2466e8419b40682e9566d81, type: 2}
+  - {fileID: 2100000, guid: 2c00c9d79ba962a48b5d4f209abaa96c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

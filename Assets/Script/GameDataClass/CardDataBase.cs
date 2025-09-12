@@ -161,9 +161,10 @@ public struct CardStatusData
 public class CardDataBase 
 {
     
-
     Dictionary<string, CardStatusData> CardStatusDatas = new Dictionary<string, CardStatusData>();
     Dictionary<string, CardData> CommonCardDatas = new Dictionary<string, CardData>();
+   
+    
     public CardDataBase(TextAsset CardStatusDataTable , TextAsset CardDataTable)
     { 
    

@@ -19,28 +19,8 @@ public class MetronomeSystem : MonoBehaviour
     {
         CurrentTime += Time.deltaTime;
 
-
-
-        
-
         if (CurrentTime >= 60d / BPM)
         { 
-           
-            BpmX2++;
-            if (Text != null && BpmX2 == 4)
-            {
-                Text.text = bpmCount.ToString();
-                Text.color = Color.white;
-                BpmX2 = 0;
-                bpmCount++;
-                var soundInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Effect/Defense/Defense_Fail");
-                soundInstance.setVolume(0.05f); // 볼륨 0.0 ~ 1.0
-                soundInstance.start();
-                soundInstance.release(); // 
-            }
-
-
-
             CurrentTime -= 60d / BPM;
             OnMetronomEventOnce?.Invoke(); //등록된 이벤트 실행
             OnMetronomEventOnce = null; //등록된 이벤트는 한번만 실행해야 함으로 실행한후 Null
@@ -48,7 +28,19 @@ public class MetronomeSystem : MonoBehaviour
             OnMetronomEventRecurring?.Invoke();//등록된 이벤트 실행 , 리듬게임에 사용
 
 
-           
+            BpmX2++;
+            if (Text != null && BpmX2 == 4)
+            {
+                Text.text = bpmCount.ToString();
+                Text.color = Color.white;
+                BpmX2 = 0;
+                bpmCount++;
+
+                var soundInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Effect/Defense/Defense_Fail");
+                soundInstance.setVolume(0.05f); // 볼륨 0.0 ~ 1.0
+                soundInstance.start();
+                soundInstance.release(); // 
+            }
         }
     }
 

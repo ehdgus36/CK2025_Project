@@ -39,7 +39,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     // 인터페이스 IBeginDragHandler를 상속 받았을 때 구현해야하는 콜백함수
     public void OnBeginDrag(PointerEventData eventData)
     {
-        CardDropArea.SetActive(true);
+        CardDropArea?.SetActive(true);
         transform.parent.transform.SetSiblingIndex(index); // 0407 수정 드래그 시작하면 부모 원상복구
         //transform.SetSiblingIndex(index);
         onDragParent = GameObject.Find("Filds").gameObject.transform;
@@ -51,6 +51,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     
         // 드래그 시작할때 부모transform을 변경
         transform.SetParent(onDragParent);
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
 
        
     }
@@ -87,7 +88,8 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             transform.localScale = new Vector3(1, 1, 1);
         }
 
-        CardDropArea.SetActive(false);
+        CardDropArea?.SetActive(false);
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
 }

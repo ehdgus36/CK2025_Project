@@ -10,7 +10,10 @@ public class StringSlot : SlotUI
 
     public override void InsertData(GameObject data)
     {
-        //if(data.GetComponent<>)
+        if (data.GetComponent<StringItem>())
+        { 
+        base.InsertData(data); 
+        }
     }
 
     public override T ReadData<T>()

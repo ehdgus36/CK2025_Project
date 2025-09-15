@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class StrapSlot : SlotUI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    public override void OnDrop(PointerEventData eventData)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void InsertData(GameObject data)
     {
-        
+        if (data.GetComponent<StrapItem>())
+        {
+            base.InsertData(data);
+        }
+    }
+
+    public override T ReadData<T>()
+    {
+        return base.ReadData<T>();
     }
 }

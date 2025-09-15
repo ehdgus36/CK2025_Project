@@ -8,7 +8,10 @@ public class ItemHoldSystem : MonoBehaviour
 
     public void Start()
     {
-        
+        for (int i = 0; i < HoldSlotGroup.Getsloat().Length; i++)
+        {
+            HoldSlotGroup.Getsloat()[i].AddInsertEvent(HoldSlotInsertEvent);   
+        }
     }
 
 

@@ -19,9 +19,15 @@ public class RhythmView : MonoBehaviour
     int noteIndex = 0;
     int currentBeat = -1;
 
+    public MetronomeSystem mt;
+    public bool IsEnd;
 
-   
 
+    public void StarNote()
+    {
+        mt.AddRecurringMetronomEvent(SpawnNote);
+        IsEnd = false;
+    }
 
     public void Reset()
     {
@@ -33,12 +39,16 @@ public class RhythmView : MonoBehaviour
 
         noteIndex = 0;
         currentBeat = -1;
-        
+
+        IsEnd = false;
+        mt.RemoveRecurringMetronomEvent(SpawnNote);
     }
     public void SpawnNote()
     {
         if (currentBeat == NoteData.Length)
         {
+
+            IsEnd = true;
             return;
         }
 

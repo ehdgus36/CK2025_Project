@@ -15,18 +15,9 @@ public class UnitAnimationSystem : MonoBehaviour
     const int AttackLayer = 1;
 
 
-    
-    [System.Serializable]
-    //애니에이션 정보
-    struct AnimeData
-    {
-        [SerializeField] public string key;
-        [SerializeField] public AnimationReferenceAsset animeData;
-    }
-
     [SerializeField] SkeletonAnimation UnitAnimation;
 
-    [SerializeField] AnimeData[] AddAnimation;
+    [SerializeField] UnitAnimationGroupData AddAnimation;
 
     [SerializeField] bool isattack = false;
 
@@ -42,9 +33,9 @@ public class UnitAnimationSystem : MonoBehaviour
     {
         if (UnitAnimation == null) Debug.LogError("스파인 스켈레톤 애니메이션이 없음");
 
-        for (int i = 0; i < AddAnimation.Length; i++)
+        for (int i = 0; i < AddAnimation.AnimeDatas.Length; i++)
         {
-            AnimationDatas.Add(AddAnimation[i].key, AddAnimation[i].animeData);
+            AnimationDatas.Add(AddAnimation.AnimeDatas[i].AnimationCode, AddAnimation.AnimeDatas[i].SpineAnimationData);
         }
 
 

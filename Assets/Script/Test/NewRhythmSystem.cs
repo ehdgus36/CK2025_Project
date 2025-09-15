@@ -13,33 +13,44 @@ public class NewRhythmSystem : MonoBehaviour
     [SerializeField] MetronomeSystem metronome;
     [SerializeField] TMP_InputField INputString;
 
+    [SerializeField] bool IsReset = false;
+
     private void Start()
-    {
+    {    
         StartEvent();
     }
     IEnumerator gameStart()
     {
-        yield return new WaitForSeconds(2);
-        metronome.AddRecurringMetronomEvent(rhythmView.SpawnNote);
+        yield return new WaitForSeconds(1.1f);
+        metronome.AddOnceMetronomX4Event(rhythmView.StarNote);
 
-        yield return new WaitForSeconds(5);
-        metronome.RemoveRecurringMetronomEvent(rhythmView.SpawnNote);
-        metronome.AddRecurringMetronomEvent(rhythmInput.SpawnNote);
+        yield return new WaitForSeconds(4.8f);
+        metronome.AddOnceMetronomX4Event(rhythmInput.StarNote);
     }
 
     public void StartEvent()
     {
         rhythmView.NoteData = INputString.text;
         rhythmInput.NoteData = INputString.text.Substring(1);
-        metronome.OnceMetronomEventClear();
-        metronome.OnceMetronomEventClear();
+        
+
+        rhythmView.mt = metronome;
+        rhythmInput.mt = metronome;
 
         StartCoroutine(gameStart());
     }
 
+
+
     public void ResetEvent()
     {
-        SceneManager.LoadScene("RhythmGamTest");
+        rhythmView.Reset();
+        rhythmInput.Reset();
+
+        if (IsReset == true)
+        {
+            SceneManager.LoadScene("RhythmGamTest");
+        }
     }
 
 }

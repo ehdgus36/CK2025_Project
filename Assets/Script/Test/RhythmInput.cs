@@ -13,14 +13,22 @@ public class RhythmInput : MonoBehaviour
     [SerializeField] Sprite LImage;
 
     [SerializeField] GameObject startObject;
-    [SerializeField] 
+    [SerializeField]
 
+    public MetronomeSystem mt;
 
     int noteIndex = 0;
     int currentBeat = -1;
 
     public int score=0;
 
+    public bool IsEnd;
+
+    public void StarNote()
+    {
+        mt.AddRecurringMetronomEvent(SpawnNote);
+        IsEnd = false;
+    }
 
     public void Reset()
     {
@@ -33,12 +41,15 @@ public class RhythmInput : MonoBehaviour
         noteIndex = 0;
         currentBeat = -1;
         inputInstanceNote.Clear();
+        mt.RemoveRecurringMetronomEvent(SpawnNote);
+        IsEnd = false;
     }
 
     public void SpawnNote()
     {
         if (currentBeat == NoteData.Length)
         {
+            IsEnd = true;
             return;
         }
 

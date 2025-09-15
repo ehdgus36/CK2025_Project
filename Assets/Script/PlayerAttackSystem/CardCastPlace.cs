@@ -48,7 +48,7 @@ public class CardCastPlace : MonoBehaviour
         isByeByeStart = false;
         CurrentCount = MaxCardCount;
         cards.Clear();
-        status.Reset();
+        status?.Reset();
         _TargetEnemy = null;
         isByeBye = false;
         isAttackClear = true;

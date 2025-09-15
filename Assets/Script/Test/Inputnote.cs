@@ -20,7 +20,8 @@ public class Inputnote : MonoBehaviour
         {
             GetComponent<UnityEngine.UI.Image>().sprite = LSprite;
             mouseInput = 0;
-            bpmtext.color = Color.blue;
+            if(bpmtext != null)
+                bpmtext.color = Color.blue;
         }
 
 
@@ -28,7 +29,8 @@ public class Inputnote : MonoBehaviour
         {
             GetComponent<UnityEngine.UI.Image>().sprite = RSprite;
             mouseInput = 1;
-            bpmtext.color = Color.green;
+            if (bpmtext != null)
+                bpmtext.color = Color.green;
         }
 
        

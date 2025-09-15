@@ -11,36 +11,52 @@ public class MetronomeSystem : MonoBehaviour
     double CurrentTime;
     UnityAction OnMetronomEventOnce;
     UnityAction OnMetronomEventRecurring;
+    UnityAction OnMetronomEventOnceX4;
     [SerializeField]TextMeshProUGUI Text;
-    int bpmCount = 0;
+    [SerializeField]int bpmCount = 0;
 
-    int BpmX2 = 0;
+    int BpmX4 = 3;
+    private void OnEnable()
+    {
+        bpmCount = 0;
+    }
     void FixedUpdate()
     {
         CurrentTime += Time.deltaTime;
 
-        if (CurrentTime >= 60d / BPM)
-        { 
-            CurrentTime -= 60d / BPM;
+        if (CurrentTime >= 60d / (BPM*4))
+        {
+            BpmX4++;
+            if (BpmX4 == 4) // 정박 실행
+            {
+                if (Text != null)
+                { 
+                    Text.text = bpmCount.ToString();      
+                    Text.color = Color.white;             
+                }
+
+                BpmX4 = 0;
+                bpmCount++;
+
+                var soundInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Effect/Defense/Defense_Fail");
+                soundInstance.setVolume(1f); // 볼륨 0.0 ~ 1.0
+                soundInstance.start();
+                soundInstance.release(); // 
+
+                OnMetronomEventOnceX4?.Invoke();
+
+                OnMetronomEventOnceX4 = null;
+
+                Debug.Log("박자");
+
+            }
+
+            //1/4 박실행
+            CurrentTime -= 60d / (BPM * 4);
             OnMetronomEventOnce?.Invoke(); //등록된 이벤트 실행
             OnMetronomEventOnce = null; //등록된 이벤트는 한번만 실행해야 함으로 실행한후 Null
 
             OnMetronomEventRecurring?.Invoke();//등록된 이벤트 실행 , 리듬게임에 사용
-
-
-            BpmX2++;
-            if (Text != null && BpmX2 == 4)
-            {
-                Text.text = bpmCount.ToString();
-                Text.color = Color.white;
-                BpmX2 = 0;
-                bpmCount++;
-
-                var soundInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Effect/Defense/Defense_Fail");
-                soundInstance.setVolume(0.05f); // 볼륨 0.0 ~ 1.0
-                soundInstance.start();
-                soundInstance.release(); // 
-            }
         }
     }
 
@@ -60,6 +76,11 @@ public class MetronomeSystem : MonoBehaviour
         OnMetronomEventRecurring += action;
     }
 
+    public void AddOnceMetronomX4Event(UnityAction action)
+    {
+        OnMetronomEventOnceX4 += action;
+    }
+
 
     public void RemoveOnceMetronomEvent(UnityAction action)
     {
@@ -73,6 +94,7 @@ public class MetronomeSystem : MonoBehaviour
         OnMetronomEventRecurring -= action;
     }
 
+    
 
     /// <summary> 등록된 모든 이벤트 삭제</summary>
     public void RecurringMetronomEventClear()

@@ -11,10 +11,15 @@ public class EnemysGroup :Unit
 
     public List<Enemy> Enemys { get => _Enemys; }
     [SerializeField] private List<Enemy> _Enemys; // 인스펙터에 보이게
-    [SerializeField] RhythmGameSystem RhythmGameSystem;
+    [SerializeField] RhythmSystem RhythmGameSystem;
     
     public void Initialize()
     {
+        if (RhythmGameSystem == null)
+        {
+            RhythmGameSystem = GameObject.Find("RhyremGameSystem").GetComponent<RhythmSystem>();
+        }
+
       
         for (int i = 0; i < Enemys.Count; i++)
         {
@@ -41,7 +46,7 @@ public class EnemysGroup :Unit
     void EnemysDieEvent(Enemy thisEnemy)
     {
         //사망한 Enemy 삭제
-        RhythmGameSystem?.RhythmGameTracksRemove(Enemys.IndexOf(thisEnemy));
+        //RhythmGameSystem?.RhythmGameTracksRemove(Enemys.IndexOf(thisEnemy));
 
         Enemys.Remove(thisEnemy);
 
@@ -60,9 +65,9 @@ public class EnemysGroup :Unit
     // 이것도 나중에 시퀀스 다시
     IEnumerator AttackSequenceEvent()
     {
-        RhythmGameSystem?.StartGame();
+        RhythmGameSystem?.StartEvent();
 
-        yield return new WaitUntil(() => RhythmGameSystem?.isEndGame == true);
+        yield return new WaitUntil(() => RhythmGameSystem?.IsEndGame == true);
 
         yield return new WaitForSeconds(.5f);
         for (int i = 0; i < Enemys.Count; i++)

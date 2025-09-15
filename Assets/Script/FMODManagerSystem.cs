@@ -31,9 +31,9 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance2.release();
 
-        if (MainBgm != "") PlayBGM(MainBgm);
+        if (MainBgm != "") GameManager.instance.Metronome.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
 
-        if (SubBgm != "") PlayBGMSub(SubBgm);
+        if (SubBgm != "") GameManager.instance.Metronome.AddOnceMetronomX4Event(() => { PlayBGMSub(SubBgm); }); 
 
         SceneManager.sceneUnloaded += (Scene) => { OnEndSound(); };
     }

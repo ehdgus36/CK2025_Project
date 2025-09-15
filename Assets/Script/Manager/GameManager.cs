@@ -18,10 +18,10 @@ public class GameManager : MonoBehaviour
     private Unit ThisTurnUnit;
     private Unit NextTurnUnit;
 
-   
+
     //Get; Set;
 
-   
+
     public CamShake Shake { get { return _Shaker; } }
     public Player Player { get { return _Player; } }
 
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     //Public
 
     public static GameManager instance { get; private set; }
-   
+
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
 
@@ -72,14 +72,14 @@ public class GameManager : MonoBehaviour
     //인스펙터에서 데이터 받아옴
 
     [SerializeField] CardCastPlace _PlayerCardCastPlace;
-   
+
     [SerializeField] CemeteryUI _CardCemetery;
     [SerializeField] PlayerCDSlotGroup _PlayerCDSlotGroup;
     [SerializeField] GameObject GameClear;
     [SerializeField] GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
-   // [SerializeField] GameObject _CardSlot;
+    // [SerializeField] GameObject _CardSlot;
     [SerializeField] GameObject PlayerTurnMark;
     [SerializeField] GameObject EnemyTurnMark;
     [SerializeField] GameObject GameStartMark;
@@ -89,11 +89,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] FMODManagerSystem _FMODManagerSystem;
     [SerializeField] GameObject EventSystem;
 
+    [SerializeField] Animator _ControlleCam;
+
     [SerializeField] int ClearGold = 0;
-    
+
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
 
+
+    public Animator ControlleCam => _ControlleCam;
     public int GetClearGold { get { return ClearGold; } }
 
     public Button GetEndTurnButton { get { return EndTurnButton; } }

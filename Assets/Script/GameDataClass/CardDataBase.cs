@@ -54,6 +54,9 @@ public struct CardData
     public readonly string Sound_Code;
 
     public readonly string Card_Des;
+
+    private readonly string Card_CurrentDesc; // 플레이어에 버프나 상태에따라 유동적으로 변하는 카드 설명
+
     public readonly string Buff_Ex;
     public readonly string Buff_Ex2;
 
@@ -100,14 +103,18 @@ public struct CardData
         Effect_Pos = data["Effect_Pos"].ToString();
         Sound_Code = data["Sound_Code"].ToString();
 
-        Card_Des = data["Card_Des"].ToString();
+        Card_Des = null;
+        Card_CurrentDesc = data["Card_Des"].ToString();
+
         Buff_Ex = data["Buff_Ex"].ToString();
         Buff_Ex2 = data["Buff_Ex2"].ToString(); ;
 
         Card_Im = data["Card_Im"].ToString();
 
         CardBuff = null;
+        
         CardBuff = GetBuff();
+        Card_Des =DefaultDescription(data["Card_Des"].ToString());
     }
 
 
@@ -135,6 +142,25 @@ public struct CardData
 
 
         return buff;
+    }
+
+    string DefaultDescription(string textData)
+    {
+        string result = textData;
+
+        result.Replace("@", Damage.ToString());
+
+        return result;
+
+    }
+
+    public string CardDescDamageReplace(string currentDamage)
+    {
+        string result = Card_CurrentDesc;
+
+        result.Replace("@", currentDamage);
+
+        return result;
     }
 
 }

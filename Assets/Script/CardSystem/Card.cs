@@ -275,7 +275,7 @@ public class Card : MonoBehaviour
 
         EnemyTarget = Target;
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code,false ,AttackEvent , CompleteEvent); // ÃÖÁ¾Çü
-        GameManager.instance.UIInputSetActive(false);
+       // GameManager.instance.UIInputSetActive(false);
                                                                               
     }
 
@@ -377,13 +377,13 @@ public class Card : MonoBehaviour
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Effect/Common_Attack/Break");
         }
 
-        GameManager.instance.UIInputSetActive(true);
+       // GameManager.instance.UIInputSetActive(true);
         if (this.gameObject.activeInHierarchy == true)
         {
             StartCoroutine(PlayerReturnDelay());
         }
 
-        GameManager.instance.UIInputSetActive(true);
+        //GameManager.instance.UIInputSetActive(true);
     }
 
     IEnumerator PlayerReturnDelay()

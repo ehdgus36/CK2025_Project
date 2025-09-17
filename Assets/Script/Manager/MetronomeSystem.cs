@@ -38,10 +38,10 @@ public class MetronomeSystem : MonoBehaviour
                 BpmX4 = 0;
                 bpmCount++;
 
-                var soundInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Effect/Defense/Defense_Fail");
-                soundInstance.setVolume(1f); // º¼·ý 0.0 ~ 1.0
-                soundInstance.start();
-                soundInstance.release(); // 
+                //var soundInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Effect/Defense/Defense_Fail");
+                //soundInstance.setVolume(1f); // º¼·ý 0.0 ~ 1.0
+                //soundInstance.start();
+                //soundInstance.release(); // 
 
                 OnMetronomEventOnceX4?.Invoke();
 

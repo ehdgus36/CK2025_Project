@@ -49,6 +49,9 @@ public class ManaSystem
 
         switch (costType)
         {
+            case 0:
+                useMana = 0;
+                break;
             case 1:
                 useMana = 1;
                 break;

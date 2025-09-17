@@ -6,6 +6,9 @@ using UnityEngine;
 public class CardUpGradeSystem : MonoBehaviour
 {
     CardUpGradeView CardUpGradeView;
+
+    CardData cardData;
+    CardData UpGradcardData;
     void Start()
     {
         CardUpGradeView = GetComponent<CardUpGradeView>();
@@ -25,20 +28,33 @@ public class CardUpGradeSystem : MonoBehaviour
             }
         }
 
-        CardUpGradeView.UpdateUI(randCode , UpGradeEvent);
+
+        StringBuilder UPrandCode = new StringBuilder(randCode);
+        UPrandCode[UPrandCode.Length - 1] = '2';
+
+        object Data, UPData;
+
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(randCode, out Data);
+
+
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(UPrandCode.ToString(), out UPData);
+
+        cardData = (CardData)Data;
+        UpGradcardData = (CardData)UPData;
+
+        CardUpGradeView.UpdateUI(cardData, UpGradcardData, UpGradeEvent);
 
     }
 
-    void UpGradeEvent(CardData cardData)
+    void UpGradeEvent()
     {
         List<string> DackData = new List<string>();
 
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData);
 
         DackData.Remove(cardData.Card_ID);
-        StringBuilder UpgradeCode = new StringBuilder(cardData.Card_ID);
-        UpgradeCode[UpgradeCode.Length-1] = '2';
-        DackData.Add(UpgradeCode.ToString());
+       
+        DackData.Add(UpGradcardData.Card_ID);
 
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, DackData);

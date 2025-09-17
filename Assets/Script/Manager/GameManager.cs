@@ -294,6 +294,6 @@ public class GameManager : MonoBehaviour
 
     public void UIInputSetActive(bool active)
     {
-       // EventSystem.SetActive(active);
+       EventSystem.SetActive(active);
     }
 }

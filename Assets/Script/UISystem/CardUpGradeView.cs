@@ -9,25 +9,29 @@ using UnityEngine.UI;
 
 public class CardUpGradeView : MonoBehaviour
 {
-    [SerializeField]Image CardImage;
+    [SerializeField] Image CardImage;
+    [SerializeField] Image BgImage;
     [SerializeField] TextMeshProUGUI Name;
+    [SerializeField] TextMeshProUGUI CurrentCardDesc;
+    [SerializeField] TextMeshProUGUI UpGradeCardDesc;
     [SerializeField] Button UpGradeButton;
-    CardData CardData;
+    
 
 
-    public void UpdateUI(string cardCode ,Action<CardData> ButtonEvent)
+    public void UpdateUI(CardData cardData,CardData UpGradeCardData ,Action ButtonEvent)
     {
-        object Data;
-
-        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(cardCode, out Data);
-
-        CardData cardData = (CardData)Data;
-
-        CardData = cardData;
+        
         CardImage.sprite = Resources.Load<Sprite>("CardImage/" + cardData.Card_Im);       
         Name.text = cardData.Card_Name_KR;
 
-        UpGradeButton.onClick.AddListener(() => { ButtonEvent.Invoke(cardData); });
+        StringBuilder stringBuilder = new StringBuilder(cardData.Card_ID);
+
+
+        CurrentCardDesc.text = cardData.Card_Des;
+        UpGradeCardDesc.text = cardData.Card_Des;
+
+        UpGradeButton.onClick.RemoveAllListeners();
+        UpGradeButton.onClick.AddListener(() => { ButtonEvent.Invoke(); });
     }
 
   

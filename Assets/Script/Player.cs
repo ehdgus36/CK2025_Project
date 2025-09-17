@@ -63,6 +63,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             GameManager.instance.ExcutSelectCardSystem.StartTurnRest();
             GameManager.instance.UIManager.ManaUI.gameObject.SetActive(true);
             DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+            GameManager.instance.UIInputSetActive(true);
         };
 
         EndTurnEvent += CDSlotGroup.ReturnCard;
@@ -75,6 +76,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             Combo.GetComponent<ComboUIView>().DisableButton();
             TurnEnd.SetActive(false);
             GameManager.instance.UIManager.ManaUI.gameObject.SetActive(false);
+            GameManager.instance.UIInputSetActive(false);
         };
 
         UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;

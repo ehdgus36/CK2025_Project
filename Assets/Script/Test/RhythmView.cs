@@ -23,6 +23,11 @@ public class RhythmView : MonoBehaviour
     public bool IsEnd;
 
 
+    private void OnEnable()
+    {
+        Reset();
+    }
+
     public void StarNote()
     {
         mt.AddRecurringMetronomEvent(SpawnNote);
@@ -42,6 +47,8 @@ public class RhythmView : MonoBehaviour
 
         IsEnd = false;
         mt.RemoveRecurringMetronomEvent(SpawnNote);
+        startObject.SetActive(false);
+
     }
     public void SpawnNote()
     {

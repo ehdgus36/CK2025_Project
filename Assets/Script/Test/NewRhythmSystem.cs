@@ -41,7 +41,6 @@ public class NewRhythmSystem : MonoBehaviour
     }
 
 
-
     public void ResetEvent()
     {
         rhythmView.Reset();

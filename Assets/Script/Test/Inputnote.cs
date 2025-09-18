@@ -13,6 +13,10 @@ public class Inputnote : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI bpmtext;
 
+    public void Reset()
+    {
+        
+    }
 
     public void StartNote(char tag)
     {

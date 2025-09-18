@@ -33,8 +33,8 @@ public class RhythmSystem : MonoBehaviour
         rhythmView.mt = metronome;
         rhythmInput.mt = metronome;
 
-        ResetEvent();
 
+        ResetEvent();
         StartCoroutine(gameStart());
     }
 
@@ -46,7 +46,7 @@ public class RhythmSystem : MonoBehaviour
 
 
         //애니메이션 재생이후 활성화
-        yield return new WaitForSeconds(.2f);     
+        yield return new WaitForSeconds(.8f);     
         rhythmView.gameObject.SetActive(true);
         yield return new WaitForSeconds(.2f);
 
@@ -63,7 +63,7 @@ public class RhythmSystem : MonoBehaviour
         GameManager.instance.ControlleCam.Play("PlayerZoomCamAnime");
 
         //애니메이션 재생이후 활성화
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.8f);
         rhythmInput.gameObject.SetActive(true);
         yield return new WaitForSeconds(.2f);
 
@@ -73,14 +73,30 @@ public class RhythmSystem : MonoBehaviour
 
 
         yield return new WaitUntil(() => rhythmInput.IsEnd == true);
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.4f);
 
         
         rhythmView.gameObject.SetActive(false);
         rhythmInput.gameObject.SetActive(false);
         GameManager.instance.ControlleCam.Play("EnemyTurnCamReturn");
+
+        //플레이어 베리어
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation("guitarwall_Ani",false,(Entry, e) => {
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect("guitarwall_Effect",
+                                                                     GameManager.instance.Player.transform.position);
+            UnitData playerData;
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData<UnitData>(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA,
+                                                                           out playerData);
+            playerData.CurrentBarrier += rhythmInput.score;
+
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
+        });
        
+
+
+        yield return new WaitForSeconds(2f);
         IsEndGame = true;
+       
     }
 
    

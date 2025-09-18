@@ -20,9 +20,14 @@ public class RhythmInput : MonoBehaviour
     int noteIndex = 0;
     int currentBeat = -1;
 
-    public int score=0;
+    public int score { get; private set; }
 
     public bool IsEnd;
+
+    private void OnEnable()
+    {
+        Reset();
+    }
 
     public void StarNote()
     {
@@ -33,17 +38,20 @@ public class RhythmInput : MonoBehaviour
     public void Reset()
     {
         for (int i = 0; i < InputNote.Count; i++)
-        {
-            InputNote[noteIndex].gameObject.SetActive(false);
-           
+        {          
+            InputNote[i].GetComponent<UnityEngine.UI.Image>().color = new Color(0f,0f,0f,0f);
         }
 
+
+        score = 0;
         noteIndex = 0;
         currentBeat = -1;
         inputInstanceNote.Clear();
         mt.RemoveRecurringMetronomEvent(SpawnNote);
         IsEnd = false;
+        startObject.SetActive(false);
     }
+
 
     public void SpawnNote()
     {

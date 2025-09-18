@@ -94,13 +94,14 @@ namespace GameDataSystem
 
        
         private static CardDataBase _CARD_DATA_BASE = new CardDataBase(CardStatusDataTable, CardDataTable);
-        private static NoteDataBase _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
+       // private static NoteDataBase _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
         private static ItemDataBase _ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+ 
 
         
         // 읽기 전용으로 선언
         public static CardDataBase CARD_DATA_BASE => _CARD_DATA_BASE;
-        public static NoteDataBase NOTE_DATA_BASE => _NOTE_DATA_BASE;
+       // public static NoteDataBase NOTE_DATA_BASE => _NOTE_DATA_BASE;
         public static ItemDataBase ITEM_DATA_BASE => _ITEM_DATA_BASE;
 
 
@@ -118,7 +119,7 @@ namespace GameDataSystem
 
             
             _CARD_DATA_BASE = new CardDataBase(CardStatusDataTable, CardDataTable);
-            _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
+            //_NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
             _ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
         }
     }

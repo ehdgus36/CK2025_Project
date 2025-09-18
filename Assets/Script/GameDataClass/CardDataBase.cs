@@ -114,7 +114,7 @@ public struct CardData
         CardBuff = null;
         
         CardBuff = GetBuff();
-        Card_Des =DefaultDescription(data["Card_Des"].ToString());
+        Card_Des = DefaultDescription(data["Card_Des"].ToString());
     }
 
 
@@ -146,9 +146,9 @@ public struct CardData
 
     string DefaultDescription(string textData)
     {
-        string result = textData;
+        string result = textData.Replace("@", Damage.ToString());
 
-        result.Replace("@", Damage.ToString());
+      
 
         return result;
 
@@ -156,9 +156,7 @@ public struct CardData
 
     public string CardDescDamageReplace(string currentDamage)
     {
-        string result = Card_CurrentDesc;
-
-        result.Replace("@", currentDamage);
+        string result = currentDamage.Replace("@", currentDamage);
 
         return result;
     }

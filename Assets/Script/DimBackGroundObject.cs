@@ -6,6 +6,7 @@ public class DimBackGroundObject : MonoBehaviour
 
     [SerializeField]SpriteRenderer EnemyDis;
     [SerializeField]SpriteRenderer PlayerDis;
+    
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class DimBackGroundObject : MonoBehaviour
 
         EnemyDis.gameObject.SetActive(true);
         PlayerDis.gameObject.SetActive(true);
+       
 
         if (code == "Enemy") //Enemy쪽이 어두어짐
         {
@@ -30,6 +32,12 @@ public class DimBackGroundObject : MonoBehaviour
         {
             EnemyDis.sortingOrder = 1;
             PlayerDis.sortingOrder = 5;
+        }
+
+        if (code == "All") // Player쪽이 어두어짐
+        {
+            EnemyDis.sortingOrder = 1;
+            PlayerDis.sortingOrder = 1;
         }
     }
 

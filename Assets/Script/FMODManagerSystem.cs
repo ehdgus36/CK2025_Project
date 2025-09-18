@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 enum FMODLabeled
 {
-    Nomal	= 0,	
-    Upgrad  = 1
+    Player_Turn	= 0,	
+    Monster_Turn  = 1
 }
 
 public class FMODManagerSystem : MonoBehaviour
@@ -40,22 +40,33 @@ public class FMODManagerSystem : MonoBehaviour
 
     public void FMODChangeNomal()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Nomal);
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
+    }
+
+
+    public void FMODChangePlayer()
+    {
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
+    }
+
+    public void FMODChangeMonsterTurn()
+    {
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Monster_Turn);
     }
 
     public void FMODChangeUpgrade()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Upgrad);
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Monster_Turn);
     }
 
     public void FMODChangeNomal2()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Nomal);
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Player_Turn);
     }
 
     public void FMODChangeUpgrade2()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Upgrad);
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Player_Turn);
     }
 
     void PlayBGM(string key)
@@ -63,8 +74,6 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance = RuntimeManager.CreateInstance(key);
         bgmInstance.start();
         FMODChangeNomal();
-
-
     }
 
     void PlayBGMSub(string key)

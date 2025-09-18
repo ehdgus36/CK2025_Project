@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private Unit ThisTurnUnit;
     private Unit NextTurnUnit;
 
-
+    public Animator UIAnime;
     //Get; Set;
 
 
@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
 
     public FMODManagerSystem FMODManagerSystem { get { return _FMODManagerSystem; } }
 
+    public DimBackGroundObject DimBackGroundObject { get { return _DimBackGroundObject; } }
 
     public void ExitGame()
     {
@@ -92,6 +93,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Animator _ControlleCam;
 
     [SerializeField] int ClearGold = 0;
+
+    [SerializeField] DimBackGroundObject _DimBackGroundObject;
 
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
@@ -235,6 +238,18 @@ public class GameManager : MonoBehaviour
 
         ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
 
+        if (ThisTurnUnit.GetType() == typeof(Player))
+        {
+            UIAnime.Play("Active_UIAnimation");
+            _FMODManagerSystem.FMODChangePlayer();
+        }
+
+        if (ThisTurnUnit.GetType() == typeof(EnemysGroup))
+        {
+            UIAnime.Play("Hide_UIAnimation");
+            _FMODManagerSystem.FMODChangeMonsterTurn();
+        }
+
         StartCoroutine(TurnMark());
 
     }
@@ -259,6 +274,8 @@ public class GameManager : MonoBehaviour
         ThisTrunMark.SetActive(false);
 
         (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
+
+       
 
     }
 

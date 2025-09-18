@@ -46,6 +46,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     Coroutine ReservedCardCoroutine;
     public int UseManaCount { get { return ManaSystem.UseManaCount(); } }
+    public bool IsSelectCard => _SelectCard != null;
 
     //1회성 어빌리티가 아닌 다회성 어빌리티 관리
     public void ExcutAbiltyCondition(string key)

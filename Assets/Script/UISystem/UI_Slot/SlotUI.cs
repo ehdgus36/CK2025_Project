@@ -32,14 +32,14 @@ public class SlotUI : MonoBehaviour,IDropHandler
         {
             data.GetComponent<DragDropUI>().startScale = imageScale;
         }
-       
+
         data.transform.position = transform.position;
         data.transform.rotation = transform.rotation;
 
         data.transform.SetParent(transform);
         data.transform.localScale = imageScale;
 
-        
+
 
         InsertDataEvent?.Invoke();
 
@@ -49,6 +49,9 @@ public class SlotUI : MonoBehaviour,IDropHandler
             InsertEffect.SetActive(true);
         }
     }
+
+ 
+
 
     public virtual T ReadData<T>()
     {

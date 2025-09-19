@@ -40,6 +40,8 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
         GameObject moveEffect = effectSystem.UIEffectObject("CardMove_Effect", card.GetComponent<RectTransform>());
 
+        moveEffect.SetActive(true);
+
         StartCoroutine(MoveCardEffect(moveEffect.transform, MovePos.GetComponent<RectTransform>()));
 
         card.transform.position = CemeteryPos.position;
@@ -76,7 +78,8 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
             yield return new WaitForSeconds(.025f);
         }
 
-      
+
+        moveTarget.gameObject.SetActive(false);
     }
 
 

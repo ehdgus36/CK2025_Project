@@ -75,8 +75,16 @@ public class RhythmView : MonoBehaviour
         {
             ViewNote[noteIndex].gameObject.SetActive(true);
             ViewNote[noteIndex].sprite = LImage;
+
+            for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
+            {
+                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem_Ani");
+            }
             RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
             noteIndex++;
+
+           
+
         }
 
 
@@ -84,6 +92,12 @@ public class RhythmView : MonoBehaviour
         {
             ViewNote[noteIndex].gameObject.SetActive(true);
             ViewNote[noteIndex].sprite = RImage;
+
+            for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
+            {
+                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem2_Ani");
+            }
+
             RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");
             noteIndex++;
         }

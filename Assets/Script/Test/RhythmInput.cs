@@ -13,7 +13,7 @@ public class RhythmInput : MonoBehaviour
     [SerializeField] Sprite LImage;
 
     [SerializeField] GameObject startObject;
-    [SerializeField]
+
 
     public MetronomeSystem mt;
 
@@ -77,6 +77,8 @@ public class RhythmInput : MonoBehaviour
             InputNote[noteIndex].gameObject.SetActive(true);
             InputNote[noteIndex].StartNote(NoteData[currentBeat]);
 
+        
+
             inputInstanceNote.Add(InputNote[noteIndex]);
             noteIndex++;
         }
@@ -87,6 +89,7 @@ public class RhythmInput : MonoBehaviour
             InputNote[noteIndex].gameObject.SetActive(true);
             InputNote[noteIndex].StartNote(NoteData[currentBeat]);
 
+            
             inputInstanceNote.Add(InputNote[noteIndex]);
             noteIndex++;
         }
@@ -116,9 +119,19 @@ public class RhythmInput : MonoBehaviour
             {
                 if (inputInstanceNote[0].good)
                 {
-                    if (inputInstanceNote[0].mouseInput == 0) RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
+                    if (inputInstanceNote[0].mouseInput == 0)
+                    {
+                        RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani");
+                    }
 
-                    if (inputInstanceNote[0].mouseInput == 1) RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");
+                    if (inputInstanceNote[0].mouseInput == 1)
+                    {
+                        RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani");
+                    }
+
+
 
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
 

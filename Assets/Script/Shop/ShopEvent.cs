@@ -97,6 +97,11 @@ public class ShopEvent : MonoBehaviour
         SelectDescPopUp.gameObject.SetActive(true);
         SelectDescPopUp.ViewPopUP(SelectItemID);
 
+        for (int i = 0; i < PeakList.Count; i++)
+        {
+            PeakList[i].PositionReset();
+        }
+
         BuyButton.interactable = true;
     }
 

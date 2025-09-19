@@ -15,19 +15,23 @@ public class ClearSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        CoinText.text = GameManager.instance?.GetClearGold.ToString();
-        ClearView.SetActive(false);
-        UpgradeView.SetActive(false);
+        if (ClearView == null && UpgradeView == null) return;
 
+        CoinText.text = GameManager.instance?.GetClearGold.ToString();
+        ClearView?.SetActive(false);
+        UpgradeView?.SetActive(false);
+
+
+        
         StartCoroutine(ClearSequence());
     }
 
 
     IEnumerator ClearSequence()
     {
-        UpgradeView.SetActive(true);
+        UpgradeView?.SetActive(true);
         yield return new WaitUntil(() => UpgradeView.activeSelf == false);
-        ClearView.SetActive(true);
+        ClearView?.SetActive(true);
     }
 
     public void LoadMap()

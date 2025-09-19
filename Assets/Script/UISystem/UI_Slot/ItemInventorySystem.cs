@@ -30,7 +30,7 @@ public class ItemInventorySystem : MonoBehaviour
         _StrapItemSlotButton.onClick.AddListener(() => {
             _StickerItemSlotGroup.gameObject.SetActive(false);
             _StrapItemSlotGroup.gameObject.SetActive(true);
-            _StringItemSlotGroup.gameObject.SetActive(true);
+            _StringItemSlotGroup.gameObject.SetActive(false);
             SetUpItem();
         });
         _StringItemSlotButton.onClick.AddListener(() => {
@@ -44,7 +44,7 @@ public class ItemInventorySystem : MonoBehaviour
 
     public void SetUpItem()
     {
-        
+       
 
         if (_StickerItemSlotGroup.gameObject.activeSelf == true)
         { 

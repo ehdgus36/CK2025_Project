@@ -1370,6 +1370,8 @@ GameObject:
   m_Component:
   - component: {fileID: 523761054}
   - component: {fileID: 523761055}
+  - component: {fileID: 523761056}
+  - component: {fileID: 523761057}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -1407,6 +1409,36 @@ MonoBehaviour:
   MainBgm: event:/BGM/Worldmap_BGM
   SubBgm: 
   isStartBgm: 1
+  metronomeSystem: {fileID: 523761057}
+--- !u!114 &523761056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523761051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
+--- !u!114 &523761057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523761051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b3ac39aca74f96459c6149830c9b64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BPM: 150
+  Text: {fileID: 0}
+  bpmCount: 0
 --- !u!1 &549165356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,7 +2439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c4865da19883142a56b691485ce904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadSceneName: Event_UI
+  LoadSceneName: Item_UI
   pick: {fileID: 1990159405}
   mapSystem: {fileID: 930219996}
   ClearMark: {fileID: 1251592394}
@@ -3811,7 +3843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c4865da19883142a56b691485ce904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadSceneName: Event_UI
+  LoadSceneName: Item_UI
   pick: {fileID: 1990159405}
   mapSystem: {fileID: 930219996}
   ClearMark: {fileID: 99601831}
@@ -4493,7 +4525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c4865da19883142a56b691485ce904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadSceneName: Event_UI
+  LoadSceneName: Item_UI
   pick: {fileID: 1990159405}
   mapSystem: {fileID: 930219996}
   ClearMark: {fileID: 978664951}

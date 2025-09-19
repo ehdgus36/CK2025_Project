@@ -283,6 +283,9 @@ public class Card : MonoBehaviour
     //스파인에서 AttackEvent가 발생할 때 실행할거
     public virtual void AttackEvent(TrackEntry entry, Spine.Event e)
     {
+
+        if (e.Data.Name != "4bit") return;
+
         DamageBuff = GameManager.instance.ExcutSelectCardSystem.BuffDamage;
 
         Debug.Log("데미지 버프" + DamageBuff);
@@ -350,8 +353,6 @@ public class Card : MonoBehaviour
         GameManager.instance.Player.LossBarrier(CardDataVariable["Barrier_Loss"]);
 
         GameManager.instance.ExcutSelectCardSystem.BuffDamage += cardData.Damage_Buff;
-
-        
 
         GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
     }

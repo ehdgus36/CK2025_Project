@@ -73,7 +73,8 @@ public class UnitAnimationSystem : MonoBehaviour
         {
             if (AnimationDatas.ContainsKey(animeKey))
             {
-                
+
+                UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f);
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
                 
 

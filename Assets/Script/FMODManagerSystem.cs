@@ -18,6 +18,7 @@ public class FMODManagerSystem : MonoBehaviour
     private EventInstance bgmInstance2;
     [SerializeField] bool isStartBgm = false;
 
+    [SerializeField]MetronomeSystem metronomeSystem;
     public void Start()
     {
         if (isStartBgm == true) Initialize();
@@ -25,15 +26,20 @@ public class FMODManagerSystem : MonoBehaviour
 
     public void Initialize()
     {
+        if (metronomeSystem == null)
+        {
+            metronomeSystem = GameManager.instance.Metronome;
+        }
+
         bgmInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance.release();
 
         bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance2.release();
 
-        if (MainBgm != "") GameManager.instance.Metronome.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
+        if (MainBgm != "") metronomeSystem.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
 
-        if (SubBgm != "") GameManager.instance.Metronome.AddOnceMetronomX4Event(() => { PlayBGMSub(SubBgm); }); 
+        if (SubBgm != "") metronomeSystem.AddOnceMetronomX4Event(() => { PlayBGMSub(SubBgm); }); 
 
         SceneManager.sceneUnloaded += (Scene) => { OnEndSound(); };
     }

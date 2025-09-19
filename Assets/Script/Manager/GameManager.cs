@@ -233,24 +233,29 @@ public class GameManager : MonoBehaviour
         // 턴앤드 클릭시 TurnSwap함수 재생
         Debug.Log("턴앤드 클릭");
 
-        ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
-        (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
-
-        ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
-
-        if (ThisTurnUnit.GetType() == typeof(Player))
+        Metronome.AddOnceMetronomX4Event(() =>
         {
-            UIAnime.Play("Active_UIAnimation");
-            _FMODManagerSystem.FMODChangePlayer();
-        }
+            ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
+            (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
-        if (ThisTurnUnit.GetType() == typeof(EnemysGroup))
-        {
-            UIAnime.Play("Hide_UIAnimation");
-            _FMODManagerSystem.FMODChangeMonsterTurn();
-        }
+            ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
 
-        StartCoroutine(TurnMark());
+            if (ThisTurnUnit.GetType() == typeof(Player))
+            {
+                UIAnime.Play("Active_UIAnimation");
+                _FMODManagerSystem.FMODChangePlayer();
+            }
+
+            if (ThisTurnUnit.GetType() == typeof(EnemysGroup))
+            {
+                UIAnime.Play("Hide_UIAnimation");
+                _FMODManagerSystem.FMODChangeMonsterTurn();
+            }
+
+            StartCoroutine(TurnMark());
+        });
+
+       
 
     }
 

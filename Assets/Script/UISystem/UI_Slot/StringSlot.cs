@@ -5,7 +5,7 @@ public class StringSlot : SlotUI
 {
     public override void OnDrop(PointerEventData eventData)
     {
-       
+        InsertData(eventData.pointerDrag);
     }
 
     public override void InsertData(GameObject data)

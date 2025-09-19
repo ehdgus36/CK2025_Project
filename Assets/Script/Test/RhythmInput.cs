@@ -122,13 +122,13 @@ public class RhythmInput : MonoBehaviour
                     if (inputInstanceNote[0].mouseInput == 0)
                     {
                         RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani");
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani",false,null,null,false,1.5f);
                     }
 
                     if (inputInstanceNote[0].mouseInput == 1)
                     {
-                        RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani");
+                        RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");     
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
                     }
 
 

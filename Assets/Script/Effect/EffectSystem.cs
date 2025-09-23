@@ -124,4 +124,14 @@ public class EffectSystem : MonoBehaviour
 
         PlayEffect(effectCode,worldPos);
     }
+
+
+    public void StopEffect(string effectCode)
+    {
+        if (EffectSystemInstanceData.ContainsKey(effectCode))
+        {
+            EffectSystemInstanceData[effectCode].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
+    }
 }

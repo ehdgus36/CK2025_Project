@@ -209,8 +209,10 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) == true)
         {
+            SelectExcutCard currnetCard = null;
             if (_SelectCard != null)
             {
+                currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
                 if (_TargetEnemy != null)
                 {
                     if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
@@ -220,18 +222,21 @@ public class ExcutSelectCardSystem : MonoBehaviour
                         ArrowUIObject.SetActive(false);
                         //CardExcutEvent();
 
-                        
+
                     }
                 }
-
-                
-
-
             }
+
+          
             _TargetEnemy = null;
             _SelectCard = null;
             ArrowUIObject.SetActive(false);
-            DimObject.gameObject.SetActive(false);
+            
+            if (currnetCard != null)
+            {
+                currnetCard.OnPointerExit(null);
+                DimObject.gameObject.SetActive(false);
+            }
         }
 
 

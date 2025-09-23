@@ -42,21 +42,16 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
         moveEffect.SetActive(true);
 
-        StartCoroutine(MoveCardEffect(moveEffect.transform, MovePos.GetComponent<RectTransform>()));
+        //카드 묘지 이동효과 출력
+        card.transform.SetParent(CemeteryPos.transform);
+        StartCoroutine(MoveCardEffect(moveEffect.transform, MovePos.GetComponent<RectTransform>(), card));
 
-        card.transform.position = CemeteryPos.position;
-        card.transform.SetParent(this.transform);
 
-        CemeteryCard.Add(card);
-        card.gameObject.SetActive(true);
-        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
+        card.gameObject.SetActive(true); 
     }
 
-    IEnumerator MoveCardEffect(Transform moveTarget, RectTransform UItargetPos)
-    {
-       
-
-
+    IEnumerator MoveCardEffect(Transform moveTarget, RectTransform UItargetPos , Card card)
+    {      
         Camera uiCamera = GameManager.instance.Shake.gameObject.GetComponent<Camera>(); // Canvas에 지정된 Camera
 
         Vector3 targetPos;
@@ -70,16 +65,37 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
 
         float t = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+            t += 0.1f;
+
+            card.transform.localScale = Vector3.Lerp(card.transform.localScale, Vector3.zero, t);
+            card.transform.eulerAngles = Vector3.Lerp(card.transform.eulerAngles, new Vector3(0,0,180f), t);
+            yield return new WaitForSeconds(.01f);
+        }
+
+        t = 0;
         for (int i = 0; i < 20; i++)
         {
-            t = +0.05f;
+            t += 0.05f;
 
-            moveTarget.transform.position = Vector3.Lerp(moveTarget.transform.position, targetPos, t);
+            moveTarget.transform.position = Vector3.Lerp(moveTarget.transform.position, UItargetPos.transform.position, t);
             yield return new WaitForSeconds(.025f);
         }
 
 
+        //도착하면 묘지 카드 위치로전송
+        card.transform.position = CemeteryPos.position;
+        card.transform.localScale = Vector3.one;
+
+        //카드 묘지에 넣기
+        CemeteryCard.Add(card);
+        card.gameObject.SetActive(true);
+        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
+
         moveTarget.gameObject.SetActive(false);
+
     }
 
 

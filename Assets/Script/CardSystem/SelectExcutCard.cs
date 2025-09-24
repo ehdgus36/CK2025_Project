@@ -12,9 +12,10 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         if (CardSlot.ReadData<Card>() == null) return;
         
         GameManager.instance.ExcutSelectCardSystem.SetSelectCard(CardSlot.ReadData<Card>());
-        ;
-        EffectSystem.PlayEffect("CardHold_Effect" , new Vector3(CardSlot.ReadData<Card>().transform.position.x,
-                                                                -4.733334f,
+
+       
+        EffectSystem.PlayEffect("CardHold_Effect", new Vector3(CardSlot.ReadData<Card>().transform.position.x,
+                                                               -4.377778f,
                                                                 CardSlot.ReadData<Card>().transform.position.z));
         GetComponent<HoverEffectUI>()?.HoldEffect(true);
         GetComponent<RectTransform>().sizeDelta = new Vector2(2100f, 300f);

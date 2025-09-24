@@ -20,6 +20,11 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] Button BuyButton;
     [SerializeField] Button ResetButton;
 
+    [SerializeField] TextMeshProUGUI ResetPriceText;
+
+    [SerializeField] int ResetCount = 0;
+    [SerializeField] int ResetPrice = 45;
+
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
     public List<ShopItemObj> PeakList { get { return _PeakList; } }
     // Update is called once per frame
@@ -31,12 +36,7 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
-        //for (int i = 0; i < TapeList.Count; i++)
-        //{
-        //    TapeList[i].ShopEvent = this;
-        //    TapeSelectList[i].GetComponent<SelectShopItemObj>().Initialize(TapeList[i].gameObject);
-
-        //}
+       
 
         for (int i = 0; i < PeakList.Count; i++)
         {
@@ -54,6 +54,21 @@ public class ShopEvent : MonoBehaviour
 
     private void ResetItem()
     {
+        int useGold = 0;
+
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out useGold);
+
+        if (useGold >= ResetPrice)
+        {
+            useGold -= ResetPrice;
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, useGold);
+        }
+        else
+        {
+            return;
+        }
+
+
 
         SelectDescPopUp.gameObject.SetActive(false);
         for (int i = 0; i < PeakList.Count; i++)
@@ -105,11 +120,7 @@ public class ShopEvent : MonoBehaviour
         BuyButton.interactable = true;
     }
 
-    public void SoldOutEvent(int index)
-    {
-
-
-    }
+   
 
     public void ExitShop()
     {

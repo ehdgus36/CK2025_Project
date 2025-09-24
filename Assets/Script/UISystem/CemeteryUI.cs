@@ -36,35 +36,57 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
             effectSystem = GetComponent<EffectSystem>();
         }
 
-        effectSystem.PlayUIEffect("CardRemove_Effect", card.GetComponent<RectTransform>());
+        
 
-        GameObject moveEffect = effectSystem.UIEffectObject("CardMove_Effect", card.GetComponent<RectTransform>());
-
-        moveEffect.SetActive(true);
+       
 
         //카드 묘지 이동효과 출력
+
+
         card.transform.SetParent(CemeteryPos.transform);
-        StartCoroutine(MoveCardEffect(moveEffect.transform, MovePos.GetComponent<RectTransform>(), card));
+        StartCoroutine(MoveCardEffect( MovePos.GetComponent<RectTransform>(), card));
 
 
         card.gameObject.SetActive(true); 
     }
 
-    IEnumerator MoveCardEffect(Transform moveTarget, RectTransform UItargetPos , Card card)
-    {      
-        Camera uiCamera = GameManager.instance.Shake.gameObject.GetComponent<Camera>(); // Canvas에 지정된 Camera
-
-        Vector3 targetPos;
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(
-            UItargetPos,
-            RectTransformUtility.WorldToScreenPoint(uiCamera, UItargetPos.position),
-            uiCamera,
-            out targetPos
-        );
-
-
+    IEnumerator MoveCardEffect( RectTransform UItargetPos , Card card)
+    {
 
         float t = 0;
+
+        Vector3 targetPos = card.transform.localPosition + new Vector3(0f, 200f, 0f);
+
+        // 이펙트 생성
+        GameObject CardSelectEffect = effectSystem.EffectObject("CardHold_Effect", card.transform.position);
+
+        // 신규 만든거 기획서 시스템
+        for (int i = 0; i < 10; i++)
+        {
+            t += .1f;
+            card.transform.localPosition = Vector3.Lerp(card.transform.localPosition, targetPos, t);
+            CardSelectEffect.transform.position = card.transform.position;
+            yield return new WaitForSeconds(.02f);
+        }
+        yield return new WaitForSeconds(.4f);
+
+
+        //지우는 이펙트
+        effectSystem.StopEffect("CardHold_Effect");
+        effectSystem.PlayUIEffect("CardRemove_Effect", card.GetComponent<RectTransform>());
+
+
+        yield return new WaitForSeconds(0.2f);
+        effectSystem.StopEffect("CardRemove_Effect");
+
+        //이동이펙트
+        GameObject moveEffect = effectSystem.UIEffectObject("CardMove_Effect", card.GetComponent<RectTransform>());
+        Transform moveTarget = moveEffect.transform;
+        moveTarget.transform.position = card.transform.position;
+        moveEffect.SetActive(true);
+
+
+        t = 0;
 
         for (int i = 0; i < 10; i++)
         {
@@ -72,7 +94,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
             card.transform.localScale = Vector3.Lerp(card.transform.localScale, Vector3.zero, t);
             card.transform.eulerAngles = Vector3.Lerp(card.transform.eulerAngles, new Vector3(0,0,180f), t);
-            yield return new WaitForSeconds(.01f);
+            yield return new WaitForSeconds(.02f);
         }
 
         t = 0;

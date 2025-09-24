@@ -13,7 +13,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     Transform onDragParent;
 
-    Transform startParent;
+   [SerializeField] Transform startParent;
 
     public Vector3 startScale; //юс╫ц
 

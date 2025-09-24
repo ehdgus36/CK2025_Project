@@ -215,10 +215,11 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
                 if (_TargetEnemy != null)
                 {
-                    if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
+                    //마나가 사용가능하고, 예약이 가능한 상황일때
+                    if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type) && ReservedCard(_SelectCard, _TargetEnemy))
                     {
 
-                        ReservedCard(_SelectCard, _TargetEnemy);// 큐에 예약 데이터 넣기
+                        // 큐에 예약 데이터 넣기
                         ArrowUIObject.SetActive(false);
                         //CardExcutEvent();
 
@@ -291,10 +292,17 @@ public class ExcutSelectCardSystem : MonoBehaviour
         }
     }
 
-    private void ReservedCard(Card card, Enemy enemy)
+    private bool ReservedCard(Card card, Enemy enemy)
     {
-        card.SetOutLineColor(Color.blue);
-        _CardQueue.Enqueue(new CardReservedData(card, enemy));
+        if (_CardQueue.Count == 0)
+        {
+            GameManager.instance.UIInputSetActive(false);
+            //card.SetOutLineColor(Color.blue);
+            _CardQueue.Enqueue(new CardReservedData(card, enemy));
+            return true;
+        }
+
+        return false;
     }
 
     private IEnumerator UseReservedCard()
@@ -312,6 +320,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
                     //카드 사용이 완료될때 까지 대기
                     yield return new WaitUntil(() => { return cardData.card.IsCardEnd == true; });
+
+                    
                 }
                 else // 타겟 죽으면 해당시점에 감소한 마나 회복
                 {
@@ -321,6 +331,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 cardData.card.SetOutLineColor(Color.white); // 예약이사용 되면 색원상 복구
             }
 
+
+            GameManager.instance.UIInputSetActive(true);
             GameManager.instance.GetEndTurnButton.interactable = true;
             yield return null;
         }

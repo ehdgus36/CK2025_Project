@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ManaUIView : MonoBehaviour
 {
-    [SerializeField] Sprite[] ManaIcons;
+    [SerializeField] GameObject[] ManaIcons;
     [SerializeField] TextMeshProUGUI ManaText;
 
 
@@ -15,6 +15,22 @@ public class ManaUIView : MonoBehaviour
     {
         string[] Datas = data.Split('/');
 
+        int MaxMana = int.Parse(Datas[1]);
+
+        for (int i = 0; i < ManaIcons.Length; i++)
+        {
+            ManaIcons[i].SetActive(false);
+        }
+
+
+        for (int i = 0; i < MaxMana; i++)
+        {
+            ManaIcons[i].SetActive(true);
+            ManaIcons[i].transform.GetChild(0).gameObject.SetActive(false);
+        }
+
+
+
         int currentMana = int.Parse(Datas[0]);
 
         if (ManaText != null)
@@ -23,9 +39,15 @@ public class ManaUIView : MonoBehaviour
         }
 
 
+       
+
+
         if (ManaIcons.Length != 0)
         {
-            this.GetComponent<Image>().sprite = ManaIcons[currentMana];
+            for (int i = 0; i < currentMana ; i++)
+            {
+                ManaIcons[i].transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
 
 

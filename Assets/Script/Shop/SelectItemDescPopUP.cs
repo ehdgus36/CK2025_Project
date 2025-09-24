@@ -13,8 +13,9 @@ struct PopUpItemData
 public class SelectItemDescPopUP : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI ItemName;
-    [SerializeField] TextMeshProUGUI ItemTag;
+    [SerializeField] TextMeshProUGUI ItemRank;
     [SerializeField] TextMeshProUGUI ItemDesc;
+    [SerializeField] TextMeshProUGUI ItmePrice;
 
     [SerializeField] Image ItemImage;
     [SerializeField] PopUpItemData[] popUpItemDatas;
@@ -36,16 +37,18 @@ public class SelectItemDescPopUP : MonoBehaviour
                 if (itemID[0] == 'I')
                 {
                     ItemImage.rectTransform.sizeDelta = new Vector2(1024f, 1024f);
-                    ItemTag.text = data.Tag;
+                    ItemRank.text = data.Tag;
                     ItemDesc.text = data.Example;
+                    ItmePrice.text = data.Price.ToString();
                     ItemImage.sprite = popUpItemDatas[i].itemImage;
                 }
 
                 if (itemID[0] == 'C')
                 {
                     ItemImage.rectTransform.sizeDelta = new Vector2(576f, 576f);
-                    ItemTag.text = data.Tag;
+                    ItemRank.text = data.Tag;
                     ItemDesc.text = data.Example;
+                    ItmePrice.text = data.Price.ToString();
                     object cardData;
 
                     GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(itemID, out cardData);
@@ -59,8 +62,9 @@ public class SelectItemDescPopUP : MonoBehaviour
                 if (itemID[0] == 'C')
                 {
                     ItemImage.rectTransform.sizeDelta = new Vector2(576f, 576f);
-                    ItemTag.text = data.Tag;
+                    ItemRank.text = data.Tag;
                     ItemDesc.text = data.Example;
+                    ItmePrice.text = data.Price.ToString();
                     object cardData;
 
                     GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(itemID, out cardData);

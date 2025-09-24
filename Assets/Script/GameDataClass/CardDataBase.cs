@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -12,55 +13,55 @@ using UnityEngine;
 [System.Serializable]
 public struct CardData
 {
-    public readonly string Card_ID;
-    public readonly int    Card_Rank;
-    public readonly int    Card_Level;
-    public readonly string MoveType;
-    public readonly string Card_Name_KR;
-    public readonly string Card_Name_EN;
+    public  string Card_ID;
+    public  int    Card_Rank;
+    public  int    Card_Level;
+    public  string MoveType;
+    public  string Card_Name_KR;
+    public  string Card_Name_EN;
 
-    public readonly int    Cost_Type;
-    public readonly string Ability_Type;
-    public readonly string Ability_Con1;
-    public readonly string Ability_Con2;
-    public readonly string Ability_Act1;
-    public readonly string Ability_Act2;
-
-
+    public  int    Cost_Type;
+    public  string Ability_Type;
+    public  string Ability_Con1;
+    public  string Ability_Con2;
+    public  string Ability_Act1;
+    public  string Ability_Act2;
 
 
-    public readonly int Range_Type;
-    public readonly int Attack_Count;
-
-    public readonly int Damage;
-
-    public readonly int Status_Type;
-    public readonly int Status_Turn;
-
-    public readonly int Damage_Buff;
-    public readonly int Recover_HP;
-
-    public readonly int HP_Loss;
-
-    public readonly int Barrier_Get;
-    public readonly int Barrier_Loss;
 
 
-    public readonly string Ani_Code;
+    public  int Range_Type;
+    public  int Attack_Count;
+
+    public  int Damage;
+
+    public  int Status_Type;
+    public  int Status_Turn;
+
+    public  int Damage_Buff;
+    public  int Recover_HP;
+
+    public  int HP_Loss;
+
+    public  int Barrier_Get;
+    public  int Barrier_Loss;
+
+
+    public  string Ani_Code;
    
-    public readonly string Effect_Code;
+    public  string Effect_Code;
 
-    public readonly string Effect_Pos;
-    public readonly string Sound_Code;
+    public  string Effect_Pos;
+    public  string Sound_Code;
 
-    public readonly string Card_Des;
+    public  string Card_Des;
 
-    private readonly string Card_CurrentDesc; // 플레이어에 버프나 상태에따라 유동적으로 변하는 카드 설명
+    private string Card_CurrentDesc; // 플레이어에 버프나 상태에따라 유동적으로 변하는 카드 설명
 
-    public readonly string Buff_Ex;
-    public readonly string Buff_Ex2;
+    public  string Buff_Ex;
+    public  string Buff_Ex2;
 
-    public readonly string Card_Im;
+    public  string Card_Im;
 
     public Buff CardBuff { get; private set; }
 
@@ -114,7 +115,7 @@ public struct CardData
         CardBuff = null;
         
         CardBuff = GetBuff();
-        Card_Des = DefaultDescription(data["Card_Des"].ToString());
+        Card_Des = DefaultDescription(Card_CurrentDesc);
     }
 
 
@@ -156,7 +157,7 @@ public struct CardData
 
     public string CardDescDamageReplace(string currentDamage)
     {
-        string result = currentDamage.Replace("@", currentDamage);
+        string result = Card_CurrentDesc.Replace("@", currentDamage);
 
         return result;
     }
@@ -187,37 +188,56 @@ public class CardDataBase
     
     Dictionary<string, CardStatusData> CardStatusDatas = new Dictionary<string, CardStatusData>();
     Dictionary<string, CardData> CommonCardDatas = new Dictionary<string, CardData>();
-   
-    
-    public CardDataBase(TextAsset CardStatusDataTable , TextAsset CardDataTable)
-    { 
-   
-        int CardDataIndex = CSVReader.Read(CardDataTable).Count;
-        int CardStatusIndex = CSVReader.Read(CardStatusDataTable).Count;
 
-       
+    TextAsset CardDataTableTextData;
+    TextAsset CardStatusDataTableTextData;
+
+
+    public CardDataBase(TextAsset CardStatusDataTable , TextAsset CardDataTable)
+    {
+
+        CardDataTableTextData = CardDataTable;
+        CardStatusDataTableTextData = CardStatusDataTable;
+
+        ResetTable();
+    }
+
+    public void ResetTable()
+    {
+        int CardDataIndex = CSVReader.Read(CardDataTableTextData).Count;
+        int CardStatusIndex = CSVReader.Read(CardStatusDataTableTextData).Count;
 
         for (int i = 0; i < CardDataIndex; i++)
         {
-            string key = CSVReader.Read(CardDataTable)[i]["Card_ID"].ToString();
-            
-            CardData data = new CardData(CSVReader.Read(CardDataTable)[i]);
-           
+            string key = CSVReader.Read(CardDataTableTextData)[i]["Card_ID"].ToString();
+
+            CardData data = new CardData(CSVReader.Read(CardDataTableTextData)[i]);
 
             CommonCardDatas.Add(key, data);
-
-            
         }
 
 
         for (int i = 0; i < CardStatusIndex; i++)
         {
-            string key = CSVReader.Read(CardStatusDataTable)[i]["Status_Code"].ToString();
-            CardStatusData data = new CardStatusData(CSVReader.Read(CardStatusDataTable)[i]);
+            string key = CSVReader.Read(CardStatusDataTableTextData)[i]["Status_Code"].ToString();
+            CardStatusData data = new CardStatusData(CSVReader.Read(CardStatusDataTableTextData)[i]);
             CardStatusDatas.Add(key, data);
         }
     }
 
+
+    public void AddValueDamage(int amount)
+    {
+        List<string> keys = CommonCardDatas.Keys.ToList();
+
+        for (int i = 0; i < keys.Count; i++)
+        {
+            CardData card = CommonCardDatas[keys[i]];
+            card.Damage = Mathf.Clamp(card.Damage + amount,0, 100);
+            card.Card_Des = card.CardDescDamageReplace(card.Damage.ToString());
+            CommonCardDatas[keys[i]] = card;
+        }
+    }
 
     public bool SearchData(string cardCode, out object get_cardData)
     {

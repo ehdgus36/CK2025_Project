@@ -4,6 +4,7 @@ using UnityEngine;
 public class CardSellSystem : MonoBehaviour
 {
     [SerializeField] PlayerCardView cardView;
+    [SerializeField] int SellPrice;
 
 
     public void SellEvent()

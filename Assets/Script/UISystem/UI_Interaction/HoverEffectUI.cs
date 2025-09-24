@@ -43,7 +43,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (HoverEffectCoroutine != null) StopCoroutine(HoverEffectCoroutine);
 
-        HoverEffectCoroutine = StartCoroutine(HoverEffect(StartPos + new Vector3(0f,100f,0f) , StartScale * hoverScale));
+        HoverEffectCoroutine = StartCoroutine(HoverEffect(StartPos + new Vector3(0f,140f,0f) , StartScale * hoverScale));
 
         
 

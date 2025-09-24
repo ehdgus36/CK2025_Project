@@ -11,6 +11,8 @@ public class ItemInventorySystem : MonoBehaviour
     [SerializeField] Button _StrapItemSlotButton;
     [SerializeField] Button _StringItemSlotButton;
 
+    
+
 
 
 
@@ -39,7 +41,12 @@ public class ItemInventorySystem : MonoBehaviour
             _StringItemSlotGroup.gameObject.SetActive(true);
             SetUpItem();
         });
+        _StickerItemSlotButton.onClick.Invoke();
+
+
+
     }
+
 
 
     public void SetUpItem()

@@ -82,11 +82,11 @@ C2082,2,8,2,P,템포 파괴,TempoDestruction_2,1,None,0,0,0,0,2,1,0,1,2,0,0,0,0,
  적 전체에게 <color=#BF4D13>취약 1턴</color>을 부여한다.",취약 : 적의 받는 데미지가 20% 추가됩니다.,0,희귀_전체 취약 2턴 부여_레벨2,TempoDestruction_Pick,
 C2091,2,9,1,P,무아지경,IntheZone_1,2,Persistent,IsBarrierActive,IsPlayerHit,C/HP_Recover=ManaUseCnt,F/GetRecoverHP,3,1,0,0,0,0,0,0,0,0,bresth_Ani,bresth_Effect,P,event:/Effect/Buff_Effect/Captivate,"배리어를 지니고 있으면
  피격 데미지만큼 <color=#00B050>체력을 회복</color>한다.",0,0,희귀_배리어 있는 동안은 맞으면 체력 x 회복_레벨1,IntheZone_Pick,
-C2092,2,9,2,P,무아지경,IntheZone_2,2,Persistent,,IsPlayerHit,C/HP_Recover=ManaUseCnt,F/GetRecoverHP,3,1,0,0,0,0,0,0,0,0,bresth_Ani,bresth_Effect,P,event:/Effect/Buff_Effect/Captivate,"배리어를 지니고 있으면
+C2092,2,9,2,P,무아지경,IntheZone_2,2,Persistent,0,IsPlayerHit,C/HP_Recover=ManaUseCnt,F/GetRecoverHP,3,1,0,0,0,0,0,0,0,0,bresth_Ani,bresth_Effect,P,event:/Effect/Buff_Effect/Captivate,"배리어를 지니고 있으면
  피격 데미지만큼 <color=#00B050>체력을 회복</color>한다.",0,0,희귀_맞으면 체력 x 회복_레벨2,IntheZone_Pick,
 C2101,2,10,1,P,기타의 오라,GuitarAura_1,2,Persistent,IsBarrierActive,IsPlayerHit,C/Damage=ManaUseCnt,F/AttackEnemy,3,1,0,0,0,0,0,0,0,0,guitarwall_Ani,guitarwall_Effect,E,event:/Effect/Defense/Defense_Success,"<color=#0070C0>배리어</color> 있는 동안은
  적도 <color=#FF0000>같은 데미지</color>를 입는다.",0,0,희귀_배리어 있는 동안은 맞으면 적도 x 데미지_레벨1,GuitarAura_Pick,
-C2102,2,10,2,P,기타의 오라,GuitarAura_2,2,Persistent,,IsPlayerHit,C/Damage=ManaUseCnt,F/AttackEnemy,3,1,0,0,0,0,0,0,0,0,guitarwall_Ani,guitarwall_Effect,E,event:/Effect/Defense/Defense_Success,"<color=#0070C0>배리어</color> 있는 동안은
+C2102,2,10,2,P,기타의 오라,GuitarAura_2,2,Persistent,0,IsPlayerHit,C/Damage=ManaUseCnt,F/AttackEnemy,3,1,0,0,0,0,0,0,0,0,guitarwall_Ani,guitarwall_Effect,E,event:/Effect/Defense/Defense_Success,"<color=#0070C0>배리어</color> 있는 동안은
  적도 <color=#FF0000>같은 데미지</color>를 입는다.",0,0,희귀_맞으면 적도 x 데미지_레벨2,GuitarAura_Pick,
 C2111,2,11,1,P,코드 C,CodeC_1,1,Onec,0,0,(스테이지 진행중) 덱에있는 C2111 카드를 C2121로 변경,0,1,1,4,0,0,0,0,0,0,0,codeC_Ani,codeC_Effect,(작성 필요),event:/Effect/Common_Attack/CodeC,"하나의 적에게  <color=#FF0000>4 데미지</color>를 입힙니다.
 지니고 있는 모든 <color=#0070C0>코드 C</color> 카드가 <color=#0070C0>코드 D</color>로 변경됩니다.",0,0,"희귀_단일 4 데미지, C코드 카드를 D코드 카드로 변환_1레벨",codeC_Pick,
@@ -110,5 +110,5 @@ C3031,3,3,1,P,락 스피릿,RockSpirit_1,1,Persistent,IsNotFullHP,IsEnemyHit,C/R
  <color=#00B050>체력을 회복</color>한다.",0,0,전설_적 타격 데미지만큼 체력 회복_레벨1,RockSpirit_Pick,
 C3032,3,3,2,P,락 스피릿,RockSpirit_2,1,Persistent,IsNotFullHP,IsEnemyHit,C/Recover_HP=HitEnemyDmg,F/GetRecoverHP,3,1,0,0,0,0,0,0,0,0,VolumeUp_Ani,VolumeUp_Effect,P,event:/Effect/Buff_Effect/Volum_Up,"이번 턴 동안 적을 타격한 <color=#FF0000>데미지</color>만큼
  <color=#00B050>체력을 회복</color>한다.",0,0,전설_적 타격 데미지만큼 체력 회복_레벨2,RockSpirit_Pick,
-SKILL,3,3,2,P,스킬,SKILL,0,None,0,0,0,0,1,1,25,0,0,0,0,0,0,0,break_Ani,break_Effect,E,event:/Effect/Common_Attack/Break,"적 하나를 기타로 찍어 눌러
+SKILL1,3,3,2,P,스킬,SKILL,0,None,0,0,0,0,1,1,25,0,0,0,0,0,0,0,break_Ani,break_Effect,E,event:/Effect/Common_Attack/Break,"적 하나를 기타로 찍어 눌러
  <color=#FF0000>@ 데미지</color>를 입힌다.",0,0,스킬_단일 25 데미지_레벨1,SKILL,

@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public string ItemType { get; protected set; }
+    public string ItemName { get; protected set; }
+    public string ItemDesc { get; protected set; }
+
+    [SerializeField] protected string ItemID;
     void Start()
     {
-        
+        Initialized();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    protected abstract void Initialized();
+    
 }

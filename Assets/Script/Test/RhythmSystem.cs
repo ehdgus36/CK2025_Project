@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class RhythmSystem : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class RhythmSystem : MonoBehaviour
     [SerializeField] RhythmInput rhythmInput;
 
     [SerializeField] string NoteData;
+    [SerializeField] string NoteGroupID = "RG101";
 
     MetronomeSystem metronome;
 
@@ -24,7 +26,8 @@ public class RhythmSystem : MonoBehaviour
         {
             metronome = GameManager.instance.Metronome;
         }
-       
+
+        NoteData = GetNotData(NoteGroupID);
 
         rhythmView.NoteData = NoteData;
         rhythmInput.NoteData = NoteData.Substring(1);
@@ -113,7 +116,24 @@ public class RhythmSystem : MonoBehaviour
        
     }
 
-   
+    string GetNotData(string noteGroupID)
+    {
+        object loadData; 
+
+        GameDataSystem.StaticGameDataSchema.NOTE_DATA_BASE.SearchData(noteGroupID, out loadData);
+
+        List<string> NoteIDs = new List<string>();
+        NoteIDs.Add(((NoteGroupData)loadData).Note_ID1);
+        NoteIDs.Add(((NoteGroupData)loadData).Note_ID2);
+        NoteIDs.Add(((NoteGroupData)loadData).Note_ID3);
+
+
+        GameDataSystem.StaticGameDataSchema.NOTE_DATA_BASE.SearchData(NoteIDs[Random.Range(0, NoteIDs.Count)], out loadData);
+
+
+        return ((NoteData)loadData).NoteCode;
+    }
+
 
 
 

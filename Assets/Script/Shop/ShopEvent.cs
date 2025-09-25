@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.Mathematics;
 
 public class ShopEvent : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] List<GameObject> PeakSelectList;
     [SerializeField] SelectItemDescPopUP SelectDescPopUp;
 
-    [SerializeField] TextMeshProUGUI CoinText;
+    
     [SerializeField] GameObject NoGold;  // 골드가 없으면 나옴
 
     [SerializeField] Button BuyButton;
@@ -22,7 +23,7 @@ public class ShopEvent : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI ResetPriceText;
 
-    [SerializeField] int ResetCount = 0;
+    [SerializeField] int ResetCount = 1;
     [SerializeField] int ResetPrice = 45;
 
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
@@ -44,11 +45,9 @@ public class ShopEvent : MonoBehaviour
             //PeakSelectList[i].GetComponent<SelectShopItemObj>().Initialize(PeakList[i].gameObject);
         }
         SelectDescPopUp.gameObject.SetActive(false);
-        int coin = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out coin);
-
-        CoinText.text = coin.ToString();
+       
         ResetButton.onClick.AddListener(ResetItem);
+        ResetPriceText.text = ResetPrice.ToString();
 
     }
 
@@ -63,18 +62,25 @@ public class ShopEvent : MonoBehaviour
             useGold -= ResetPrice;
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, useGold);
         }
-        else
-        {
-            return;
-        }
+        else{ return; }
 
+        ResetCount++;
 
+        ResetPrice = (int)(((((float)ResetCount + 10f) * ((float)ResetCount + 10f)) / ((10f + 10f) * (10f + 10f))) *150f);
+       
+        ResetPriceText.text = ResetPrice.ToString();
 
         SelectDescPopUp.gameObject.SetActive(false);
         for (int i = 0; i < PeakList.Count; i++)
         {
             PeakList[i].ResetCard();
            
+        }
+
+        SelectDescPopUp.gameObject.SetActive(false);
+        for (int i = 0; i < PeakList.Count; i++)
+        {
+            PeakList[i].PositionReset();
         }
     }
 
@@ -132,10 +138,10 @@ public class ShopEvent : MonoBehaviour
 
         NoGold.SetActive(false);
 
-        ItemData data;
+        ShopData data;
         int coins = 0;
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out coins);
-        GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(SelectItemID, out data);
+        GameDataSystem.StaticGameDataSchema.Shop_DATA_BASE.SearchData(SelectItemID, out data);
 
 
         if (coins < data.Price) // 돈없으면 리턴
@@ -154,23 +160,15 @@ public class ShopEvent : MonoBehaviour
                     
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, out playerItemData);
 
-
-           
-
             //실질적인 구매 실행
             playerItemData.Add(SelectItemID);
             coins -= data.Price;
 
-            //UI 업데이트
-            CoinText.text = coins.ToString();
-
+          
 
             //정보 갱신
           
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, playerItemData);
-
-
-
 
             TapeSelectList[SelectTapeIndex].SetActive(false);
             _TapeList[SelectTapeIndex].SoldOut();
@@ -188,7 +186,6 @@ public class ShopEvent : MonoBehaviour
                 coins -= data.Price;
             }
 
-            CoinText.text = coins.ToString();
 
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, playerDackDatas);
 

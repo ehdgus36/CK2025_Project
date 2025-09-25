@@ -2,56 +2,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct ItemData
+public struct ShopData
 {
     public readonly string Item_ID;
 
-    public readonly string Name;
-
     public readonly int Price;
+    public readonly string Rank;
 
-    public readonly int PCMaxHP_UP;
-    public readonly int FireDm_UP;
-
-    public readonly int EnDm_Down;
-
-    public readonly int EnDf_Down;
-
-    public readonly string Tag;
-
-    public readonly string Example;
-
-    public ItemData(Dictionary<string, object> data)
+    public ShopData(Dictionary<string, object> data)
     {
         Item_ID = data["Item_ID"].ToString();
-
-        Name = data["Name"].ToString();
-
         Price = (int)data["Price"];
-
-        PCMaxHP_UP = (int)data["PCMaxHP_UP"];
-        FireDm_UP  = (int)data["FireDm_UP"];
-
-        EnDm_Down  = (int)data["EnDm_Down"];
-
-        EnDf_Down  = (int)data["EnDf_Down"];
-
-        Tag = data["Tag"].ToString();
-        Example = data["Example"].ToString();
-
+        Rank = data["Rank"].ToString();
     }
 }
 
-
-    public class ItemDataBase 
+public class ShopDataBase 
 {
-    Dictionary<string, ItemData> ItemDatas = new Dictionary<string, ItemData>();
+    Dictionary<string, ShopData> ShopDatas = new Dictionary<string, ShopData>();
    
-    public ItemDataBase(TextAsset ItemDataTable)
+    public ShopDataBase(TextAsset ItemDataTable)
     {
-
         int CardDataIndex = CSVReader.Read(ItemDataTable).Count;
-        
 
         Debug.Log("¼öÄ¡ :" + CardDataIndex);
 
@@ -59,29 +31,24 @@ public struct ItemData
         {
             string key = CSVReader.Read(ItemDataTable)[i]["Item_ID"].ToString();
 
-            ItemData data = new ItemData(CSVReader.Read(ItemDataTable)[i]);
+            ShopData data = new ShopData(CSVReader.Read(ItemDataTable)[i]);
 
 
-            ItemDatas.Add(key, data);
-
-            
+            ShopDatas.Add(key, data);         
         }
-
-
-        
     }
 
 
-    public bool SearchData(string cardCode, out ItemData get_cardData)
+    public bool SearchData(string cardCode, out ShopData get_cardData)
     {
         bool isData = false;
 
-        get_cardData = new ItemData();
+        get_cardData = new ShopData();
 
-        if (ItemDatas.ContainsKey(cardCode))
+        if (ShopDatas.ContainsKey(cardCode))
         {
             isData = true;
-            get_cardData = ItemDatas[cardCode];
+            get_cardData = ShopDatas[cardCode];
         }
 
 
@@ -92,8 +59,7 @@ public struct ItemData
     public bool SearchData(string CardCode)
     {
         bool isData = false;
-        if (ItemDatas.ContainsKey(CardCode)) isData = true;
+        if (ShopDatas.ContainsKey(CardCode)) isData = true;
         return isData;
     }
-
 }

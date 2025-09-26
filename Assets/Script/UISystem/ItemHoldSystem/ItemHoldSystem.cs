@@ -4,7 +4,7 @@ using TMPro;
 
 public class ItemHoldSystem : MonoBehaviour
 {
-    [SerializeField] SlotGroup HoldSlotGroup;
+     public SlotGroup HoldSlotGroup { get; private set; }
 
     // 0 : itemType , 1: itemName , 2: itemDescript
     [SerializeField] TextMeshProUGUI[] StickerDesc;
@@ -18,6 +18,23 @@ public class ItemHoldSystem : MonoBehaviour
             HoldSlotGroup.Getsloat()[i].AddInsertEvent(HoldSlotInsertEvent);
             HoldSlotGroup.Getsloat()[i].AddRemoveEvent(UnHoldSlotInsertEvent);
         }
+
+        HoldSlotGroup = GetComponent<SlotGroup>();
+
+        StickerDesc[0].text = "";
+        StickerDesc[1].text = "";
+        StickerDesc[2].text = "";
+
+
+        StrapDesc[0].text = "";
+        StrapDesc[1].text = "";
+        StrapDesc[2].text = "";
+
+
+        StringDesc[0].text = "";
+        StringDesc[1].text = "";
+        StringDesc[2].text = "";
+
     }
 
 

@@ -7,6 +7,9 @@ public class HP_Bar : MonoBehaviour
     [SerializeField] Slider hp_bar;
     [SerializeField] Material healthBarMat;
     [SerializeField] TextMeshProUGUI Hp_text;
+
+  
+
     public void UpdateUI(int maxhp , int currenthp)
     {
         Debug.Log("최대 체력:" + maxhp.ToString());

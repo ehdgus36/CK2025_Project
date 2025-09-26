@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
        
         yield return null;
 
+        
      
 
         if (Metronome == null)

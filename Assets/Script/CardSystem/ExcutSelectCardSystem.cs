@@ -27,6 +27,11 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
 
     [SerializeField] List<dicobj> disobject = new List<dicobj>();
+
+    List<string> _UsedCard = new List<string>();
+    
+    // 사용한카드
+
     Enemy _TargetEnemy;
 
     Card _PreviousCard;
@@ -46,6 +51,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     Coroutine ReservedCardCoroutine;
     public int UseManaCount { get { return ManaSystem.UseManaCount(); } }
+
+    public string[] UsedCard { get { return _UsedCard.ToArray(); } }
     public bool IsSelectCard => _SelectCard != null;
 
     //1회성 어빌리티가 아닌 다회성 어빌리티 관리
@@ -93,6 +100,10 @@ public class ExcutSelectCardSystem : MonoBehaviour
         AbilityConditionData.TryAdd("IsEnemyHit", false);
         AbilityConditionData.TryAdd("IsPlayerHit", false);
 
+       
+        
+
+
         List<string> keys = new List<string>(AbilityConditionData.Keys);
 
         for (int i = 0; i < keys.Count; i++)
@@ -125,6 +136,9 @@ public class ExcutSelectCardSystem : MonoBehaviour
     {
         ManaSystem.EndTurnReset();
         ReservedCardCoroutine = StartCoroutine(UseReservedCard()); // 예약시스템 실행
+        _UsedCard.Clear();
+
+
     }
 
     public void SetSelectCard(Card card) // 선택한 카드를 등록
@@ -281,6 +295,9 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
             //카드 사용
             selecCard.TargetExcute(enemy);
+
+
+            _UsedCard.Add(selecCard.CardID);
 
             isTargeting = false;
             _PreviousCard = _SelectCard;

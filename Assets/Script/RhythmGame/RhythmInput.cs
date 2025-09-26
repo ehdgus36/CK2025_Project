@@ -1,4 +1,5 @@
 using FMODUnity;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,6 +15,7 @@ public class RhythmInput : MonoBehaviour
 
     [SerializeField] GameObject startObject;
 
+    public Action<GameObject> SuccessNoteEvent;
 
     public MetronomeSystem mt;
 
@@ -132,6 +134,7 @@ public class RhythmInput : MonoBehaviour
                     }
 
 
+                    SuccessNoteEvent.Invoke(inputInstanceNote[0].gameObject);
 
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
 

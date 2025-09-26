@@ -54,7 +54,7 @@ public class RhythmDriveSystem : MonoBehaviour
         StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, 
                                   successNote.transform.position, PlayerPos, "아무거나",
                                   () => { 
-                                      GameManager.instance.Player.PlayerEffectSystem.PlayEffect("guitarwall_Effect", GameManager.instance.Player.transform.position);
+                                      GameManager.instance.Player.PlayerEffectSystem.PlayEffect("bresth_Effect", GameManager.instance.Player.transform.position);
 
                                       UnitData playerData;
                                       GameDataSystem.DynamicGameDataSchema.LoadDynamicData<UnitData>(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA,

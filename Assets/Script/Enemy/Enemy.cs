@@ -40,6 +40,8 @@ public class EnemyData
 
     [SerializeField] public int Barrier;
 
+    [SerializeField] public Sprite Enemy_Sprite;
+
     [SerializeReference]public List<Buff> buffs;
 }
 

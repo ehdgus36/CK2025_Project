@@ -22,7 +22,24 @@ public struct CardData
 
     public  int    Cost_Type;
     public  string Ability_Type;
-    public  string Ability_Con1;
+
+    // 신규
+    //public int DiscordAllCard; // 신규
+    //public string Ability_Timing; // 신규
+
+    //public string AbilityTarget_Type;
+    //public string AbilityTarget_Status;
+
+    //public string AbilityGet_Count;
+    //public string AbilityGet1_Type;
+    //public string AbilityGet1_Value1;
+    //public string AbilityGet1_Value2;
+    //public string AbilityGet2_Type;
+    //public string AbilityGet2_Value1;
+    //public string AbilityGet2_Value2;// 신규
+    // 신규
+
+    public string Ability_Con1;
     public  string Ability_Con2;
     public  string Ability_Act1;
     public  string Ability_Act2;

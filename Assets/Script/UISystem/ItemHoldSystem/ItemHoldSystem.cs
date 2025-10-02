@@ -13,13 +13,15 @@ public class ItemHoldSystem : MonoBehaviour
 
     public void Start()
     {
+        HoldSlotGroup = GetComponent<SlotGroup>();
+
         for (int i = 0; i < HoldSlotGroup.Getsloat().Length; i++)
         {
             HoldSlotGroup.Getsloat()[i].AddInsertEvent(HoldSlotInsertEvent);
             HoldSlotGroup.Getsloat()[i].AddRemoveEvent(UnHoldSlotInsertEvent);
         }
 
-        HoldSlotGroup = GetComponent<SlotGroup>();
+       
 
         StickerDesc[0].text = "";
         StickerDesc[1].text = "";

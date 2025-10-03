@@ -139,7 +139,8 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
         fontSystem.FontConvert(damage.ToString());
 
-        GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsPlayerHit");
+        
+        GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_PLAYER_HIT, this);
     }
 
     

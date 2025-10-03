@@ -24,19 +24,19 @@ public struct CardData
     public  string Ability_Type;
 
     // 신규
-    //public int DiscordAllCard; // 신규
-    //public string Ability_Timing; // 신규
+    public int DiscordAllCard; // 신규
+    public string Ability_Timing; // 신규
 
-    //public string AbilityTarget_Type;
-    //public string AbilityTarget_Status;
+    public string AbilityTarget_Type;
+    public string AbilityTarget_Status;
 
-    //public string AbilityGet_Count;
-    //public string AbilityGet1_Type;
-    //public string AbilityGet1_Value1;
-    //public string AbilityGet1_Value2;
-    //public string AbilityGet2_Type;
-    //public string AbilityGet2_Value1;
-    //public string AbilityGet2_Value2;// 신규
+    public string AbilityGet_Count;
+    public string AbilityGet1_Type;
+    public string AbilityGet1_Value1;
+    public string AbilityGet1_Value2;
+    public string AbilityGet2_Type;
+    public string AbilityGet2_Value1;
+    public string AbilityGet2_Value2;// 신규
     // 신규
 
     public string Ability_Con1;
@@ -51,6 +51,7 @@ public struct CardData
     public  int Attack_Count;
 
     public  int Damage;
+    public string BuffGroup_ID;
 
     public  int Status_Type;
     public  int Status_Turn;
@@ -100,11 +101,30 @@ public struct CardData
         Ability_Act2 = data["Ability_Act2"].ToString();
 
 
+        DiscordAllCard = (int)data["DiscordAllCard"]; // 신
+        Ability_Timing = data["Ability_Timing"].ToString(); // 신
+
+        AbilityTarget_Type = data["AbilityTarget_Type"].ToString();
+        AbilityTarget_Status = data["Ability_Type"].ToString();
+
+        AbilityGet_Count = data["AbilityGet_Count"].ToString();
+        AbilityGet1_Type = data["AbilityGet1_Type"].ToString();
+        AbilityGet1_Value1 = data["AbilityGet1_Value1"].ToString();
+        AbilityGet1_Value2 = data["AbilityGet1_Value2"].ToString();
+        AbilityGet2_Type = data["AbilityGet2_Type"].ToString();
+        AbilityGet2_Value1 = data["AbilityGet2_Value1"].ToString();
+        AbilityGet2_Value2 = data["AbilityGet2_Value2"].ToString();
+
+
+
+
         Range_Type   = (int)data["Range_Type"];
         Attack_Count = (int)data["Attack_Count"];
 
-        Damage      = (int)data["Damage"];
-        
+        Damage       = (int)data["Damage"];
+
+        BuffGroup_ID = data["BuffGroup_ID"].ToString();
+
         Status_Type = (int)data["Status_Type"];
         Status_Turn = (int)data["Status_Turn"];
 

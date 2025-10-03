@@ -256,7 +256,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         
         GameManager.instance.Shake.PlayShake();
 
-        GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsEnemyHit");
+        GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_ENEMY_HIT , this);
 
     }
 

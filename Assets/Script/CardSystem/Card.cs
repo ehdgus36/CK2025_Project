@@ -92,7 +92,7 @@ public class Card : MonoBehaviour
             Debug.LogError("카드데이터를 불러오지못했습니다. CardID를 확인해주세요. 혹은 저장된 값이 없습니다 " + this.gameObject.name);
         }
 
-        Debug.Log("수치 :" + cardData.Damage);
+       
 
         string Path = "CardImage/" + cardData.Card_Im;
         Sprite cardSprite= Resources.Load<Sprite>(Path);
@@ -106,153 +106,174 @@ public class Card : MonoBehaviour
         }
 
         this.CardID = cardID;
+
         this.gameObject.name = cardData.Card_Name_EN;
     }
 
     public void AbilieySystem()
     {
-        //Ability_Con1
-        if (GameManager.instance.ExcutSelectCardSystem.GetAbiltyCondition(cardData.Ability_Con1))
+        //삭제 예정
+        
+    }
+
+  
+
+
+    void AbilityFun(Unit unit)
+    {
+        bool IsStatus = false;
+
+        //발동 조건을 검증 AbilityTarget_Status
+        switch (cardData.AbilityTarget_Status)
         {
-            Debug.Log("조건1 통과");
-            //Ability_Con2
-            if (GameManager.instance.ExcutSelectCardSystem.GetAbiltyCondition(cardData.Ability_Con2))
+            case "0":
+                IsStatus = true;
+                    break;
+
+            case "IsBarrierActive":
+                if(GameManager.instance.Player.PlayerUnitData.CurrentBarrier > 0) 
+                    IsStatus = true;
+                break;
+
+            case "IsBarrierNotActive":
+                if (GameManager.instance.Player.PlayerUnitData.CurrentBarrier <= 0)
+                    IsStatus = true;
+                break;
+
+            case "IsFullHP":
+                if (GameManager.instance.Player.PlayerUnitData.CurrentHp == GameManager.instance.Player.PlayerUnitData.MaxHp)
+                    IsStatus = true;
+                break;
+
+            case "IsNotFullHP":
+                if (GameManager.instance.Player.PlayerUnitData.CurrentHp < GameManager.instance.Player.PlayerUnitData.MaxHp)
+                    IsStatus = true;
+                break;
+        }
+
+
+        if (IsStatus == true)
+        {
+            //이후 발동타입 검증 AbilityTarget_Type ? 이게 굳이 필요한가?
+            switch (cardData.AbilityTarget_Type)
             {
-                Debug.Log("조건2 통과");
-                //Ability_Act1
-                AbilityActEvent(cardData.Ability_Act1);
+                case "0":
+                    return; // 값 참조 안함
+                case "1":
 
-                //Ability_Act2
-                AbilityActEvent(cardData.Ability_Act2);
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
             }
+
+            //추가효과 횟수 검증 AbilityGet_Count
+           
+
+            int value = 0;
+            //이게 갯수를 셀때 이번 턴동안인지 카드가 발동된 시점부터 세는건지
+            switch (cardData.AbilityGet_Count)
+            {
+                case "ManaUseCnt":
+                    value = GameManager.instance.ExcutSelectCardSystem.UseManaCount;
+                    break;
+                case "DicordCnt":
+                    value = DiscardCnt;
+                    break;
+                case "SuccessNoteCnt":
+                    value = 1;
+                    break;
+                case "AttackDamageCnt": //이거 기준이 지금까지인지 
+                    break;
+            }
+
+            //추가효과 타입 검증 AbilityGet1_Type
+            //가중치 적용 AbilityGet1_Value1 ,AbilityGet1_Value2
+
+
+
+
+            GameManager.instance.Player.AddBarrier(CardDataVariable["Barrier_Get"]);
+            GameManager.instance.Player.LossBarrier(CardDataVariable["Barrier_Loss"]);
+
+            switch (cardData.AbilityGet1_Type)
+            {
+                case "AttackCount":
+                    CardDataVariable["Attack_Count"] = value;
+                   
+                    break;
+                case "AttackDamage":
+                    value = DiscardCnt;
+                    break;
+                case "HPRecover":
+                    GameManager.instance.Player.addHP(value * int.Parse(cardData.AbilityGet1_Value1));
+                    break;
+                case "HPLoss": 
+                    GameManager.instance.Player.LossHP(value * int.Parse(cardData.AbilityGet1_Value1));
+                    break;
+                case "BarrierGet": 
+
+                    GameManager.instance.Player.AddBarrier(value * int.Parse( cardData.AbilityGet1_Value1));
+                    break;
+                case "BarrierLoss": 
+                    GameManager.instance.Player.LossBarrier(value *  int.Parse(cardData.AbilityGet1_Value1));
+                    break;
+
+                case "BuffGroup": 
+                    
+                    break;
+
+                case "CardChange":
+                    GameManager.instance.PlayerCDSlotGroup.ChangeDackCard(cardData.AbilityGet1_Value1, cardData.AbilityGet1_Value2);
+
+                    break;
+                case "CardAdd": //이거 기준이 지금까지인지 
+                    break;
+            }
+            
         }
-        
+
+
     }
 
-    void AbilityActEvent(string Ability_Act)
+   
+
+public virtual void TargetExcute(Enemy Target , Card nextCard = null)
     {
-        if (Ability_Act == "0") return;
 
-
-        Debug.Log("어빌리티 실행");
-        Debug.Log(Ability_Act);
-        if (Ability_Act[0] == 'F')
+        //카드 디세이블 체크
+        if (cardData.DiscordAllCard == 1)
         {
-            string[] Abilit = Ability_Act.Split('/');
+            Reroll_Card reroll = GetComponent<Reroll_Card>();
+            if (reroll == null)
+            {
+                this.gameObject.AddComponent<Reroll_Card>();
+                reroll = GetComponent<Reroll_Card>();
+            }
 
-            Debug.Log(Abilit[1]+":");
-            DataTableFuntionCode(Abilit[1]);
-        }
-        if (Ability_Act[0] == 'C')
-        {
-            string[] Abilit = Ability_Act.Split('/');// C/칼럼=변수값 을 C,칼럼=변수값 ;
-            Debug.Log(Abilit[1]);
-            Abilit = Abilit[1].Split('='); // 칼럼=변수값 다시 칼럼,변수;
-            CardDataVariable[Abilit[0]] = DataTableVariableCode(Abilit[1]);
-
-            Debug.Log(CardDataVariable[Abilit[0]]+":" + DataTableVariableCode(Abilit[1]).ToString());
+            reroll.Excute(CardSloats, out DiscardCnt);
         }
 
 
-        
-        
-    }
+        //어빌리티 체크
 
-    public int DataTableVariableCode(string code)
-    {
-        Debug.Log("카드 능력 변수 능력 발동");
-        int value = 0;
-        switch (code)
+        if (cardData.Ability_Timing == "0")
         {
-            case "CurBarrier":
-                value = GameManager.instance.Player.PlayerUnitData.CurrentBarrier;
-                break;
-
-            case "DiscardCnt*3":
-                value = DiscardCnt * 3; 
-                break;
-
-            case "ManaUseCnt":
-                value = GameManager.instance.ExcutSelectCardSystem.UseManaCount;
-                break;
-
-            case "HitEnemyDmg":
-                if (GameManager.instance.Player.AttackEnemy)
-                {
-                    value = GameManager.instance.Player.AttackEnemy.EnemyData.CurrentDamage;
-                }
-                break;
-
-            case "Add2Damage":
-                value = CardDataVariable["Damage"]+2;
-                break;
-                
-        }
-
-        return value;
-    }
-
-    public void DataTableFuntionCode(string code)
-    {
-        
-        switch (code)
-        {
-            case "DiscardAllCards":
-                Reroll_Card reroll = GetComponent<Reroll_Card>();
-                if (reroll == null)
-                {
-                    this.gameObject.AddComponent<Reroll_Card>();
-                    reroll = GetComponent<Reroll_Card>();
-                }
-                 
-                reroll.Excute(CardSloats,out DiscardCnt);
-                //카드 정리
-                break;
-
-            case "GetBarrier5":
-                GameManager.instance.Player.PlayerUnitData.CurrentBarrier += 5;
-                
-                break;
-
-            case "GetRecoverHP":
-                GameManager.instance.Player.addHP(CardDataVariable["HP_Recover"]);
-                GameManager.instance.Player.PlayerEffectSystem.PlayEffect("bresth_Effect",GameManager.instance.Player.gameObject.transform.position);
-
-                break;
-
-
-            case "AttackEnemy":
-                if ( GameManager.instance.Player.AttackEnemy != null)
-                {
-                    GameManager.instance.Player.AttackEnemy.TakeDamage(CardDataVariable["Damage"]);
-                    GameManager.instance.Player.PlayerEffectSystem.PlayEffect("codemiss_Effect", GameManager.instance.Player.AttackEnemy.gameObject.transform.position);
-                }
-
-
-                break;
-                
 
         }
-    }
+        else
+        {
+            GameManager.instance.AbilitySystem.AddAvilityEvent(cardData.Ability_Timing, null); //일단 null
+        }
 
 
-    public virtual void TargetExcute(Enemy Target , Card nextCard = null)
-    {
         
 
         PlayerStartPos = GameManager.instance.Player.transform.position;// 플레이어 처음 위치 저장
 
         if (Target.isDie == true) //카드 넣기
-        {
-            //for (int i = 0; i < CardSloats.Getsloat().Length; i++)
-            //{
-            //    if (CardSloats.Getsloat()[i].ReadData<Card>() == null)
-            //    {
-            //        CardSloats.Getsloat()[i].InsertData(this.gameObject);
-            //    }
-            //}
-
-            //GameManager.instance.ExcutSelectCardSystem.RecoveryMana();
+        {         
             SetOutLineColor(Color.white);
             isCardEnd = true;
             return;
@@ -263,6 +284,8 @@ public class Card : MonoBehaviour
 
 
         AbilieySystem();
+
+
 
         if (cardData.MoveType == "M")
         {

@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     public ExcutSelectCardSystem ExcutSelectCardSystem { get; private set; }
 
+    public AbilitySystem AbilitySystem { get; private set; }
+
     //public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
     public ItemDataLoader ItemDataLoader { get; private set; }
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviour
     public FMODManagerSystem FMODManagerSystem { get { return _FMODManagerSystem; } }
 
     public DimBackGroundObject DimBackGroundObject { get { return _DimBackGroundObject; } }
+
+
 
     public void ExitGame()
     {
@@ -122,7 +126,10 @@ public class GameManager : MonoBehaviour
 
         ThisTrunMark = PlayerTurnMark;
         NextTrunMark = EnemyTurnMark;
-       
+
+
+        AbilitySystem = new AbilitySystem();
+
         yield return null;
 
         

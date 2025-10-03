@@ -93,16 +93,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
     {
         ManaSystem = new ManaSystem(MaxExcutCardCount);
         ManaSystem.Initialize();
-        AbilityConditionData.TryAdd("0", true); // 항상 참인 조건
-        AbilityConditionData.TryAdd("IsBarrierActive", false);
-        AbilityConditionData.TryAdd("IsCardPlayed", false);
-        AbilityConditionData.TryAdd("IsNotFullHP", false);
-        AbilityConditionData.TryAdd("IsEnemyHit", false);
-        AbilityConditionData.TryAdd("IsPlayerHit", false);
-
-       
         
-
 
         List<string> keys = new List<string>(AbilityConditionData.Keys);
 
@@ -189,24 +180,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     private void Update()
     {
-        //배리어 있을때
-        if (GameManager.instance.Player.PlayerUnitData.CurrentBarrier > 0)
-        {
-            AbilityConditionData["IsBarrierActive"] = true;
-        }
-        else
-        {
-            AbilityConditionData["IsBarrierActive"] = false;
-        }
-
-        if (GameManager.instance.Player.PlayerUnitData.CurrentHp < GameManager.instance.Player.PlayerUnitData.MaxHp)
-        {
-            AbilityConditionData["IsNotFullHP"] = true;
-        }
-        else
-        {
-            AbilityConditionData["IsNotFullHP"] = false;
-        }
+     
 
         if (disobject != null)
         {
@@ -282,7 +256,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
             ThisTurnExcutCard.Add(selecCard);
 
 
-            ExcutAbiltyCondition("IsCardPlayed");
+            GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_CARD_PLAYED, null);
             if (_PreviousCard != null)
             {
                 selecCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;

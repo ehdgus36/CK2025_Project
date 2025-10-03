@@ -6,12 +6,14 @@ using static UnityEngine.Rendering.DebugUI;
 
 public delegate void DieEnemy(Enemy enemy);
 
-public class EnemysGroup :Unit
+public class EnemysGroup : Unit
 {
 
     public List<Enemy> Enemys { get => _Enemys; }
     [SerializeField] private List<Enemy> _Enemys; // 인스펙터에 보이게
     [SerializeField] RhythmSystem RhythmGameSystem;
+
+    public RhythmSystem GetRhythmSystem { get { return RhythmGameSystem; } }
     
     public void Initialize()
     {

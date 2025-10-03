@@ -85,5 +85,10 @@ public class PlayerCDSlotGroup : MonoBehaviour
         Player_CardSlot[0].gameObject.SetActive(false);
 
     }
+
+    public void ChangeDackCard(string to_code, string form_code)
+    { 
+    
+    }
     
 }

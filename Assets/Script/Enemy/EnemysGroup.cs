@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public delegate void DieEnemy(Enemy enemy);
 
 public class EnemysGroup : Unit
 {
@@ -22,18 +21,16 @@ public class EnemysGroup : Unit
             RhythmGameSystem = GameObject.Find("RhyremGameSystem").GetComponent<RhythmSystem>();
         }
 
-      
         for (int i = 0; i < Enemys.Count; i++)
         {
-            Enemys[i].Initialize(i);
+            Enemys[i].Initialize(i,this);    
         }
 
-        for (int i = 0; i < Enemys.Count; i++)
+        StartTurnEvent += () => 
         {
-            Enemys[i].SetDieEvent(EnemysDieEvent);
-        }
+            StartCoroutine(AttackSequenceEvent()); 
+        };
 
-        StartTurnEvent += () => { StartCoroutine(AttackSequenceEvent()); };
 
         EndTurnEvent += () =>
         {
@@ -45,33 +42,33 @@ public class EnemysGroup : Unit
         };
     }
 
-    void EnemysDieEvent(Enemy thisEnemy)
+    public void RemoveSelf(Enemy thisEnemy)
     {
-        //사망한 Enemy 삭제
-        //RhythmGameSystem?.RhythmGameTracksRemove(Enemys.IndexOf(thisEnemy));
-
+        if (thisEnemy == null) return;
+        
         Enemys.Remove(thisEnemy);
 
         if (Enemys.Count == 0)
         {
-            Die();
+            GameManager.instance.GameClearFun();
         }
     }
 
-    protected override void Die()
-    {
-        GameManager.instance.GameClearFun();
-    }
+    
 
 
-    // 이것도 나중에 시퀀스 다시
+   
     IEnumerator AttackSequenceEvent()
     {
+
+        //리듬게임 시작
         RhythmGameSystem?.StartEvent();
 
         yield return new WaitUntil(() => RhythmGameSystem?.IsEndGame == true);
 
         yield return new WaitForSeconds(.5f);
+
+        //리듬게임 종료후 Enemy공격 시작
         for (int i = 0; i < Enemys.Count; i++)
         {
             Enemys[i].StartTurn();
@@ -80,6 +77,8 @@ public class EnemysGroup : Unit
         }
 
         yield return new WaitForSeconds(.5f);
+
+        //턴 바꾸면서 마무리
         GameManager.instance.TurnSwap();
         yield return null;
     }

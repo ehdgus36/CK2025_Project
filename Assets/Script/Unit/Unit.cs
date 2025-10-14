@@ -17,8 +17,7 @@ public class UnitData
         get { return _CurrentHp; }
         set
         {
-            _CurrentHp = value;
-            //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
+            _CurrentHp = Mathf.Clamp(value , 0 , MaxHp);  
         }
     }
 
@@ -28,12 +27,11 @@ public class UnitData
         get { return _CurrentBarrier; }
         set
         {
-            _CurrentBarrier = value;
-            //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
+            _CurrentBarrier = Mathf.Clamp(value, 0, 1000); // 아마 1000까지는 올라가지 않을듯
         }
     }
 
-
+    [SerializeField] public List<Buff> buffs;
 
 
 
@@ -56,48 +54,57 @@ public class Unit : MonoBehaviour
 
     [SerializeField] protected UnityAction StartTurnEvent;
     protected UnityAction EndTurnEvent;
-    //protected UnityAction DieEvent;
+    protected UnityAction DieEvent;
     // protected int UnitDamage =1;
 
     
 
     public void InitTurnCount() { TurnCount = 0; }
 
-    public virtual void TakeDamage(int damage)
+    protected virtual void TakeDamageEvent(Unit form, int damage, int resultDamage, Buff buff = null) { }
+    public void TakeDamage(Unit form ,int damage, Buff buff = null)
     {
         
+        if (damage <= 0) return;
+        int resultDamage = damage;
 
-        if (damage <= 0)
+        if (UnitData.CurrentBarrier > 0)
         {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-            return;
+            UnitData.CurrentBarrier -= resultDamage;
+
+            if (UnitData.CurrentBarrier >= 0) //베리어가 남거나 0이면
+            {
+                resultDamage = 0;
+            }
+
+            if (UnitData.CurrentBarrier < 0) // 베리어가 0미만이면 데미지
+            {
+                resultDamage = - UnitData.CurrentBarrier;
+                UnitData.CurrentBarrier = 0;
+            }
         }
 
-        UnitData.CurrentHp -= damage;
+
+        UnitData.CurrentHp -= resultDamage;
 
         if (UnitData.CurrentHp <= 0)
         {
             UnitData.CurrentHp = 0;
             Die();
+            return;
         }
 
-       
+        UnitData.buffs.Add(buff);
+
+        TakeDamageEvent(form, damage, resultDamage, buff);
+
+
     }
 
-    public virtual void TakeDamage(AttackData data)
+    void Die() 
     {
-        if (UnitData.CurrentHp <= 0)
-        {
-            Die();
-        }
         
-      
-    }
-
-    protected virtual void Die() 
-    {
-        Debug.Log("Die() 활성화");
-        //DieEvent?.Invoke();
+        DieEvent?.Invoke();
     }
 
     //Unit의 턴이 시작했을 때 호출
@@ -106,7 +113,6 @@ public class Unit : MonoBehaviour
         IsTurn = true;
         BuffExecution(BuffType.Start);
       
-
         if (IsTurn == false) return; 
         
         StartTurnEvent?.Invoke();

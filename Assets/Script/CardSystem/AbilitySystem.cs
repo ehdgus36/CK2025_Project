@@ -19,7 +19,7 @@ public class AbilitySystem
 
     public void PlayeEvent(string event_key, Unit unit)
     {
-        Ability_TimingEvents[event_key].Invoke(unit);
+        //Ability_TimingEvents[event_key]?.Invoke(unit);
     }
 
     public void AddAvilityEvent(string event_key, Action<Unit> ability_event)

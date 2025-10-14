@@ -1,19 +1,29 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler,IPointerExitHandler
+public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler,IPointerExitHandler, IDragHandler
 {
     [SerializeField] SlotUI CardSlot;
     [SerializeField] EffectSystem EffectSystem;
 
+    private Canvas canvas;
+
+    public void OnDrag(PointerEventData eventData)
+    {
+       
+
+       
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
         
         GameManager.instance.ExcutSelectCardSystem.SetSelectCard(CardSlot.ReadData<Card>());
+        canvas = GetComponentInParent<Canvas>();
 
-       
+
+
         EffectSystem.PlayEffect("CardHold_Effect", new Vector3(CardSlot.ReadData<Card>().transform.position.x,
                                                                -4.377778f,
                                                                 CardSlot.ReadData<Card>().transform.position.z));

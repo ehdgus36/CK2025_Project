@@ -46,10 +46,10 @@ public class EnemyStatus : MonoBehaviour
         
         _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint , enemyData.MaxSkillPoint);
 
-        Barrier_viewUI.UpdateUI(enemyData.Barrier);
+        Barrier_viewUI.UpdateUI(enemyData.EnemyUnitData.CurrentBarrier);
 
         DamageText.text = enemyData.CurrentDamage.ToString();
-        Buff_UI.UpdateBuffIcon(enemyData.buffs);
+        Buff_UI.UpdateBuffIcon(enemyData.EnemyUnitData.buffs);
         _StatusPopUp.SetActive(false);
     }
 
@@ -62,10 +62,10 @@ public class EnemyStatus : MonoBehaviour
         _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint, enemyData.MaxSkillPoint);
 
 
-        Barrier_viewUI.UpdateUI(enemyData.Barrier);
+        Barrier_viewUI.UpdateUI(enemyData.EnemyUnitData.CurrentBarrier);
         DamageText.text = enemyData.CurrentDamage.ToString();
 
-        Buff_UI.UpdateBuffIcon(enemyData.buffs);
+        Buff_UI.UpdateBuffIcon(enemyData.EnemyUnitData.buffs);
     }
 
     public void OnPassiveDescription()

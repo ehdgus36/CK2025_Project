@@ -1,6 +1,7 @@
 using Spine;
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class ItemHoldSystem : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class ItemHoldSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI[] StickerDesc;
     [SerializeField] TextMeshProUGUI[] StrapDesc;
     [SerializeField] TextMeshProUGUI[] StringDesc;
+
+    [SerializeField] List<string> HoldData;
 
     public void Start()
     {
@@ -37,8 +40,15 @@ public class ItemHoldSystem : MonoBehaviour
         StringDesc[1].text = "";
         StringDesc[2].text = "";
 
+
+        ItemHoldDataInitialize();
     }
 
+    void ItemHoldDataInitialize()
+    {
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA , out HoldData);
+
+    }
 
     void HoldSlotInsertEvent(SlotUI target_slot)
     {
@@ -97,5 +107,17 @@ public class ItemHoldSystem : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void SaveData()
+    {
+        List<string> saveData = new List<string>();
+        for (int i = 0; i < HoldSlotGroup.ReadData<Item>().Count; i++)
+        {
+            saveData.Add(HoldSlotGroup.ReadData<Item>()[i].ItemCode);
+        }
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.HOLD_ITEM_DATA, saveData);
+    
     }
 }

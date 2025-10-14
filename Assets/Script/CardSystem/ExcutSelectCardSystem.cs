@@ -137,17 +137,18 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         _SelectCard = card;
         isTargeting = true;
-        ArrowUIObject.SetActive(true);
-        ArrowUIObject.transform.position = card.transform.position;
 
         //player에게 사용하는 카드
         if (card.cardData.Range_Type == 3)
         {
             DimObject.SetActiveDim("Enemy");//enemy를 어둡게
         }
-        else
+        else //Enemy 에게 사용하는 카드
         {
             DimObject.SetActiveDim("Player");
+
+            ArrowUIObject.SetActive(true);
+            ArrowUIObject.transform.position = card.transform.position;
         }
     }
 

@@ -6,6 +6,8 @@ public abstract class Item : MonoBehaviour
     public string ItemName { get; protected set; }
     public string ItemDesc { get; protected set; }
 
+    public string ItemCode => ItemID;
+
     [SerializeField] protected string ItemID;
     void Start()
     {

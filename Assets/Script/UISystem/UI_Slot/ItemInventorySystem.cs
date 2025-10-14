@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class ItemInventorySystem : MonoBehaviour
 {
@@ -17,9 +18,10 @@ public class ItemInventorySystem : MonoBehaviour
     Sprite startStrapSprite;
     Sprite startStringSprite;
 
+    [SerializeField] List<string> Data = new List<string>();
 
-
-
+  
+  
     private void Start()
     {
         _StickerItemSlotGroup.gameObject.SetActive(false);
@@ -72,22 +74,20 @@ public class ItemInventorySystem : MonoBehaviour
 
     public void SetUpItem()
     {
-       
-
         if (_StickerItemSlotGroup.gameObject.activeSelf == true)
-        { 
-        
-        
+        {
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, out Data);
+
         }
 
         if (_StrapItemSlotGroup.gameObject.activeSelf == true)
         {
-
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, out Data);
         }
 
         if (_StringItemSlotGroup.gameObject.activeSelf == true)
         {
-
+            GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, out Data);
         }
 
 
@@ -95,4 +95,48 @@ public class ItemInventorySystem : MonoBehaviour
         (_StrapItemSlotButton.targetGraphic as Image).SetNativeSize();
         (_StringItemSlotButton.targetGraphic as Image).SetNativeSize();
     }
+
+    public void SaveInventory()
+    {
+        List<string> inventoryData = new List<string>();
+
+
+        for (int i = 0; i < _StickerItemSlotGroup.ReadData<Item>().Count; i++)
+        {
+            inventoryData.Add(_StickerItemSlotGroup.ReadData<Item>()[i].ItemCode);
+        }
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, inventoryData);
+
+
+        inventoryData = new List<string>();
+
+        for (int i = 0; i < _StrapItemSlotGroup.ReadData<Item>().Count; i++)
+        {
+            inventoryData.Add(_StickerItemSlotGroup.ReadData<Item>()[i].ItemCode);
+        }
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, inventoryData);
+
+
+        inventoryData = new List<string>();
+
+        for (int i = 0; i < _StringItemSlotGroup.ReadData<Item>().Count; i++)
+        {
+            inventoryData.Add(_StickerItemSlotGroup.ReadData<Item>()[i].ItemCode);
+        }
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, inventoryData);
+
+
+
+
+
+
+
+        
+       
+
+    }
+
 }

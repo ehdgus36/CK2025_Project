@@ -6,9 +6,6 @@ using TMPro;
 
 public class Dack : MonoBehaviour
 {
-   
-  
-
     [SerializeField] TextMeshProUGUI TextCardCount;
     [SerializeField] SlotGroup CardSlots;
     [SerializeField] CemeteryUI Cemetery;

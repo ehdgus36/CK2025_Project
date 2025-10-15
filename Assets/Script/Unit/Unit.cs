@@ -31,7 +31,7 @@ public class UnitData
         }
     }
 
-    [SerializeField] public List<Buff> buffs;
+   public List<Buff> buffs = new List<Buff>();
 
 
 
@@ -94,8 +94,24 @@ public class Unit : MonoBehaviour
             return;
         }
 
-        UnitData.buffs.Add(buff);
 
+        if (buff != null)
+        {
+            bool IsBuffType = false;
+
+            for (int i = 0; i < UnitData.buffs.Count; i++)
+            {
+                if (UnitData.buffs[i].GetType() == buff.GetType())
+                {
+                    UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+                }
+            }
+
+            if (IsBuffType == false)
+            {
+                UnitData.buffs.Add(buff);
+            }
+        }
         TakeDamageEvent(form, damage, resultDamage, buff);
 
 

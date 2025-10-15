@@ -8,13 +8,24 @@ public class Buff_Icon_UI : MonoBehaviour
 
     public void UpdateBuffIcon(List<Buff> buffs)
     {
+        Debug.Log(buffs.GetType());
+
         if (buffs == null) return;
+        Debug.Log("UI갱신 활성화");
+
+        for (int i = 0; i < BuffIcon.Length; i++)
+        {
+            BuffIcon[i].gameObject.transform.parent.gameObject.SetActive(false);
+            BuffIcon[i].text = "";
+        }
 
 
+           
         for (int i = 0; i < buffs.Count; i++)
         {
             if (buffs[i].GetState == BuffState.Enable)
             {
+                
                 string buffTurn = buffs[i].GetBuffDurationTurn().ToString();
 
                 if (buffs[i].GetBuffDurationTurn() == 0)
@@ -50,6 +61,8 @@ public class Buff_Icon_UI : MonoBehaviour
             }
             else // 남은 턴수가 0이면 지워주기
             {
+                Debug.Log("UI갱신");
+
                 BuffIcon[i].gameObject.transform.parent.gameObject.SetActive(false); 
                 BuffIcon[i].text = buffs[i].GetBuffDurationTurn().ToString();
             }

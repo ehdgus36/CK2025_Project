@@ -93,25 +93,23 @@ public class RhythmSystem : MonoBehaviour
 
         //플레이어 베리어guitarwall_Ani
 
-        if (rhythmInput.score != 0)
-        {
+        //if (rhythmInput.score != 0)
+        //{
+        //    GameManager.instance.Player.PlayerAnimator.PlayAnimation("guitarwall_Ani", false, (Entry, e) =>
+        //    {
+        //        Debug.Log("점수 :" + rhythmInput.score.ToString() + "방패 가동");
+        //        GameManager.instance.Player.PlayerEffectSystem.PlayEffect("guitarwall_Effect",GameManager.instance.Player.transform.position);
+                
+        //        UnitData playerData;
+        //        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<UnitData>(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA,
+        //                                                                       out playerData);
+        //        playerData.CurrentBarrier += rhythmInput.score;
 
-            //GameManager.instance.Player.PlayerAnimator.PlayAnimation("guitarwall_Ani", false, (Entry, e) =>
-            //{
-            //    Debug.Log("점수 :" + rhythmInput.score.ToString() + "방패 가동");
-            //    GameManager.instance.Player.PlayerEffectSystem.PlayEffect("guitarwall_Effect",
-            //                                                             GameManager.instance.Player.transform.position);
-            //    UnitData playerData;
-            //    GameDataSystem.DynamicGameDataSchema.LoadDynamicData<UnitData>(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA,
-            //                                                                   out playerData);
-            //    playerData.CurrentBarrier += rhythmInput.score;
+        //        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
+        //    });
+        //}
 
-            //    GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
-            //});
-
-        }
-
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.2f);
         IsEndGame = true;
        
     }

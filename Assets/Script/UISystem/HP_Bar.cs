@@ -12,8 +12,6 @@ public class HP_Bar : MonoBehaviour
 
     public void UpdateUI(int maxhp , int currenthp)
     {
-        Debug.Log("최대 체력:" + maxhp.ToString());
-
         float healthPercent = ((float)currenthp / (float)maxhp);
 
         if (hp_bar != null)

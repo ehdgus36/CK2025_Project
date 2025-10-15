@@ -15,7 +15,8 @@ public class RhythmInput : MonoBehaviour
 
     [SerializeField] GameObject startObject;
 
-    public Action<GameObject> SuccessNoteEvent;
+    public Action<GameObject> SuccessNoteEvent { get; set; }
+
 
     public MetronomeSystem mt;
 

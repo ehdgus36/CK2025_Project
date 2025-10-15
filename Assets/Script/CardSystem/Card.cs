@@ -58,7 +58,7 @@ public class Card : MonoBehaviour
            Debug.LogError("카드데이터를 불러오지못했습니다. CardID를 확인해주세요. 혹은 저장된 값이 없습니다 "+ this.gameObject.name);
         }
 
-        Debug.Log("수치 :" + cardData.Damage);
+        
 
         //Range_Type Attack_Count    Damage  Status_Type Status_Turn Damage_Buff HP_Recover  HP_Loss Barrier_Get Barrier_Loss)
         //사용변수 초기화 

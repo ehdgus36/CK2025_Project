@@ -58,7 +58,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             cardDescription.UpdateDescription(card.cardData.Card_Name_KR, card.cardData.Card_Des, this.transform.position);
             cardDescription.gameObject.SetActive(true);
             
-            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Mouse_UP");
+            //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Mouse_UP");
         }
 
     }

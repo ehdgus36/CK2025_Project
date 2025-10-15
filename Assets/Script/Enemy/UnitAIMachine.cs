@@ -3,14 +3,19 @@ using UnityEditor;
 using System;
 using System.Linq;
 using System.Collections;
+using System.Reflection;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class UnitAIMachine : MonoBehaviour
 {
     [SerializeReference]public UnitAIBehavior aIBehavior;
     Coroutine CurrentCoroutine;
+
+
     public void StartAI(Unit controll_unit)
     {
+        aIBehavior.Initialize();
         aIBehavior.Excut(controll_unit, this);
     }
 
@@ -21,7 +26,10 @@ public class UnitAIMachine : MonoBehaviour
 
     public void StopCorutinExcut() 
     {
-        StopCoroutine(CurrentCoroutine);
+        if (CurrentCoroutine != null)
+        {
+            StopCoroutine(CurrentCoroutine);
+        }
     }
 }
 

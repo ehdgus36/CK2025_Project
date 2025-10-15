@@ -1,14 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct NoteData
+{
+    public readonly string ID;
+    public readonly string ChapterID;
+
+    public readonly string NoteCode;
+
+    public readonly int BeatCount;
+
+    public NoteData(Dictionary<string, object> data)
+    {
+        ID = data["ID"].ToString();
+        ChapterID = data["ChapterID"].ToString();
+
+        NoteCode = data["NoteCode"].ToString();
+        BeatCount = (int)data["BeatCount"];
+    }
+        
+}
+
+public struct NoteGroupData
+{
+    public readonly string GroupID;
+    public readonly string ChapterID;
+    public readonly string Note_ID1;
+    public readonly string Note_ID2;
+    public readonly string Note_ID3;
+
+    public NoteGroupData(Dictionary<string, object> data)
+    {
+        GroupID = data["GroupID"].ToString();
+        ChapterID = data["ChapterID"].ToString(); 
+        Note_ID1 = data["Note_ID1"].ToString(); 
+        Note_ID2 = data["Note_ID2"].ToString(); 
+        Note_ID3 = data["Note_ID3"].ToString(); 
+    }
+}
 
 
 
 
 public class NoteDataBase 
 {
-    Dictionary<string, CardStatusData> CardStatusDatas = new Dictionary<string, CardStatusData>();
-    Dictionary<string, CardData> CommonCardDatas = new Dictionary<string, CardData>();
+    Dictionary<string, NoteData> NoteDatas = new Dictionary<string, NoteData>();
+    Dictionary<string, NoteGroupData> NoteGroupDatas = new Dictionary<string, NoteGroupData>();
 
 
     public NoteDataBase(TextAsset NoteDataTable, TextAsset NoteGroupDataTable)
@@ -21,12 +58,11 @@ public class NoteDataBase
 
         for (int i = 0; i < CardDataIndex; i++)
         {
-            string key = CSVReader.Read(NoteDataTable)[i]["Card_ID"].ToString();
+            string key = CSVReader.Read(NoteDataTable)[i]["ID"].ToString();
 
-            CardData data = new CardData(CSVReader.Read(NoteDataTable)[i]);
+            NoteData data = new NoteData(CSVReader.Read(NoteDataTable)[i]);
 
-
-            CommonCardDatas.Add(key, data);
+            NoteDatas.Add(key, data);
 
 
         }
@@ -34,9 +70,9 @@ public class NoteDataBase
 
         for (int i = 0; i < CardStatusIndex; i++)
         {
-            string key = CSVReader.Read(NoteGroupDataTable)[i]["Status_Code"].ToString();
-            CardStatusData data = new CardStatusData(CSVReader.Read(NoteGroupDataTable)[i]);
-            CardStatusDatas.Add(key, data);
+            string key = CSVReader.Read(NoteGroupDataTable)[i]["GroupID"].ToString();
+            NoteGroupData data = new NoteGroupData(CSVReader.Read(NoteGroupDataTable)[i]);
+            NoteGroupDatas.Add(key, data);
         }
     }
 
@@ -47,17 +83,17 @@ public class NoteDataBase
 
         get_cardData = null;
 
-        if (CommonCardDatas.ContainsKey(cardCode))
+        if (NoteGroupDatas.ContainsKey(cardCode))
         {
             isData = true;
-            get_cardData = CommonCardDatas[cardCode];
+            get_cardData = NoteGroupDatas[cardCode];
         }
 
 
-        if (CardStatusDatas.ContainsKey(cardCode))
+        if (NoteDatas.ContainsKey(cardCode))
         {
             isData = true;
-            get_cardData = CardStatusDatas[cardCode];
+            get_cardData = NoteDatas[cardCode];
         }
 
         return isData;
@@ -68,22 +104,11 @@ public class NoteDataBase
     {
         bool isData = false;
 
-        if (CommonCardDatas.ContainsKey(CardCode)) isData = true;
-        if (CardStatusDatas.ContainsKey(CardCode)) isData = true;
+        if (NoteGroupDatas.ContainsKey(CardCode)) isData = true;
+        if (NoteDatas.ContainsKey(CardCode)) isData = true;
 
         return isData;
     }
 
-    public string RandomCard()
-    {
-        List<string> keys = new List<string>(CommonCardDatas.Keys);
-
-        string code = keys[Random.Range(0, keys.Count)];
-
-        if (code == "SKILL" || code == "C2102" || code == "C2101" || code == "C3031" || code == "C3032") code = "C1031";
-
-        return code;
-
-
-    }
+    
 }

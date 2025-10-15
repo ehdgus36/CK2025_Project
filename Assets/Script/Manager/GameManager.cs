@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private Unit ThisTurnUnit;
     private Unit NextTurnUnit;
 
-
+    public Animator UIAnime;
     //Get; Set;
 
 
@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     public ExcutSelectCardSystem ExcutSelectCardSystem { get; private set; }
 
+    public AbilitySystem AbilitySystem { get; private set; }
+
     //public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
     public ItemDataLoader ItemDataLoader { get; private set; }
@@ -62,6 +64,9 @@ public class GameManager : MonoBehaviour
     public PostProcessingSystem PostProcessingSystem { get { return _PostProcessingSystem; } }
 
     public FMODManagerSystem FMODManagerSystem { get { return _FMODManagerSystem; } }
+
+    public DimBackGroundObject DimBackGroundObject { get { return _DimBackGroundObject; } }
+
 
 
     public void ExitGame()
@@ -93,6 +98,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int ClearGold = 0;
 
+    [SerializeField] DimBackGroundObject _DimBackGroundObject;
+
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
 
@@ -105,7 +112,7 @@ public class GameManager : MonoBehaviour
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
     IEnumerator Initialize()
     {
-
+        
         ItemDataLoader = gameObject.GetComponent<ItemDataLoader>();
 
         ExcutSelectCardSystem = gameObject.GetComponent<ExcutSelectCardSystem>();
@@ -119,9 +126,13 @@ public class GameManager : MonoBehaviour
 
         ThisTrunMark = PlayerTurnMark;
         NextTrunMark = EnemyTurnMark;
-       
+
+
+        AbilitySystem = new AbilitySystem();
+
         yield return null;
 
+        
      
 
         if (Metronome == null)
@@ -230,12 +241,29 @@ public class GameManager : MonoBehaviour
         // 턴앤드 클릭시 TurnSwap함수 재생
         Debug.Log("턴앤드 클릭");
 
-        ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
-        (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
+        Metronome.AddOnceMetronomX4Event(() =>
+        {
+            ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
+            (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
-        ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
+            ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
 
-        StartCoroutine(TurnMark());
+            if (ThisTurnUnit.GetType() == typeof(Player))
+            {
+                UIAnime.Play("Active_UIAnimation");
+                _FMODManagerSystem.FMODChangePlayer();
+            }
+
+            if (ThisTurnUnit.GetType() == typeof(EnemysGroup))
+            {
+                UIAnime.Play("Hide_UIAnimation");
+                _FMODManagerSystem.FMODChangeMonsterTurn();
+            }
+
+            StartCoroutine(TurnMark());
+        });
+
+       
 
     }
 
@@ -259,6 +287,8 @@ public class GameManager : MonoBehaviour
         ThisTrunMark.SetActive(false);
 
         (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
+
+       
 
     }
 

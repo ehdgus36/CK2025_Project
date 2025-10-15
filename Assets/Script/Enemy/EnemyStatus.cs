@@ -38,34 +38,45 @@ public class EnemyStatus : MonoBehaviour
  
     public NextAttackUIView NextAttackUI { get { return _NextAttackUI; } }
 
+    EnemyData enemyData;
 
+    Enemy UpdateTargetEnemy;
 
-    public void Initialize(EnemyData enemyData)
+    public void Initialize(Enemy enemy)
     {
+       
+        UpdateTargetEnemy = enemy;
+        enemyData = enemy.EnemyData;
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
         
         _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint , enemyData.MaxSkillPoint);
 
-        Barrier_viewUI.UpdateUI(enemyData.Barrier);
+        Barrier_viewUI.UpdateUI(enemyData.EnemyUnitData.CurrentBarrier);
 
         DamageText.text = enemyData.CurrentDamage.ToString();
-        Buff_UI.UpdateBuffIcon(enemyData.buffs);
+        Buff_UI.UpdateBuffIcon(enemyData.EnemyUnitData.buffs);
         _StatusPopUp.SetActive(false);
+
+        NextAttackUI.UpdateUI(enemyData, UpdateTargetEnemy.AIMachine.aIBehavior as EnemyAIBehavior);
     }
 
     
-    public void UpdateStatus(EnemyData enemyData)
+    public void UpdateStatus()
     {
+
+        enemyData = UpdateTargetEnemy.EnemyData;
 
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
 
         _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint, enemyData.MaxSkillPoint);
 
 
-        Barrier_viewUI.UpdateUI(enemyData.Barrier);
+        Barrier_viewUI.UpdateUI(enemyData.EnemyUnitData.CurrentBarrier);
         DamageText.text = enemyData.CurrentDamage.ToString();
 
-        Buff_UI.UpdateBuffIcon(enemyData.buffs);
+        Buff_UI.UpdateBuffIcon(enemyData.EnemyUnitData.buffs);
+
+        NextAttackUI.UpdateUI(enemyData, UpdateTargetEnemy.AIMachine.aIBehavior as EnemyAIBehavior);
     }
 
     public void OnPassiveDescription()

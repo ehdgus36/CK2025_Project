@@ -12,6 +12,8 @@ public class PlayerCDSlotGroup : MonoBehaviour
 
     Vector3 startPos;
 
+    public List<Dack> GetPlayerDack { get { return PlayerDacks; } }
+
     private void Start()
     {
         for (int i = 0; i < Player_CardSlot.Length; i++)
@@ -84,6 +86,11 @@ public class PlayerCDSlotGroup : MonoBehaviour
 
         Player_CardSlot[0].gameObject.SetActive(false);
 
+    }
+
+    public void ChangeDackCard(string to_code, string form_code)
+    { 
+    
     }
     
 }

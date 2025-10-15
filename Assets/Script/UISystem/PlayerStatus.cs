@@ -7,7 +7,18 @@ public class PlayerStatus : DynamicUIObject
     public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
     [SerializeField] HP_Bar HP_bar;
     [SerializeField] Barrier_ViewUI Barrier_viewUI;
-  
+
+
+    [SerializeField] bool isManageble = true;
+    private void Awake()
+    {
+        if (isManageble == false)
+        {
+            GameDataSystem.DynamicGameDataSchema.AddDynamicUIDataBase(DynamicDataKey, this);
+        }
+    }
+
+
     void UpdataStatus(UnitData data)
     {
         HP_bar?.UpdateUI(data.MaxHp, data.CurrentHp);

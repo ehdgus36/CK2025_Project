@@ -44,14 +44,14 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
 
         StartPlayerPos = this.transform.position;
-        //StartPos = Combo.GetComponent<RectTransform>().anchoredPosition;
+        
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
         }       
        
-        StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
         StartTurnEvent += () => {
+            CDSlotGroup.PlayerTurnDrow();
             Combo.GetComponent<RectTransform>().anchoredPosition = StartPos; 
             Combo.transform.localScale = new Vector3(1, 1, 1);
             Combo.GetComponent<ComboUIView>().EnableButton();
@@ -66,11 +66,12 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             GameManager.instance.UIInputSetActive(true);
         };
 
-        EndTurnEvent += CDSlotGroup.ReturnCard;
-        EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
-        EndTurnEvent += GameManager.instance.ExcutSelectCardSystem.Reset; ;
+       
 
         EndTurnEvent += () => {
+            CDSlotGroup.ReturnCard();
+            GameManager.instance.PlayerCardCastPlace.Reset();
+            GameManager.instance.ExcutSelectCardSystem.Reset();
             Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(659, 94, 0);
             Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
             Combo.GetComponent<ComboUIView>().DisableButton();
@@ -79,52 +80,22 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             GameManager.instance.UIInputSetActive(false);
         };
 
+        DieEvent += PlayerDieEvent;
         UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
 
+       
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 
-    protected override void Die()
+    void PlayerDieEvent()
     {
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Die");
         GameManager.instance.GameFail();
     }
 
-    public void TakeDamage(int damage, Enemy enemy)
-    {
-        AttackEnemy = enemy;
-        TakeDamage(damage);
-    }
-
-
-
-    public override void TakeDamage(int damage)
-    {
-        if (damage <= 0) return;
-        int resultDamage = damage;
-
-        if (UnitData.CurrentBarrier > 0)
-        {
-            UnitData.CurrentBarrier -= resultDamage;
-
-            if (UnitData.CurrentBarrier >= 0)
-            {
-                resultDamage = 0;
-            }
-
-            if (UnitData.CurrentBarrier < 0)
-            {
-                resultDamage = -UnitData.CurrentBarrier;
-                UnitData.CurrentBarrier = 0;
-            }
-        }
-
-
-
-
-        base.TakeDamage(resultDamage);
-              
+    protected override void TakeDamageEvent(Unit form, int damage, int resultDamage, Buff buff = null)
+    {       
         AnimationSystem?.PlayAnimation("hit");
         
         //카메라 효과 , 사운드 , 이펙트효과
@@ -139,7 +110,8 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
         fontSystem.FontConvert(damage.ToString());
 
-        GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsPlayerHit");
+        
+        GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_PLAYER_HIT, this);
     }
 
     
@@ -152,21 +124,13 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     public void PlayerCardAnime()
     {
-
         //AnimationSystem.PlayAnimation("card");
     }
 
     public void addHP(int HP)
     {
         UnitData.CurrentHp += HP;
-
-        if (UnitData.CurrentHp > UnitData.MaxHp)
-        {
-            UnitData.CurrentHp = UnitData.MaxHp;
-        }
-
-        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
-       // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);   
     }
 
     public void LossHP(int HP)
@@ -174,12 +138,9 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         UnitData.CurrentHp -= HP;
 
         if (UnitData.CurrentHp <= 0)
-        {
-            GameManager.instance.Player.TakeDamage(1);
-        }
-
+            TakeDamage(this,1);
+        
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
-        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
     }
 
 

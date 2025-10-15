@@ -54,14 +54,16 @@ public class UnitAnimationSystem : MonoBehaviour
     ///  <param name="animeKey">재생할 애니메잇션 key값 </param> <param name="loop">애니메이션을 loop시킬지 여부</param>
     public void PlayAnimation(string animeKey , bool loop = false ,
                               TrackEntryEventDelegate eventDelegate = null , 
-                              TrackEntryDelegate CompleteDelegate = null, bool notEmpty = false)
+                              TrackEntryDelegate CompleteDelegate = null, bool notEmpty = false , float TimeScale = 1.0f)
     {
         if (loop)
         {
             if (AnimationDatas.ContainsKey(animeKey))
             {
-                UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop).HoldPrevious = true;
-                
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
+                track.HoldPrevious = true;
+
+
             }
             else
             {
@@ -73,9 +75,10 @@ public class UnitAnimationSystem : MonoBehaviour
         {
             if (AnimationDatas.ContainsKey(animeKey))
             {
-                
+
+                UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f);
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
-                
+                track.TimeScale = TimeScale;
 
 
                 if (notEmpty == false) // 애니메이션이 종료하면 자동적으로 idle 애니메이션으로 돌아감
@@ -88,7 +91,9 @@ public class UnitAnimationSystem : MonoBehaviour
             else //없으면 아무 애니메이션 재생
             {
                 TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["break_Ani"], loop);
-               
+                track.TimeScale = TimeScale;
+
+
                 if (notEmpty == false)
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
 

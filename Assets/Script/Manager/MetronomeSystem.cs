@@ -46,9 +46,6 @@ public class MetronomeSystem : MonoBehaviour
                 OnMetronomEventOnceX4?.Invoke();
 
                 OnMetronomEventOnceX4 = null;
-
-                Debug.Log("박자");
-
             }
 
             //1/4 박실행

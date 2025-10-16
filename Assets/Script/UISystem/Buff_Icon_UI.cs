@@ -8,10 +8,10 @@ public class Buff_Icon_UI : MonoBehaviour
 
     public void UpdateBuffIcon(List<Buff> buffs)
     {
-        Debug.Log(buffs.GetType());
+       // Debug.Log(buffs.GetType());
 
         if (buffs == null) return;
-        Debug.Log("UI갱신 활성화");
+       // Debug.Log("UI갱신 활성화");
 
         for (int i = 0; i < BuffIcon.Length; i++)
         {

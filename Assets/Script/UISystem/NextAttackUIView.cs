@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class NextAttackUIView : MonoBehaviour
 {
     public enum AttackIconEnum
-    {  
-        Attack,RecverHP,Attack_Two
+    {
+        Attack, RecverHP, Attack_Two
     }
 
     [System.Serializable]
@@ -18,13 +18,16 @@ public class NextAttackUIView : MonoBehaviour
 
     [SerializeField] Image AttackIcon;
     [SerializeField] TextMeshProUGUI NextStateText;
-    
+
     [SerializeField] AttackIconData[] IconDatas;
     public void UpdateUI(EnemyData enemyData, EnemyAIBehavior enemyAIBehavior)
     {
         BaseAIState EnemyAction = null; //enemy가 어떤상태일지 비교를 위한 변수
         AttackIconEnum iconEnum = AttackIconEnum.Attack;
 
+        int viewDamage = enemyData.CurrentDamage;
+
+        int viewAttackCount = 1;
 
         if (enemyData.CurrentSkillPoint >= enemyData.MaxSkillPoint)
         {
@@ -40,36 +43,51 @@ public class NextAttackUIView : MonoBehaviour
             case EnemySkill_MultiAttack_State state:
                 iconEnum = AttackIconEnum.Attack;
 
-                if (state.AttackCount > 1)
-                    NextStateText.text = string.Format("{0}X{1}", enemyData.CurrentDamage.ToString(), state.AttackCount.ToString());
-                else if(state.AttackCount ==1)
-                    NextStateText.text = string.Format("{0}", enemyData.CurrentDamage.ToString());
-                                                             
+                viewDamage = enemyData.CurrentDamage;
+                viewAttackCount = state.AttackCount;
                 break;
 
 
             case EnemySkill_AttackRecoverHP_State state:
                 iconEnum = AttackIconEnum.RecverHP;
-                
-                if (state.AttackCount > 1)
-                    NextStateText.text = string.Format("{0}X{1}", enemyData.CurrentDamage.ToString(), state.AttackCount.ToString());
-                else if (state.AttackCount == 1)
-                    NextStateText.text = string.Format("{0}", enemyData.CurrentDamage.ToString());
+
+                viewDamage = enemyData.CurrentDamage;
+                viewAttackCount = state.AttackCount;
                 break;
 
             case EnemySkill_AllEnemyRecoverHP_State state:
                 iconEnum = AttackIconEnum.RecverHP;
-                
-                NextStateText.text = string.Format("{0}", state.RecoverValue.ToString());                                          
+
+                viewDamage = enemyData.CurrentDamage;
+
                 break;
 
 
             case EnemySkill_DackAttack_State state:
                 iconEnum = AttackIconEnum.RecverHP;
+                viewDamage = state.dackCount;
 
-                NextStateText.text = string.Format("{0}", state.dackCount.ToString());
                 break;
         }
+
+        for (int i = 0; i < enemyData.EnemyUnitData.buffs.Count; i++)
+        {
+            switch (enemyData.EnemyUnitData.buffs[i])
+            {
+                case FireBuff buff:                    
+                    break;
+
+                case AttackDamageDownBuff buff:
+                    buff.PreviewBuffEffect(viewDamage, out viewDamage);
+                    break;
+            }
+        }
+
+
+        if (viewAttackCount > 1)
+            NextStateText.text = string.Format("{0}X{1}", viewDamage.ToString(), viewAttackCount.ToString());
+        else if (viewAttackCount == 1)
+            NextStateText.text = string.Format("{0}", viewDamage.ToString());
 
 
         for (int i = 0; i < IconDatas?.Length; i++)
@@ -80,8 +98,8 @@ public class NextAttackUIView : MonoBehaviour
             }
         }
 
-        
+
     }
 
-    
+
 }

@@ -248,7 +248,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         else
         {
 
-            int combo = 0;
+            int combo = 1;
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
             combo++;
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);

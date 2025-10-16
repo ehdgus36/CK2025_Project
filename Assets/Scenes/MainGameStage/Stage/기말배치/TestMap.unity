@@ -290,11 +290,6 @@ Transform:
   - {fileID: 1107450403}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &100450068 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1687469073710973892, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
-  m_PrefabInstance: {fileID: 424048157}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &242445957
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,13 +867,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4961797382784285970, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
-      propertyPath: AIMachine
-      value: 
-      objectReference: {fileID: 424048161}
-    - target: {fileID: 4961797382784285970, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
-      propertyPath: EnemyData.Enemy_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ad82354b7bd14d34cb467124f3972a9c, type: 3}
+      propertyPath: EnemyData.MaxSkillPoint
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5028334423544583191, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -923,10 +914,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7856248343595108673, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8605885900464997479, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -943,20 +930,49 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: aIBehavior
+      value: 2090276426899259510
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: 'managedReferences[2090276426899259510]'
+      value: Assembly-CSharp EnemyAI_Spray_Behavior
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: 'managedReferences[2090276426899259511]'
+      value: Assembly-CSharp EnemySkill_MultiAttack_State
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: 'managedReferences[2090276426899259512]'
+      value: Assembly-CSharp EnemySkill_DackAttack_State
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: managedReferences[2090276426899259512]._dackCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: managedReferences[2090276426899259511]._AttackCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: managedReferences[2090276426899259510].EnemySkillState
+      value: 2090276426899259512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922962121441933547, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: managedReferences[2090276426899259510].EnemyDefaultAttackState
+      value: 2090276426899259511
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1687469073710973892, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 424048161}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
 --- !u!114 &424048158 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4961797382784285970, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
   m_PrefabInstance: {fileID: 424048157}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100450068}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ad3bcbb81f2c184a98833cedfffad16, type: 3}
@@ -967,38 +983,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3516575632815168351, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
   m_PrefabInstance: {fileID: 424048157}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &424048161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100450068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c75a8bd7ee70346906ccb8a2dc3631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aIBehavior:
-    rid: 6669553222035964003
-  references:
-    version: 2
-    RefIds:
-    - rid: 6669553222035964003
-      type: {class: EnemyAI_WasteBasket_Behavior, ns: , asm: Assembly-CSharp}
-      data:
-        EnemyDefaultAttackState:
-          rid: 6669553222035964004
-        EnemySkillState:
-          rid: 6669553222035964005
-    - rid: 6669553222035964004
-      type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
-      data:
-        _AttackCount: 1
-    - rid: 6669553222035964005
-      type: {class: EnemySkill_AllEnemyRecoverHP_State, ns: , asm: Assembly-CSharp}
-      data:
-        _RecoverValue: 0
 --- !u!1001 &460457805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2802,10 +2786,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 79357424871379305, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 108637682485401455, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2820,14 +2800,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 108637682485401455, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128659142518979927, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 128659142518979927, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
-      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 702728383761661881, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
@@ -2957,10 +2929,6 @@ PrefabInstance:
     - target: {fileID: 2604893029204100532, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2693849247662790762, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 271.34998
       objectReference: {fileID: 0}
     - target: {fileID: 3336581215354755612, guid: a2f6b3cd33b23be4a90e7f33b14b9b76, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4230,29 +4198,41 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
-      propertyPath: AIMachine
-      value: 
-      objectReference: {fileID: 1969183973}
-    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: aIBehavior
+      value: 2090276426899259483
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: 'managedReferences[-2]'
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
-      propertyPath: EnemyData.EnemyUnitData.buffs.Array.size
-      value: 0
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: 'managedReferences[2090276426899259483]'
+      value: Assembly-CSharp EnemyAI_HipRat_Behavior
       objectReference: {fileID: 0}
-    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
-      propertyPath: 'EnemyData.EnemyUnitData.buffs.Array.data[0]'
-      value: -2
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: 'managedReferences[2090276426899259484]'
+      value: Assembly-CSharp EnemySkill_MultiAttack_State
       objectReference: {fileID: 0}
-    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
-      propertyPath: 'EnemyData.EnemyUnitData.buffs.Array.data[1]'
-      value: -2
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: 'managedReferences[2090276426899259485]'
+      value: Assembly-CSharp EnemySkill_MultiAttack_State
       objectReference: {fileID: 0}
-    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
-      propertyPath: 'EnemyData.EnemyUnitData.buffs.Array.data[2]'
-      value: -2
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[2090276426899259484]._AttackCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[2090276426899259485]._AttackCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[2090276426899259483].EnemySkillState
+      value: 2090276426899259485
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[2090276426899259483].EnemyDefaultAttackState
+      value: 2090276426899259484
       objectReference: {fileID: 0}
     - target: {fileID: 4246847194888058405, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4385,17 +4365,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6146934842822863285, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1969183973}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
 --- !u!114 &1969183970 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
   m_PrefabInstance: {fileID: 1969183969}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969183972}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ad3bcbb81f2c184a98833cedfffad16, type: 3}
@@ -4406,43 +4383,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7052184639168952447, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
   m_PrefabInstance: {fileID: 1969183969}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1969183972 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6146934842822863285, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
-  m_PrefabInstance: {fileID: 1969183969}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1969183973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969183972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c75a8bd7ee70346906ccb8a2dc3631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aIBehavior:
-    rid: 6669553205115879524
-  references:
-    version: 2
-    RefIds:
-    - rid: 6669553205115879524
-      type: {class: EnemyAI_HipRat_Behavior, ns: , asm: Assembly-CSharp}
-      data:
-        EnemyDefaultAttackState:
-          rid: 6669553205115879525
-        EnemySkillState:
-          rid: 6669553205115879526
-    - rid: 6669553205115879525
-      type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
-      data:
-        _AttackCount: 0
-    - rid: 6669553205115879526
-      type: {class: EnemySkill_AllEnemyRecoverHP_State, ns: , asm: Assembly-CSharp}
-      data:
-        _RecoverValue: 0
 --- !u!1 &1980310508
 GameObject:
   m_ObjectHideFlags: 0

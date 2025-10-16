@@ -6,6 +6,11 @@ public class RhythmDebuff : Buff
     {
     }
 
+    public override void BuffEndEvent(Unit unit)
+    {
+        
+    }
+
     public override void BuffEvent(Unit unit)
     {
         if (unit.GetComponent<Player>() == true)
@@ -14,5 +19,10 @@ public class RhythmDebuff : Buff
 
 
         }
+    }
+
+    public override void PreviewBuffEffect<T>(T value, out T outobject)
+    {
+        outobject = value;
     }
 }

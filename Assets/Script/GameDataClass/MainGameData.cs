@@ -30,7 +30,7 @@ namespace GameDataSystem.KeyCode
 
         public static readonly string STAGE_DATA = "STAGE_DATA";
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
-        public static readonly string SKILL_POINT_DATA = "SKILL_POINT_DATA";
+        public static string SKILL_POINT_DATA { get { return "SKILL_POINT_DATA"; } }
 
         public static readonly string DACK_DATA = "DACK_DATA";
 
@@ -181,7 +181,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
             AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData); 
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA, "1-1");
-            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,10);
+            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,5);
 
             AddDynamicDataBase("MapSave", "");
 
@@ -247,18 +247,12 @@ namespace GameDataSystem
         {
             if (DynamicDataBase.ContainsKey(key))
             {
-
                 //data의 타입이 기존 key value의 데이터 타입과 같을 때만 업데이트
                 if (DynamicDataBase[key].GetType() == data.GetType())
                 {
                     if (data == null) return;
 
-                    // Unity 전용
-                    string json = JsonUtility.ToJson(data);
-                    object copyData = JsonUtility.FromJson(json, data.GetType());
-
-                    DynamicDataBase[key] = copyData;
-
+                    DynamicDataBase[key] = data;
 
                     // DynamicUIDataBase 에 같은 key값으로 등록이 되어있다면 UI Data도 같이 업데이트 
                     if (DynamicUIDataBase.ContainsKey(key))

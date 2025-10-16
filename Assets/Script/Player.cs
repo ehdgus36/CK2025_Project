@@ -10,7 +10,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
     [SerializeField] ImageFontSystem fontSystem;
     [SerializeField] UnitAnimationSystem AnimationSystem;
-    [SerializeField] GameObject Combo;
+   
     [SerializeField] GameObject TurnEnd;
 
     [SerializeField] EffectSystem _PlayerEffectSystem;
@@ -30,12 +30,12 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     public void MaxButtonDisable()    
     {
-        Combo.GetComponent<ComboUIView>().DisableButton();
+        
     }
 
     public void MaxButtonEnable()
     {
-        Combo.GetComponent<ComboUIView>().EnableButton();
+        
     }
 
     public void Initialize()
@@ -52,9 +52,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
        
         StartTurnEvent += () => {
             CDSlotGroup.PlayerTurnDrow();
-            Combo.GetComponent<RectTransform>().anchoredPosition = StartPos; 
-            Combo.transform.localScale = new Vector3(1, 1, 1);
-            Combo.GetComponent<ComboUIView>().EnableButton();
+           
             TurnEnd.SetActive(true);
 
             AttackEnemy = null;
@@ -64,6 +62,8 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             GameManager.instance.UIManager.ManaUI.gameObject.SetActive(true);
             DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
             GameManager.instance.UIInputSetActive(true);
+
+            GameManager.instance.EnemysGroup.EnemyUIAllUpdata();
         };
 
        
@@ -72,12 +72,11 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             CDSlotGroup.ReturnCard();
             GameManager.instance.PlayerCardCastPlace.Reset();
             GameManager.instance.ExcutSelectCardSystem.Reset();
-            Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(659, 94, 0);
-            Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
-            Combo.GetComponent<ComboUIView>().DisableButton();
+          
             TurnEnd.SetActive(false);
             GameManager.instance.UIManager.ManaUI.gameObject.SetActive(false);
             GameManager.instance.UIInputSetActive(false);
+            GameManager.instance.EnemysGroup.EnemyUIAllUpdata();
         };
 
         DieEvent += PlayerDieEvent;

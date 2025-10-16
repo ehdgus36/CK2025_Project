@@ -51,14 +51,14 @@ public class EnemySkill_AttackRecoverHP_State : BaseAIState // 때린 데미지 만큼 
 {
     Vector3 StargPos;
 
-    [SerializeField, ReadOnly] int _AttackCount;
+    [SerializeField, ReadOnly] int _AttackCount = 1;
 
     public int AttackCount { get { return _AttackCount; } }
 
 
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
-        _AttackCount = 1;
+        
     }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
@@ -66,6 +66,7 @@ public class EnemySkill_AttackRecoverHP_State : BaseAIState // 때린 데미지 만큼 
         Debug.Log("실행" + this.GetType().ToString());
         Enemy enemy = (Enemy)unit;
         EnemyStateAction enemyAction = new EnemyStateAction();
+
         // 위치 이동
         StargPos = enemy.transform.position;
         enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
@@ -94,34 +95,40 @@ public class EnemySkill_AttackRecoverHP_State : BaseAIState // 때린 데미지 만큼 
 public class EnemySkill_AllEnemyRecoverHP_State : BaseAIState // 전체힐
 {
 
-    [SerializeField, ReadOnly] int _RecoverValue;
+    Vector3 StartPos;
 
-    public int RecoverValue { get { return _RecoverValue; } }
+    [SerializeField, ReadOnly] int _AttackCount = 1;
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
-    {
-        _RecoverValue = 5;
-    }
+    {}
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
         Debug.Log("실행" + this.GetType().ToString());
         Enemy enemy = (Enemy)unit;
+        EnemyStateAction enemyAction = new EnemyStateAction();
 
-        yield return new WaitForSeconds(.3f);
+
+        StartPos = enemy.transform.position;
+        enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
+        yield return new WaitForSeconds(.1f);
         //전체회복
 
-        //체력 회복 시전자 먼져
-        enemy.RecoverHP(RecoverValue);
-        //이펙트토  RecoverHP_Effect
 
-       
+        yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, 1, enemy, GameManager.instance.Player).ToCoroutine();
         yield return new WaitForSeconds(.5f);
+
+        //체력 회복 시전자 먼져
+        enemy.RecoverHP(enemy.EnemyData.CurrentDamage);
+        //이펙트토  RecoverHP_Effect
+     
+        yield return new WaitForSeconds(.5f);
+        
         for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
         {
             if (GameManager.instance.EnemysGroup.Enemys[i] == enemy) continue;
 
-            GameManager.instance.EnemysGroup.Enemys[i].RecoverHP(_RecoverValue);
+            GameManager.instance.EnemysGroup.Enemys[i].RecoverHP(enemy.EnemyData.CurrentDamage);
            
             //이펙트도
             yield return new WaitForSeconds(.2f);
@@ -145,7 +152,7 @@ public class EnemySkill_DackAttack_State : BaseAIState // 덱기반 공격
 
     [SerializeField, ReadOnly] int _dackCount;
 
-     public int dackCount { get { return _dackCount; } }
+     public int dackCount { get { _dackCount = GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Count; return _dackCount; } }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
 
@@ -156,8 +163,10 @@ public class EnemySkill_DackAttack_State : BaseAIState // 덱기반 공격
         yield return new WaitForSeconds(.3f);
 
         // 덱기반 공격기능 만들기
-        _dackCount = GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Count;
+        
         EnemyStateAction enemyAction = new EnemyStateAction();
+        
+        
         yield return enemyAction.AttackEnemy(dackCount, 1, enemy, GameManager.instance.Player).ToCoroutine();
 
         enemy.isAttackEnd = true; // 공격함

@@ -6468,6 +6468,7 @@ MonoBehaviour:
   DamageBuff: 0
   Buff_Recover_HP: 0
   SkillDamage: 10
+  Skill_Cut: {fileID: 0}
 --- !u!1 &678566567770678895
 GameObject:
   m_ObjectHideFlags: 0
@@ -25842,7 +25843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 293.16, y: 0}
+  m_AnchoredPosition: {x: 271.34998, y: 0}
   m_SizeDelta: {x: 489, y: 288}
   m_Pivot: {x: 0.000000044703484, y: -0.000000014901161}
 --- !u!222 &7743131270248300657
@@ -53925,6 +53926,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6402986674742084841, guid: ab9cc66887f6985499f88da2da160694, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6402986674742084841, guid: ab9cc66887f6985499f88da2da160694, type: 3}
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
@@ -53936,7 +53941,8 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartSkill
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7779509840312304381, guid: ab9cc66887f6985499f88da2da160694, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -54,10 +54,7 @@ public class EnemysGroup : Unit
         }
     }
 
-    
 
-
-   
     IEnumerator AttackSequenceEvent()
     {
 
@@ -66,7 +63,7 @@ public class EnemysGroup : Unit
 
         yield return new WaitUntil(() => RhythmGameSystem?.IsEndGame == true);
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
 
         //리듬게임 종료후 Enemy공격 시작
         for (int i = 0; i < Enemys.Count; i++)
@@ -81,5 +78,15 @@ public class EnemysGroup : Unit
         //턴 바꾸면서 마무리
         GameManager.instance.TurnSwap();
         yield return null;
+    }
+
+    public void EnemyUIAllUpdata()
+    {
+        if (_Enemys == null) return;
+
+        for (int i = 0; i < _Enemys.Count; i++)
+        {
+            _Enemys[i].GetEnemyStatus.UpdateStatus();
+        }
     }
 }

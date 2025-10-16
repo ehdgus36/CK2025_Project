@@ -9,6 +9,11 @@ public class FireBuff : Buff
         Damage = damage;
     }
 
+    public override void BuffEndEvent(Unit unit)
+    {
+       
+    }
+
     public override void BuffEvent(Unit unit)
     {
         float DmPercent = (10f + (float)GameManager.instance.ItemDataLoader.FireDm_UP)/100f;
@@ -27,5 +32,12 @@ public class FireBuff : Buff
             unit.GetComponent<Player>()?.PlayerEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
         }
 
+      
+
+    }
+
+    public override void PreviewBuffEffect<T>(T value, out T outobject)
+    {
+        outobject = value;
     }
 }

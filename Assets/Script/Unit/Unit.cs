@@ -144,6 +144,11 @@ public class Unit : MonoBehaviour
         EndTurnEvent?.Invoke();
     }
 
+    public void RemoveBuff(Buff buff)
+    { 
+        UnitData.buffs.Remove(buff);
+    }
+
     void BuffExecution(BuffType type)
     {
         if (CurrentBuff == null) return;

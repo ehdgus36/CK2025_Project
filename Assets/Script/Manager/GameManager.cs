@@ -308,18 +308,7 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(UPdateComboCount(data*2));
     }
 
-    IEnumerator UPdateComboCount(int count)
-    {
-        int combo = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
-        for (int i = 0; i < count; i++)
-        {
-            combo++;
-            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
-            
-            if(i % 200 == 0)yield return null;
-        }
-    }
+ 
 
 
     public void UIInputSetActive(bool active)

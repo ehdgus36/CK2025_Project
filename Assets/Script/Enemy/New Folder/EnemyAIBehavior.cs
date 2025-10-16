@@ -52,7 +52,9 @@ public class EnemyAI_Spray_Behavior : EnemyAIBehavior
     int attackCount = 1;
     protected override void InitializeState()
     {
-        EnemySkillState = new EnemySkill_AttackRecoverHP_State();
+       // EnemySkillState = new EnemySkill_AttackRecoverHP_State();
+        EnemySkillState = new EnemySkill_DackAttack_State();
+
         EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
     }
 }

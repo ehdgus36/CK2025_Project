@@ -6,10 +6,12 @@ using Cysharp.Threading.Tasks;
 [System.Serializable]
 public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 {
-    Vector3 StargPos;
+     Vector3 StartPos;
     [SerializeField, ReadOnly] int _AttackCount;
 
-     public int AttackCount { get { return _AttackCount; } }
+    public int AttackCount { get { return _AttackCount; } }
+
+    protected bool isAttackEndControll = true;
 
     public EnemySkill_MultiAttack_State(int attackCount)
     {
@@ -26,36 +28,33 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
         EnemyStateAction enemyAction = new EnemyStateAction();
         
         // 위치 이동
-        StargPos = enemy.transform.position;
+        StartPos = enemy.transform.position;
         enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);             
         yield return new WaitForSeconds(.1f);
 
         //애니메이션 재생및 공격
-        yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player).ToCoroutine();
+        yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player);
         yield return new WaitForSeconds(.5f);
 
         //완료 이벤트
-        enemy.isAttackEnd = true; // 공격함
-        enemy.transform.position = StargPos;
-        yield return null;
-
+        enemy.isAttackEnd = isAttackEndControll;
+        // 공격함
+        enemyAction.MoveEnemy(enemy.gameObject, StartPos, Vector3.zero); 
         yield break;
     }
 
-    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) { }
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) 
+    {
+        
+    }
 }
 
 
 [System.Serializable]
-public class EnemySkill_AttackRecoverHP_State : BaseAIState // 때린 데미지 만큼 힐
+public class EnemySkill_AttackRecoverHP_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
-    Vector3 StargPos;
 
-    [SerializeField, ReadOnly] int _AttackCount = 1;
-
-    public int AttackCount { get { return _AttackCount; } }
-
-
+    public EnemySkill_AttackRecoverHP_State(int attackCount) : base(attackCount) { }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
         
@@ -63,26 +62,17 @@ public class EnemySkill_AttackRecoverHP_State : BaseAIState // 때린 데미지 만큼 
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-        Debug.Log("실행" + this.GetType().ToString());
-        Enemy enemy = (Enemy)unit;
-        EnemyStateAction enemyAction = new EnemyStateAction();
-
-        // 위치 이동
-        StargPos = enemy.transform.position;
-        enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
        
-        
-        yield return new WaitForSeconds(.1f);
-        //애니메이션 재생및 공격
-        yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player).ToCoroutine();
-        yield return new WaitForSeconds(.5f);
-        //완료 이벤트
-        enemy.isAttackEnd = true; // 공격함
-        enemy.transform.position = StargPos;
+        Enemy enemy = (Enemy)unit;
 
+        isAttackEndControll = false;
+        yield return base.Excut(unit, aIBehavior);
+
+        yield return new WaitForSeconds(.1f);
         //체력회복
         enemy.RecoverHP(enemy.EnemyData.CurrentDamage * AttackCount);
-        //이펙트 추가
+       
+        enemy.isAttackEnd = true; // 공격함
         yield return null;
         yield break;
     }
@@ -92,37 +82,27 @@ public class EnemySkill_AttackRecoverHP_State : BaseAIState // 때린 데미지 만큼 
 
 
 [System.Serializable]
-public class EnemySkill_AllEnemyRecoverHP_State : BaseAIState // 전체힐
+public class EnemySkill_AllEnemyRecoverHP_State : EnemySkill_MultiAttack_State // 전체힐
 {
-
-    Vector3 StartPos;
-
-    [SerializeField, ReadOnly] int _AttackCount = 1;
+    public EnemySkill_AllEnemyRecoverHP_State(int attackCount) : base(attackCount) { }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
     {}
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-        Debug.Log("실행" + this.GetType().ToString());
+        
         Enemy enemy = (Enemy)unit;
-        EnemyStateAction enemyAction = new EnemyStateAction();
+       
+        isAttackEndControll = false;
+        yield return base.Excut(unit, aIBehavior);
 
-
-        StartPos = enemy.transform.position;
-        enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
         yield return new WaitForSeconds(.1f);
-        //전체회복
-
-
-        yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, 1, enemy, GameManager.instance.Player).ToCoroutine();
-        yield return new WaitForSeconds(.5f);
-
         //체력 회복 시전자 먼져
         enemy.RecoverHP(enemy.EnemyData.CurrentDamage);
-        //이펙트토  RecoverHP_Effect
+        
      
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.4f);
         
         for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
         {
@@ -133,8 +113,6 @@ public class EnemySkill_AllEnemyRecoverHP_State : BaseAIState // 전체힐
             //이펙트도
             yield return new WaitForSeconds(.2f);
         }
-
-        
 
         enemy.isAttackEnd = true; // 공격함
 
@@ -149,7 +127,7 @@ public class EnemySkill_AllEnemyRecoverHP_State : BaseAIState // 전체힐
 [System.Serializable]
 public class EnemySkill_DackAttack_State : BaseAIState // 덱기반 공격
 {
-
+    Vector3 StartPos;
     [SerializeField, ReadOnly] int _dackCount;
 
      public int dackCount { get { _dackCount = GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Count; return _dackCount; } }
@@ -160,15 +138,18 @@ public class EnemySkill_DackAttack_State : BaseAIState // 덱기반 공격
     {
         Debug.Log("실행" + this.GetType().ToString());
         Enemy enemy = (Enemy)unit;
+        EnemyStateAction enemyAction = new EnemyStateAction();
+
+        StartPos = enemy.transform.position;
+        enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
         yield return new WaitForSeconds(.3f);
 
         // 덱기반 공격기능 만들기
-        
-        EnemyStateAction enemyAction = new EnemyStateAction();
-        
-        
-        yield return enemyAction.AttackEnemy(dackCount, 1, enemy, GameManager.instance.Player).ToCoroutine();
+        yield return enemyAction.AttackEnemy(dackCount, 1, enemy, GameManager.instance.Player);
+        yield return new WaitForSeconds(.5f);
 
+        enemyAction.MoveEnemy(enemy.gameObject, StartPos, Vector3.zero);
+        yield return new WaitForSeconds(.1f);
         enemy.isAttackEnd = true; // 공격함
         yield return null;
         yield break;

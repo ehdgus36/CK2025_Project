@@ -43,7 +43,7 @@ public class Unit : MonoBehaviour
     [SerializeField]
     protected UnitData UnitData;
    
-    protected List<Buff> CurrentBuff;
+    
 
 
 
@@ -151,16 +151,16 @@ public class Unit : MonoBehaviour
 
     void BuffExecution(BuffType type)
     {
-        if (CurrentBuff == null) return;
+        if (UnitData.buffs == null) return;
 
-        Debug.Log("buffCount :"+ CurrentBuff.Count.ToString());
-        if (CurrentBuff.Count != 0)
+        Debug.Log("buffCount :" + UnitData.buffs.Count.ToString());
+        if (UnitData.buffs.Count != 0)
         {
-            for (int i = 0; i < CurrentBuff.Count; i++)
+            for (int i = 0; i < UnitData.buffs.Count; i++)
             {
-                if (CurrentBuff[i].GetBuffType() == type)
+                if (UnitData.buffs[i].GetBuffType() == type)
                 {
-                    CurrentBuff[i].StartBuff(this);
+                    UnitData.buffs[i].StartBuff(this);
                 }
             }
         }

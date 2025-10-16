@@ -40,29 +40,24 @@ public class NextAttackUIView : MonoBehaviour
 
         switch (EnemyAction)
         {
-            case EnemySkill_MultiAttack_State state:
-                iconEnum = AttackIconEnum.Attack;
-
-                viewDamage = enemyData.CurrentDamage;
-                viewAttackCount = state.AttackCount;
-                break;
-
-
             case EnemySkill_AttackRecoverHP_State state:
                 iconEnum = AttackIconEnum.RecverHP;
 
                 viewDamage = enemyData.CurrentDamage;
                 viewAttackCount = state.AttackCount;
                 break;
-
             case EnemySkill_AllEnemyRecoverHP_State state:
                 iconEnum = AttackIconEnum.RecverHP;
 
                 viewDamage = enemyData.CurrentDamage;
-
                 break;
 
+            case EnemySkill_MultiAttack_State state:
+                iconEnum = AttackIconEnum.Attack;
 
+                viewDamage = enemyData.CurrentDamage;
+                viewAttackCount = state.AttackCount;
+                break;
             case EnemySkill_DackAttack_State state:
                 iconEnum = AttackIconEnum.RecverHP;
                 viewDamage = state.dackCount;

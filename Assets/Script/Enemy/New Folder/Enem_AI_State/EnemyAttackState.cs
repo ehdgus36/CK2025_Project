@@ -12,12 +12,12 @@ public class EnemyStateAction
         moveObject.transform.position = formPos + attackOffset;
     }
 
-    public async UniTask AttackEnemy(int damage, int attackCount, Enemy attackEnemy, Unit targetUnit , Buff buff = null)
+    public IEnumerator AttackEnemy(int damage, int attackCount, Enemy attackEnemy, Unit targetUnit , Buff buff = null)
     {
         for (int i = 0; i < attackCount; i++)
         {
             attackEnemy.UnitAnimationSystem.PlayAnimation("attack", false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
-            await UniTask.Delay(800);
+            yield return new WaitForSeconds(.8f);
         }
     }
 }

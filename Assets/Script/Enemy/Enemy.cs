@@ -26,19 +26,12 @@ public class EnemyData
     [SerializeField] public UnitData EnemyUnitData;
     [SerializeField] public int MaxSkillPoint;
 
-    [SerializeField] private int _CurrentSkillPoint;
+    public int CurrentSkillPoint;
 
-    [SerializeField] public int CurrentSkillPoint 
-    {
-        get { return _CurrentSkillPoint; }
-        set
-        {
-            _CurrentSkillPoint = value;
-        } 
-    }
+  
 
     [SerializeField] public int MaxDamage;
-    [SerializeField] public int CurrentDamage;
+    public int CurrentDamage;
 
     [SerializeField] public Sprite Enemy_Sprite;
 }
@@ -88,39 +81,24 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     {
         if (group == null)
             throw new ArgumentNullException(nameof(group), "EnemyGroup은 null이 될 수 없습니다.");
-
         EnemyGroup = group;
 
         AIMachine = GetComponent<UnitAIMachine>();
-
-
         isDie = false;
-        CurrentBuff = new List<Buff>();
 
         //EnemyUnitData 설정 
         UnitData = EnemyData.EnemyUnitData;
-        EnemyData.EnemyUnitData.buffs = CurrentBuff;
         
-
-
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
-        
-
         EnemyStatus?.Initialize(this); // UI 초기화
-
-       
         EnemyStatus?.NextAttackUI.gameObject.SetActive(true);
-
 
         StartTurnEvent = () =>
         {
             isAttackEnd = false; //턴 시작시 공격가능하게 초기화
             EnemyStatus?.UpdateStatus(); //UI 갱신
             EnemyStatus?.NextAttackUI.gameObject.SetActive(false);// 다음 공격 표시끄기
-
-
             AIMachine.StartAI(this);
-
         };
 
 
@@ -133,13 +111,8 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
             EnemyStatus?.UpdateStatus();
 
             // 다음 공격 표시
-            EnemyStatus?.NextAttackUI.gameObject.SetActive(true);
-
-           
-            
-
+            EnemyStatus?.NextAttackUI.gameObject.SetActive(true);        
         };
-
 
         DieEvent += () =>
         {
@@ -151,16 +124,13 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     {
         //애니메이션 재생
         EnemyAnimator.PlayAnimation("hit");
-
         //이팩트 , 사운드
         EffectSystem.PlayEffect("Hit_Effect", this.transform.position); // 자신에게
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Hurt");
-
         //UI 갱신
         EnemyStatus?.UpdateStatus();
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_ENEMY_HIT , this);
-
     }
 
     void EnemyDieEvent()
@@ -168,72 +138,35 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         EffectSystem.PlayEffect("Monster_Die_Effect", this.transform.position);      
         GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);
         this.transform.position = new Vector3(200, 200, 200);
+        
         EnemyGroup.RemoveSelf(this); // EnemyGroup에서 자기자신 지우기
         isDie = true;
     }
-
-    public void SlowMotionEffect(bool onoff)
-    {
-        if(onoff == false)
-        {
-
-            EnemyStatus?.OnPassiveDescription();
-            startLayer = this.gameObject.layer;
-
-            ChangeLayerRecursively(this.gameObject, 7);
-            //isDescription = true;
-            return;
-        }
-
-        if (onoff == true)
-        {
-            EnemyStatus?.OffPassiveDescription();
-            ChangeLayerRecursively(this.gameObject, startLayer);
-            //isDescription = false;
-            return;
-        }
-    }
-
     public void OnPointerDown(PointerEventData eventData)
     {
        
     }
-    private void ChangeLayerRecursively(GameObject obj, int layer)
-    {
-        obj.layer = layer;
-
-        foreach (Transform child in obj.transform)
-        {
-            ChangeLayerRecursively(child.gameObject, layer);
-        }
-    }
-
     public void RecoverHP(int _hp)
     {
         EnemyData.EnemyUnitData.CurrentHp += _hp;
         EffectSystem.PlayEffect("RecoverHP_Effect", transform.position);
         EnemyStatus.UpdateStatus();
     }
-
-
     public void CurrentDamageDown(int downDamage)
     {
         EnemyData.CurrentDamage -= downDamage;
         EnemyData.CurrentDamage = Mathf.Clamp(EnemyData.CurrentDamage, 0, 100);
     }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         EnemyStatus.StatusPopUp.SetActive(true);
         GameManager.instance.ExcutSelectCardSystem.SetTargetEnemy(this);
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         EnemyStatus.StatusPopUp.SetActive(false);
         GameManager.instance.ExcutSelectCardSystem.SetTargetEnemy(null);
     }
-
     public void OnPointerUp(PointerEventData eventData)
     {
        

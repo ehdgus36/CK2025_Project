@@ -43,6 +43,15 @@ public class Buff_Icon_UI : MonoBehaviour
                     BuffIcon[0].text = buffTurn;
                     if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
+                case RhythmDebuff F: // √ 
+                    BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[1].text = buffTurn;
+                    break;
+
+                case BarbedArmorBuff F: // √ 
+                    BuffIcon[2].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[2].text = buffTurn;
+                    break;
 
                 case AttackDamageDownBuff F: // √ 
                     BuffIcon[3].gameObject.transform.parent.gameObject.SetActive(true);

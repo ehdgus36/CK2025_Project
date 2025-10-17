@@ -39,6 +39,8 @@ public class EnemysGroup : Unit
             {
                 Enemys[i].EndTurn();
             }
+
+            RhythmGameSystem.ReverseNote(false); //노트 방향 초기
         };
     }
 
@@ -57,7 +59,6 @@ public class EnemysGroup : Unit
 
     IEnumerator AttackSequenceEvent()
     {
-
         //리듬게임 시작
         RhythmGameSystem?.StartEvent();
 

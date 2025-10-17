@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour
     public void TurnSwap()
     {
         // 턴앤드 클릭시 TurnSwap함수 재생
-        Debug.Log("턴앤드 클릭");
+        
 
         Metronome.AddOnceMetronomX4Event(() =>
         {

@@ -51,7 +51,7 @@ public class Card : MonoBehaviour
         if (StaticGameDataSchema.CARD_DATA_BASE.SearchData(CardID, out data))
         {
             cardData = (CardData)data;
-            Debug.Log("카드 데이터 입력완료");
+          
         }
         else
         {
@@ -85,7 +85,7 @@ public class Card : MonoBehaviour
         if (StaticGameDataSchema.CARD_DATA_BASE.SearchData(cardID, out data))
         {
             cardData = (CardData)data;
-            Debug.Log("카드 데이터 입력완료");
+            
         }
         else
         {

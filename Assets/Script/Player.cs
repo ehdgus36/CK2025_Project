@@ -77,6 +77,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             GameManager.instance.UIManager.ManaUI.gameObject.SetActive(false);
             GameManager.instance.UIInputSetActive(false);
             GameManager.instance.EnemysGroup.EnemyUIAllUpdata();
+            DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
         };
 
         DieEvent += PlayerDieEvent;

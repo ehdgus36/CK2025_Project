@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 
@@ -16,14 +17,12 @@ public abstract class EnemyAIBehavior : UnitAIBehavior
 
     public EnemyAIBehavior()
     {
-
         InitializeState();
         Initialize();
     }
 
-    public override void Initialize()
+    public  override void Initialize()
     {
-        InitializeState();
         if (EnemyDefaultAttackState == null || EnemySkillState == null) return;
         EnemyStartState = new EnemyAttackState(EnemyDefaultAttackState, EnemySkillState);
 
@@ -31,7 +30,7 @@ public abstract class EnemyAIBehavior : UnitAIBehavior
     }
 
 
-    protected abstract void InitializeState();
+    protected abstract void InitializeState(); // 생성할때 단한번
 }
 
 
@@ -66,5 +65,40 @@ public class EnemyAI_WasteBasket_Behavior : EnemyAIBehavior
     {
         EnemySkillState = new EnemySkill_AllEnemyRecoverHP_State(1);
         EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
+    }
+}
+
+public class EnemyAI_Test_Behavior : EnemyAIBehavior
+{
+    int attackCount = 1;
+    protected override void InitializeState()
+    {
+        EnemySkillState = new EnemySkill_RhythmReverse_State();
+        EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
+    }
+}
+
+public class EnemyAI_HIPPOP_Behavior : EnemyAIBehavior
+{
+    [SerializeReference] protected BaseAIState EnemySkillState2;
+    int attackCount = 1;
+    protected override void InitializeState()
+    {
+        EnemySkillState = new EnemySkill_BarbedArmor_State(1);
+        EnemySkillState2 = new EnemySkill_MultiAttack_State(2);
+        EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
+    }
+
+    public override void Initialize()
+    {           
+        if (EnemyDefaultAttackState == null || EnemySkillState == null) return;
+        EnemyStartState = new BossAttackState(EnemyDefaultAttackState, EnemySkillState , EnemySkillState2);
+
+        StartState = EnemyStartState;
+    }
+
+    public void SwapSkill()
+    {
+        (EnemySkillState, EnemySkillState2) = (EnemySkillState2, EnemySkillState);
     }
 }

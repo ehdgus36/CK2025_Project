@@ -67,7 +67,10 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     public UnitAIMachine AIMachine { get; private set; }
 
     public bool isDie { get; private set; }
-    public bool isAttackEnd { get; set; } // EnemyGrope에서 Enemy객체가 공격했는지를 판단
+
+
+
+    public bool isAttackEnd; // EnemyGrope에서 Enemy객체가 공격했는지를 판단
 
 
 
@@ -76,6 +79,9 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public EffectSystem GetEffectSystem { get { return EffectSystem; } }
     public EnemyStatus GetEnemyStatus { get { return EnemyStatus; } }
+
+
+    public bool isBarbedArmor = false;
 
     public virtual void Initialize(int index,  EnemysGroup group) 
     {
@@ -120,7 +126,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         };
     }
 
-    protected override void TakeDamageEvent(Unit form, int damage, int resultDamage, Buff buff = null)
+    protected override void TakeDamageEvent(Unit formUnit, int damage, int resultDamage, Buff buff = null)
     {
         //애니메이션 재생
         EnemyAnimator.PlayAnimation("hit");
@@ -131,7 +137,29 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         EnemyStatus?.UpdateStatus();
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_ENEMY_HIT , this);
+
+        if (isBarbedArmor == true)
+        {
+            if(formUnit.GetType() == typeof(Player))
+                StartCoroutine(BarbedArmor(formUnit, damage));
+        }
+
     }
+
+    public override void AddBuff(Buff buff)
+    {
+        base.AddBuff(buff);
+        EnemyStatus?.UpdateStatus();
+    }
+
+    IEnumerator BarbedArmor(Unit unit , int damage)
+    {
+        yield return new WaitForSeconds(.5f);
+
+        unit.TakeDamage(this, ((damage + 1) / 2));
+    }
+
+    
 
     void EnemyDieEvent()
     {

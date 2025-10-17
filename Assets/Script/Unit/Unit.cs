@@ -94,7 +94,18 @@ public class Unit : MonoBehaviour
             return;
         }
 
+        AddBuff(buff);
+        TakeDamageEvent(form, damage, resultDamage, buff);
+    }
 
+    void Die() 
+    {
+        
+        DieEvent?.Invoke();
+    }
+
+    public virtual void AddBuff(Buff buff)
+    {
         if (buff != null)
         {
             bool IsBuffType = false;
@@ -112,15 +123,6 @@ public class Unit : MonoBehaviour
                 UnitData.buffs.Add(buff);
             }
         }
-        TakeDamageEvent(form, damage, resultDamage, buff);
-
-
-    }
-
-    void Die() 
-    {
-        
-        DieEvent?.Invoke();
     }
 
     //Unit의 턴이 시작했을 때 호출
@@ -153,7 +155,7 @@ public class Unit : MonoBehaviour
     {
         if (UnitData.buffs == null) return;
 
-        Debug.Log("buffCount :" + UnitData.buffs.Count.ToString());
+       
         if (UnitData.buffs.Count != 0)
         {
             for (int i = 0; i < UnitData.buffs.Count; i++)

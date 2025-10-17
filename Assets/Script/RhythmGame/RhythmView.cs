@@ -11,8 +11,8 @@ public class RhythmView : MonoBehaviour
 {
     [SerializeField] public string NoteData;
     [SerializeField] Image[] ViewNote;
-    [SerializeField] Sprite RImage;
-    [SerializeField] Sprite LImage;
+    
+   
 
     [SerializeField] GameObject startObject;
 
@@ -22,6 +22,7 @@ public class RhythmView : MonoBehaviour
     public MetronomeSystem mt;
     public bool IsEnd;
 
+    public bool IsReverse = false;
 
     private void OnEnable()
     {
@@ -39,7 +40,6 @@ public class RhythmView : MonoBehaviour
         for (int i = 0; i < ViewNote.Length; i++)
         {
             ViewNote[i].gameObject.SetActive(false);
-
         }
 
         noteIndex = 0;
@@ -54,11 +54,9 @@ public class RhythmView : MonoBehaviour
     {
         if (currentBeat == NoteData.Length)
         {
-
             IsEnd = true;
             return;
         }
-
 
         if (currentBeat == -1)
         {
@@ -68,13 +66,10 @@ public class RhythmView : MonoBehaviour
             return;
         }
 
-       
-
-
         if (NoteData[currentBeat] == '1') // ¿ÞÂÊ
         {
             ViewNote[noteIndex].gameObject.SetActive(true);
-            ViewNote[noteIndex].sprite = LImage;
+            ViewNote[noteIndex].sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetLImage; 
 
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
@@ -83,25 +78,22 @@ public class RhythmView : MonoBehaviour
             }
             RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
             noteIndex++;
-
-           
-
         }
-
 
         if (NoteData[currentBeat] == '2')// ¿À¸¥ÂÊ
         {
             ViewNote[noteIndex].gameObject.SetActive(true);
-            ViewNote[noteIndex].sprite = RImage;
-
+            ViewNote[noteIndex].sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetRImage;
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
                 GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
             }
-
             RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");
             noteIndex++;
         }
         currentBeat++;
     }
+
+
+  
 }

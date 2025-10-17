@@ -10,8 +10,9 @@ public class RhythmInput : MonoBehaviour
     [SerializeField] public string NoteData;
     [SerializeField] List<Inputnote> InputNote;
     [SerializeField] List<Inputnote> inputInstanceNote = new List<Inputnote>();
-    [SerializeField] Sprite RImage;
-    [SerializeField] Sprite LImage;
+
+
+   
 
     [SerializeField] GameObject startObject;
 
@@ -25,7 +26,13 @@ public class RhythmInput : MonoBehaviour
 
     public int score { get; private set; }
 
+   
+
     public bool IsEnd;
+
+
+   
+
 
     private void OnEnable()
     {
@@ -58,6 +65,9 @@ public class RhythmInput : MonoBehaviour
 
     public void SpawnNote()
     {
+
+
+
         if (currentBeat == NoteData.Length)
         {
             IsEnd = true;
@@ -97,26 +107,20 @@ public class RhythmInput : MonoBehaviour
             noteIndex++;
         }
        
-
         currentBeat++;
     }
 
-
-
     private void Update()
     {
-
         if (inputInstanceNote.Count == 0) return;
         else
         {
-
             if (inputInstanceNote[0].miss)
             {
                 inputInstanceNote.Remove(inputInstanceNote[0]);
 
                 if (inputInstanceNote.Count == 0) return;
             }
-
 
             if (Input.GetMouseButtonDown(inputInstanceNote[0].mouseInput) && inputInstanceNote.Count != 0)
             {
@@ -134,15 +138,10 @@ public class RhythmInput : MonoBehaviour
                         GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
                     }
 
-
                     SuccessNoteEvent.Invoke(inputInstanceNote[0].gameObject);
-
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
-
                     inputInstanceNote.Remove(inputInstanceNote[0]);
                     score++;
-
-
                 }
             }
         }

@@ -1,7 +1,8 @@
-using System.Collections;
-using UnityEngine;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using System.Collections;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
+using UnityEngine;
 
 [System.Serializable]
 public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
@@ -11,18 +12,25 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 
     public int AttackCount { get { return _AttackCount; } }
 
+
+
     protected bool isAttackEndControll = true;
+   
+   
 
     public EnemySkill_MultiAttack_State(int attackCount)
     {
         _AttackCount = attackCount;
+        isAttackEndControll = true;
     }
 
-    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
+        isAttackEndControll = true;
+    }
    
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-        Debug.Log("실행" + this.GetType().ToString());
+       
         Enemy enemy = (Enemy)unit;
 
         EnemyStateAction enemyAction = new EnemyStateAction();
@@ -36,8 +44,10 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
         yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player);
         yield return new WaitForSeconds(.5f);
 
+        Debug.Log("isAttackEndControll" + isAttackEndControll);
         //완료 이벤트
         enemy.isAttackEnd = isAttackEndControll;
+       
         // 공격함
         enemyAction.MoveEnemy(enemy.gameObject, StartPos, Vector3.zero); 
         yield break;
@@ -156,8 +166,69 @@ public class EnemySkill_DackAttack_State : BaseAIState // 덱기반 공격
     }
 
     public override void Exit(Unit unit, UnitAIBehavior aIBehavior) { }
-
-
 }
 
+[System.Serializable]
+public class EnemySkill_RhythmReverse_State : BaseAIState // 덱기반 공격
+{
+    Vector3 StartPos;
+    
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
 
+    public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
+    {
+        Debug.Log("실행" + this.GetType().ToString());
+        Enemy enemy = (Enemy)unit;
+        EnemyStateAction enemyAction = new EnemyStateAction();
+
+        StartPos = enemy.transform.position;
+        enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
+        yield return new WaitForSeconds(.3f);
+
+        // 덱기반 공격기능 만들기
+        yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, 1, enemy, GameManager.instance.Player,new RhythmDebuff(BuffType.End,2));
+        yield return new WaitForSeconds(.5f);
+
+        enemyAction.MoveEnemy(enemy.gameObject, StartPos, Vector3.zero);
+        yield return new WaitForSeconds(.1f);
+        enemy.isAttackEnd = true; // 공격함
+        yield return null;
+        yield break;
+    }
+
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) { }
+}
+
+//Barbed Armor
+
+[System.Serializable]
+public class EnemySkill_BarbedArmor_State: EnemySkill_MultiAttack_State // 전체힐 // 덱기반 공격
+{
+    Vector3 StartPos;
+
+
+    public EnemySkill_BarbedArmor_State(int attackConut) : base(attackConut) { }
+ 
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
+
+    public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
+    {
+
+        Enemy enemy = (Enemy)unit;
+
+        isAttackEndControll = false;
+        yield return base.Excut(unit, aIBehavior);
+
+        yield return new WaitForSeconds(.1f);
+        Buff buff = new BarbedArmorBuff(BuffType.Start, 2);
+        buff.StartBuff(enemy);
+        enemy.AddBuff(buff);
+
+        enemy.isAttackEnd = true; // 공격함
+        yield return null;
+        yield break;
+    }
+
+
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) { }
+}

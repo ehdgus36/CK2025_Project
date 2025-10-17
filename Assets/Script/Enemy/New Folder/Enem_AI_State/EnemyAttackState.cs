@@ -25,11 +25,8 @@ public class EnemyStateAction
 [System.Serializable]
 public class EnemyAttackState : BaseAIState
 {
-   
-
-
-    BaseAIState EnemySkill;
-    BaseAIState EnemyDefultAttack;
+    [SerializeReference] BaseAIState EnemySkill;
+    [SerializeReference] BaseAIState EnemyDefultAttack;
 
     public EnemyAttackState(BaseAIState defultAttackState ,BaseAIState ChangeSkillState) { EnemyDefultAttack = defultAttackState; EnemySkill = ChangeSkillState;}
 
@@ -37,10 +34,10 @@ public class EnemyAttackState : BaseAIState
    
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-        Debug.Log("½ÇÇà" + this.GetType().ToString());
+        
         Enemy enemy = (Enemy)unit;
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1.5f);
 
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {

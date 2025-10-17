@@ -25,8 +25,7 @@ public class ShopDataBase
     {
         int CardDataIndex = CSVReader.Read(ItemDataTable).Count;
 
-        Debug.Log("¼öÄ¡ :" + CardDataIndex);
-
+      
         for (int i = 0; i < CardDataIndex; i++)
         {
             string key = CSVReader.Read(ItemDataTable)[i]["Item_ID"].ToString();

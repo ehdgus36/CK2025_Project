@@ -7,10 +7,6 @@ public class Inputnote : MonoBehaviour
     public bool miss;
 
     public int mouseInput;
-
-    [SerializeField] Sprite LSprite;
-    [SerializeField] Sprite RSprite;
-
     [SerializeField] TextMeshProUGUI bpmtext;
 
     public void Reset()
@@ -22,7 +18,7 @@ public class Inputnote : MonoBehaviour
     {
         if (tag == '1')
         {
-            GetComponent<UnityEngine.UI.Image>().sprite = LSprite;
+            GetComponent<UnityEngine.UI.Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetLImage;
             mouseInput = 0;
             if(bpmtext != null)
                 bpmtext.color = Color.blue;
@@ -31,7 +27,7 @@ public class Inputnote : MonoBehaviour
 
         if (tag == '2')
         {
-            GetComponent<UnityEngine.UI.Image>().sprite = RSprite;
+            GetComponent<UnityEngine.UI.Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetRImage;
             mouseInput = 1;
             if (bpmtext != null)
                 bpmtext.color = Color.green;

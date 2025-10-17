@@ -4,20 +4,31 @@ using System.Collections.Generic;
 
 public class RhythmSystem : MonoBehaviour
 {
-    [SerializeField] RhythmView rhythmView;
+    [SerializeField] RhythmView  rhythmView;
     [SerializeField] RhythmInput rhythmInput;
 
     [SerializeField] string NoteData;
     [SerializeField] string NoteGroupID = "RG101";
 
+    [SerializeField] Sprite RImage;
+    [SerializeField] Sprite LImage;
+
+    [SerializeField] Sprite ReverseRImage;
+    [SerializeField] Sprite ReverseLImage;
+
+    Sprite StartRImage;
+    Sprite StartLImage;
+
     MetronomeSystem metronome;
 
-   
-
+    public Sprite GetRImage { get { return RImage; } }
+    public Sprite GetLImage { get { return LImage; } }
+    private void Awake()
+    {
+        (StartRImage, StartLImage) = (RImage, LImage);
+    }
 
     public bool IsEndGame { get; private set; }
-
-
 
     public void StartEvent()
     {
@@ -89,26 +100,6 @@ public class RhythmSystem : MonoBehaviour
         rhythmView.gameObject.SetActive(false);
         rhythmInput.gameObject.SetActive(false);
 
-
-
-        //플레이어 베리어guitarwall_Ani
-
-        //if (rhythmInput.score != 0)
-        //{
-        //    GameManager.instance.Player.PlayerAnimator.PlayAnimation("guitarwall_Ani", false, (Entry, e) =>
-        //    {
-        //        Debug.Log("점수 :" + rhythmInput.score.ToString() + "방패 가동");
-        //        GameManager.instance.Player.PlayerEffectSystem.PlayEffect("guitarwall_Effect",GameManager.instance.Player.transform.position);
-                
-        //        UnitData playerData;
-        //        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<UnitData>(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA,
-        //                                                                       out playerData);
-        //        playerData.CurrentBarrier += rhythmInput.score;
-
-        //        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
-        //    });
-        //}
-
         yield return new WaitForSeconds(.2f);
         IsEndGame = true;
        
@@ -132,13 +123,19 @@ public class RhythmSystem : MonoBehaviour
         return ((NoteData)loadData).NoteCode.Substring(1); ;
     }
 
-
-
-
     public void ResetEvent()
     {
         rhythmView.Reset();
         rhythmInput.Reset();
         IsEndGame = false;
     }
+
+    public void ReverseNote(bool reverse)
+    {
+        if(reverse == true)
+            (RImage, LImage) = (ReverseLImage, ReverseRImage);
+        if(reverse == false)
+            (RImage, LImage) = (StartRImage, StartLImage);
+    }
+   
 }

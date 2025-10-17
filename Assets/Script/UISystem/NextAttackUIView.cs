@@ -6,7 +6,7 @@ public class NextAttackUIView : MonoBehaviour
 {
     public enum AttackIconEnum
     {
-        Attack, RecverHP, Attack_Two
+        Attack, RecverHP, Attack_Two ,BarbeArmor
     }
 
     [System.Serializable]
@@ -52,6 +52,12 @@ public class NextAttackUIView : MonoBehaviour
                 viewDamage = enemyData.CurrentDamage;
                 break;
 
+            case EnemySkill_BarbedArmor_State state:
+                iconEnum = AttackIconEnum.BarbeArmor;
+
+                viewDamage = enemyData.CurrentDamage;
+                break;
+
             case EnemySkill_MultiAttack_State state:
                 iconEnum = AttackIconEnum.Attack;
 
@@ -61,6 +67,11 @@ public class NextAttackUIView : MonoBehaviour
             case EnemySkill_DackAttack_State state:
                 iconEnum = AttackIconEnum.RecverHP;
                 viewDamage = state.dackCount;
+
+                break;
+            case EnemySkill_RhythmReverse_State state:
+                iconEnum = AttackIconEnum.RecverHP;
+                viewDamage = enemyData.CurrentDamage;
 
                 break;
         }

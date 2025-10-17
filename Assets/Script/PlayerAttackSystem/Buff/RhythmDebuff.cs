@@ -15,9 +15,7 @@ public class RhythmDebuff : Buff
     {
         if (unit.GetComponent<Player>() == true)
         {
-            //리듬게임 노트증가
-
-
+            GameManager.instance.EnemysGroup.GetRhythmSystem.ReverseNote(true);
         }
     }
 

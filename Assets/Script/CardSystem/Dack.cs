@@ -87,7 +87,7 @@ public class Dack : MonoBehaviour
 
         for (int i = 0; i < CardSlots.Getsloat().Length ; i++)
         {
-            Debug.Log(gameObject.name + "Drow");
+            
             if (CardSlots.Getsloat()[i].ReadData<Card>() == null)
             {
                 Card drowCard = CardDrow();
@@ -95,7 +95,7 @@ public class Dack : MonoBehaviour
                 
                 DackDatas.Remove(drowCard);
 
-                Debug.Log(gameObject.name + "Drow");
+               
             }
         }
 

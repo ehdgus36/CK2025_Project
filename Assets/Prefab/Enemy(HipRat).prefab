@@ -199,6 +199,7 @@ GameObject:
   - component: {fileID: 723133049907768153}
   - component: {fileID: 311985383802038563}
   - component: {fileID: 8810351382842628565}
+  - component: {fileID: 5764335306305738399}
   m_Layer: 0
   m_Name: Spine(HipRat)
   m_TagString: Untagged
@@ -216,7 +217,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35, y: 0.35, z: 1}
+  m_LocalScale: {x: 0.28, y: 0.28, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7052184639168952447}
@@ -317,6 +318,58 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!114 &5764335306305738399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5180099931580903716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 2
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 00000000850c22fd5f69bc4fd980c52d11a165488daf2a13b9d68dd7692040a3
+  m_ShapePath:
+  - {x: -6.4817014, y: -0.4635439, z: 0}
+  - {x: -6.4817014, y: 8.7453, z: 0}
+  - {x: 7.582243, y: 8.7453, z: 0}
+  - {x: 7.582243, y: -0.4635439, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 0}
+  m_ShadowShape2DProvider:
+    rid: -2
+  m_ShadowCastingSource: 1
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0.55027056, y: 4.140878, z: 0}
+      m_Extent: {x: 7.031972, y: 4.604422, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &5407904200011670227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,19 +1062,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 276.87
+      value: 253.54
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 272.16
+      value: 241.16
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -200.58
+      value: -170
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -9.08
+      value: -24.58
       objectReference: {fileID: 0}
     - target: {fileID: 8714488578776581850, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchorMax.y

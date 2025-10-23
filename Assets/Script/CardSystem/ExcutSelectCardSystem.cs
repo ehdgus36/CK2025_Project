@@ -67,10 +67,10 @@ public class ExcutSelectCardSystem : MonoBehaviour
             {
                 ThisTurnExcutCard[i].AbilieySystem();
 
-                if (ThisTurnExcutCard[i].cardData.Ability_Type == "None" || ThisTurnExcutCard[i].cardData.Ability_Type == "Onec")
-                {
-                    ThisTurnExcutCard.Remove(ThisTurnExcutCard[i]);
-                }
+                //if (ThisTurnExcutCard[i].cardData.Ability_Type == "None" || ThisTurnExcutCard[i].cardData.Ability_Type == "Onec")
+                //{
+                //    ThisTurnExcutCard.Remove(ThisTurnExcutCard[i]);
+                //}
             }
 
             AbilityConditionData[key] = false;
@@ -142,16 +142,16 @@ public class ExcutSelectCardSystem : MonoBehaviour
         ArrowUIObject.SetActive(true);
         ArrowUIObject.transform.position = card.transform.position;
         //player에게 사용하는 카드
-        if (card.cardData.Range_Type == 3)
-        {
-            DimObject.SetActiveDim("Enemy");//enemy를 어둡게
-        }
-        else //Enemy 에게 사용하는 카드
-        {
-            DimObject.SetActiveDim("Player");
+        //if (card.cardData.Target_Type == 3)
+        //{
+        //    DimObject.SetActiveDim("Enemy");//enemy를 어둡게
+        //}
+        //else //Enemy 에게 사용하는 카드
+        //{
+        //    DimObject.SetActiveDim("Player");
 
            
-        }
+        //}
     }
 
     public void SetTargetEnemy(Enemy enemy) // 타겟팅한 몬스터 등록
@@ -159,7 +159,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        if (_SelectCard.cardData.Range_Type == 3) return;
+        //if (_SelectCard.cardData.Range_Type == 3) return;
 
         _TargetEnemy = enemy;
 
@@ -174,7 +174,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         if (_SelectCard == null || isTargeting == false) return;
 
 
-        if (_SelectCard.cardData.Range_Type != 3) return;
+        //if (_SelectCard.cardData.Range_Type != 3) return;
         _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
 
 
@@ -207,7 +207,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 if (_TargetEnemy != null)
                 {
                     //마나가 사용가능하고, 예약이 가능한 상황일때
-                    if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type) && ReservedCard(_SelectCard, _TargetEnemy))
+                    if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
                     {
 
                         // 큐에 예약 데이터 넣기
@@ -262,11 +262,11 @@ public class ExcutSelectCardSystem : MonoBehaviour
             GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_CARD_PLAYED, null);
             if (_PreviousCard != null)
             {
-                selecCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
+                //selecCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
 
                 if (_PreviousCard.GetType() == typeof(Drain_Card))
                 {
-                    selecCard.Buff_Recover_HP = selecCard.cardData.Damage;
+                    selecCard.Buff_Recover_HP = selecCard.cardData.Attack_DMG;
                 }
             }
 

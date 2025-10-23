@@ -78,19 +78,19 @@ public class EffectTestScenePlayer : MonoBehaviour
     IEnumerator TargetAttack(CardData data)
     {
         Vector3 startPos = this.transform.position;
-        if (data.MoveType == "M" )
+        if (data.Move_Type == "M" )
         {
             this.transform.position = enemy.transform.position - new Vector3(2, 0, 0);
         }
         yield return new WaitForSeconds(.1f);
-        if (data.Effect_Pos == "P")
-        {
-            PlayerEffectSystem.PlayEffect(data.Effect_Code, this.transform.position);
-        }
-        else
-        {
-            PlayerEffectSystem.PlayEffect(data.Effect_Code, enemy.transform.position);
-        }
+        //if (data.Effect_Pos == "P")
+        //{
+        //    PlayerEffectSystem.PlayEffect(data.Effect_Code, this.transform.position);
+        //}
+        //else
+        //{
+        //    PlayerEffectSystem.PlayEffect(data.Effect_Code, enemy.transform.position);
+        //}
         yield return new WaitForSeconds(1.4f); // 이동 후 딜레이
 
 

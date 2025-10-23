@@ -145,11 +145,11 @@ public class PlayerCardView : MonoBehaviour
         
 
         MainDesc.text = data.Card_Des;
-        SubDesc1.text = data.Buff_Ex;
+        //SubDesc1.text = data.Buff_Ex;
         SubDesc2.text = data.Buff_Ex2;
 
-        if (data.Buff_Ex == "0")
-            SubDesc1.text = "";
+        //if (data.Buff_Ex == "0")
+        //    SubDesc1.text = "";
 
 
         if (data.Buff_Ex2 == "0")

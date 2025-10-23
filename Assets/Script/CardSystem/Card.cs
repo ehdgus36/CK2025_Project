@@ -65,16 +65,6 @@ public class Card : MonoBehaviour
         CardDataVariable.Clear();
 
 
-        CardDataVariable["Range_Type"] = cardData.Range_Type;
-        CardDataVariable["Attack_Count"] = cardData.Attack_Count;
-        CardDataVariable["Damage"] = cardData.Damage;
-        CardDataVariable["Status_Type"] = cardData.Status_Type;
-        CardDataVariable["Status_Turn"] = cardData.Status_Turn;
-        CardDataVariable["Damage_Buff"] = cardData.Damage_Buff;
-        CardDataVariable["HP_Recover"] = cardData.Recover_HP;
-        CardDataVariable["HP_Loss"] = cardData.HP_Loss;
-        CardDataVariable["Barrier_Get"] = cardData.Barrier_Get;
-        CardDataVariable["Barrier_Loss"] = cardData.Barrier_Loss;
 
     }
 
@@ -116,160 +106,8 @@ public class Card : MonoBehaviour
         
     }
 
-  
-
-
-    //void AbilityFun(Unit unit)
-    //{
-    //    bool IsStatus = false;
-
-    //    //발동 조건을 검증 AbilityTarget_Status
-    //    switch (cardData.AbilityTarget_Status)
-    //    {
-    //        case "0":
-    //            IsStatus = true;
-    //                break;
-
-    //        case "IsBarrierActive":
-    //            if(GameManager.instance.Player.PlayerUnitData.CurrentBarrier > 0) 
-    //                IsStatus = true;
-    //            break;
-
-    //        case "IsBarrierNotActive":
-    //            if (GameManager.instance.Player.PlayerUnitData.CurrentBarrier <= 0)
-    //                IsStatus = true;
-    //            break;
-
-    //        case "IsFullHP":
-    //            if (GameManager.instance.Player.PlayerUnitData.CurrentHp == GameManager.instance.Player.PlayerUnitData.MaxHp)
-    //                IsStatus = true;
-    //            break;
-
-    //        case "IsNotFullHP":
-    //            if (GameManager.instance.Player.PlayerUnitData.CurrentHp < GameManager.instance.Player.PlayerUnitData.MaxHp)
-    //                IsStatus = true;
-    //            break;
-    //    }
-
-
-    //    if (IsStatus == true)
-    //    {
-    //        //이후 발동타입 검증 AbilityTarget_Type ? 이게 굳이 필요한가?
-    //        switch (cardData.AbilityTarget_Type)
-    //        {
-    //            case "0":
-    //                return; // 값 참조 안함
-    //            case "1":
-
-    //                break;
-    //            case "2":
-    //                break;
-    //            case "3":
-    //                break;
-    //        }
-
-    //        //추가효과 횟수 검증 AbilityGet_Count
-           
-
-    //        int value = 0;
-    //        //이게 갯수를 셀때 이번 턴동안인지 카드가 발동된 시점부터 세는건지
-    //        switch (cardData.AbilityGet_Count)
-    //        {
-    //            case "ManaUseCnt":
-    //                value = GameManager.instance.ExcutSelectCardSystem.UseManaCount;
-    //                break;
-    //            case "DicordCnt":
-    //                value = DiscardCnt;
-    //                break;
-    //            case "SuccessNoteCnt":
-    //                value = 1;
-    //                break;
-    //            case "AttackDamageCnt": //이거 기준이 지금까지인지 
-    //                break;
-    //        }
-
-    //        //추가효과 타입 검증 AbilityGet1_Type
-    //        //가중치 적용 AbilityGet1_Value1 ,AbilityGet1_Value2
-
-
-
-
-    //        GameManager.instance.Player.AddBarrier(CardDataVariable["Barrier_Get"]);
-    //        GameManager.instance.Player.LossBarrier(CardDataVariable["Barrier_Loss"]);
-
-    //        switch (cardData.AbilityGet1_Type)
-    //        {
-    //            case "AttackCount":
-    //                CardDataVariable["Attack_Count"] = value;
-                   
-    //                break;
-    //            case "AttackDamage":
-    //                value = DiscardCnt;
-    //                break;
-    //            case "HPRecover":
-    //                GameManager.instance.Player.addHP(value * int.Parse(cardData.AbilityGet1_Value1));
-    //                break;
-    //            case "HPLoss": 
-    //                GameManager.instance.Player.LossHP(value * int.Parse(cardData.AbilityGet1_Value1));
-    //                break;
-    //            case "BarrierGet": 
-
-    //                GameManager.instance.Player.AddBarrier(value * int.Parse( cardData.AbilityGet1_Value1));
-    //                break;
-    //            case "BarrierLoss": 
-    //                GameManager.instance.Player.LossBarrier(value *  int.Parse(cardData.AbilityGet1_Value1));
-    //                break;
-
-    //            case "BuffGroup": 
-                    
-    //                break;
-
-    //            case "CardChange":
-    //                GameManager.instance.PlayerCDSlotGroup.ChangeDackCard(cardData.AbilityGet1_Value1, cardData.AbilityGet1_Value2);
-
-    //                break;
-    //            case "CardAdd": //이거 기준이 지금까지인지 
-    //                break;
-    //        }
-            
-    //    }
-
-
-    //}
-
-   
-
     public virtual void TargetExcute(Enemy Target , Card nextCard = null)
     {
-
-        ////카드 디세이블 체크
-        //if (cardData.DiscordAllCard == 1)
-        //{
-        //    Reroll_Card reroll = GetComponent<Reroll_Card>();
-        //    if (reroll == null)
-        //    {
-        //        this.gameObject.AddComponent<Reroll_Card>();
-        //        reroll = GetComponent<Reroll_Card>();
-        //    }
-
-        //    reroll.Excute(CardSloats, out DiscardCnt);
-        //}
-
-
-        ////어빌리티 체크
-
-        //if (cardData.Ability_Timing == "0")
-        //{
-
-        //}
-        //else
-        //{
-        //    GameManager.instance.AbilitySystem.AddAvilityEvent(cardData.Ability_Timing, null); //일단 null
-        //}
-
-
-        
-
         PlayerStartPos = GameManager.instance.Player.transform.position;// 플레이어 처음 위치 저장
 
         if (Target.isDie == true) //카드 넣기
@@ -287,13 +125,13 @@ public class Card : MonoBehaviour
 
 
 
-        if (cardData.MoveType == "M")
+        if (cardData.Move_Type == "M")
         {
             GameManager.instance.Player.transform.position = Target.gameObject.transform.position - new Vector3(6, 0, 0);
         } 
 
 
-        if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
+        //if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현   
 
         EnemyTarget = Target;
@@ -315,57 +153,57 @@ public class Card : MonoBehaviour
         for (int i = 0; i < CardDataVariable["Attack_Count"]; i++)
         {
 
-            if (cardData.Range_Type == 1) // 단일 공격
-            {
-                EnemyTarget.TakeDamage(GameManager.instance.Player, CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
+            //if (cardData.Range_Type == 1) // 단일 공격
+            //{
+            //    EnemyTarget.TakeDamage(GameManager.instance.Player, CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
 
-                if (cardData.Effect_Pos == "E") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+            //    if (cardData.Effect_Pos == "E") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
 
-                if (cardData.Effect_Pos == "P") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, GameManager.instance.Player.transform.position);
-
-
-
-            }
+            //    if (cardData.Effect_Pos == "P") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, GameManager.instance.Player.transform.position);
 
 
 
-            if (cardData.Range_Type == 2) // 전체 공격
-            {
-                if (cardData.Ani_Code == "notebomb_Ani") //  임시 로직 새로 생각하기
-                {
-                    //GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
-                    StartCoroutine(NoteBomb());
-                }
-                else
-                {
-
-                    List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
-                    GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
-
-                    for (int j = 0; j < AttackEnemies.Count; j++)
-                    {
-                        AttackEnemies[j].TakeDamage(GameManager.instance.Player,CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
-                    }
-                }
-            }
-
-            if (cardData.Range_Type == 3)//PlayerBuff
-            {
-                if (cardData.Effect_Pos == "E") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
-
-                if (cardData.Effect_Pos == "P") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, GameManager.instance.Player.transform.position);
+            //}
 
 
-                //EnemyTarget.TakeDamage(CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
-            }
+
+            //if (cardData.Range_Type == 2) // 전체 공격
+            //{
+            //    if (cardData.Ani_Code == "notebomb_Ani") //  임시 로직 새로 생각하기
+            //    {
+            //        //GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+            //        StartCoroutine(NoteBomb());
+            //    }
+            //    else
+            //    {
+
+            //        List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
+            //        GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+
+            //        for (int j = 0; j < AttackEnemies.Count; j++)
+            //        {
+            //            AttackEnemies[j].TakeDamage(GameManager.instance.Player,CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
+            //        }
+            //    }
+            //}
+
+            //if (cardData.Range_Type == 3)//PlayerBuff
+            //{
+            //    if (cardData.Effect_Pos == "E") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+
+            //    if (cardData.Effect_Pos == "P") GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, GameManager.instance.Player.transform.position);
 
 
-            if (cardData.Range_Type == 4) // 랜덤 공격
-            {
-                List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
-                GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
-                AttackEnemies[Random.Range(0, AttackEnemies.Count)].TakeDamage(GameManager.instance.Player,CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
-            }
+            //    //EnemyTarget.TakeDamage(CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
+            //}
+
+
+            //if (cardData.Range_Type == 4) // 랜덤 공격
+            //{
+            //    List<Enemy> AttackEnemies = new List<Enemy>(GameManager.instance.EnemysGroup.Enemys);
+            //    GameManager.instance.Player.PlayerEffectSystem.PlayEffect(cardData.Effect_Code, EnemyTarget.transform.position);
+            //    AttackEnemies[Random.Range(0, AttackEnemies.Count)].TakeDamage(GameManager.instance.Player,CardDataVariable["Damage"] + DamageBuff, cardData.CardBuff);
+            //}
         }
         Debug.Log("이번 공격 애니메이션에서 Slash 이벤트 감지!"); // 대충 데미지 넣는거 구현       
         GameManager.instance.ComboUpdate(Random.Range(17010, 21204));
@@ -375,7 +213,7 @@ public class Card : MonoBehaviour
         GameManager.instance.Player.AddBarrier(CardDataVariable["Barrier_Get"]);
         GameManager.instance.Player.LossBarrier(CardDataVariable["Barrier_Loss"]);
 
-        GameManager.instance.ExcutSelectCardSystem.BuffDamage += cardData.Damage_Buff;
+        //GameManager.instance.ExcutSelectCardSystem.BuffDamage += cardData.Damage_Buff;
 
         GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
     }

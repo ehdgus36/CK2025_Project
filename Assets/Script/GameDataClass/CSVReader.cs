@@ -12,7 +12,7 @@ public class CSVReader
 
     public static List<Dictionary<string, object>> Read(string file)
     {
-        var list = new List<Dictionary<string, object>>();
+        List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
         TextAsset data = Resources.Load(file) as TextAsset;
 
         var lines = Regex.Split(data.text, LINE_SPLIT_RE);
@@ -69,11 +69,19 @@ public class CSVReader
             var entry = new Dictionary<string, object>();
             for (var j = 0; j < header.Length && j < values.Length; j++)
             {
-                string value = values[j];
+                string value = (j < values.Length && !string.IsNullOrEmpty(values[j]))? values[j] : "";
                 value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
                 object finalvalue = value;
                 int n;
                 float f;
+
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    entry[header[j]] = 0; // 숫자 0
+                    continue;
+                }
+
                 if (int.TryParse(value, out n))
                 {
                     finalvalue = n;

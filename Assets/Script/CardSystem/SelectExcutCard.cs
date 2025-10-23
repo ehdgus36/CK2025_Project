@@ -36,14 +36,14 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
     {
         if (CardSlot.ReadData<Card>() == null) return;
 
-        if (CardSlot.ReadData<Card>().cardData.Range_Type == 3)
-        {
-            GameManager.instance.DimBackGroundObject.SetActiveDim("Enemy");//enemy¸¦ ¾îµÓ°Ô
-        }
-        else
-        {
-            GameManager.instance.DimBackGroundObject.SetActiveDim("Player");
-        }
+        //if (CardSlot.ReadData<Card>().cardData.Range_Type == 3)
+        //{
+        //    GameManager.instance.DimBackGroundObject.SetActiveDim("Enemy");//enemy¸¦ ¾îµÓ°Ô
+        //}
+        //else
+        //{
+        //    GameManager.instance.DimBackGroundObject.SetActiveDim("Player");
+        //}
 
     }
 

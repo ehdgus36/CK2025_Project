@@ -3,182 +3,88 @@ using System.Linq;
 using UnityEngine;
 
 
-
-//Card_ID	Card_Rank	Card_Level	MoveType	Card_Name_KR	
-//Card_Name_EN	
-//Cost_Type	Ability_Con1	Ability_Con2	Ability_Act1	Ability_Act2	
-//Range_Type	Attack_Count	Damage	Status_Type	Status_Turn	Damage_Buff	HP_Recover	HP_Loss	Barrier_Get	
-//Barrier_Loss	Ani_Code	Effect_Code	Effect_Pos	Sound_Code	Card_Des
-
+//Card_ID	Card_Rank	Card_Num	Card_Level	Card_Name_KR	Card_Name_EN	Card_Drag	Target_Type	Attack_Count	
+//Attack_DMG	Barrier_Get	HP_Recover	Buff_VolumeUp	Buff_Buzz	Buff_Mute	Buff_BurnUp	Buff_BurnOut	Buff_Confusion	Char_SkillPoint_Get	SpecialAbility_Desc	Move_Type	Ani_Code	
+//Effect_Code	Sound_Code	Card_Im	Card_Des	Buff_Ex1	Buff_Ex2	Card_Ex														
 [System.Serializable]
 public struct CardData
 {
-    public  string Card_ID;
-    public  int    Card_Rank;
-    public  int    Card_Level;
-    public  string MoveType;
-    public  string Card_Name_KR;
-    public  string Card_Name_EN;
+    public string Card_ID;
+    public int    Card_Rank;
+    public int    Card_Level;
+    public string Card_Name_KR;
+    public string Card_Name_EN;
+    public string Card_Drag;
+    public string Target_Type;
+    public string Attack_Count;
+    public int    Attack_DMG;
+    public int    Barrier_Get;
+    public int    HP_Recover;
+    public int    Buff_VolumeUp;
+    public int    Buff_Buzz;
+    public int    Buff_Mute;
+    public int    Buff_BurnUp;
+    public int    Buff_BurnOut;
+    public int    Buff_Confusion;
+    public int    Char_SkillPoint_Get;
+    public string SpecialAbility_Desc;
+    public string Move_Type;
+    public string Ani_Code;
+    public string Effect_Code;
+    public string Sound_Code;
+    public string Card_Im;
+    public string Card_Des;
+    public string Buff_Ex1;
 
-    public  int    Cost_Type;
-    public  string Ability_Type;
+    public string Buff_Ex2;
+    public string Card_Ex;
 
-    // 신규
-    //public int DiscordAllCard; // 신규
-    //public string Ability_Timing; // 신규
-
-    //public string AbilityTarget_Type;
-    //public string AbilityTarget_Status;
-
-    //public string AbilityGet_Count;
-    //public string AbilityGet1_Type;
-    //public string AbilityGet1_Value1;
-    //public string AbilityGet1_Value2;
-    //public string AbilityGet2_Type;
-    //public string AbilityGet2_Value1;
-    //public string AbilityGet2_Value2;// 신규
-    // 신규
-
-    public string Ability_Con1;
-    public  string Ability_Con2;
-    public  string Ability_Act1;
-    public  string Ability_Act2;
-
-
-
-
-    public  int Range_Type;
-    public  int Attack_Count;
-
-    public  int Damage;
-   // public string BuffGroup_ID;
-
-    public  int Status_Type;
-    public  int Status_Turn;
-
-    public  int Damage_Buff;
-    public  int Recover_HP;
-
-    public  int HP_Loss;
-
-    public  int Barrier_Get;
-    public  int Barrier_Loss;
-
-
-    public  string Ani_Code;
-   
-    public  string Effect_Code;
-
-    public  string Effect_Pos;
-    public  string Sound_Code;
-
-    public  string Card_Des;
-
-    private string Card_CurrentDesc; // 플레이어에 버프나 상태에따라 유동적으로 변하는 카드 설명
-
-    public  string Buff_Ex;
-    public  string Buff_Ex2;
-
-    public  string Card_Im;
 
     public Buff CardBuff { get; private set; }
 
     public CardData(Dictionary<string, object> data)
     {
-        Card_ID  = data["Card_ID"].ToString();
+        Card_ID = data["Card_ID"].ToString();
         Card_Rank = (int)data["Card_Rank"];
         Card_Level = (int)data["Card_Level"];
-        MoveType = data["MoveType"].ToString(); // M : 이동함 , P : 이동안함
-
         Card_Name_KR = data["Card_Name_KR"].ToString();
         Card_Name_EN = data["Card_Name_EN"].ToString();
-
-        Cost_Type = (int)data["Cost_Type"];
-        Ability_Type = data["Ability_Type"].ToString();
-        Ability_Con1 = data["Ability_Con1"].ToString();
-        Ability_Con2 = data["Ability_Con2"].ToString();
-        Ability_Act1 = data["Ability_Act1"].ToString();
-        Ability_Act2 = data["Ability_Act2"].ToString();
-
-
-        //DiscordAllCard = (int)data["DiscordAllCard"]; // 신
-        //Ability_Timing = data["Ability_Timing"].ToString(); // 신
-
-        //AbilityTarget_Type = data["AbilityTarget_Type"].ToString();
-        //AbilityTarget_Status = data["Ability_Type"].ToString();
-
-        //AbilityGet_Count = data["AbilityGet_Count"].ToString();
-        //AbilityGet1_Type = data["AbilityGet1_Type"].ToString();
-        //AbilityGet1_Value1 = data["AbilityGet1_Value1"].ToString();
-        //AbilityGet1_Value2 = data["AbilityGet1_Value2"].ToString();
-        //AbilityGet2_Type = data["AbilityGet2_Type"].ToString();
-        //AbilityGet2_Value1 = data["AbilityGet2_Value1"].ToString();
-        //AbilityGet2_Value2 = data["AbilityGet2_Value2"].ToString();
-
-
-
-
-        Range_Type   = (int)data["Range_Type"];
-        Attack_Count = (int)data["Attack_Count"];
-
-        Damage       = (int)data["Damage"];
-
-        //BuffGroup_ID = data["BuffGroup_ID"].ToString();
-
-        Status_Type = (int)data["Status_Type"];
-        Status_Turn = (int)data["Status_Turn"];
-
-        Damage_Buff = (int)data["Damage_Buff"];
-        Recover_HP  = (int)data["HP_Recover"];
-
-        HP_Loss = (int)data["HP_Loss"];
-
+        Card_Drag = data["Card_Drag"].ToString();
+        Target_Type = data["Target_Type"].ToString();
+        Attack_Count = data["Attack_Count"].ToString();
+        Attack_DMG = (int)data["Attack_DMG"];
         Barrier_Get = (int)data["Barrier_Get"];
-        Barrier_Loss = (int)data["Barrier_Loss"];
-
-        Ani_Code    = data["Ani_Code"].ToString();      
+        HP_Recover = (int)data["HP_Recover"];
+        Buff_VolumeUp = (int)data["Buff_VolumeUp"];
+        Buff_Buzz = (int)data["Buff_Buzz"];
+        Buff_Mute = (int)data["Buff_Mute"];
+        Buff_BurnUp = (int)data["Buff_BurnUp"];
+        Buff_BurnOut = (int)data["Buff_BurnOut"];
+        Buff_Confusion = (int)data["Buff_Confusion"];
+        Char_SkillPoint_Get = (int)data["Char_SkillPoint_Get"];
+        SpecialAbility_Desc = data["SpecialAbility_Desc"].ToString();
+        Move_Type = data["Move_Type"].ToString();
+        Ani_Code = data["Ani_Code"].ToString();
         Effect_Code = data["Effect_Code"].ToString();
-        Effect_Pos = data["Effect_Pos"].ToString();
         Sound_Code = data["Sound_Code"].ToString();
-
-        Card_Des = null;
-        Card_CurrentDesc = data["Card_Des"].ToString();
-
-        Buff_Ex = data["Buff_Ex"].ToString();
-        Buff_Ex2 = data["Buff_Ex2"].ToString(); ;
-
         Card_Im = data["Card_Im"].ToString();
+        Card_Des = data["Card_Des"].ToString();
+        Buff_Ex1 = data["Buff_Ex1"].ToString();
+
+        Buff_Ex2 = data["Buff_Ex2"].ToString();
+        Card_Ex = data["Card_Ex"].ToString();
 
         CardBuff = null;
-        
-        CardBuff = GetBuff();
-        Card_Des = DefaultDescription(Card_CurrentDesc);
     }
 
 
    
     // 1: fire , 2: Eletric , 3: Captivate , 4: Curse
-    Buff GetBuff()
-    { 
-        Buff buff = null;
-
-        switch (Status_Type)
-        {
-            case 2:
-                buff = new FireBuff(BuffType.Start, Status_Turn, 2);
-                break;
-            case 1:
-                buff = new AttackDamageDownBuff(BuffType.Start, Status_Turn, 2);
-                break;
-        }
-
-
-        return buff;
-    }
+  
 
     string DefaultDescription(string textData)
     {
-        string result = textData.Replace("@", Damage.ToString());
+        string result = textData.Replace("@", Attack_DMG.ToString());
 
       
 
@@ -188,7 +94,7 @@ public struct CardData
 
     public string CardDescDamageReplace(string currentDamage)
     {
-        string result = Card_CurrentDesc.Replace("@", currentDamage);
+        string result = "";// Card_CurrentDesc.Replace("@", currentDamage);
 
         return result;
     }
@@ -264,8 +170,8 @@ public class CardDataBase
         for (int i = 0; i < keys.Count; i++)
         {
             CardData card = CommonCardDatas[keys[i]];
-            card.Damage = Mathf.Clamp(card.Damage + amount,0, 100);
-            card.Card_Des = card.CardDescDamageReplace(card.Damage.ToString());
+            card.Attack_DMG = Mathf.Clamp(card.Attack_DMG + amount,0, 100);
+            card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
             CommonCardDatas[keys[i]] = card;
         }
     }

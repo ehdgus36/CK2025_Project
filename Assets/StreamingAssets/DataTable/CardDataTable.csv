@@ -1,9 +1,24 @@
-Card_ID,Card_Rank,Card_Num,Card_Level,MoveType,Card_Name_KR,Card_Name_EN,Cost_Type,Ability_Type,Ability_Con1,Ability_Con2,Ability_Act1,Ability_Act2,Range_Type,Attack_Count,Damage,Status_Type,Status_Turn,Damage_Buff,HP_Recover,HP_Loss,Barrier_Get,Barrier_Loss,Ani_Code,Effect_Code,Effect_Pos,Sound_Code,Card_Des,Buff_Ex,Buff_Ex2,Card_Ex,Card_Im
-CT001,1,1,1,P,공격테스트,NoteBomb_1,1,None,0,0,0,0,1,1,5,0,0,0,0,0,0,0,break_Ani,break_Effect,E,event:/Effect/Common_Attack/Distotion,데미지  5.,0,0,일반_전체 5 데미지_레벨1,NoteBomb_Pick
-CT002,1,1,1,P,공격전체테스트,NoteBomb_1,1,None,0,0,0,0,2,1,5,0,0,0,0,0,0,0,break_Ani,break_Effect,E,event:/Effect/Common_Attack/Distotion,전체 데미지5.,0,0,일반_전체 5 데미지_레벨1,NoteBomb_Pick
-CT003,1,1,2,P,약화버프테스트,NoteBomb_2,1,None,0,0,0,0,1,1,7,1,2,0,0,0,0,0,break_Ani,break_Effect,E,event:/Effect/Common_Attack/Distotion,약화버프,0,0,일반_전체 7 데미지_레벨2,NoteBomb_Pick
-CT004,1,2,1,M,화상버프 테스트,Break_1,1,None,0,0,0,0,1,1,7,2,2,0,0,0,0,0,break_Ani,break_Effect,E,event:/Effect/Common_Attack/Break,화상버프,0,0,일반_단일 7 데미지_레벨1,FireStrum_Pick
-CT005,1,2,2,M,회복테스트,Break_2,1,None,0,0,0,0,3,1,0,0,0,0,5,0,0,0,bresth_Ani,bresth_Effect,E,event:/Effect/Common_Attack/Break,회복,0,0,일반_단일 10 데미지_레벨2,Bresth_Pick
-CT006,1,2,2,M,베리어테스트,Break_2,1,None,0,0,0,0,3,1,0,0,0,0,0,0,5,0,guitarwall_Ani,guitarwall_Effect,E,event:/Effect/Common_Attack/Break,베리어.,0,0,일반_단일 10 데미지_레벨2,GuitarShield_Pick
-SKILL1,3,3,2,P,스킬,SKILL,0,None,0,0,0,0,1,1,25,0,0,0,0,0,0,0,break_Ani,break_Effect,E,event:/Effect/Common_Attack/Break,"적 하나를 기타로 찍어 눌러
- <color=#FF0000>@ 데미지</color>를 입힌다.",0,0,스킬_단일 25 데미지_레벨1,GuitarShield_Pick
+Card_ID,Card_Rank,Card_Num,Card_Level,Card_Name_KR,Card_Name_EN,Card_Drag,Target_Type,Attack_Count,Attack_DMG,Barrier_Get,HP_Recover,Buff_VolumeUp,Buff_Buzz,Buff_Mute,Buff_BurnUp,Buff_BurnOut,Buff_Confusion,Char_SkillPoint_Get,SpecialAbility_Desc,Move_Type,Ani_Code,Effect_Code,Sound_Code,Card_Im,Card_Des,Buff_Ex1,Buff_Ex2,Card_Ex
+C0011,0,1,1,브레이크,Break_1,M,단일 적,1,1,,,,,,,,,,,,,,,,,,,기본_단일 데미지_1레벨
+C0021,0,2,1,음표 폭탄,NoteBomb_1,M,전체 적,1,1,,,,,,,,,,,,,,,,,,,기본_전체 데미지_1레벨
+C0031,0,3,1,기타 보호막,GuitarShield_1,P,PC,1,,1,,,,,,,,,,,,,,,,,,기본_베리어 1 증가_1레벨
+C0041,0,4,1,숨고르기,Bresth_1,P,PC,1,,,1,,,,,,,,,,,,,,,,,기본_회복_1레벨
+C1011,1,1,1,파워 브레이크,PowerBreak_1,M,단일 적,2,1,,,,,,,,,,,,,,,,,,,일반_단일 데미지 2회_1레벨
+C1021,1,2,1,코드 C,CodeC_1,M,단일 적,1,1,,,,,,,,,,"덱, 핸드, 묘지에 있는 모든 C1051 카드를 C2061로 변환",,,,,,,,,일반_단일 데미지 + 카드 변환_1레벨
+C1031,1,3,1,,,P,PC,1,,1,,3,,,,,,,,,,,,,,볼륨업 : 이번 턴 동안 주는 데미지가 1씩 증가합니다.,,일반_베리어 1 증가 + 볼륨업 3_1레벨
+C1041,1,4,1,코드 미스,CodeMiss_1,M,단일 적,1,1,,,,1,,,,,,,,,,,,,버즈 : 적의 공격력이 20% 약화됩니다.,,일반_단일 버즈 + 단일 데미지_1레벨
+C1051,1,5,1,불꽃 연주,FireStrum_1,M,단일 적,1,,,,,,,1,,,,,,,,,,,번업 : 적의 적용 턴 동안 2데미지를 받습니다.,,일반_단일 번업_1레벨
+C1061,1,6,1,,,P,PC,성공 노트 만큼,,,1,,,,,,,,,,,,,,,,,일반_성공 노트만큼 회복 1씩_1레벨
+C1071,1,7,1,,,P,PC,1,,,1,,,,,,,1,,,,,,,기본_단일 데미지_1레벨,,,일반_캐릭터 스킬 게이지 증가 + 체력 회복_1레벨
+C2011,2,1,1,프리스타일,Freestyle Solo_1,M,전체 적,카드 버린만큼,1,,,,,,,,,,핸드에 있는 모든 카드버리기 (버린 카드 수 만큼 공격 횟수 증가),,,,,,기본_전체 데미지_1레벨,,,희귀_카드 버리기 + 버린 만큼 전체 데미지_1레벨
+C2021,2,2,1,코드 D,CodeD_1,M,랜덤 적,3,1,,,,,,,,,,"덱, 핸드, 묘지에 있는 모든 C2061 카드를 C3071로 변환",,,,,,기본_베리어 1 증가_1레벨,,,희귀_랜덤 데미지 3회 + 카드 변환_1레벨
+C2031,2,3,1,디스토션,Distortion_1,P,전체 적,1,,1,,,1,,,,,,,,,,,,기본_회복_1레벨,버즈 : 적의 공격력이 20% 약화됩니다.,,희귀_전체 버즈 + 베리어 1 증가_1레벨
+C2041,2,4,1,,,P,전체 적,1,,,1,,,,1,,,,,,,,,,일반_단일 데미지 2회_1레벨,번업 : 적의 적용 턴 동안 2데미지를 받습니다.,,희귀_전체 번업 + 체력 회복_1레벨
+C2051,2,5,1,파워 스트로킹,PowerStroking_1,P,PC,성공 노트 만큼,,,,,,,,,,1,,,,,,,일반_단일 데미지 + 카드 변환_1레벨,,,희귀_성공 노트만큼 캐릭터 스킬 게이지 증가_1레벨
+C2061,2,6,1,락신의 재물,Sacrifice_1,M,랜덤 적,단일 몬스터 스킬 게이지 감소량 만큼,,,,,,,2,,,,타겟 몬스터 스킬 게이지 0 (감소량 만큼 공격 횟수 증가),,,,,,일반_베리어 1 증가 + 볼륨업 3_1레벨,번업 : 적의 적용 턴 동안 2데미지를 받습니다.,,희귀_단일 몬스터 스킬 게이지 감소 + 감소만큼 랜덤 번업 2씩_1레벨
+C3011,3,1,1,코드 E,CodeE_1,M,전체 적,5,1,,,,,,,,,,,,,,,,일반_단일 버즈 + 단일 데미지_1레벨,,,전설_전체 데미지 5회_1레벨
+C3021,3,2,1,락의 가호,BlessingofRock_1,P,PC,1,,2,,,,,,,,1,,,,,,,일반_단일 번업_1레벨,,,전설_베리어 2 증가 + 캐릭터 스킬 게이지 증가_1레벨
+C3031,3,3,1,전설적인 솔로,LegendarySolo_1,M,단일 적,1,1,,,,,1,,,,,,,,,,,일반_성공 노트만큼 회복 1씩_1레벨,뮤트 : 적의 공격력이 100% 약화됩니다.,,전설_단일 뮤트 1턴 + 단일 데미지_1레벨
+C3041,3,4,1,락 스피릿,RockSpirit_1,M,전체 적,1,,,,,,,,1,,,이번 턴동안 번업 적용시 번아웃으로 적용,,,,,,일반_캐릭터 스킬 게이지 증가 + 체력 회복_1레벨,번업 : 적의 적용 턴 동안 2데미지를 받습니다.,번아웃 : 적의 적용 턴 동안 12데미지를 받습니다.,전설_이번 턴동안 번업 적용시 번아웃으로 적용 + 전체 번아웃 1_1레벨
+C3051,3,5,1,무아지경,IntheZone_1,P,PC,성공 노트 만큼,,,,4,,,,,1,,,,,,,,희귀_카드 버리기 + 버린 만큼 전체 데미지_1레벨,혼란 : 플레이어의 적용 턴 동안 리듬 박자가 반대로 나옵니다.,볼륨업 : 이번 턴 동안 주는 데미지가 1씩 증가합니다.,전설_플레이어가 혼란을 받음 + 성공 노트만큼 볼륨업 4씩 획득_1레벨
+C3061,3,6,1,트랜지션,Transition_1,M,전체 적,전체 몬스터 스킬 게이지 감소량 만큼,2,,,,,,,,,,전체 몬스터 스킬 게이지 0 (감소량 만큼 공격 횟수 증가),,,,,,희귀_랜덤 데미지 3회 + 카드 변환_1레벨,,,전설_전체 몬스터 스킬 게이지 흡수 + 흡수량 만큼 전체 데미지 2씩_1레벨

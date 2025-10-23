@@ -6,7 +6,7 @@ public class PlaySkill : MonoBehaviour
     [SerializeField] Transform SkillPos;
     public void SkillAttack()
     {
-        GameManager.instance.EnemysGroup.Enemys[0].TakeDamage(30);
+        GameManager.instance.EnemysGroup.Enemys[0].TakeDamage(GameManager.instance.Player,30);
         Debug.Log(GameManager.instance.EnemysGroup.Enemys[0].name + "skilllsfadsfadsf");
     }
 

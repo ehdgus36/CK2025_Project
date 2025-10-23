@@ -1,0 +1,69 @@
+using System.Collections;
+using UnityEngine;
+using Cysharp.Threading.Tasks;
+
+// enemy가 취할수 있는 액션을 정리한 클래스(예 / 플레이어까지 이동 , 공격 , 마무리)
+public class EnemyStateAction
+{
+    Vector3 StartPos;
+    public void MoveEnemy(GameObject moveObject, Vector3 formPos, Vector3 attackOffset)
+    {
+        StartPos = moveObject.transform.position;
+        moveObject.transform.position = formPos + attackOffset;
+    }
+
+    public async UniTask AttackEnemy(int damage, int attackCount, Enemy attackEnemy, Unit targetUnit)
+    {
+        for (int i = 0; i < attackCount; i++)
+        {
+            attackEnemy.UnitAnimationSystem.PlayAnimation("attack", false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, attackEnemy.EnemyData.CurrentDamage); }, null);
+            await UniTask.Delay(800);
+        }
+    }
+}
+
+[System.Serializable]
+public class EnemyAttackState : BaseAIState
+{
+   
+
+
+    BaseAIState EnemySkill;
+    BaseAIState EnemyDefultAttack;
+
+    public EnemyAttackState(BaseAIState defultAttackState ,BaseAIState ChangeSkillState) { EnemyDefultAttack = defultAttackState; EnemySkill = ChangeSkillState;}
+
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
+   
+    public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
+    {
+        Debug.Log("실행" + this.GetType().ToString());
+        Enemy enemy = (Enemy)unit;
+
+        if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
+        {
+
+            enemy.EnemyData.CurrentSkillPoint = 0;
+            aIBehavior.ChangeState(EnemySkill, unit, aIBehavior);
+            yield break;
+        }
+        else
+        {
+            enemy.EnemyData.CurrentSkillPoint++;
+            aIBehavior.ChangeState(EnemyDefultAttack, unit, aIBehavior);
+            yield break;
+        }
+
+
+      
+
+    }
+
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) {
+    
+    
+    
+    }
+  
+
+}

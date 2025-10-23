@@ -10,9 +10,11 @@ public enum BuffState
 {
     Enable, Disable
 }
+
+[System.Serializable]
 public abstract class Buff
 {
-    [SerializeField] BuffType type;
+    [SerializeField] BuffType type = BuffType.Start;
     [SerializeField] private int BuffDurationTurn = 1;
     [SerializeField] protected BuffState State = BuffState.Disable;
 

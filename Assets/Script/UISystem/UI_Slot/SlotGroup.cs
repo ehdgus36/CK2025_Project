@@ -27,7 +27,7 @@ public class SlotGroup : MonoBehaviour
         }
     }
 
-    public virtual void  Initialize(UnityAction funtion)
+    public virtual void  Initialize(UnityAction<SlotUI> funtion)
     {
         if (Slots.Length == 0)
         {

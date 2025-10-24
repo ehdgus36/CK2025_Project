@@ -34,6 +34,8 @@ public struct CardData
     public string Sound_Code;
     public string Card_Im;
     public string Card_Des;
+
+
     public string Buff_Ex1;
 
     public string Buff_Ex2;
@@ -75,12 +77,45 @@ public struct CardData
         Card_Ex = data["Card_Ex"].ToString();
 
         CardBuff = null;
+
+        CardBuff = GetBuff();
     }
 
 
-   
+
     // 1: fire , 2: Eletric , 3: Captivate , 4: Curse
-  
+
+    Buff GetBuff()
+    {
+        if (Buff_Buzz != 0) // 공격력 20% 다운
+        {
+            return new AttackDamageDownBuff(BuffType.Start, Buff_Buzz, 20);
+        }
+
+        if (Buff_Mute != 0) // 공격력 100% 다운
+        {
+            return new AttackDamageDownBuff(BuffType.Start, Buff_Mute, 100);
+        }
+
+        if (Buff_BurnUp != 0) // 화상 도트 2 데미지
+        {
+            return new FireBuff(BuffType.Start, Buff_BurnUp, 2);
+        }
+
+        if (Buff_BurnOut != 0)// 화상 도트 10 데미지
+        {
+            return new FireBuff(BuffType.Start, Buff_BurnOut, 10);
+        }
+
+        if (Buff_Confusion != 0) // 리듬게임 반대로
+        {
+            return new RhythmDebuff(BuffType.Start,Buff_Confusion);
+        }
+
+
+        return null;
+    }
+
 
     string DefaultDescription(string textData)
     {

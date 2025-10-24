@@ -56,38 +56,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
     public bool IsSelectCard => _SelectCard != null;
 
     //1회성 어빌리티가 아닌 다회성 어빌리티 관리
-    public void ExcutAbiltyCondition(string key)
-    {
-        if (AbilityConditionData.ContainsKey(key))
-        {
-            AbilityConditionData[key] = true;// 조건을 발동 상태로 만듬
-
-            //이번턴에 사용한 카드 중에서 조건에 맞을때 실행할 어빌리티 
-            for (int i = 0; i < ThisTurnExcutCard.Count; i++)
-            {
-                ThisTurnExcutCard[i].AbilieySystem();
-
-                //if (ThisTurnExcutCard[i].cardData.Ability_Type == "None" || ThisTurnExcutCard[i].cardData.Ability_Type == "Onec")
-                //{
-                //    ThisTurnExcutCard.Remove(ThisTurnExcutCard[i]);
-                //}
-            }
-
-            AbilityConditionData[key] = false;
-        }
-    }
-
-    public bool GetAbiltyCondition(string key)
-    {
-        if (AbilityConditionData.ContainsKey(key))
-        {
-            return AbilityConditionData[key];
-        }
-
-        return false;
-    }
-
-
+   
 
     public void initialize() // 1회성으로 초기화 해야하는것
     {
@@ -140,18 +109,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
 
         ArrowUIObject.SetActive(true);
-        ArrowUIObject.transform.position = card.transform.position;
-        //player에게 사용하는 카드
-        //if (card.cardData.Target_Type == 3)
-        //{
-        //    DimObject.SetActiveDim("Enemy");//enemy를 어둡게
-        //}
-        //else //Enemy 에게 사용하는 카드
-        //{
-        //    DimObject.SetActiveDim("Player");
-
-           
-        //}
+        ArrowUIObject.transform.position = card.transform.position;      
     }
 
     public void SetTargetEnemy(Enemy enemy) // 타겟팅한 몬스터 등록
@@ -173,18 +131,13 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-
         //if (_SelectCard.cardData.Range_Type != 3) return;
         _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
-
-
-
     }
 
     private void Update()
     {
      
-
         if (disobject != null)
         {
             for (int i = 0; i < disobject.Count; i++)

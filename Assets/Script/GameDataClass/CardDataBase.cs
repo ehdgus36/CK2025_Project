@@ -158,7 +158,7 @@ public struct CardStatusData
 public class CardDataBase 
 {
     
-    Dictionary<string, CardStatusData> CardStatusDatas = new Dictionary<string, CardStatusData>();
+   
     Dictionary<string, CardData> CommonCardDatas = new Dictionary<string, CardData>();
 
     TextAsset CardDataTableTextData;
@@ -189,12 +189,7 @@ public class CardDataBase
         }
 
 
-        for (int i = 0; i < CardStatusIndex; i++)
-        {
-            string key = CSVReader.Read(CardStatusDataTableTextData)[i]["Status_Code"].ToString();
-            CardStatusData data = new CardStatusData(CSVReader.Read(CardStatusDataTableTextData)[i]);
-            CardStatusDatas.Add(key, data);
-        }
+        
     }
 
 
@@ -224,12 +219,7 @@ public class CardDataBase
         }
 
       
-        if (CardStatusDatas.ContainsKey(cardCode)) 
-        { 
-            isData = true; 
-            get_cardData = CardStatusDatas[cardCode]; 
-        }
-
+        
         return isData;
     }
 
@@ -239,7 +229,7 @@ public class CardDataBase
         bool isData = false;
 
         if (CommonCardDatas.ContainsKey(CardCode)) isData = true;
-        if (CardStatusDatas.ContainsKey(CardCode)) isData = true;
+       
 
         return isData;
     }

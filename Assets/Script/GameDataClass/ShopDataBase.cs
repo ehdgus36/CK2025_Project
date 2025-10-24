@@ -11,7 +11,7 @@ public struct ShopData
 
     public ShopData(Dictionary<string, object> data)
     {
-        Item_ID = data["Item_ID"].ToString();
+        Item_ID = data["Card_ID"].ToString();
         Price = (int)data["Price"];
         Rank = data["Rank"].ToString();
     }
@@ -28,7 +28,7 @@ public class ShopDataBase
       
         for (int i = 0; i < CardDataIndex; i++)
         {
-            string key = CSVReader.Read(ItemDataTable)[i]["Item_ID"].ToString();
+            string key = CSVReader.Read(ItemDataTable)[i]["Card_ID"].ToString();
 
             ShopData data = new ShopData(CSVReader.Read(ItemDataTable)[i]);
 

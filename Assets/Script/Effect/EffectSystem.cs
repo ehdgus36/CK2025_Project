@@ -50,7 +50,7 @@ public class EffectSystem : MonoBehaviour
 
     public GameObject EffectObject(string effectCode, Vector3 TargetPos) // 수정 필요 스크립터블 오브젝트에서 데이터 받아서 이펙트 생성하고 사용 딕셔너리로 관리
     {
-        Debug.Log(effectCode);
+        
         if (EffectSystemInstanceData.ContainsKey(effectCode) == false) // 이펙트가 생성되지 않았다면 생성후 딕셔너리에 저장
         {
 

@@ -38,11 +38,9 @@ public class UnitAnimationSystem : MonoBehaviour
             AnimationDatas.Add(AddAnimation.AnimeDatas[i].AnimationCode, AddAnimation.AnimeDatas[i].SpineAnimationData);
         }
 
-
         // 애니메이션이 존재한다면 
         if (AnimationDatas.Count > 0)
         {
-
             //0번째 애니메이션을 기본 애니메이션으로 실행
             UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[AnimationDatas.FirstOrDefault().Key], true);
         }
@@ -60,14 +58,12 @@ public class UnitAnimationSystem : MonoBehaviour
         {
             if (AnimationDatas.ContainsKey(animeKey))
             {
-                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey].Animation, loop);
                 track.HoldPrevious = true;
-
-
             }
             else
             {
-                UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["break_Ani"], loop);
+                UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["Break_Ani"].Animation, loop);
             }
         }
 
@@ -75,9 +71,10 @@ public class UnitAnimationSystem : MonoBehaviour
         {
             if (AnimationDatas.ContainsKey(animeKey))
             {
-
+                
                 UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f);
-                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey], loop);
+                
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas[animeKey].Animation, loop);
                 track.TimeScale = TimeScale;
 
 
@@ -90,9 +87,9 @@ public class UnitAnimationSystem : MonoBehaviour
             }
             else //없으면 아무 애니메이션 재생
             {
-                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["break_Ani"], loop);
+                Debug.Log(AnimationDatas[animeKey]);
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["Break_Ani"].Animation, loop);
                 track.TimeScale = TimeScale;
-
 
                 if (notEmpty == false)
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
@@ -102,8 +99,4 @@ public class UnitAnimationSystem : MonoBehaviour
             }
         }
     }
-
-   
-
-
 }

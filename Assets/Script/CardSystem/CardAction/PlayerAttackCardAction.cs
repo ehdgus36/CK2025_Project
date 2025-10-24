@@ -1,3 +1,4 @@
+using Spine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,19 +14,24 @@ public class PlayerAttackCardAction
 //브레이크 아웃
 public class SingleAttackAction : PlayerBaseCardAction
 {
+    public SingleAttackAction(Card card) : base(card)
+    {
+    }
+
     protected virtual int SingleAttackCount { get { return 1; } }
    
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent , CompleteEvent);
 
 
 
         //bit4 일때 데미지 처리
         yield return new WaitUntil(() => bit4 == true);
-        player.PlayerEffectSystem.EffectObject("break_Effect", Target.transform.position);
+        player.PlayerEffectSystem.EffectObject("Break_Effect", Target.transform.position);
+        GameManager.instance.UIInputSetActive(true);
         yield return SingleAttack(cardData,Target,SingleAttackCount);
     }
 
@@ -45,15 +51,19 @@ public class SingleAttackAction : PlayerBaseCardAction
 
 public class MultiAttackAction : PlayerBaseCardAction
 {
+    public MultiAttackAction(Card card) : base(card)
+    {
+    }
+
     protected virtual int MultiAttackCount { get { return 1; } }
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
 
         yield return new WaitUntil(() => bit4 == true);
-        player.PlayerEffectSystem.EffectObject("notebomb_Effect", Target.transform.position);
+        player.PlayerEffectSystem.EffectObject("Notebomb_Effect", Target.transform.position);
         yield return MultiAttack(cardData, Target, MultiAttackCount);
     }
 
@@ -78,15 +88,19 @@ public class MultiAttackAction : PlayerBaseCardAction
 public class NoteBombAction : MultiAttackAction
 {
     Player Player;
-    
+
+    public NoteBombAction(Card card) : base(card)
+    {
+    }
+
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
         Player = player;
-        player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         yield return new WaitUntil(() => bit2 == true);
-        GameObject ball = Player.PlayerEffectSystem.EffectObject("notebomb_Effect_ball", Player.transform.position);
+        GameObject ball = Player.PlayerEffectSystem.EffectObject("NoteBomb_Effect_ball", Player.transform.position);
 
         System.Func<Vector3, Vector3, Vector3, float, Vector3> Bezier =
         (P0, P1, P2, t) =>
@@ -107,7 +121,8 @@ public class NoteBombAction : MultiAttackAction
         }
 
         yield return new WaitUntil(() => bit4 == true);
-        Player.PlayerEffectSystem.EffectObject("notebomb_Effect", Target.transform.position);
+        Player.PlayerEffectSystem.EffectObject("NoteBomb_Effect", Target.transform.position);
+        GameManager.instance.UIInputSetActive(true);
         yield return MultiAttack(cardData, Target, int.Parse(cardData.Attack_Count));
     }
 
@@ -118,26 +133,34 @@ public class NoteBombAction : MultiAttackAction
 //아직 애니메이션 미정
 public class PowerBreakAction : SingleAttackAction
 {
+    public PowerBreakAction(Card card) : base(card)
+    {
+    }
+
     protected override int SingleAttackCount => 2;
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         //bit4 일때 데미지 처리
         yield return new WaitUntil(() => bit4 == true);
-        player.PlayerEffectSystem.EffectObject("break_Effect", Target.transform.position); // 수정 예정
+        player.PlayerEffectSystem.EffectObject("PowerBreak_Effect", Target.transform.position); // 수정 예정
         yield return SingleAttack(cardData, Target, SingleAttackCount);
     }
 }
 
 public class SoloAction : SingleAttackAction
 {
+    public SoloAction(Card card) : base(card)
+    {
+    }
+
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
 
         yield return new WaitUntil(() => bit4 == true);
@@ -152,10 +175,14 @@ public class SoloAction : SingleAttackAction
 
 public class WildRiffAction :MultiAttackAction
 {
+    public WildRiffAction(Card card) : base(card)
+    {
+    }
+
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환 카드 버리기
         yield return new WaitUntil(() => bit4 == true);
@@ -164,21 +191,22 @@ public class WildRiffAction :MultiAttackAction
         //핸드에 있는 모든 카드버리기(버린 카드 수 만큼 공격 횟수 증가)
         yield return MultiAttack(cardData, Target, MultiAttackCount); // 단일 데미지
 
-
-        
-
     }
 }
 
 public class FreestyleSoloAction: SingleAttackAction 
 {
+    public FreestyleSoloAction(Card card) : base(card)
+    {
+    }
+
     //덱, 핸드, 묘지에 있는 모든 C2021 카드를 C3011로 변환
     //랜덤 단일데미지
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
 
         yield return new WaitUntil(() => bit3 == true);
@@ -203,12 +231,16 @@ public class FreestyleSoloAction: SingleAttackAction
 
 public class LegendarySoloAction : MultiAttackAction
 {
+    public LegendarySoloAction(Card card) : base(card)
+    {
+    }
+
     protected override int MultiAttackCount => 5;
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         yield return new WaitUntil(() => bit3 == true);
         //날아가는 오브젝트
@@ -222,6 +254,20 @@ public class LegendarySoloAction : MultiAttackAction
 
 public class SoulShoutingAction : MultiAttackAction
 {
-    //전설_전체 몬스터 스킬 게이지 흡수 + 흡수량 만큼 전체 데미지 2씩_1레벨
-    //전체 몬스터 스킬 게이지 0 (감소량 만큼 공격 횟수 증가)
+    public SoulShoutingAction(Card card) : base(card)
+    {
+    }
+
+    public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
+    {
+        //애니메이션 실행
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+
+        yield return new WaitUntil(() => bit3 == true);
+        //날아가는 오브젝트
+
+        yield return new WaitUntil(() => bit4 == true);
+        //이펙트 추가
+        
+    }
 }

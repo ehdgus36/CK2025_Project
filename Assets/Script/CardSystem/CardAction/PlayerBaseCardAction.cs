@@ -1,3 +1,4 @@
+using Google.GData.AccessControl;
 using Spine;
 using System.Collections;
 using UnityEngine;
@@ -6,34 +7,37 @@ public abstract class PlayerBaseCardAction
 {
     protected bool bit1, bit2, bit3, bit4;
 
-    public PlayerBaseCardAction()
+    Card thisCard;
+    public PlayerBaseCardAction(Card card)
     {
         bit1 = false;
         bit2 = false;
         bit3 = false;
         bit4 = false;
+
+        thisCard = card;
     }
 
     public abstract IEnumerator StartAction(Player player, Card card , CardData cardData, Enemy Target);
 
     protected void AnimationEvent(TrackEntry entry, Spine.Event e)
     {
-        if (e.Data.Name != "1bit")
+        if (e.Data.Name == "1bit")
         {
             Beat1();
             bit1 = true;
         }
-        if (e.Data.Name != "2bit")
+        if (e.Data.Name == "2bit")
         {
             Beat2();
             bit2 = true;
         }
-        if (e.Data.Name != "3bit")
+        if (e.Data.Name == "3bit")
         {
             Beat3();
             bit3 = true;
         }
-        if (e.Data.Name != "4bit")
+        if (e.Data.Name == "4bit")
         {
             Beat4();
             bit4 = true;
@@ -45,4 +49,9 @@ public abstract class PlayerBaseCardAction
     protected virtual void Beat3() { }
     protected virtual void Beat4() { }
 
+    protected virtual void CompleteEvent(TrackEntry entry)
+    {
+        thisCard.IsCardEnd = true;
+        Debug.Log("isCardEnd : " + thisCard.IsCardEnd);
+    }
 }

@@ -10,6 +10,8 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
     [SerializeField] public Transform MovePos;
     [SerializeField] List<Card> CemeteryCard;
 
+    public List<Card> CemeteryCardList { get => CemeteryCard; }
+
     EffectSystem effectSystem;
    
 

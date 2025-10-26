@@ -21,6 +21,9 @@ public class RhythmSystem : MonoBehaviour
 
     MetronomeSystem metronome;
 
+    public RhythmView GetRhythmView { get => rhythmView; }
+    public RhythmInput GetRhythmInput { get => rhythmInput; }
+
     public Sprite GetRImage { get { return RImage; } }
     public Sprite GetLImage { get { return LImage; } }
     private void Awake()
@@ -96,7 +99,9 @@ public class RhythmSystem : MonoBehaviour
         yield return new WaitUntil(() => rhythmInput.IsEnd == true);
         yield return new WaitForSeconds(.4f);
 
-        
+        //¿Ã∆Â∆Æ ≤Ù±‚
+        GameManager.instance.Player.PlayerEffectSystem.StopEffect("SoftEcho_Buff_Effect");
+        GameManager.instance.Player.PlayerEffectSystem.StopEffect("BuildUpBuff_Effect"); 
         rhythmView.gameObject.SetActive(false);
         rhythmInput.gameObject.SetActive(false);
 

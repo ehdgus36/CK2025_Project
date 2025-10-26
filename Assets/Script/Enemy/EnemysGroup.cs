@@ -90,4 +90,17 @@ public class EnemysGroup : Unit
             _Enemys[i].GetEnemyStatus.UpdateStatus();
         }
     }
+
+    public int DrainSkillPoint()
+    {
+        int value = 0;
+        for (int i = 0; i < Enemys.Count; i++)
+        {
+            value += _Enemys[i].EnemyData.CurrentSkillPoint;
+            _Enemys[i].EnemyData.CurrentSkillPoint = 0;
+            _Enemys[i].GetEnemyStatus.UpdateStatus();
+        }
+
+        return value;
+    }
 }

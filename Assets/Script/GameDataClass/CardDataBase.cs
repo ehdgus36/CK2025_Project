@@ -34,6 +34,7 @@ public struct CardData
     public string Sound_Code;
     public string Card_Im;
     public string Card_Des;
+    string DefaultCard_Des;
 
 
     public string Buff_Ex1;
@@ -70,7 +71,9 @@ public struct CardData
         Effect_Code = data["Effect_Code"].ToString();
         Sound_Code = data["Sound_Code"].ToString();
         Card_Im = data["Card_Im"].ToString();
-        Card_Des = data["Card_Des"].ToString();
+        Card_Des = null;
+        DefaultCard_Des = data["Card_Des"].ToString();
+
         Buff_Ex1 = data["Buff_Ex1"].ToString();
 
         Buff_Ex2 = data["Buff_Ex2"].ToString();
@@ -79,6 +82,8 @@ public struct CardData
         CardBuff = null;
 
         CardBuff = GetBuff();
+
+        Card_Des = CardDescDamageReplace(Attack_DMG.ToString());
     }
 
 
@@ -87,6 +92,7 @@ public struct CardData
 
     Buff GetBuff()
     {
+       
         if (Buff_Buzz != 0) // 공격력 20% 다운
         {
             return new AttackDamageDownBuff(BuffType.Start, Buff_Buzz, 20);
@@ -117,19 +123,10 @@ public struct CardData
     }
 
 
-    string DefaultDescription(string textData)
-    {
-        string result = textData.Replace("@", Attack_DMG.ToString());
-
-      
-
-        return result;
-
-    }
 
     public string CardDescDamageReplace(string currentDamage)
     {
-        string result = "";// Card_CurrentDesc.Replace("@", currentDamage);
+        string result = DefaultCard_Des.Replace("@", currentDamage);
 
         return result;
     }
@@ -177,7 +174,6 @@ public class CardDataBase
     public void ResetTable()
     {
         int CardDataIndex = CSVReader.Read(CardDataTableTextData).Count;
-        int CardStatusIndex = CSVReader.Read(CardStatusDataTableTextData).Count;
 
         for (int i = 0; i < CardDataIndex; i++)
         {
@@ -185,7 +181,7 @@ public class CardDataBase
 
             CardData data = new CardData(CSVReader.Read(CardDataTableTextData)[i]);
 
-            CommonCardDatas.Add(key, data);
+            CommonCardDatas[key] = data;
         }
 
 
@@ -200,9 +196,13 @@ public class CardDataBase
         for (int i = 0; i < keys.Count; i++)
         {
             CardData card = CommonCardDatas[keys[i]];
-            card.Attack_DMG = Mathf.Clamp(card.Attack_DMG + amount,0, 100);
-            card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
-            CommonCardDatas[keys[i]] = card;
+
+            if (card.Attack_DMG > 0)
+            {
+                card.Attack_DMG = Mathf.Clamp(card.Attack_DMG + amount, 0, 100);
+                card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
+                CommonCardDatas[keys[i]] = card;
+            }
         }
     }
 

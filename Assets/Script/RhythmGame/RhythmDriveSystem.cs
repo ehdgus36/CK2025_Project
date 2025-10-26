@@ -8,63 +8,60 @@ public class RhythmDriveSystem : MonoBehaviour
 
     public void Start()
     {
-        GetComponent<RhythmInput>().SuccessNoteEvent += OnNoteSuccess;
+       // GetComponent<RhythmInput>().SuccessNoteEvent += OnNoteSuccess;
     }
 
 
 
-        //베리어는 원래 성공하면 해야함
-
-
-
+    //베리어는 원래 성공하면 해야함
     public void OnNoteSuccess(GameObject successNote)
     {
-        int LoopCount = GameManager.instance.ExcutSelectCardSystem.UsedCard.Length;
+        //int LoopCount = GameManager.instance.ExcutSelectCardSystem.UsedCard.Length;
 
-        Vector3 PlayerPos = GameManager.instance.Player.transform.position;
+        //Vector3 PlayerPos = GameManager.instance.Player.transform.position;
 
-        for (int i = 0; i < LoopCount; i++)
-        {
+        //for (int i = 0; i < LoopCount; i++)
+        //{
 
-            switch (GameManager.instance.ExcutSelectCardSystem.UsedCard[i])
-            {
-                //회복
-                case "C1101":
-                    StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position, PlayerPos, "아무거나", () => { RecoverHp(5); } ));
+        //    switch (GameManager.instance.ExcutSelectCardSystem.UsedCard[i])
+        //    {
+        //        //회복
+        //        case "C1101":
+        //            StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position, PlayerPos, "아무거나", () => { RecoverHp(5); } ));
 
-                    break;
+        //            break;
 
-                case "C1102":
-                    StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position, PlayerPos, "아무거나", () => { RecoverHp(5); }));
-                    break;
+        //        case "C1102":
+        //            StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position, PlayerPos, "아무거나", () => { RecoverHp(5); }));
+        //            break;
 
-                //전체 데미지
-                case "C2071":
-                    StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position, Vector3.zero, "아무거나", () => { ALLAttack(5); }));
-                    break;
+        //        //전체 데미지
+        //        case "C2071":
+        //            StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position, Vector3.zero, "아무거나", () => { ALLAttack(5); }));
+        //            break;
 
-                case "C2072":
-                    StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position,Vector3.zero, "아무거나", () => { ALLAttack(5); }));
+        //        case "C2072":
+        //            StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, successNote.transform.position,Vector3.zero, "아무거나", () => { ALLAttack(5); }));
 
-                    break;
-            }
-        }
+        //            break;
+        //    }
+        //}
 
 
-        StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, 
-                                  successNote.transform.position, PlayerPos, "아무거나",
-                                  () => { 
-                                      GameManager.instance.Player.PlayerEffectSystem.PlayEffect("bresth_Effect", GameManager.instance.Player.transform.position);
+        //StartCoroutine(MoveEffect(Instantiate(TestEffect).gameObject, 
+        //                          successNote.transform.position, PlayerPos, "아무거나",
+        //                          () => { 
+        //                              GameManager.instance.Player.PlayerEffectSystem.PlayEffect("bresth_Effect", GameManager.instance.Player.transform.position);
 
-                                      UnitData playerData;
-                                      GameDataSystem.DynamicGameDataSchema.LoadDynamicData<UnitData>(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA,
-                                                                                                     out playerData);
-                                      playerData.CurrentBarrier += 1;
+        //                              UnitData playerData;
+        //                              GameDataSystem.DynamicGameDataSchema.LoadDynamicData<UnitData>(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA,
+        //                                                                                             out playerData);
+        //                              playerData.CurrentBarrier += 1;
 
-                                      GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
+        //                              GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
 
-                                      Debug.Log("리듬게임 방어 상승");
-                                  }));
+        //                              Debug.Log("리듬게임 방어 상승");
+        //                          }));
 
     }
 

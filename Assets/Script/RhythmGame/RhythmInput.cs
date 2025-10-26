@@ -60,6 +60,11 @@ public class RhythmInput : MonoBehaviour
         mt.RemoveRecurringMetronomEvent(SpawnNote);
         IsEnd = false;
         startObject.SetActive(false);
+        SuccessNoteEvent += (obj) =>
+        {
+            GameManager.instance.Player.AddBarrier(1);
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", GameManager.instance.Player.transform.position);
+        };
     }
 
 
@@ -70,6 +75,7 @@ public class RhythmInput : MonoBehaviour
 
         if (currentBeat == NoteData.Length)
         {
+            SuccessNoteEvent = null;
             IsEnd = true;
             return;
         }

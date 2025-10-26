@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerDefensiveCardAction
 {
@@ -50,9 +51,11 @@ public class GetBarrierAction : PlayerBaseCardAction
         yield break;
     }
 
-    protected void GetBarrier(Player player, CardData cardData)
+    protected void GetBarrier(Player player, CardData cardData, bool iseffect = true)
     {
-        player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", player.transform.position);
+        if(iseffect == true)
+            player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", player.transform.position);
+        
         player.AddBarrier(cardData.Barrier_Get);
     }
 }
@@ -67,8 +70,17 @@ public class VolumeShieldAction : GetBarrierAction
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+        yield return new WaitUntil(() => bit1 == true);
         //볼륨업 구현
-        //볼륨없은 데이터 테이블 수치조작하고 덱 묘지 플레이어 손에 있는카드 전부 초기화
+        //볼륨업은 데이터 테이블 수치조작하고 덱 묘지 플레이어 손에 있는카드 전부 초기화
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp);
+        player.AddBuff(new VolumeUPBuff(BuffType.End, 1));
+        //볼륨업 이펙트
+
+
+        yield return new WaitUntil(() => bit2 == true);
+        GetBarrier(player, cardData);
+      
         yield break;
     }
 
@@ -79,6 +91,8 @@ public class VolumeShieldAction : GetBarrierAction
 
 public class SoftEchoAction : PlayerBaseCardAction
 {
+    Player Player;
+    CardData data;
     public SoftEchoAction(Card card) : base(card)
     {
     }
@@ -86,8 +100,23 @@ public class SoftEchoAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-        yield return null;
-        //노트당 1씩 회복
+        Player = player;
+        data = cardData;
+        yield return new WaitUntil(() => bit3 == true);
+        //이펙트
+
+        player.PlayerEffectSystem.PlayEffect("SoftEcho_Effect", player.transform.position);
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += NoteEvent;
+        //일반_성공 노트만큼 회복 1씩_1레벨
+
+        yield return new WaitUntil(() => bit4 == true);
+        player.PlayerEffectSystem.PlayEffect("SoftEcho_Buff_Effect", player.transform.position);
+    }
+
+    void NoteEvent(GameObject gameobject)
+    {
+        Player.PlayerEffectSystem.PlayEffect("Tuning_Effect", Player.transform.position);
+        Player.addHP(data.HP_Recover);
     }
 }
 
@@ -108,8 +137,10 @@ public class EnergizerAction : RecoverAction
 
         yield return new WaitUntil(() => bit3 == true);
 
-        //일반_캐릭터 스킬 게이지 증가 + 체력 회복_1레벨
-        player.addHP(cardData.HP_Recover);
+        //일반_캐릭터 스킬 게이지 증가 + 체력 회복_1레
+
+        //체력 회복
+        RecoverHP(player, cardData);
 
         //스킬 포인트 증가
         int skillPoint = 0;
@@ -117,6 +148,7 @@ public class EnergizerAction : RecoverAction
         skillPoint += cardData.Char_SkillPoint_Get;
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
 
+        // 스킬포인트 이펙트
 
         yield break;
     }
@@ -130,13 +162,13 @@ public class BuildUpAction : PlayerBaseCardAction
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-        yield return new WaitUntil(() => bit2 == true);
-        //이펙트
-
-
+        player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
         yield return new WaitUntil(() => bit3 == true);
+        //이펙트
+        player.PlayerEffectSystem.PlayEffect("BuildUp_Effect" , player.transform.position);
 
+        yield return new WaitUntil(() => bit4 == true);
+        player.PlayerEffectSystem.PlayEffect("BuildUpBuff_Effect", player.transform.position);
         //노트성공당 스킬게이지 1;
     }
 }
@@ -152,6 +184,7 @@ public class RockSpiritAction : GetBarrierAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
         yield return new WaitUntil(() => bit2 == true);
         //균열에서 빛이내려옴
+        player.PlayerEffectSystem.PlayEffect("RockSpirit_Effect", player.transform.position);
 
         //베리어
         player.AddBarrier(cardData.Barrier_Get);

@@ -36,6 +36,8 @@ public class Card : MonoBehaviour
 
     protected SlotGroup CardSloats;
 
+    public SlotGroup GetCardSloat { get => CardSloats; }
+
     Vector3 PlayerStartPos;
 
     Dictionary<string, int> CardDataVariable = new Dictionary<string, int>();
@@ -82,9 +84,12 @@ public class Card : MonoBehaviour
         string Path = "CardImage/" + cardData.Card_Im;
         Sprite cardSprite = Resources.Load<Sprite>(Path);
 
-        
         Material instanceMaterial = new Material(BaseMaterial);
-        instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
+        if (cardSprite != null)
+        {
+           
+            instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
+        }
 
         if (cardImage != null)
         {

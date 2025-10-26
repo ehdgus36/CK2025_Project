@@ -44,8 +44,8 @@ public class Buff_Icon_UI : MonoBehaviour
                     if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
                 case RhythmDebuff F: // 段
-                    BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
-                    BuffIcon[1].text = buffTurn;
+                    BuffIcon[4].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[4].text = buffTurn;
                     break;
 
                 case BarbedArmorBuff F: // 段
@@ -54,6 +54,11 @@ public class Buff_Icon_UI : MonoBehaviour
                     break;
 
                 case AttackDamageDownBuff F: // 段
+                    BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[1].text = buffTurn;
+                    break;
+
+                case VolumeUPBuff F: // 段
                     BuffIcon[3].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[3].text = buffTurn;
                     break;

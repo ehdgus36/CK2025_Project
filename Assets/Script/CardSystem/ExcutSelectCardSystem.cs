@@ -88,8 +88,12 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _TargetEnemy = null;
         BuffDamage = 0;
 
-        StopCoroutine(ReservedCardCoroutine);
-        ReservedCardCoroutine = null;
+        if (ReservedCardCoroutine != null)
+        {
+            StopCoroutine(ReservedCardCoroutine);
+            ReservedCardCoroutine = null;
+        }
+        
     }
 
     public void StartTurnRest()

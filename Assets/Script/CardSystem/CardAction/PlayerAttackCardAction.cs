@@ -1,6 +1,7 @@
 using Spine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
@@ -163,13 +164,39 @@ public class SoloAction : SingleAttackAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
 
-        yield return new WaitUntil(() => bit4 == true);
-        //이펙트 추가
+        yield return new WaitUntil(() => bit1 == true);
+        //이펙트
+        GameObject SoloEffect = player.PlayerEffectSystem.EffectObject("MiniSolo_Effect", player.transform.position);
+
+        yield return new WaitUntil(() => bit2 == true);
+
+        //이펙트 이동 부분
+        float T = 0f;
+
+        Vector3 StartPos = SoloEffect.transform.position;
+
+        for (int i = 0; i < 20; i++)
+        {
+            SoloEffect.transform.position = Vector3.Lerp(StartPos, Target.transform.position,T);
+            T += 0.05f;
+            yield return new WaitForSeconds(0.02f);
+        }
         yield return SingleAttack(cardData, Target, SingleAttackCount); // 단일 데미지
+      
+        yield return new WaitUntil(() => bit3 == true);
+        yield return SingleAttack(cardData, Target, SingleAttackCount);
 
-
+        List<Card> changeCard = new List<Card>();
+        changeCard.AddRange(card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021").ToList());
+        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C1021").ToList());
+        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C1021").ToList());
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
-        
+
+        for (int i = 0; i < changeCard.Count; i++)
+        {
+            changeCard[i].Initialized("C2021");
+        }
+
     }
 }
 
@@ -184,12 +211,27 @@ public class WildRiffAction :MultiAttackAction
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
-        //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환 카드 버리기
+
+        yield return new WaitUntil(() => bit3 == true);
+        Reroll_Card reroll = card.GetComponent<Reroll_Card>();
+
+        if (card.GetComponent<Reroll_Card>() == null)
+        {
+            card.gameObject.AddComponent<Reroll_Card>();
+            reroll = card.GetComponent<Reroll_Card>();
+        }
+        int disCard = 0;
+
+        reroll.Excute(card.GetCardSloat, out disCard);
+
+
         yield return new WaitUntil(() => bit4 == true);
         //이펙트 추가
 
         //핸드에 있는 모든 카드버리기(버린 카드 수 만큼 공격 횟수 증가)
-        yield return MultiAttack(cardData, Target, MultiAttackCount); // 단일 데미지
+        
+
+        yield return MultiAttack(cardData, Target, disCard); // 단일 데미지
 
     }
 }
@@ -224,6 +266,15 @@ public class FreestyleSoloAction: SingleAttackAction
 
 
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
+        List<Card> changeCard = new List<Card>();
+        changeCard.AddRange( card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C2021").ToList());
+        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C2021").ToList());
+        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C2021").ToList());
+
+        for (int i = 0; i < changeCard.Count; i++)
+        {
+            changeCard[i].Initialized("C3011");
+        }
 
     }
 }
@@ -239,15 +290,36 @@ public class LegendarySoloAction : MultiAttackAction
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
+
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+
+        yield return new WaitUntil(() => bit1 == true);
+        //전설_전체 몬스터 스킬 게이지 흡수 + 흡수량 만큼 전체 데미지 2씩_1레벨
+        GameObject ChargeObj = player.PlayerEffectSystem.EffectObject("LegendarySoloCharge_Effect", player.transform.position);
+        
+
+        yield return new WaitUntil(() => bit2 == true);
+        //정기빨기
+
+
         yield return new WaitUntil(() => bit3 == true);
-        //날아가는 오브젝트
+        float T = 0f;
+
+        Vector3 starPos = ChargeObj.transform.position;
+
+        for (int i = 0; i < 20; i++)
+        {
+            ChargeObj.transform.position = Vector3.Lerp(starPos, Target.transform.position, T);
+            T += 0.05f;
+            yield return new WaitForSeconds(0.02f);
+        }
 
         yield return new WaitUntil(() => bit4 == true);
         //이펙트 추가
-        yield return MultiAttack(cardData, Target, MultiAttackCount);
+        player.PlayerEffectSystem.PlayEffect("LegendarySoloHit_Effect", Target.transform.position);
+        yield return MultiAttack(cardData, Target, int.Parse(cardData.Attack_Count));
     }
 
 }
@@ -263,11 +335,21 @@ public class SoulShoutingAction : MultiAttackAction
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+        yield return new WaitUntil(() => bit1 == true);
+        //전설_전체 몬스터 스킬 게이지 흡수 + 흡수량 만큼 전체 데미지 2씩_1레벨
+        player.PlayerEffectSystem.PlayEffect("SoulShoutingCharge_Effect", player.transform.position);
+        int CountValue = GameManager.instance.EnemysGroup.DrainSkillPoint();
+
+        yield return new WaitUntil(() => bit2 == true);
+        //정기빨기
+
+
         yield return new WaitUntil(() => bit3 == true);
-        //날아가는 오브젝트
+        player.PlayerEffectSystem.PlayEffect("SoulShoutingShoot_Effect", player.transform.position);
 
         yield return new WaitUntil(() => bit4 == true);
         //이펙트 추가
-        
+        yield return MultiAttack(cardData, Target, CountValue);
+
     }
 }

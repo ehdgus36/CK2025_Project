@@ -197,7 +197,7 @@ namespace GameDataSystem
 
             for (int i = 0; i < CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable).Count; i++)
             {
-                CardCodes.Add(CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable)[i]["Card_Code"].ToString()); //Csv 읽기
+                CardCodes.Add(CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable)[i]["Card_ID"].ToString()); //Csv 읽기
             }
 
             AddDynamicDataBase(DynamicGameDataKeys.DACK_DATA, CardCodes);

@@ -199,6 +199,7 @@ GameObject:
   - component: {fileID: 723133049907768153}
   - component: {fileID: 311985383802038563}
   - component: {fileID: 8810351382842628565}
+  - component: {fileID: 5764335306305738399}
   m_Layer: 0
   m_Name: Spine(HipRat)
   m_TagString: Untagged
@@ -216,7 +217,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35, y: 0.35, z: 1}
+  m_LocalScale: {x: 0.28, y: 0.28, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7052184639168952447}
@@ -317,6 +318,58 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!114 &5764335306305738399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5180099931580903716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 2
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 00000000850c22fd5f69bc4fd980c52d11a165488daf2a13b9d68dd7692040a3
+  m_ShapePath:
+  - {x: -6.4817014, y: -0.4635439, z: 0}
+  - {x: -6.4817014, y: 8.7453, z: 0}
+  - {x: 7.582243, y: 8.7453, z: 0}
+  - {x: 7.582243, y: -0.4635439, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 0}
+  m_ShadowShape2DProvider:
+    rid: -2
+  m_ShadowCastingSource: 1
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0.55027056, y: 4.140878, z: 0}
+      m_Extent: {x: 7.031972, y: 4.604422, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &5407904200011670227
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +473,7 @@ GameObject:
   - component: {fileID: 7052184639168952447}
   - component: {fileID: 1417949181310612101}
   - component: {fileID: 2268474195922947219}
-  - component: {fileID: 3425736900702566673}
+  - component: {fileID: 4309604303899038270}
   - component: {fileID: 6446936549013260306}
   - component: {fileID: 845750774353552425}
   - component: {fileID: 3516856929990264621}
@@ -473,8 +526,8 @@ MonoBehaviour:
       MaxHp: 12
       _CurrentHp: 12
       _CurrentBarrier: 0
-    MaxSkillPoint: 1
-    CurrentSkillPoint: 0
+    MaxSkillPoint: 3
+    _CurrentSkillPoint: 0
     MaxDamage: 5
     CurrentDamage: 5
     Enemy_Sprite: {fileID: 21300000, guid: e06aa7e61ff1d324b89633473b97ed43, type: 3}
@@ -484,8 +537,6 @@ MonoBehaviour:
   fontSystem: {fileID: 3650802288120212782}
   EffectSystem: {fileID: 3516856929990264621}
   AttackOffset: {x: 2, y: 0, z: 0}
-  isAttackEnd: 0
-  isBarbedArmor: 0
 --- !u!114 &2268474195922947219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,7 +552,7 @@ MonoBehaviour:
   UnitAnimation: {fileID: 8810351382842628565}
   AddAnimation: {fileID: 11400000, guid: 8415772bc9f0e584180b1703e8536f68, type: 2}
   isattack: 0
---- !u!114 &3425736900702566673
+--- !u!114 &4309604303899038270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,31 +565,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aIBehavior:
-    rid: 2090276449113342086
+    rid: 6669553205115879524
   references:
     version: 2
     RefIds:
-    - rid: 2090276449113342086
-      type: {class: EnemyAI_HIPPOP_Behavior, ns: , asm: Assembly-CSharp}
+    - rid: 6669553205115879524
+      type: {class: EnemyAI_HipRat_Behavior, ns: , asm: Assembly-CSharp}
       data:
         EnemyDefaultAttackState:
-          rid: 2090276449113342087
+          rid: 6669553205115879525
         EnemySkillState:
-          rid: 2090276449113342088
-        EnemySkillState2:
-          rid: 2090276449113342089
-    - rid: 2090276449113342087
+          rid: 6669553205115879526
+    - rid: 6669553205115879525
       type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
       data:
-        _AttackCount: 1
-    - rid: 2090276449113342088
-      type: {class: EnemySkill_BarbedArmor_State, ns: , asm: Assembly-CSharp}
+        _AttackCount: 0
+    - rid: 6669553205115879526
+      type: {class: EnemySkill_AllEnemyRecoverHP_State, ns: , asm: Assembly-CSharp}
       data:
-        _AttackCount: 1
-    - rid: 2090276449113342089
-      type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
-      data:
-        _AttackCount: 2
+        _RecoverValue: 0
 --- !u!61 &6446936549013260306
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -951,6 +996,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3893401227549067552, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893401227549067552, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893401227549067552, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893401227549067552, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5356487592266258090, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5356487592266258090, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5356487592266258090, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5356487592266258090, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7220700434014396241, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -966,6 +1043,66 @@ PrefabInstance:
     - target: {fileID: 7375888680490509043, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_Name
       value: Canvas(HP)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473520655799141743, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473520655799141743, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473520655799141743, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473520655799141743, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 253.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 241.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -170
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -24.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714488578776581850, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714488578776581850, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714488578776581850, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714488578776581850, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8863986968425793585, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8863986968425793585, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3e8388dc2dcf55242aa6d313c526614b, type: 3}
+    - target: {fileID: 8863986968425793585, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

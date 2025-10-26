@@ -1,7 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class PlayerDefensiveCardAction
 {
@@ -46,7 +46,8 @@ public class GetBarrierAction : PlayerBaseCardAction
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
-        yield return new WaitUntil(() => bit2 == true);
+        yield return new WaitUntil(() => bit1 == true);
+        yield return new WaitForSeconds(.03f);
         GetBarrier(player, cardData);
         yield break;
     }
@@ -71,14 +72,12 @@ public class VolumeShieldAction : GetBarrierAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         yield return new WaitUntil(() => bit1 == true);
+        yield return new WaitForSeconds(.03f);
         //볼륨업 구현
         //볼륨업은 데이터 테이블 수치조작하고 덱 묘지 플레이어 손에 있는카드 전부 초기화
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp);
         player.AddBuff(new VolumeUPBuff(BuffType.End, 1));
         //볼륨업 이펙트
-
-
-        yield return new WaitUntil(() => bit2 == true);
         GetBarrier(player, cardData);
       
         yield break;
@@ -156,6 +155,7 @@ public class EnergizerAction : RecoverAction
 
 public class BuildUpAction : PlayerBaseCardAction
 {
+    CardData datas;
     public BuildUpAction(Card card) : base(card)
     {
     }
@@ -163,13 +163,24 @@ public class BuildUpAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+        datas = cardData;
         yield return new WaitUntil(() => bit3 == true);
         //이펙트
-        player.PlayerEffectSystem.PlayEffect("BuildUp_Effect" , player.transform.position);
+        player.PlayerEffectSystem.PlayEffect("BuildUp_Effect" , player.transform.position+ new Vector3(0,.8f,0));
 
         yield return new WaitUntil(() => bit4 == true);
         player.PlayerEffectSystem.PlayEffect("BuildUpBuff_Effect", player.transform.position);
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += BuildUpEvent;
         //노트성공당 스킬게이지 1;
+    }
+
+    void BuildUpEvent(GameObject obj)
+    {
+        //스킬게이지
+        int skill_Point = 0;
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA,out skill_Point);
+
+        skill_Point += datas.Char_SkillPoint_Get;
     }
 }
 
@@ -182,7 +193,8 @@ public class RockSpiritAction : GetBarrierAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-        yield return new WaitUntil(() => bit2 == true);
+        yield return new WaitUntil(() => bit1 == true);
+        yield return new WaitForSeconds(.03f);
         //균열에서 빛이내려옴
         player.PlayerEffectSystem.PlayEffect("RockSpirit_Effect", player.transform.position);
 

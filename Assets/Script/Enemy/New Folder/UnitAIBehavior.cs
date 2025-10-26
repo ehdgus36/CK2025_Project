@@ -34,7 +34,7 @@ public abstract class UnitAIBehavior
     }
 }
 
-
+#if UNITY_EDITOR
 public class ReadOnlyAttribute : PropertyAttribute { }
 
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
@@ -52,3 +52,4 @@ public class ReadOnlyDrawer : PropertyDrawer
         return EditorGUI.GetPropertyHeight(property, label, true);
     }
 }
+#endif

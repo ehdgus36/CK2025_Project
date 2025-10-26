@@ -30,10 +30,14 @@ public class SingleAttackAction : PlayerBaseCardAction
 
 
         //bit4 일때 데미지 처리
-        yield return new WaitUntil(() => bit4 == true);
+        yield return new WaitUntil(() => bit3 == true);
+
+        yield return new WaitForSeconds(0.1f);
         player.PlayerEffectSystem.EffectObject("Break_Effect", Target.transform.position);
-        GameManager.instance.UIInputSetActive(true);
         yield return SingleAttack(cardData,Target,SingleAttackCount);
+        yield return new WaitUntil(() => bit4 == true);
+        //player.PlayerEffectSystem.StopEffect("Break_Effect");
+
     }
 
     public IEnumerator SingleAttack(CardData cardData,Enemy Target , int attackCount)
@@ -80,7 +84,7 @@ public class MultiAttackAction : PlayerBaseCardAction
                 enemies[j].TakeDamage(GameManager.instance.Player, cardData.Attack_DMG, cardData.CardBuff);
             }
             if (i < AttackCount - 1)
-                yield return new WaitForSeconds(.2f);
+                yield return new WaitForSeconds(.3f);
         }
     }
 }
@@ -113,16 +117,17 @@ public class NoteBombAction : MultiAttackAction
 
 
         float T = 0f;
+        Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
 
         for (int i = 0; i < 20; i++)
         {
-            ball.transform.position = Bezier(GameManager.instance.Player.transform.position, Target.transform.position + new Vector3(0, 3, 0), Target.transform.position, T);
+            ball.transform.position = Bezier(GameManager.instance.Player.transform.position, Target.transform.position + new Vector3(0, 3, 0), targetPos, T);
             T += 0.05f;
             yield return new WaitForSeconds(0.02f);
         }
 
-        yield return new WaitUntil(() => bit4 == true);
-        Player.PlayerEffectSystem.EffectObject("NoteBomb_Effect", Target.transform.position);
+      
+        Player.PlayerEffectSystem.EffectObject("NoteBomb_Effect", targetPos);
         GameManager.instance.UIInputSetActive(true);
         yield return MultiAttack(cardData, Target, int.Parse(cardData.Attack_Count));
     }
@@ -146,7 +151,9 @@ public class PowerBreakAction : SingleAttackAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         //bit4 일때 데미지 처리
-        yield return new WaitUntil(() => bit4 == true);
+        yield return new WaitUntil(() => bit3 == true);
+
+        yield return new WaitForSeconds(0.08f);
         player.PlayerEffectSystem.EffectObject("PowerBreak_Effect", Target.transform.position); // 수정 예정
         yield return SingleAttack(cardData, Target, SingleAttackCount);
     }
@@ -163,28 +170,41 @@ public class SoloAction : SingleAttackAction
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+        //이펙트
+        GameObject SoloEffect = player.PlayerEffectSystem.EffectObject("Solo_Effect", player.transform.position);
+
+
+       System.Func<Vector3, Vector3, Vector3, float, Vector3> Bezier =
+       (P0, P1, P2, t) =>
+       {
+           var M0 = Vector3.Lerp(P0, P1, t);
+           var M1 = Vector3.Lerp(P1, P2, t);
+           return Vector3.Lerp(M0, M1, t);
+       };
+
 
         yield return new WaitUntil(() => bit1 == true);
-        //이펙트
-        GameObject SoloEffect = player.PlayerEffectSystem.EffectObject("MiniSolo_Effect", player.transform.position);
 
-        yield return new WaitUntil(() => bit2 == true);
+        yield return new WaitForSeconds(0.3f);
 
         //이펙트 이동 부분
         float T = 0f;
-
+       
         Vector3 StartPos = SoloEffect.transform.position;
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 21; i++)
         {
-            SoloEffect.transform.position = Vector3.Lerp(StartPos, Target.transform.position,T);
-            T += 0.05f;
-            yield return new WaitForSeconds(0.02f);
+            SoloEffect.transform.position = Bezier(StartPos, Target.transform.position + new Vector3(0, 3, 0), Target.transform.position + new Vector3(0,1,0),T);
+            T += 0.05f - (i / 1000);
+
+           
+
+            yield return new WaitForSeconds(0.01f);
         }
         yield return SingleAttack(cardData, Target, SingleAttackCount); // 단일 데미지
-      
+        player.PlayerEffectSystem.StopEffect("Solo_Effect");
         yield return new WaitUntil(() => bit3 == true);
-        yield return SingleAttack(cardData, Target, SingleAttackCount);
+    
 
         List<Card> changeCard = new List<Card>();
         changeCard.AddRange(card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021").ToList());
@@ -192,6 +212,7 @@ public class SoloAction : SingleAttackAction
         changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C1021").ToList());
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
 
+        
         for (int i = 0; i < changeCard.Count; i++)
         {
             changeCard[i].Initialized("C2021");
@@ -250,19 +271,68 @@ public class FreestyleSoloAction: SingleAttackAction
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+       System.Func<Vector3, Vector3, Vector3, float, Vector3> Bezier =
+       (P0, P1, P2, t) =>
+       {
+           var M0 = Vector3.Lerp(P0, P1, t);
+           var M1 = Vector3.Lerp(P1, P2, t);
+           return Vector3.Lerp(M0, M1, t);
+       };
+
+        GameObject[] SoloEffects = new GameObject[3];
+        Enemy[] randTarget = new Enemy[3];
+
+        SoloEffects[0] = player.PlayerEffectSystem.EffectObject("FreestyleSolo_Effect1", player.transform.position);
+        SoloEffects[1] = player.PlayerEffectSystem.EffectObject("FreestyleSolo_Effect2", player.transform.position);
+        SoloEffects[2] = player.PlayerEffectSystem.EffectObject("FreestyleSolo_Effect3", player.transform.position);
+
 
         yield return new WaitUntil(() => bit3 == true);
         //이펙트 추가
 
+        
+
+        //랜덤 타겟 받기
+        for (int i = 0; i < int.Parse(cardData.Attack_Count)-1; i++)
+        {
+            randTarget[i] = GameManager.instance.EnemysGroup.Enemys[Random.Range(0, GameManager.instance.EnemysGroup.Enemys.Count)];
+        }
+
+        randTarget[2] = Target;
+
+
+        Vector3[] StartPos = new Vector3[3];
+        float T = 0;
+
+        StartPos[0] = SoloEffects[0].transform.position;
+        StartPos[1] = SoloEffects[1].transform.position;
+        StartPos[2] = SoloEffects[2].transform.position;
+
+
+        for (int i = 0; i < 21; i++)
+        {
+
+            SoloEffects[0].transform.position = Bezier(StartPos[0], Target.transform.position + new Vector3(0, 3, 0), randTarget[0].transform.position + new Vector3(0, 1, 0), T);
+            SoloEffects[1].transform.position = Bezier(StartPos[1], Target.transform.position + new Vector3(0, .5f, 0), randTarget[1].transform.position + new Vector3(0, 1, 0), T);
+            SoloEffects[2].transform.position = Bezier(StartPos[2], Target.transform.position + new Vector3(0, -3, 0), randTarget[2].transform.position + new Vector3(0, 1, 0), T);
+            T += 0.05f - (i / 1000f);
+            yield return new WaitForSeconds(0.03f);
+        }
+
+
+
         //랜덤 공격
         for (int i = 0; i < int.Parse(cardData.Attack_Count); i++)
         {
-            Enemy randTarget = GameManager.instance.EnemysGroup.Enemys[Random.Range(0, GameManager.instance.EnemysGroup.Enemys.Count)];
+            yield return SingleAttack(cardData, randTarget[i], SingleAttackCount);
+        }
 
-            yield return SingleAttack(cardData, randTarget, SingleAttackCount);
 
-            
-        }// 단일 데미지
+        player.PlayerEffectSystem.StopEffect("FreestyleSolo_Effect1");
+        player.PlayerEffectSystem.StopEffect("FreestyleSolo_Effect2");
+        player.PlayerEffectSystem.StopEffect("FreestyleSolo_Effect3");
+
+        // 단일 데미지
 
 
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
@@ -293,11 +363,11 @@ public class LegendarySoloAction : MultiAttackAction
 
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-
+        GameObject ChargeObj = player.PlayerEffectSystem.EffectObject("LegendarySoloCharge_Effect", player.transform.position);
 
         yield return new WaitUntil(() => bit1 == true);
         //전설_전체 몬스터 스킬 게이지 흡수 + 흡수량 만큼 전체 데미지 2씩_1레벨
-        GameObject ChargeObj = player.PlayerEffectSystem.EffectObject("LegendarySoloCharge_Effect", player.transform.position);
+       
         
 
         yield return new WaitUntil(() => bit2 == true);
@@ -305,21 +375,23 @@ public class LegendarySoloAction : MultiAttackAction
 
 
         yield return new WaitUntil(() => bit3 == true);
+        yield return new WaitForSeconds(0.03f);
+        
         float T = 0f;
 
         Vector3 starPos = ChargeObj.transform.position;
-
-        for (int i = 0; i < 20; i++)
+        Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
+        for (int i = 0; i < 11; i++)
         {
-            ChargeObj.transform.position = Vector3.Lerp(starPos, Target.transform.position, T);
-            T += 0.05f;
-            yield return new WaitForSeconds(0.02f);
+            ChargeObj.transform.position = Vector3.Lerp(starPos, targetPos, T);
+            T += 0.1f;
+            yield return new WaitForSeconds(0.015f);
         }
-
-        yield return new WaitUntil(() => bit4 == true);
         //이펙트 추가
-        player.PlayerEffectSystem.PlayEffect("LegendarySoloHit_Effect", Target.transform.position);
+        player.PlayerEffectSystem.PlayEffect("LegendarySoloHit_Effect", targetPos);
+      
         yield return MultiAttack(cardData, Target, int.Parse(cardData.Attack_Count));
+        player.PlayerEffectSystem.StopEffect("LegendarySoloCharge_Effect");
     }
 
 }
@@ -335,7 +407,7 @@ public class SoulShoutingAction : MultiAttackAction
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
-        yield return new WaitUntil(() => bit1 == true);
+      
         //전설_전체 몬스터 스킬 게이지 흡수 + 흡수량 만큼 전체 데미지 2씩_1레벨
         player.PlayerEffectSystem.PlayEffect("SoulShoutingCharge_Effect", player.transform.position);
         int CountValue = GameManager.instance.EnemysGroup.DrainSkillPoint();
@@ -343,9 +415,11 @@ public class SoulShoutingAction : MultiAttackAction
         yield return new WaitUntil(() => bit2 == true);
         //정기빨기
 
-
-        yield return new WaitUntil(() => bit3 == true);
+      
+        player.PlayerEffectSystem.StopEffect("SoulShoutingCharge_Effect");
+        player.PlayerEffectSystem.PlayEffect("SoulShoutingPlayer_Effect", player.transform.position);
         player.PlayerEffectSystem.PlayEffect("SoulShoutingShoot_Effect", player.transform.position);
+        
 
         yield return new WaitUntil(() => bit4 == true);
         //이펙트 추가

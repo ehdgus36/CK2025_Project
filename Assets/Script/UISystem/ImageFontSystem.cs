@@ -61,6 +61,7 @@ public class ImageFontSystem : MonoBehaviour
         this.gameObject.SetActive(false);
         this.gameObject.SetActive(true);
 
+        
 
         Hyphen.gameObject.SetActive(false);
         if (StartPos.x == Vector3.zero.x)
@@ -98,7 +99,7 @@ public class ImageFontSystem : MonoBehaviour
             if (num.Length == 2)
             {
                 string f = num[0].ToString();
-                Debug.Log("FFFFFFFRF:" + f);
+                
                 string b = num[1].ToString();
 
                 int index = int.Parse(f);

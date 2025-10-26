@@ -137,12 +137,14 @@ public class EnemyDataBase
     {
 
         int EnemyDataIndex = CSVReader.Read(EnemyDataTable).Count;
+        List<Dictionary<string, object>> csvData = CSVReader.Read(EnemyDataTable);
+
 
         for (int i = 0; i < EnemyDataIndex; i++)
         {
-            string key = CSVReader.Read(EnemyDataTable)[i]["Enemy_ID"].ToString();
+            string key = csvData[i]["Enemy_ID"].ToString();
 
-            EnemyTableData data = new EnemyTableData(CSVReader.Read(EnemyDataTable)[i]);
+            EnemyTableData data = new EnemyTableData(csvData[i]);
 
             EnemyDatas.Add(key, data);
         }

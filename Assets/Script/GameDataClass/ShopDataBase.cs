@@ -28,13 +28,14 @@ public class ShopDataBase
     public ShopDataBase(TextAsset ItemDataTable)
     {
         int CardDataIndex = CSVReader.Read(ItemDataTable).Count;
+        List<Dictionary<string, object>> csvData = CSVReader.Read(ItemDataTable);
 
-      
+
         for (int i = 0; i < CardDataIndex; i++)
         {
-            string key = CSVReader.Read(ItemDataTable)[i]["Card_ID"].ToString();
+            string key = csvData[i]["Card_ID"].ToString();
 
-            ShopData data = new ShopData(CSVReader.Read(ItemDataTable)[i]);
+            ShopData data = new ShopData(csvData[i]);
 
 
             ShopDatas.Add(key, data);         

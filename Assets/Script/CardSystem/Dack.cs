@@ -84,7 +84,10 @@ public class Dack : MonoBehaviour
             isOnce = true;
         }
 
+        
 
+
+        //Ä«µå »Ì±â
         for (int i = 0; i < CardSlots.Getsloat().Length ; i++)
         {
             
@@ -131,5 +134,15 @@ public class Dack : MonoBehaviour
         }
 
         return list;
+    }
+
+    public void ReflashSlot()
+    {
+        List<Card> resetCard = CardSlots.ReadData<Card>();
+
+        for (int i = 0; i < resetCard.Count; i++)
+        {
+            Cemetery.ReflashInsert(resetCard[i]);
+        }
     }
 }

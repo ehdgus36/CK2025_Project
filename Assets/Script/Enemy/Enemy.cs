@@ -86,8 +86,15 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     {
         AIMachine = GetComponent<UnitAIMachine>();
         if (EnemyData.Enemy_ID != "")
-        { 
-        
+        {
+            object objData = null; 
+            GameDataSystem.StaticGameDataSchema.ENEMY_DATA_BASE.SearchData(EnemyData.Enemy_ID, out objData);
+            EnemyTableData loadData = (EnemyTableData)objData;
+
+            EnemyData.MaxSkillPoint = loadData.SkillPoint;
+            EnemyData.EnemyUnitData.MaxHp = loadData.HP;
+            EnemyData.EnemyUnitData.CurrentBarrier = loadData.Start_Barrier;
+            EnemyData.MaxDamage = loadData.Damage;
         }
 
 
@@ -99,8 +106,12 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         isDie = false;
 
         //EnemyUnitData 설정 
+        EnemyData.EnemyUnitData.CurrentHp = EnemyData.EnemyUnitData.MaxHp;
+
         UnitData = EnemyData.EnemyUnitData;
         
+
+
         EnemyData.CurrentDamage = EnemyData.MaxDamage;
         EnemyStatus?.Initialize(this); // UI 초기화
         EnemyStatus?.NextAttackUI.gameObject.SetActive(true);
@@ -143,6 +154,8 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
         EnemyStatus?.UpdateStatus();
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_ENEMY_HIT , this);
+
+        fontSystem.FontConvert(damage.ToString());
 
         if (isBarbedArmor == true)
         {

@@ -39,6 +39,8 @@ public class DistortionAction : PlayerBaseCardAction
     }
 }
 
+
+//플레이 스트로크
 public class FireStrokeAction : PlayerBaseCardAction
 {
     public FireStrokeAction(Card card) : base(card)
@@ -49,6 +51,9 @@ public class FireStrokeAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+
+        yield return new WaitUntil(() => bit3 == true);
+        Target.GetEffectSystem.PlayEffect("Big_Fire_Effect", Target.transform.position);
         yield return null;
     }
 }
@@ -64,7 +69,8 @@ public class CursedShieldAction : GetBarrierAction
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
-        yield return new WaitUntil(() => bit2 == true);
+        yield return new WaitUntil(() => bit1 == true);
+        yield return new WaitForSeconds(.03f);
         GetBarrier(player, cardData, false);
         player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", player.transform.position);
 
@@ -90,6 +96,22 @@ public class BurningStageAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+        yield return new WaitUntil(() => bit2 == true);
+        player.PlayerEffectSystem.PlayEffect("Small_Fire_Effect", player.transform.position);
+        player.PlayerEffectSystem.PlayEffect("Tuning_Effect", player.transform.position);
+        //체력회복
+
+        yield return new WaitUntil(() => bit3 == true);
+
+        // 번업주기
+        List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+          
+            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", Target.transform.position);
+        }
+        
         yield return null;
     }
 }
@@ -137,7 +159,20 @@ public class HellfireAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-        yield return null;
+
+
+        yield return new WaitUntil(() => bit2 == true);
+        player.PlayerEffectSystem.PlayEffect("Fire_Strum_Effect", player.transform.position);
+
+
+        yield return new WaitUntil(() => bit3 == true);
+        List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].GetEffectSystem.PlayEffect("Big_Fire_Effect", Target.transform.position);
+            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", Target.transform.position);
+        }
     }
 }
 
@@ -155,6 +190,8 @@ public class BlessingofRockAction : PlayerBaseCardAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
         players = player;
         datas = cardData;
+
+        player.PlayerEffectSystem.PlayEffect("BlessingofRock_Effect", player.transform.position);
         yield return new WaitUntil(() => bit2 == true);
         //이펙트
 

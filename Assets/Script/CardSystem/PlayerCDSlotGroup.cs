@@ -56,7 +56,7 @@ public class PlayerCDSlotGroup : MonoBehaviour
             Player_CardSlot[i].gameObject.SetActive(true);
         }
 
-        for (int i = 0; i < Player_CardSlot.Length; i++)
+        for (int i = 0; i < PlayerDacks.Count; i++)
         {
             PlayerDacks[i].DrawFromDeck();
         }
@@ -82,6 +82,8 @@ public class PlayerCDSlotGroup : MonoBehaviour
     //카드 넣기
     public void ReturnCard()
     {
+        PlayerDacks[0].ReflashSlot();
+
         Player_CardSlot[0].GetComponent<Animator>().Play("ClearCard");
 
         Player_CardSlot[0].gameObject.SetActive(false);

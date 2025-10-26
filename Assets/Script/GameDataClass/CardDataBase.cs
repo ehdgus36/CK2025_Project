@@ -175,17 +175,16 @@ public class CardDataBase
     {
         int CardDataIndex = CSVReader.Read(CardDataTableTextData).Count;
 
+        List<Dictionary<string,object>> csvData = CSVReader.Read(CardDataTableTextData);
+
         for (int i = 0; i < CardDataIndex; i++)
         {
-            string key = CSVReader.Read(CardDataTableTextData)[i]["Card_ID"].ToString();
+            string key = csvData[i]["Card_ID"].ToString();
 
-            CardData data = new CardData(CSVReader.Read(CardDataTableTextData)[i]);
+            CardData data = new CardData(csvData[i]);
 
             CommonCardDatas[key] = data;
         }
-
-
-        
     }
 
 

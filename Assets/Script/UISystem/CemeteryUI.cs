@@ -17,6 +17,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
     public List<Card> GetCemeteryCards()
     {
+        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
         return CemeteryCard;
     }
 
@@ -29,6 +30,19 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
             Insert(eventData.pointerDrag.gameObject.GetComponent<Card>());         
         }
        
+    }
+
+    public void ReflashInsert(Card card)
+    {
+        card.transform.SetParent(CemeteryPos.transform);
+
+        card.transform.position = CemeteryPos.position;
+        card.transform.localScale = Vector3.one;
+
+        //카드 묘지에 넣기
+        CemeteryCard.Add(card);
+        card.gameObject.SetActive(true);
+        GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
     }
 
     public void Insert(Card card)

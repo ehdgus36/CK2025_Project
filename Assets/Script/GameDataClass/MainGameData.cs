@@ -103,7 +103,7 @@ namespace GameDataSystem
         private static TextAsset StrapItemDataTable = DataTableLoader.LoadTextAsset("StrapItemDataTable");
         private static TextAsset StringItemDataTable = DataTableLoader.LoadTextAsset("StringItemDataTable");
 
-
+        private static TextAsset EnemyDataTable = DataTableLoader.LoadTextAsset("EnemyDataTable");
 
 
         // 카드의 기본 시작 덱이 설정되어있는 거
@@ -113,7 +113,7 @@ namespace GameDataSystem
         private static NoteDataBase _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable, NoteGroupDataTable);
         private static ShopDataBase _SHOP_DATA_BASE = new ShopDataBase(ShopDataTable);
         private static ItemDataBase _ITEM_DATA_BASE = new ItemDataBase(StickerItemDataTable, StrapItemDataTable, StringItemDataTable);
- 
+        private static EnemyDataBase _ENEMY_DATA_BASE = new EnemyDataBase(EnemyDataTable);
 
         
         // 읽기 전용으로 선언
@@ -121,6 +121,7 @@ namespace GameDataSystem
         public static NoteDataBase NOTE_DATA_BASE => _NOTE_DATA_BASE;
         public static ShopDataBase Shop_DATA_BASE => _SHOP_DATA_BASE;
         public static ItemDataBase ITEM_DATA_BASE => _ITEM_DATA_BASE;
+        public static EnemyDataBase ENEMY_DATA_BASE => _ENEMY_DATA_BASE;
 
 
         public readonly static UnitData StartPlayerData = new UnitData();

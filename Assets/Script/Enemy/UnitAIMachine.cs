@@ -34,6 +34,7 @@ public class UnitAIMachine : MonoBehaviour
 }
 
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(UnitAIMachine))]
 public class UnitAIMachineEditor : Editor
 {
@@ -95,3 +96,4 @@ public class UnitAIMachineEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

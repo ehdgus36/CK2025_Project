@@ -8,7 +8,7 @@ using UnityEngine;
 public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 {
      Vector3 StartPos;
-    [SerializeField, ReadOnly] int _AttackCount;
+    [SerializeField] int _AttackCount;
 
     public int AttackCount { get { return _AttackCount; } }
 
@@ -138,7 +138,7 @@ public class EnemySkill_AllEnemyRecoverHP_State : EnemySkill_MultiAttack_State /
 public class EnemySkill_DackAttack_State : BaseAIState // 덱기반 공격
 {
     Vector3 StartPos;
-    [SerializeField, ReadOnly] int _dackCount;
+    [SerializeField] int _dackCount;
 
      public int dackCount { get { _dackCount = GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Count; return _dackCount; } }
 

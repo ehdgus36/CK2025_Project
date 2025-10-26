@@ -55,23 +55,24 @@ public class NoteDataBase
         int CardStatusIndex = CSVReader.Read(NoteGroupDataTable).Count;
 
 
+        List<Dictionary<string, object>> csvData = CSVReader.Read(NoteDataTable);
 
         for (int i = 0; i < CardDataIndex; i++)
         {
-            string key = CSVReader.Read(NoteDataTable)[i]["ID"].ToString();
+            string key = csvData[i]["ID"].ToString();
 
-            NoteData data = new NoteData(CSVReader.Read(NoteDataTable)[i]);
+            NoteData data = new NoteData(csvData[i]);
 
             NoteDatas.Add(key, data);
 
 
         }
 
-
+        csvData = CSVReader.Read(NoteGroupDataTable);
         for (int i = 0; i < CardStatusIndex; i++)
         {
-            string key = CSVReader.Read(NoteGroupDataTable)[i]["GroupID"].ToString();
-            NoteGroupData data = new NoteGroupData(CSVReader.Read(NoteGroupDataTable)[i]);
+            string key = csvData[i]["GroupID"].ToString();
+            NoteGroupData data = new NoteGroupData(csvData[i]);
             NoteGroupDatas.Add(key, data);
         }
     }

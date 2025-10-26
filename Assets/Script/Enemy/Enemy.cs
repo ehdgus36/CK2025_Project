@@ -23,12 +23,11 @@ public enum BuffLayer
 [System.Serializable]
 public class EnemyData
 {
+    [SerializeField] public string Enemy_ID;
     [SerializeField] public UnitData EnemyUnitData;
     [SerializeField] public int MaxSkillPoint;
 
     public int CurrentSkillPoint;
-
-  
 
     [SerializeField] public int MaxDamage;
     public int CurrentDamage;
@@ -85,11 +84,18 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public virtual void Initialize(int index,  EnemysGroup group) 
     {
+        AIMachine = GetComponent<UnitAIMachine>();
+        if (EnemyData.Enemy_ID != "")
+        { 
+        
+        }
+
+
         if (group == null)
             throw new ArgumentNullException(nameof(group), "EnemyGroup은 null이 될 수 없습니다.");
         EnemyGroup = group;
 
-        AIMachine = GetComponent<UnitAIMachine>();
+        
         isDie = false;
 
         //EnemyUnitData 설정 

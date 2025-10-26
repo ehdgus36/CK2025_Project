@@ -33,6 +33,36 @@ public abstract class EnemyAIBehavior : UnitAIBehavior
     protected abstract void InitializeState(); // 생성할때 단한번
 }
 
+public class EnemyAI_Custom_Behavior: EnemyAIBehavior
+{
+
+    int attackCount = 1;
+    public EnemyAI_Custom_Behavior(BaseAIState Skill)
+    {
+        EnemySkillState = Skill;
+        Initialize();
+    }
+
+
+    protected override void InitializeState()
+    {
+        EnemySkillState = new EnemySkill_MultiAttack_State(2);
+        EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
+    }
+}
+
+public class EnemyAI_CustomSkill2_Behavior : EnemyAI_HIPPOP_Behavior
+{
+
+    int attackCount = 1;
+    public EnemyAI_CustomSkill2_Behavior(BaseAIState Skill, BaseAIState Skill2)
+    {
+        EnemySkillState = Skill;
+        EnemySkillState2 = Skill2;
+        Initialize();
+    }
+}
+
 
 public class EnemyAI_HipRat_Behavior : EnemyAIBehavior
 {

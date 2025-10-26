@@ -6,12 +6,16 @@ public struct ShopData
 {
     public readonly string Item_ID;
 
-    public readonly int Price;
+
+    public readonly string Type;
     public readonly string Rank;
+    public readonly int Price;
+   
 
     public ShopData(Dictionary<string, object> data)
     {
         Item_ID = data["Card_ID"].ToString();
+        Type = data["Type"].ToString();
         Price = (int)data["Price"];
         Rank = data["Rank"].ToString();
     }

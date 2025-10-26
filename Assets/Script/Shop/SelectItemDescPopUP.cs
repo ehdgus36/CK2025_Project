@@ -36,7 +36,11 @@ public class SelectItemDescPopUP : MonoBehaviour
 
         ItemName.text = ((CardData)cardData).Card_Name_KR;
         ItemDesc.text = ((CardData)cardData).Card_Des;
-        ItemRank.text = data.Rank;
+
+        if (data.Rank == "1") { ItemRank.text = "ÀÏ¹Ý"; }
+        if (data.Rank == "2") { ItemRank.text = "Èñ±Í"; }
+        if (data.Rank == "3") { ItemRank.text = "Àü¼³"; }
+       
         ItmePrice.text = data.Price.ToString();
 
         ItemImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);

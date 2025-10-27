@@ -69,6 +69,8 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
        
 
         EndTurnEvent += () => {
+            HellfireAction.EndHellFire();
+
             CDSlotGroup.ReturnCard();
             GameManager.instance.PlayerCardCastPlace.Reset();
             GameManager.instance.ExcutSelectCardSystem.Reset();
@@ -85,7 +87,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         DieEvent += PlayerDieEvent;
         UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
 
-       
+        HellfireAction.EndHellFire();
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
@@ -170,6 +172,12 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 
+    public override void AddBuff(Buff buff)
+    {
+        base.AddBuff(buff);
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+    }
     public void ReturnPlayer()
     {
         this.transform.position = StartPlayerPos;

@@ -206,7 +206,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         }
         else
         {
-
+            GameManager.instance.UIManager.CardDescription.ActiveCard();
             int combo = 1;
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
             combo++;

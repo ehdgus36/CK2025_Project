@@ -142,7 +142,7 @@ public class Dack : MonoBehaviour
 
         for (int i = 0; i < resetCard.Count; i++)
         {
-            Cemetery.ReflashInsert(resetCard[i]);
+            InsertCard(resetCard[i]);
         }
     }
 }

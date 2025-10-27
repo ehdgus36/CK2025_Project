@@ -27,7 +27,7 @@ public class UnitData
         get { return _CurrentBarrier; }
         set
         {
-            _CurrentBarrier = Mathf.Clamp(value, 0, 1000); // 아마 1000까지는 올라가지 않을듯
+            _CurrentBarrier = value; // 아마 1000까지는 올라가지 않을듯
         }
     }
 
@@ -70,16 +70,17 @@ public class Unit : MonoBehaviour
 
         if (UnitData.CurrentBarrier > 0)
         {
-            UnitData.CurrentBarrier -= resultDamage;
 
-            if (UnitData.CurrentBarrier >= 0) //베리어가 남거나 0이면
+           
+            if (UnitData.CurrentBarrier - resultDamage >= 0) //베리어가 남거나 0이면
             {
+                UnitData.CurrentBarrier -= resultDamage;
                 resultDamage = 0;
             }
 
-            if (UnitData.CurrentBarrier < 0) // 베리어가 0미만이면 데미지
+            if (UnitData.CurrentBarrier - resultDamage < 0) // 베리어가 0미만이면 데미지
             {
-                resultDamage = - UnitData.CurrentBarrier;
+                resultDamage -= UnitData.CurrentBarrier;
                 UnitData.CurrentBarrier = 0;
             }
         }
@@ -106,6 +107,15 @@ public class Unit : MonoBehaviour
 
     public virtual void AddBuff(Buff buff)
     {
+        if (HellfireAction.isHellFire == true)
+        {
+            if (buff.GetType() == typeof(FireBuff))
+            {
+                buff = new FireBuffBrunOut(BuffType.Start, buff.GetBuffDurationTurn(), 12); //번아웃
+            }
+        }
+
+
         if (buff != null)
         {
             bool IsBuffType = false;
@@ -115,12 +125,14 @@ public class Unit : MonoBehaviour
                 if (UnitData.buffs[i].GetType() == buff.GetType())
                 {
                     UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+
+                    IsBuffType = true;
                 }
             }
 
             if (IsBuffType == false)
             {
-                UnitData.buffs.Add(buff);
+                UnitData.buffs.Add(buff.Clone());
             }
         }
     }

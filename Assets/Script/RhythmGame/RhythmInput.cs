@@ -34,10 +34,7 @@ public class RhythmInput : MonoBehaviour
    
 
 
-    private void OnEnable()
-    {
-        Reset();
-    }
+   
 
     public void StarNote()
     {

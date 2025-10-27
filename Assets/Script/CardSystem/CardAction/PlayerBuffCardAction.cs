@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBuffCardAction 
@@ -54,6 +55,7 @@ public class FireStrokeAction : PlayerBaseCardAction
 
         yield return new WaitUntil(() => bit3 == true);
         Target.GetEffectSystem.PlayEffect("Big_Fire_Effect", Target.transform.position);
+        Target.AddBuff(cardData.CardBuff);
         yield return null;
     }
 }
@@ -77,9 +79,12 @@ public class CursedShieldAction : GetBarrierAction
         // 적에게 디버프 주는 기능만들기
         List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
 
+
+
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].AddBuff(cardData.CardBuff);
+           
             //이펙트 발생 시키기
         }
         yield return null;
@@ -100,6 +105,7 @@ public class BurningStageAction : PlayerBaseCardAction
         player.PlayerEffectSystem.PlayEffect("Small_Fire_Effect", player.transform.position);
         player.PlayerEffectSystem.PlayEffect("Tuning_Effect", player.transform.position);
         //체력회복
+        player.addHP(cardData.HP_Recover);
 
         yield return new WaitUntil(() => bit3 == true);
 
@@ -107,9 +113,9 @@ public class BurningStageAction : PlayerBaseCardAction
         List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
 
         for (int i = 0; i < enemies.Count; i++)
-        {
-          
+        { 
             enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", Target.transform.position);
+            enemies[i].AddBuff(cardData.CardBuff);
         }
         
         yield return null;
@@ -130,7 +136,7 @@ public class EncoreAction : PlayerBaseCardAction
     }
 }
 
-public class STFUAction : PlayerBaseCardAction
+public class STFUAction : SingleAttackAction
 {
     public STFUAction(Card card) : base(card)
     {
@@ -145,12 +151,18 @@ public class STFUAction : PlayerBaseCardAction
 
 
         yield return new WaitUntil(() => bit3 == true);
+        yield return SingleAttack(cardData, Target, int.Parse( cardData.Attack_Count));
         Target.AddBuff(cardData.CardBuff);
     }
 }
 
 public class HellfireAction : PlayerBaseCardAction
 {
+
+
+    public static bool _isHellFire = false;
+    public static bool isHellFire { get => _isHellFire;}
+
     public HellfireAction(Card card) : base(card)
     {
     }
@@ -158,6 +170,7 @@ public class HellfireAction : PlayerBaseCardAction
     //전설_이번 턴동안 번업 적용시 번아웃으로 적용 + 전체 번아웃 1_1레벨	번업 : 적의 적용 턴 동안 2데미지를 받습니다.
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
+        _isHellFire = true;
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
 
@@ -172,7 +185,14 @@ public class HellfireAction : PlayerBaseCardAction
         {
             enemies[i].GetEffectSystem.PlayEffect("Big_Fire_Effect", Target.transform.position);
             enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", Target.transform.position);
+            enemies[i].AddBuff(cardData.CardBuff);
         }
+        
+    }
+
+    public static void EndHellFire()
+    {
+        _isHellFire = false;
     }
 }
 
@@ -180,6 +200,7 @@ public class BlessingofRockAction : PlayerBaseCardAction
 {
     CardData datas;
     Player players;
+    Card Card;
     public BlessingofRockAction(Card card) : base(card)
     {
     }
@@ -190,7 +211,7 @@ public class BlessingofRockAction : PlayerBaseCardAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
         players = player;
         datas = cardData;
-
+        Card = card;
         player.PlayerEffectSystem.PlayEffect("BlessingofRock_Effect", player.transform.position);
         yield return new WaitUntil(() => bit2 == true);
         //이펙트
@@ -206,6 +227,6 @@ public class BlessingofRockAction : PlayerBaseCardAction
     void VolumeUpEvent(GameObject obj)
     {
         players.AddBuff(new VolumeUPBuff(BuffType.End, 1));
-        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(datas.Buff_VolumeUp);
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(datas.Buff_VolumeUp, Card.GetCardSloat.ReadData<Card>());
     }
 }

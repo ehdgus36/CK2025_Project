@@ -73,11 +73,16 @@ public abstract class Buff
 
     public virtual void AddBuffTurnCount(int addCount) {
         State = BuffState.Enable;
-        BuffDurationTurn += addCount; 
+        BuffDurationTurn += addCount;
+
+        Debug.Log("커스드 실드 버즈"+ addCount);
     }
 
     //public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
-
+    public virtual Buff Clone()
+    {
+        return (Buff)this.MemberwiseClone();
+    }
 }
 
 

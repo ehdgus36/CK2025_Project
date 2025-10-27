@@ -37,30 +37,48 @@ public class Buff_Icon_UI : MonoBehaviour
 
             switch (buffs[i])
             {
-                case FireBuff F: // ª°
+                case FireBuffBrunOut F: // ª°
                     Debug.Log("UI∞ªΩ≈");
                     BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[0].text = buffTurn;
                     if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
-                case RhythmDebuff F: // √ 
-                    BuffIcon[4].gameObject.transform.parent.gameObject.SetActive(true);
-                    BuffIcon[4].text = buffTurn;
+
+                case FireBuff F: // ª°
+                    Debug.Log("UI∞ªΩ≈");
+                    BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[1].text = buffTurn;
+                    if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
 
-                case BarbedArmorBuff F: // √ 
+
+                case AttackDamageDownBuff_Mute F: // √ 
                     BuffIcon[2].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[2].text = buffTurn;
                     break;
 
                 case AttackDamageDownBuff F: // √ 
-                    BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
-                    BuffIcon[1].text = buffTurn;
-                    break;
-
-                case VolumeUPBuff F: // √ 
                     BuffIcon[3].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[3].text = buffTurn;
+                    break;
+
+               
+
+                case BarbedArmorBuff F: // √ 
+                    BuffIcon[4].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[4].text = buffTurn;
+                    break;
+
+              
+
+                case VolumeUPBuff F: // √ 
+                    BuffIcon[5].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[5].text = buffTurn;
+                    break;
+
+                case RhythmDebuff F: // √ 
+                    BuffIcon[6].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[6].text = buffTurn;
                     break;
 
             }

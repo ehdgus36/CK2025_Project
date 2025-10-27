@@ -1,6 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+
 
 
 public class PlayerDefensiveCardAction
@@ -75,7 +78,8 @@ public class VolumeShieldAction : GetBarrierAction
         yield return new WaitForSeconds(.03f);
         //볼륨업 구현
         //볼륨업은 데이터 테이블 수치조작하고 덱 묘지 플레이어 손에 있는카드 전부 초기화
-        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp);
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp, card.GetCardSloat.ReadData<Card>());
+
         player.AddBuff(new VolumeUPBuff(BuffType.End, 1));
         //볼륨업 이펙트
         GetBarrier(player, cardData);
@@ -186,6 +190,8 @@ public class BuildUpAction : PlayerBaseCardAction
 
 public class RockSpiritAction : GetBarrierAction
 {
+    Player Player;
+    CardData CardData;
     public RockSpiritAction(Card card) : base(card)
     {
     }
@@ -193,9 +199,13 @@ public class RockSpiritAction : GetBarrierAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+
+        Player = player;
+        CardData = cardData;
+
         yield return new WaitUntil(() => bit1 == true);
         yield return new WaitForSeconds(.03f);
-        //균열에서 빛이내려옴
+        
         player.PlayerEffectSystem.PlayEffect("RockSpirit_Effect", player.transform.position);
 
         //베리어
@@ -207,7 +217,15 @@ public class RockSpiritAction : GetBarrierAction
         skillPoint += cardData.Char_SkillPoint_Get;
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
 
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += GetBarrierEvent;
+
         yield return null;
         //베리어 2증가 스킬게이지 1 증가
+    }
+
+    void GetBarrierEvent(GameObject obj)
+    {
+        Player.AddBarrier(CardData.Barrier_Get);
+        Player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", Player.transform.position);
     }
 }

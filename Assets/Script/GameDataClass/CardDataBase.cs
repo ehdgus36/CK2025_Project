@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -100,7 +101,7 @@ public struct CardData
 
         if (Buff_Mute != 0) // 공격력 100% 다운
         {
-            return new AttackDamageDownBuff(BuffType.Start, Buff_Mute, 100);
+            return new AttackDamageDownBuff_Mute(BuffType.Start, Buff_Mute, 100);
         }
 
         if (Buff_BurnUp != 0) // 화상 도트 2 데미지
@@ -108,14 +109,14 @@ public struct CardData
             return new FireBuff(BuffType.Start, Buff_BurnUp, 2);
         }
 
-        if (Buff_BurnOut != 0)// 화상 도트 10 데미지
+        if (Buff_BurnOut != 0)// 화상 도트 12 데미지
         {
-            return new FireBuff(BuffType.Start, Buff_BurnOut, 10);
+            return new FireBuffBrunOut(BuffType.Start, Buff_BurnOut, 12);
         }
 
         if (Buff_Confusion != 0) // 리듬게임 반대로
         {
-            return new RhythmDebuff(BuffType.Start,Buff_Confusion);
+            return new RhythmDebuff(BuffType.End,Buff_Confusion);
         }
 
 
@@ -129,6 +130,15 @@ public struct CardData
         string result = DefaultCard_Des.Replace("@", currentDamage);
 
         return result;
+    }
+
+
+    public CardData Clone()
+    {
+        CardData copy = this; // 값 타입/문자열은 그대로 복사해도 OK
+        if (CardBuff != null)
+            copy.CardBuff = CardBuff.Clone(); // Buff는 깊은 복사
+        return copy;
     }
 
 }
@@ -188,7 +198,7 @@ public class CardDataBase
     }
 
 
-    public void AddValueDamage(int amount)
+    public void AddValueDamage(int amount , List<Card> ReflashCard)
     {
         List<string> keys = CommonCardDatas.Keys.ToList();
 
@@ -198,10 +208,18 @@ public class CardDataBase
 
             if (card.Attack_DMG > 0)
             {
-                card.Attack_DMG = Mathf.Clamp(card.Attack_DMG + amount, 0, 100);
+                card.Attack_DMG = card.Attack_DMG+ amount;
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
+                Debug.Log(card.Card_Des);
+                Debug.Log(card.Attack_DMG);
+
                 CommonCardDatas[keys[i]] = card;
             }
+        }
+
+        for (int i = 0; i < ReflashCard.Count; i++)
+        {
+            ReflashCard[i].ReflashCardData();
         }
     }
 

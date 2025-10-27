@@ -8,7 +8,7 @@ public class AttackDamageDownBuff : Buff
     float DownPercent = 20f;
     public AttackDamageDownBuff(BuffType type, int buffDurationTurn, int down_attack) : base(type, buffDurationTurn)
     {
-         
+         DownPercent = down_attack;
     }
 
     public override void BuffEndEvent(Unit unit)
@@ -33,7 +33,7 @@ public class AttackDamageDownBuff : Buff
 
         if (unit.GetComponent<Enemy>())
         {
-            Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.CurrentDamage * (DownPercent/100f));
+            Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.MaxDamage * (DownPercent/100f));
             unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
             Debug.Log("CuserBuffExcut :" + unit.GetComponent<Enemy>().EnemyData.CurrentDamage.ToString());
         }
@@ -56,5 +56,13 @@ public class AttackDamageDownBuff : Buff
         value = (T)Convert.ChangeType(damage, typeof(T));
 
         outobject = value;
+    }
+}
+
+
+public class AttackDamageDownBuff_Mute : AttackDamageDownBuff
+{
+    public AttackDamageDownBuff_Mute(BuffType type, int buffDurationTurn, int down_attack) : base(type, buffDurationTurn, down_attack)
+    {
     }
 }

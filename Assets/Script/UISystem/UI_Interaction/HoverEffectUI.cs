@@ -54,11 +54,11 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (card != null)
         {
-            //cardDescription.UpdateDescription(card.DescSprite); ±¸¹öÀü
-            cardDescription.UpdateDescription(card.cardData.Card_Name_KR, card.cardData.Card_Des, this.transform.position);
-            cardDescription.gameObject.SetActive(true);
             
-            //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_UI/Card_Mouse_UP");
+            cardDescription.UpdateDescription( this.transform.position , card.cardData);
+            cardDescription.SetActive(true);
+            
+            
         }
 
     }
@@ -78,7 +78,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
            HoverEffectCoroutine = StartCoroutine(HoverEffect(StartPos, StartScale));
 
             this.transform.SetSiblingIndex(layerind);
-            cardDescription.gameObject.SetActive(false);
+            cardDescription.SetActive(false);
         }
 
        

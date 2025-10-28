@@ -72,7 +72,7 @@ public class RhythmInput : MonoBehaviour
 
         if (currentBeat == NoteData.Length)
         {
-            SuccessNoteEvent = null;
+           
             IsEnd = true;
             return;
         }

@@ -133,6 +133,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     public void addHP(int HP)
     {
+        Debug.Log("리듬게임 회복" + HP);
         UnitData.CurrentHp += HP;
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);   
     }

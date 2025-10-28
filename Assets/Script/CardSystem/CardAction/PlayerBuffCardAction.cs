@@ -62,19 +62,25 @@ public class FireStrokeAction : PlayerBaseCardAction
 
 public class CursedShieldAction : GetBarrierAction
 {
+    CardData data;
+    Player Player;
+
     public CursedShieldAction(Card card) : base(card)
     {
     }
 
-    //희귀_전체 버즈 + 베리어 1 증가_1레벨 버즈 : 적의 공격력이 20% 약화됩니다.
+    //기타로 불길한 보호막을 만들어 리듬 게임 성공 시 베리어 1을 추가로 획득하고 적 전체에게 버즈 1턴을 적용합니다.
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+        Player = player;
+        data = cardData;
+
+
         yield return new WaitUntil(() => bit1 == true);
         yield return new WaitForSeconds(.03f);
-        GetBarrier(player, cardData, false);
-        player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", player.transform.position);
+        
 
         // 적에게 디버프 주는 기능만들기
         List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
@@ -88,6 +94,12 @@ public class CursedShieldAction : GetBarrierAction
             //이펙트 발생 시키기
         }
         yield return null;
+    }
+
+    void GetBarrier()
+    {
+        GetBarrier(Player, data, false);
+        Player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", Player.transform.position);
     }
 }
 

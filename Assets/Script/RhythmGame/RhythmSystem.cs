@@ -106,6 +106,8 @@ public class RhythmSystem : MonoBehaviour
         rhythmInput.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(.2f);
+
+        rhythmInput.SuccessNoteEvent = null;
         IsEndGame = true;
        
     }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class AttackDamageDownBuff : Buff
 {
     int Down_Attack = 0;
-    float DownPercent = 20f;
-    public AttackDamageDownBuff(BuffType type, int buffDurationTurn, int down_attack) : base(type, buffDurationTurn)
+    float DownPercent = 0;
+    public AttackDamageDownBuff(BuffType type, int buffDurationTurn, float down_attack) : base(type, buffDurationTurn)
     {
          DownPercent = down_attack;
     }
@@ -28,12 +28,12 @@ public class AttackDamageDownBuff : Buff
 
     public override void BuffEvent(Unit unit)
     {
-        DownPercent = 20f + GameManager.instance.ItemDataLoader.EnDf_Down;
-
+       
+        float downPercent = DownPercent + GameManager.instance.ItemDataLoader.EnDf_Down;
 
         if (unit.GetComponent<Enemy>())
         {
-            Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.MaxDamage * (DownPercent/100f));
+            Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.MaxDamage * (downPercent / 100f));
             unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
             Debug.Log("CuserBuffExcut :" + unit.GetComponent<Enemy>().EnemyData.CurrentDamage.ToString());
         }
@@ -48,8 +48,9 @@ public class AttackDamageDownBuff : Buff
     {
         int damage = Convert.ToInt32(value);
 
-        DownPercent = 20f + GameManager.instance.ItemDataLoader.EnDf_Down;
-        Down_Attack = (int)((float)damage * (DownPercent / 100f));
+        float downPercent = DownPercent + GameManager.instance.ItemDataLoader.EnDf_Down;
+
+        Down_Attack = (int)((float)damage * (downPercent / 100f));
 
         damage -= Down_Attack;
 

@@ -95,7 +95,7 @@ public class VolumeShieldAction : GetBarrierAction
 public class SoftEchoAction : PlayerBaseCardAction
 {
     Player Player;
-    CardData data;
+    int HP_Recover;
     public SoftEchoAction(Card card) : base(card)
     {
     }
@@ -104,7 +104,7 @@ public class SoftEchoAction : PlayerBaseCardAction
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
         Player = player;
-        data = cardData;
+        HP_Recover = cardData.HP_Recover;
         yield return new WaitUntil(() => bit3 == true);
         //이펙트
 
@@ -118,8 +118,9 @@ public class SoftEchoAction : PlayerBaseCardAction
 
     void NoteEvent(GameObject gameobject)
     {
+        Debug.Log("리듬게임 회복 소프트 에코: " + HP_Recover);
         Player.PlayerEffectSystem.PlayEffect("Tuning_Effect", Player.transform.position);
-        Player.addHP(data.HP_Recover);
+        Player.addHP(HP_Recover);
     }
 }
 

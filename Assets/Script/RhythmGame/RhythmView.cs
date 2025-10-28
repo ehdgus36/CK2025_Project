@@ -9,7 +9,7 @@ using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class RhythmView : MonoBehaviour
 {
-    [SerializeField] public string NoteData;
+    [SerializeField] public string NoteData { get; set; }
     [SerializeField] Image[] ViewNote;
     
    

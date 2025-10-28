@@ -162,7 +162,7 @@ public class Card : MonoBehaviour
         if ("C3052" == cardID) { CardAction = new BlessingofRockAction(this); }
         if ("C3061" == cardID) { CardAction = new SoulShoutingAction(this); }
         if ("C3062" == cardID) { CardAction = new SoulShoutingAction(this); }
-        if ("SKILL" == cardID) { CardAction = new SkillAction(this); }
+       
     }
 
     public virtual void TargetExcute(Enemy Target, Card nextCard = null)

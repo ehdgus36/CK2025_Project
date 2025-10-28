@@ -61,6 +61,8 @@ public class Card : MonoBehaviour
         {
             Debug.LogError("카드데이터를 불러오지못했습니다. CardID를 확인해주세요. 혹은 저장된 값이 없습니다 " + this.gameObject.name);
         }
+
+        CardActionInitialized(cardData.Card_ID);
     }
 
     public void ReflashCardData()

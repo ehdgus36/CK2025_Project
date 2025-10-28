@@ -84,9 +84,10 @@ public class UnitAnimationSystem : MonoBehaviour
 
 
                 if (notEmpty == false) // 애니메이션이 종료하면 자동적으로 idle 애니메이션으로 돌아감
-                    track.End += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
+                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
                 
-                track.End += CompleteDelegate;
+                track.Complete += CompleteDelegate;
+                track.Interrupt += CompleteDelegate;
                 track.Event += eventDelegate;
                 
             }
@@ -97,9 +98,10 @@ public class UnitAnimationSystem : MonoBehaviour
                 track.TimeScale = TimeScale;
 
                 if (notEmpty == false)
-                    track.End += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
+                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
 
-                track.End += CompleteDelegate;
+                track.Complete += CompleteDelegate;
+                track.Interrupt += CompleteDelegate;
                 track.Event += eventDelegate;
             }
         }

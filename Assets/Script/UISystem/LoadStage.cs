@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 
 public enum StageState
-{ 
-    LOCK, ClEAR , NULOCK
+{
+    LOCK, ClEAR, NULOCK
 }
+
+
 public class LoadStage : MonoBehaviour
 {
 
@@ -21,28 +23,36 @@ public class LoadStage : MonoBehaviour
 
     [SerializeField] public StageState state = StageState.LOCK;
 
+
+
+
     public void SetUP()
     {
         if (state == StageState.ClEAR)
         {
-            ClearMark.SetActive(true);
+            if (ClearMark != null)
+                ClearMark?.SetActive(true);
             this.GetComponent<Button>().interactable = false;
             if (Pass != null)
             {
-                Pass.AddPassButtonEvent();
+                Pass?.AddPassButtonEvent();
             }
         }
+
+        this.GetComponent<Button>().onClick.AddListener(IntoStage);
 
         if (state == StageState.NULOCK) this.GetComponent<Button>().interactable = true;
 
         if (state == StageState.LOCK) this.GetComponent<Button>().interactable = false;
+
+
     }
 
 
     public void IntoStage()
     {
         pick.transform.position = this.transform.position;
-        
+
 
         state = StageState.ClEAR;
 
@@ -55,10 +65,10 @@ public class LoadStage : MonoBehaviour
         {
             NextStage.state = StageState.NULOCK;
             NextStage.GetComponent<Button>().interactable = true;
-            
+
             this.GetComponent<Button>().interactable = false;
         }
-      
+
         mapSystem.Save();
 
         FindFirstObjectByType<LoadingScreen>().LoadScene(LoadSceneName);

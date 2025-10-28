@@ -101,7 +101,7 @@ public class CardDescription : MonoBehaviour
             BuffEx.gameObject.SetActive (false);
             BuffEx2.gameObject.SetActive(false);
 
-            delayTime = .05f;
+            delayTime = .02f;
             coroutine = StartCoroutine("DisableGameObjectDelay");
         }
     }

@@ -25,10 +25,10 @@ public class CardUpGradeView : MonoBehaviour
         Name.text = cardData.Card_Name_KR;
 
         StringBuilder stringBuilder = new StringBuilder(cardData.Card_ID);
-
+        stringBuilder[stringBuilder.Length - 1] = '2';
 
         CurrentCardDesc.text = cardData.Card_Des;
-        UpGradeCardDesc.text = cardData.Card_Des;
+        UpGradeCardDesc.text = UpGradeCardData.Card_Des;
 
         UpGradeButton.onClick.RemoveAllListeners();
         UpGradeButton.onClick.AddListener(() => { ButtonEvent.Invoke(); });

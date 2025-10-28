@@ -427,3 +427,21 @@ public class SoulShoutingAction : MultiAttackAction
 
     }
 }
+
+
+public class SkillAction : MultiAttackAction
+{
+    public SkillAction(Card card) : base(card)
+    {
+    }
+
+
+    public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
+    {
+        yield return new WaitForSeconds(1);
+        //¿Ã∆Â∆Æ √ﬂ∞°
+        yield return MultiAttack(cardData, Target, 1);
+        card.transform.parent.gameObject.SetActive(false);
+
+    }
+}

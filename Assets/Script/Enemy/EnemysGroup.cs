@@ -50,6 +50,9 @@ public class EnemysGroup : Unit
         
         Enemys.Remove(thisEnemy);
 
+        thisEnemy.enabled = false;
+
+        thisEnemy.AIMachine.enabled = false;
         if (Enemys.Count == 0)
         {
             GameManager.instance.GameClearFun();
@@ -71,7 +74,7 @@ public class EnemysGroup : Unit
         {
             Enemys[i].StartTurn();
             yield return new WaitUntil(() => Enemys[i].isAttackEnd == true);
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.1f);
         }
 
         yield return new WaitForSeconds(.5f);

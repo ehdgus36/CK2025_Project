@@ -37,7 +37,7 @@ public class EnemyAttackState : BaseAIState
         
         Enemy enemy = (Enemy)unit;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(.5f);
 
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {

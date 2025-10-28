@@ -12,6 +12,11 @@ public class UnitAIMachine : MonoBehaviour
     [SerializeReference]public UnitAIBehavior aIBehavior;
     Coroutine CurrentCoroutine;
 
+    void OnDisable()
+    {
+        StopCorutinExcut();
+    }
+
 
     public void StartAI(Unit controll_unit)
     {

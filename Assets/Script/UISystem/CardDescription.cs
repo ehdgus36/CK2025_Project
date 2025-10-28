@@ -11,6 +11,12 @@ public class CardDescription : MonoBehaviour
     [SerializeField] TextMeshProUGUI Desc;
     [SerializeField] TextMeshProUGUI DescSub;
     [SerializeField] TextMeshProUGUI Grade_Point;
+
+    [SerializeField] TextMeshProUGUI BuffEx;
+    [SerializeField] TextMeshProUGUI BuffEx2;
+
+
+
     [SerializeField] Image DescImage;
 
     [SerializeField] Sprite Attack;
@@ -40,6 +46,26 @@ public class CardDescription : MonoBehaviour
         {
             selectLD = LD_Attack;
         }
+
+        BuffEx.gameObject.SetActive(true);
+        BuffEx2.gameObject.SetActive(true);
+
+
+        BuffEx.text = "";
+        BuffEx2.text = "";
+
+        if (cardData.Buff_Ex1 != "0")
+        { 
+            BuffEx.text = cardData.Buff_Ex1;
+        }
+        
+
+        if (cardData.Buff_Ex2 != "0")
+        {
+            BuffEx2.text = cardData.Buff_Ex1;
+        }
+
+
 
         selectLD.gameObject.SetActive(true);
         selectLD.AnimationState.SetAnimation(0, "idle", true);
@@ -72,6 +98,9 @@ public class CardDescription : MonoBehaviour
         if (isactive == false)
         {
             CardName.gameObject.transform.parent.gameObject.SetActive(false);
+            BuffEx.gameObject.SetActive (false);
+            BuffEx2.gameObject.SetActive(false);
+
             delayTime = .05f;
             coroutine = StartCoroutine("DisableGameObjectDelay");
         }

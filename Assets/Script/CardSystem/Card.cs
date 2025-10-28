@@ -44,7 +44,7 @@ public class Card : MonoBehaviour
 
     int DiscardCnt = 0; //¾îºô¸®Æ¼ ¹ö¸°Ä«µå °¹¼ö
 
-    PlayerBaseCardAction CardAction;
+    protected PlayerBaseCardAction CardAction;
 
     public virtual void Initialized(SlotGroup slotGroup)
     {
@@ -162,6 +162,7 @@ public class Card : MonoBehaviour
         if ("C3052" == cardID) { CardAction = new BlessingofRockAction(this); }
         if ("C3061" == cardID) { CardAction = new SoulShoutingAction(this); }
         if ("C3062" == cardID) { CardAction = new SoulShoutingAction(this); }
+        if ("SKILL" == cardID) { CardAction = new SkillAction(this); }
     }
 
     public virtual void TargetExcute(Enemy Target, Card nextCard = null)

@@ -127,7 +127,7 @@ public class RhythmSystem : MonoBehaviour
         GameDataSystem.StaticGameDataSchema.NOTE_DATA_BASE.SearchData(NoteIDs[Random.Range(0, NoteIDs.Count)], out loadData);
 
 
-        return ((NoteData)loadData).NoteCode.Substring(1); ;
+        return "0"+((NoteData)loadData).NoteCode.Substring(1); ;
     }
 
     public void ResetEvent()

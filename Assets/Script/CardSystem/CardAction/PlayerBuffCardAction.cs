@@ -158,12 +158,35 @@ public class STFUAction : SingleAttackAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-        yield return new WaitUntil(() => bit2 == true);
+        yield return new WaitUntil(() => bit1 == true);
         //음파 날아가기
 
+        player.PlayerEffectSystem.PlayEffect("STFU_Charge_Effect",player.transform.position);
 
-        yield return new WaitUntil(() => bit3 == true);
+        yield return new WaitUntil(() => bit2 == true);
+
+        yield return new WaitForSeconds(.1f);
+
+        GameObject Effect = player.PlayerEffectSystem.EffectObject("STFU_Shoot_Effect", player.transform.position);
+
+
+        float T = 0;
+       
+
+        for (int i = 0; i < 20; i++)
+        {
+            Effect.transform.position = Vector3.Lerp(GameManager.instance.Player.transform.position, Target.transform.position +new Vector3(0,0.8f,0), T);
+            T += 0.05f;
+            yield return new WaitForSeconds(0.01f);
+        }
+
+       
         yield return SingleAttack(cardData, Target, int.Parse( cardData.Attack_Count));
+
+
+        yield return new WaitUntil(() => bit4 == true);
+        player.PlayerEffectSystem.StopEffect("STFU_Shoot_Effect");
+        player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);
         Target.AddBuff(cardData.CardBuff);
     }
 }

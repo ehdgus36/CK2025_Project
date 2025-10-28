@@ -166,12 +166,14 @@ public class ExcutSelectCardSystem : MonoBehaviour
                     //마나가 사용가능하고, 예약이 가능한 상황일때
                     if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
                     {
-
                         // 큐에 예약 데이터 넣기
                         ArrowUIObject.SetActive(false);
-                        //CardExcutEvent();
 
+                    }
 
+                    if (_SelectCard.GetComponent<SkillCard>() == true)
+                    {
+                        ReservedCard(_SelectCard, _TargetEnemy);
                     }
                 }
             }
@@ -196,13 +198,10 @@ public class ExcutSelectCardSystem : MonoBehaviour
     {
         if (selecCard.GetComponent<SkillCard>() == true)
         {
-
             //카드 사용
             selecCard.TargetExcute(enemy);
 
             isTargeting = false;
-
-
         }
         else
         {

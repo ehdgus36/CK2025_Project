@@ -4,8 +4,14 @@ public class StickerItem : Item
 {
     protected override void Initialized()
     {
-        ItemType = "strap";
-        ItemName = "스트링";
-        ItemDesc = "설명설명";
+
+        object data = null;
+
+        GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
+        StickerItemData stickerItemData= (StickerItemData)data;
+        
+        ItemType = "string";
+        ItemName = stickerItemData.ItemNameKR;
+        ItemDesc = stickerItemData.ItemDes;
     }
 }

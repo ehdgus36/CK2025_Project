@@ -182,7 +182,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
             AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData); 
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA, "1-1");
-            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,5);
+            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,7);
 
             AddDynamicDataBase("MapSave", "");
 

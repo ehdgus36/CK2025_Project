@@ -54,6 +54,11 @@ public class UnitAnimationSystem : MonoBehaviour
                               TrackEntryEventDelegate eventDelegate = null , 
                               TrackEntryDelegate CompleteDelegate = null, bool notEmpty = false , float TimeScale = 1.0f)
     {
+
+
+
+        
+
         if (loop)
         {
             if (AnimationDatas.ContainsKey(animeKey))
@@ -79,9 +84,9 @@ public class UnitAnimationSystem : MonoBehaviour
 
 
                 if (notEmpty == false) // 애니메이션이 종료하면 자동적으로 idle 애니메이션으로 돌아감
-                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
+                    track.End += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
                 
-                track.Complete += CompleteDelegate;
+                track.End += CompleteDelegate;
                 track.Event += eventDelegate;
                 
             }
@@ -92,9 +97,9 @@ public class UnitAnimationSystem : MonoBehaviour
                 track.TimeScale = TimeScale;
 
                 if (notEmpty == false)
-                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
+                    track.End += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
 
-                track.Complete += CompleteDelegate;
+                track.End += CompleteDelegate;
                 track.Event += eventDelegate;
             }
         }

@@ -19,21 +19,22 @@ public class DistortionAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+      
         yield return new WaitUntil(() => bit2 == true);
-        //음파 날아가기
 
+        yield return new WaitForSeconds(.1f);
 
+        GameObject Effect = player.PlayerEffectSystem.EffectObject("Distortion_Effect", player.transform.position);
 
-        yield return new WaitUntil(()=> bit3 == true);
 
         float T = 0;
-        GameObject ball = new GameObject();
+
 
         for (int i = 0; i < 20; i++)
         {
-            ball.transform.position = Vector3.Lerp(GameManager.instance.Player.transform.position, Target.transform.position , T);
+            Effect.transform.position = Vector3.Lerp(GameManager.instance.Player.transform.position, Target.transform.position + new Vector3(0, 0.8f, 0), T);
             T += 0.05f;
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.01f);
         }
         yield return new WaitUntil(() => bit4 == true);
         Target.AddBuff(cardData.CardBuff);

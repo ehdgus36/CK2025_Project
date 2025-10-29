@@ -34,10 +34,14 @@ public class DistortionAction : PlayerBaseCardAction
         {
             Effect.transform.position = Vector3.Lerp(GameManager.instance.Player.transform.position, Target.transform.position + new Vector3(0, 0.8f, 0), T);
             T += 0.05f;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.012f);
         }
-        yield return new WaitUntil(() => bit4 == true);
+
+        player.PlayerEffectSystem.StopEffect("Distortion_Effect");
         Target.AddBuff(cardData.CardBuff);
+        yield return new WaitUntil(() => bit4 == true);
+
+       
     }
 }
 
@@ -78,6 +82,7 @@ public class CursedShieldAction : GetBarrierAction
         Player = player;
         data = cardData;
 
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += GetBarrier;
 
         yield return new WaitUntil(() => bit1 == true);
         yield return new WaitForSeconds(.03f);
@@ -97,7 +102,7 @@ public class CursedShieldAction : GetBarrierAction
         yield return null;
     }
 
-    void GetBarrier()
+    void GetBarrier(GameObject obj)
     {
         GetBarrier(Player, data, false);
         Player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", Player.transform.position);
@@ -145,6 +150,14 @@ public class EncoreAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+
+        yield return new WaitUntil(() => bit2 == true);
+        //체력게이지 감소
+        Target.EnemyData.CurrentSkillPoint = 0;
+        Target.GetEnemyStatus.UpdateStatus();
+
+        Target.AddBuff(cardData.CardBuff);
+
         yield return null;
     }
 }

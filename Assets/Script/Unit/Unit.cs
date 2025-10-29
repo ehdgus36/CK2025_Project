@@ -31,7 +31,7 @@ public class UnitData
         }
     }
 
-   public List<Buff> buffs = new List<Buff>();
+  [SerializeReference] public List<Buff> buffs = new List<Buff>();
 
 
 
@@ -111,6 +111,8 @@ public class Unit : MonoBehaviour
         {
             if (buff.GetType() == typeof(FireBuff))
             {
+
+                Debug.Log("µà" );
                 buff = new FireBuffBrunOut(BuffType.Start, buff.GetBuffDurationTurn(), 12); //¹ø¾Æ¿ô
             }
         }
@@ -175,8 +177,20 @@ public class Unit : MonoBehaviour
                 if (UnitData.buffs[i].GetBuffType() == type)
                 {
                     UnitData.buffs[i].StartBuff(this);
+                   
                 }
             }
         }
+
+
+        for (int i = 0; i < UnitData.buffs.Count; i++)
+        {
+            if (UnitData.buffs[i].GetBuffDurationTurn() == 0)
+            {
+                RemoveBuff(UnitData.buffs[i]);  
+            }
+        }
+
+
     }
 }

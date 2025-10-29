@@ -523,6 +523,7 @@ GameObject:
   - component: {fileID: 8111057056240561850}
   - component: {fileID: 5489757240584111218}
   - component: {fileID: 2800269777173804505}
+  - component: {fileID: 9100984332923802674}
   m_Layer: 0
   m_Name: Enemy(spray)
   m_TagString: Untagged
@@ -686,6 +687,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EffectData: {fileID: 11400000, guid: a54c277876051774380d66d46ff7b825, type: 2}
+--- !u!114 &9100984332923802674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5041727114411113717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c75a8bd7ee70346906ccb8a2dc3631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aIBehavior:
+    rid: 2090276720843423836
+  references:
+    version: 2
+    RefIds:
+    - rid: 2090276720843423836
+      type: {class: EnemyAI_Spray_Behavior, ns: , asm: Assembly-CSharp}
+      data:
+        EnemyDefaultAttackState:
+          rid: 2090276720843423837
+        EnemySkillState:
+          rid: 2090276720843423838
+    - rid: 2090276720843423837
+      type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
+      data:
+        _AttackCount: 1
+    - rid: 2090276720843423838
+      type: {class: EnemySkill_AttackRecoverHP_State, ns: , asm: Assembly-CSharp}
+      data:
+        _AttackCount: 1
 --- !u!1 &6133296206101629675
 GameObject:
   m_ObjectHideFlags: 0

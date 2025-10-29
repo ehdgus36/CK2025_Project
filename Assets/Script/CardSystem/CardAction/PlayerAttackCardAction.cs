@@ -161,6 +161,8 @@ public class PowerBreakAction : SingleAttackAction
 
 public class SoloAction : SingleAttackAction
 {
+    Card Card;
+
     public SoloAction(Card card) : base(card)
     {
     }
@@ -182,6 +184,7 @@ public class SoloAction : SingleAttackAction
            return Vector3.Lerp(M0, M1, t);
        };
 
+        Card = card;
 
         yield return new WaitUntil(() => bit1 == true);
 
@@ -204,20 +207,23 @@ public class SoloAction : SingleAttackAction
         yield return SingleAttack(cardData, Target, SingleAttackCount); // 단일 데미지
         player.PlayerEffectSystem.StopEffect("Solo_Effect");
         yield return new WaitUntil(() => bit3 == true);
-    
+    }
+
+    protected override void CompleteEvent(TrackEntry entry)
+    {
+        base.CompleteEvent(entry);
 
         List<Card> changeCard = new List<Card>();
-        changeCard.AddRange(card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021").ToList());
+        changeCard.AddRange(Card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021").ToList());
         changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C1021").ToList());
         changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C1021").ToList());
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
 
-        
+
         for (int i = 0; i < changeCard.Count; i++)
         {
             changeCard[i].Initialized("C2021");
         }
-
     }
 }
 

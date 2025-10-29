@@ -82,6 +82,7 @@ public class Card : MonoBehaviour
     public virtual void Initialized(string cardID)
     {
         if (cardID == "" || cardID == null) return;
+
         object data = null;
         if (StaticGameDataSchema.CARD_DATA_BASE.SearchData(cardID, out data))
         {
@@ -108,7 +109,7 @@ public class Card : MonoBehaviour
             cardImage.material = instanceMaterial;
         }
 
-        this.CardID = cardID;
+        this.CardID = cardData.Card_ID;
 
         this.gameObject.name = cardData.Card_Name_EN;
 

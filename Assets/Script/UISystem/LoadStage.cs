@@ -71,6 +71,7 @@ public class LoadStage : MonoBehaviour
 
         mapSystem.Save();
 
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STAGE_DATA, LoadSceneName);
         FindFirstObjectByType<LoadingScreen>().LoadScene(LoadSceneName);
     }
 }

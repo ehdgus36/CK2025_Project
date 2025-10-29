@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Spine;
 using Spine.Unity;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class CardDescription : MonoBehaviour
 {
@@ -83,6 +84,11 @@ public class CardDescription : MonoBehaviour
             delayTime = .5f;
             StartCoroutine("DisableGameObjectDelay");
         }
+    }
+
+    public void DesctiptionActiveFalse()
+    {
+        CardName.gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     public void SetActive(bool isactive)

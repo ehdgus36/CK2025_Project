@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 8700399897613852978}
   - component: {fileID: 4908549894621680679}
   - component: {fileID: 6286667438183368350}
+  - component: {fileID: 7703231295669306024}
   m_Layer: 0
   m_Name: Enemy(HAM)
   m_TagString: Untagged
@@ -156,14 +157,16 @@ MonoBehaviour:
     MaxHp: 0
     _CurrentHp: 0
     _CurrentBarrier: 0
+    buffs: []
   IsTurn: 0
   EnemyData:
-    Enemy_ID: 
+    Enemy_ID: E09
     EnemyUnitData:
       DataKey: 
       MaxHp: 30
       _CurrentHp: 30
       _CurrentBarrier: 0
+      buffs: []
     MaxSkillPoint: 3
     CurrentSkillPoint: 0
     MaxDamage: 12
@@ -175,8 +178,10 @@ MonoBehaviour:
   fontSystem: {fileID: 892562812593443499}
   EffectSystem: {fileID: 6286667438183368350}
   AttackOffset: {x: 2, y: 0, z: 0}
-  isAttackEnd: 0
   isBarbedArmor: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6135198691607871850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +282,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EffectData: {fileID: 11400000, guid: a54c277876051774380d66d46ff7b825, type: 2}
+--- !u!114 &7703231295669306024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855259653646893483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c75a8bd7ee70346906ccb8a2dc3631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aIBehavior:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &2351000951852897079
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,7 +776,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3ae56f39106f4d744a1ae805391741b8, type: 2}
+  - {fileID: 2100000, guid: 0c53ccf9acbe5b947a6c8fd56d129e13, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

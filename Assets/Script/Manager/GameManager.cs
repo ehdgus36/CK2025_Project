@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         get
         {
             if (_EnemysGroup.Enemys.Count == 0)
-                Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
+                Debug.Log("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
 
             return _EnemysGroup;
         }

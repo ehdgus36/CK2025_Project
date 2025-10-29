@@ -13,7 +13,7 @@ public class StringItem : Item
         Sprite cardSprite = Resources.Load<Sprite>(Path);
 
         GetComponent<Image>().sprite = cardSprite;
-
+       
         ItemType = "string";
         ItemName = stringItemData.ItemNameKR;
         ItemDesc = stringItemData.ItemDes;

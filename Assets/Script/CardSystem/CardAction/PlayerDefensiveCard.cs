@@ -51,7 +51,8 @@ public class GetBarrierAction : PlayerBaseCardAction
 
         yield return new WaitUntil(() => bit1 == true);
         yield return new WaitForSeconds(.03f);
-        GetBarrier(player, cardData);
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
+
         yield break;
     }
 
@@ -186,6 +187,7 @@ public class BuildUpAction : PlayerBaseCardAction
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA,out skill_Point);
 
         skill_Point += datas.Char_SkillPoint_Get;
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA,skill_Point);
     }
 }
 
@@ -210,7 +212,7 @@ public class RockSpiritAction : GetBarrierAction
         player.PlayerEffectSystem.PlayEffect("RockSpirit_Effect", player.transform.position);
 
         //베리어
-        player.AddBarrier(cardData.Barrier_Get);
+       
 
         //스킬 포인트 증가
         int skillPoint = 0;

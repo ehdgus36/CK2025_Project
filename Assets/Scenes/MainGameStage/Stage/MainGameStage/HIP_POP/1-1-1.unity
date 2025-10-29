@@ -299,6 +299,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GamePlayObject_Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3671949341453160919, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671949341453160919, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671949341453160919, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4248986046015053026, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -343,6 +355,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6838378111800146424, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838378111800146424, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -382,11 +402,15 @@ MonoBehaviour:
     MaxHp: 0
     _CurrentHp: 0
     _CurrentBarrier: 0
+    buffs: []
   IsTurn: 0
   _Enemys:
   - {fileID: 427874123}
   - {fileID: 1969183977}
   RhythmGameSystem: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &415572266
 Transform:
   m_ObjectHideFlags: 0
@@ -495,6 +519,10 @@ PrefabInstance:
     - target: {fileID: 2162571970420113203, guid: b3eea7e865ae7bb48b067aa57f055dec, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3520374069274065194, guid: b3eea7e865ae7bb48b067aa57f055dec, type: 3}
+      propertyPath: EnemyData.Enemy_ID
+      value: E03
       objectReference: {fileID: 0}
     - target: {fileID: 3983226994375443056, guid: b3eea7e865ae7bb48b067aa57f055dec, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1328,6 +1356,10 @@ PrefabInstance:
     - target: {fileID: 723133049907768153, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: EnemyData.Enemy_ID
+      value: E04
       objectReference: {fileID: 0}
     - target: {fileID: 1447817334644898827, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_AnchorMax.y

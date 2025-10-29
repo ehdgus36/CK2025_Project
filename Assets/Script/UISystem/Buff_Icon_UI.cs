@@ -38,14 +38,14 @@ public class Buff_Icon_UI : MonoBehaviour
             switch (buffs[i])
             {
                 case FireBuffBrunOut F: // »¡
-                    Debug.Log("UI°»½Å");
+                   
                     BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[0].text = buffTurn;
                     if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
 
                 case FireBuff F: // »¡
-                    Debug.Log("UI°»½Å");
+                    
                     BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[1].text = buffTurn;
                     if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);

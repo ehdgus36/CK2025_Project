@@ -818,11 +818,15 @@ MonoBehaviour:
     MaxHp: 0
     _CurrentHp: 0
     _CurrentBarrier: 0
+    buffs: []
   IsTurn: 0
   _Enemys:
   - {fileID: 485065846}
   - {fileID: 1969183970}
   RhythmGameSystem: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &415572266
 Transform:
   m_ObjectHideFlags: 0
@@ -1405,6 +1409,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4961797382784285970, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
+      propertyPath: EnemyData.Enemy_ID
+      value: E05
+      objectReference: {fileID: 0}
     - target: {fileID: 5028334423544583191, guid: 2147a19da1ea9464b94d61d756e155eb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1764,6 +1772,10 @@ PrefabInstance:
     - target: {fileID: 723133049907768153, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: EnemyData.Enemy_ID
+      value: E06
       objectReference: {fileID: 0}
     - target: {fileID: 1447817334644898827, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_AnchorMax.y

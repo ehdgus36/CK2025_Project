@@ -18,7 +18,7 @@ public struct EnemyTableData
     public readonly string Skill1;
     public readonly string Skill2;
 
-    EnemyAIBehavior EnemyAI;
+    public EnemyAIBehavior EnemyAI;
 
     public EnemyTableData(Dictionary<string, object> data)
     {
@@ -31,8 +31,8 @@ public struct EnemyTableData
 
         Damage = (int)data["Damage"];
 
-        Skill1 = data["Enemy_ID"].ToString();
-        Skill2 = data["Enemy_ID"].ToString();
+        Skill1 = data["Skill1"].ToString();
+        Skill2 = data["Skill2"].ToString();
         EnemyAI = null;
         EnemyAI = GetAI();
     }
@@ -42,8 +42,10 @@ public struct EnemyTableData
         BaseAIState Skill1_State = null;
         BaseAIState Skill2_State = null;
 
+        Debug.Log(Skill1);
         switch (Skill1)
         {
+
             case "DoubleAttack":
                 Skill1_State = new EnemySkill_MultiAttack_State(2);
                 break;
@@ -74,8 +76,8 @@ public struct EnemyTableData
                 Skill1_State = new EnemySkill_DackAttack_State();
                 break;
         }
-
-        switch (Skill1)
+        Debug.Log(Skill2);
+        switch (Skill2)
         {
             case "DoubleAttack":
                 Skill2_State = new EnemySkill_MultiAttack_State(2);
@@ -114,10 +116,10 @@ public struct EnemyTableData
             {
                 return new EnemyAI_CustomSkill2_Behavior(Skill1_State, Skill2_State);
             }
-            else
-            {
-                return new EnemyAI_Custom_Behavior(Skill1_State);
-            }
+            
+            
+            return new EnemyAI_Custom_Behavior(Skill1_State);
+            
         }
 
 

@@ -185,7 +185,7 @@ public class Unit : MonoBehaviour
 
         for (int i = 0; i < UnitData.buffs.Count; i++)
         {
-            if (UnitData.buffs[i].GetBuffDurationTurn() == 0)
+            if (UnitData.buffs[i].GetBuffDurationTurn() <= 0)
             {
                 RemoveBuff(UnitData.buffs[i]);  
             }

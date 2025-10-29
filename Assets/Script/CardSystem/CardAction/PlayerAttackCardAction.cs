@@ -451,3 +451,41 @@ public class SkillAction : MultiAttackAction
 
     }
 }
+
+public class Skill2Action : MultiAttackAction
+{
+    public Skill2Action(Card card) : base(card)
+    {
+    }
+
+
+    public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
+    {
+        yield return new WaitForSeconds(1);
+        //¿Ã∆Â∆Æ √ﬂ∞°
+        yield return MultiAttack(cardData, Target, 1);
+        card.transform.parent.gameObject.SetActive(false);
+
+    }
+}
+
+
+public class Skill3Action : MultiAttackAction
+{
+    public Skill3Action(Card card) : base(card)
+    {
+    }
+
+
+    public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
+    {
+        yield return new WaitForSeconds(1);
+        //¿Ã∆Â∆Æ √ﬂ∞°
+        player.addHP(cardData.HP_Recover);
+        player.PlayerEffectSystem.PlayEffect("Tuning_Effect", player.transform.position);
+
+        yield return MultiAttack(cardData, Target, 1);
+        card.transform.parent.gameObject.SetActive(false);
+
+    }
+}

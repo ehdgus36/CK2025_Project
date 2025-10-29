@@ -1,5 +1,7 @@
 
+using FMODUnity;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,7 +12,7 @@ public enum StageState
 }
 
 
-public class LoadStage : MonoBehaviour
+public class LoadStage : MonoBehaviour,IPointerEnterHandler, IPointerDownHandler
 {
 
     [SerializeField] string LoadSceneName;
@@ -23,7 +25,21 @@ public class LoadStage : MonoBehaviour
 
     [SerializeField] public StageState state = StageState.LOCK;
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (this.GetComponent<Button>().interactable == true)
+        {
+            RuntimeManager.PlayOneShot("event:/UI/WorldMap/WorldMap_Click");
+        }
+    }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (this.GetComponent<Button>().interactable == true)
+        {
+            RuntimeManager.PlayOneShot("event:/UI/WorldMap/WorldMap_Over");
+        }
+    }
 
 
     public void SetUP()

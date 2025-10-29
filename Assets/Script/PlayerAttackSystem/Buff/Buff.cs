@@ -18,7 +18,7 @@ public abstract class Buff
 
 
 
-    [SerializeField] protected int BuffDurationTurn { get; private set; }
+    [SerializeField] protected int BuffDurationTurn { get; set; }
     [SerializeField] protected BuffState State = BuffState.Disable;
 
     
@@ -58,8 +58,7 @@ public abstract class Buff
         BuffEvent(unit);
         BuffDurationTurn--;
 
-        //if (BuffDurationTurn <= 0)
-        //    unit.RemoveBuff(this);
+       
     }
 
     public abstract void BuffEvent(Unit unit); // 버프가 작용할 때 이벤트
@@ -74,7 +73,7 @@ public abstract class Buff
         BuffDurationTurn += addCount;
     }
 
-    //public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
+    
     public virtual Buff Clone()
     {
         return (Buff)this.MemberwiseClone();

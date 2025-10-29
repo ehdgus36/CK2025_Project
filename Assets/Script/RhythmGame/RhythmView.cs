@@ -62,7 +62,7 @@ public class RhythmView : MonoBehaviour
         {
             startObject.SetActive(true);
             currentBeat++;
-            RuntimeManager.PlayOneShot("event:/UI/Turn_End");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Go");
             return;
         }
 
@@ -76,7 +76,7 @@ public class RhythmView : MonoBehaviour
                 GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.5f);
 
             }
-            RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Left");
             noteIndex++;
         }
 
@@ -88,7 +88,7 @@ public class RhythmView : MonoBehaviour
             {
                 GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
             }
-            RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Right");
             noteIndex++;
         }
         currentBeat++;

@@ -206,6 +206,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         else
         {
             GameManager.instance.UIManager.CardDescription.ActiveCard();
+
             int combo = 1;
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
             combo++;
@@ -266,6 +267,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
                 if (cardData.Target.isDie != true) //타겟이 죽지 않았을 때만
                 {
+
                     CardExcutEvent(cardData.card, cardData.Target);
 
                     //카드 사용이 완료될때 까지 대기

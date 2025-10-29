@@ -3,6 +3,7 @@ using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 enum FMODLabeled
 {
@@ -58,6 +59,13 @@ public class FMODManagerSystem : MonoBehaviour
     public void FMODChangeMonsterTurn()
     {
         bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Monster_Turn);
+        StartCoroutine(Sound());
+    }
+
+    IEnumerator Sound()
+    {
+        yield return null;
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
     }
 
     public void FMODChangeUpgrade()

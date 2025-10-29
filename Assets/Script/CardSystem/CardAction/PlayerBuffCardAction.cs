@@ -38,6 +38,7 @@ public class DistortionAction : PlayerBaseCardAction
         }
 
         player.PlayerEffectSystem.StopEffect("Distortion_Effect");
+        player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);
         Target.AddBuff(cardData.CardBuff);
         yield return new WaitUntil(() => bit4 == true);
 
@@ -90,22 +91,22 @@ public class CursedShieldAction : GetBarrierAction
 
         // 적에게 디버프 주는 기능만들기
         List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
-
-
+        Player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", Player.transform.position);
+        yield return new WaitForSeconds(.4f);
 
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].AddBuff(cardData.CardBuff);
-           
-            //이펙트 발생 시키기
+            enemies[i].GetEffectSystem.PlayEffect("Muse_Effect", enemies[i].transform.position);
+            //이펙트 발생 시키기Muse_Effect
         }
         yield return null;
     }
 
     void GetBarrier(GameObject obj)
     {
-        GetBarrier(Player, data, false);
-        Player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", Player.transform.position);
+        GetBarrier(Player, data);
+        
     }
 }
 
@@ -198,7 +199,7 @@ public class STFUAction : SingleAttackAction
         yield return SingleAttack(cardData, Target, int.Parse( cardData.Attack_Count));
 
 
-        yield return new WaitUntil(() => bit4 == true);
+        
         player.PlayerEffectSystem.StopEffect("STFU_Shoot_Effect");
         player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);
         Target.AddBuff(cardData.CardBuff);
@@ -262,6 +263,7 @@ public class BlessingofRockAction : PlayerBaseCardAction
         datas = cardData;
         Card = card;
         player.PlayerEffectSystem.PlayEffect("BlessingofRock_Effect", player.transform.position);
+        ;
         yield return new WaitUntil(() => bit2 == true);
         //이펙트
 
@@ -269,13 +271,15 @@ public class BlessingofRockAction : PlayerBaseCardAction
         yield return new WaitUntil(() => bit3 == true);
         //이펙트
         //볼륨어
+        player.PlayerEffectSystem.PlayEffect("VolumeUPStay_Effect", player.transform.position);
+
         players.AddBuff(cardData.CardBuff);
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += VolumeUpEvent;
     }
 
     void VolumeUpEvent(GameObject obj)
     {
-        players.AddBuff(new VolumeUPBuff(BuffType.End, 1));
+        players.AddBuff(new VolumeUPBuff(BuffType.End, datas.Buff_VolumeUp));
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(datas.Buff_VolumeUp, Card.GetCardSloat.ReadData<Card>());
     }
 }

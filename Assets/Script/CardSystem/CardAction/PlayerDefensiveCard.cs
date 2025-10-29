@@ -50,6 +50,7 @@ public class GetBarrierAction : PlayerBaseCardAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         yield return new WaitUntil(() => bit1 == true);
+        player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", player.transform.position);
         yield return new WaitForSeconds(.03f);
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
 
@@ -80,18 +81,19 @@ public class VolumeShieldAction : GetBarrierAction
         //볼륨업 구현
         //볼륨업은 데이터 테이블 수치조작하고 덱 묘지 플레이어 손에 있는카드 전부 초기화
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp, card.GetCardSloat.ReadData<Card>());
-
-        player.AddBuff(new VolumeUPBuff(BuffType.End, 1));
+        player.PlayerEffectSystem.PlayEffect("VolumeShield_Effect", player.transform.position);
+        player.PlayerEffectSystem.PlayEffect("VolumeUPTick_Effect", player.transform.position);
+        player.AddBuff(new VolumeUPBuff(BuffType.End, cardData.Buff_VolumeUp));
         //볼륨업 이펙트
-        GetBarrier(player, cardData);
-      
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
+
+
         yield break;
     }
 
 
 }
 
-//나머지 이름 작업하면 ㄱㄱ그
 
 public class SoftEchoAction : PlayerBaseCardAction
 {
@@ -145,7 +147,8 @@ public class EnergizerAction : RecoverAction
         //일반_캐릭터 스킬 게이지 증가 + 체력 회복_1레
 
         //체력 회복
-        RecoverHP(player, cardData);
+        player.PlayerEffectSystem.PlayEffect("Energizer_Effect", player.transform.position);
+        player.addHP(cardData.HP_Recover);
 
         //스킬 포인트 증가
         int skillPoint = 0;
@@ -210,9 +213,10 @@ public class RockSpiritAction : GetBarrierAction
         yield return new WaitForSeconds(.03f);
         
         player.PlayerEffectSystem.PlayEffect("RockSpirit_Effect", player.transform.position);
+        player.PlayerEffectSystem.PlayEffect("BuildUpBuff_Effect", player.transform.position);
 
         //베리어
-       
+
 
         //스킬 포인트 증가
         int skillPoint = 0;

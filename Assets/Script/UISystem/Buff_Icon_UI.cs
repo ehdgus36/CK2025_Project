@@ -28,12 +28,13 @@ public class Buff_Icon_UI : MonoBehaviour
 
             string buffTurn = buffs[i].GetBuffDurationTurn().ToString();
 
-            if (buffs[i].GetBuffDurationTurn() == 0)
+            if (buffs[i].GetBuffDurationTurn() <= 0)
             {
                 buffTurn = "";
+                
             }
 
-            
+
 
             switch (buffs[i])
             {

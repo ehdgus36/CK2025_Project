@@ -36,8 +36,20 @@ public class SettingSystem : MonoBehaviour
         ResetYes_Button.onClick.AddListener(ResetYes);
         ResetNo_Button.onClick?.AddListener(ResetNo);
 
-        Title_Button.onClick?.AddListener(() => { SceneManager.LoadScene("LobbyScene"); });
-        GameExit_Button.onClick.AddListener(() => { Application.Quit(); });
+        Title_Button.onClick?.AddListener(() =>
+        {
+            RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
+            SceneManager.LoadScene("LobbyScene");
+        });
+
+
+
+        GameExit_Button.onClick.AddListener(() =>
+        {
+            RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
+            Application.Quit();
+        });
+
 
         MasterVolume.onValueChanged.AddListener(MasterChangeValueEvent);
         BackGroundVolume.onValueChanged.AddListener(BGMChangeValueEvent);
@@ -54,10 +66,10 @@ public class SettingSystem : MonoBehaviour
         FXbus = RuntimeManager.GetBus("bus:/SFX");
     }
 
-    void ExitEvent()
+    void ExitEvent()// 나가기
     {
         this.gameObject.SetActive(false);
-        
+        RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Back_Click");
     }
 
     void ResetEvent()
@@ -68,6 +80,7 @@ public class SettingSystem : MonoBehaviour
 
     void ResetYes()
     {
+        
         ResetPopUP.SetActive(false); 
         //리셋 기능 만들기
     }

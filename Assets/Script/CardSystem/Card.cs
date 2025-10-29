@@ -191,9 +191,16 @@ public class Card : MonoBehaviour
         EnemyTarget = Target;
 
         
-        StartCoroutine(CardAction.StartAction(GameManager.instance.Player,this, this.cardData, EnemyTarget));
+        StartCoroutine(DelayCard());
 
     }
+
+    IEnumerator DelayCard()
+    {
+        yield return new WaitForSeconds(.7f);
+        StartCoroutine(CardAction.StartAction(GameManager.instance.Player, this, this.cardData, EnemyTarget));
+    }
+
 
 
     public void SetOutLineColor(Color color)

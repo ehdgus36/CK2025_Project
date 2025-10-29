@@ -1,8 +1,9 @@
+using FMODUnity;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using System.Collections;
 
 public class LobbyScene : MonoBehaviour
 {
@@ -48,18 +49,22 @@ public class LobbyScene : MonoBehaviour
 
     private void Exit()
     {
+        RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
         Application.Quit();
     }
 
     private void SETTING()
     {
-       SettingView.SetActive(true);
+        RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
+        SettingView.SetActive(true);
     }
 
     public void LoadScene()
     {
         if (VideoPlayObject.activeSelf == true) return;
 
+
+        RuntimeManager.PlayOneShot("event:/UI/Lobby_Click");
         GameDataSystem.DynamicGameDataSchema.NewGameDataInit(); // 로비에서 다시시작시 게임 데이터 초기화
         CutScenePlayer.time = 0;
         CutScenePlayer.Play();

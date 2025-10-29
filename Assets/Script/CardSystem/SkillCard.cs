@@ -13,16 +13,12 @@ public class SkillCard : Card
     }
     public override void TargetExcute(Enemy Target, Card nextCard = null)
     {
-        
-
-        Debug.Log(cardData.Card_Des);
-        
+                
         Skill_Cut?.SetActive(false);
         Skill_Cut?.SetActive(true);
 
 
-        Debug.Log(Target);
-        Debug.Log(CardAction);
+       
         StartCoroutine(CardAction.StartAction(GameManager.instance.Player, this, this.cardData, Target));
 
 

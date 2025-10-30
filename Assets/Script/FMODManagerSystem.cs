@@ -38,7 +38,7 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance2.release();
 
-        if (MainBgm.Path != "") metronomeSystem.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
+        metronomeSystem.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
 
         if (SubBgm != "") metronomeSystem.AddOnceMetronomX4Event(() => { PlayBGMSub(SubBgm); }); 
 

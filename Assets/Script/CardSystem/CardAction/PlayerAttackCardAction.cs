@@ -477,6 +477,7 @@ public class Skill2Action : MultiAttackAction
         
         CompleteEvent(null);
         card.transform.parent.gameObject.SetActive(false);
+        GameManager.instance.UIInputSetActive(true);
 
     }
 }

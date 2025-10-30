@@ -93,8 +93,8 @@ public class UnitAnimationSystem : MonoBehaviour
             }
             else //없으면 아무 애니메이션 재생
             {
-                Debug.Log(AnimationDatas[animeKey]);
-                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["Break_Ani"].Animation, loop);
+                
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(AttackLayer, AnimationDatas["Rhytem_Ani"].Animation, loop);
                 track.TimeScale = TimeScale;
 
                 if (notEmpty == false)

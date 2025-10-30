@@ -75,7 +75,8 @@ public class MultiAttackAction : PlayerBaseCardAction
     public IEnumerator MultiAttack(CardData cardData, Enemy Target , int attackCount)
     {
         int AttackCount = attackCount;
-        List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
+        List<Enemy> enemies = new List<Enemy>();
+        enemies.AddRange(GameManager.instance.EnemysGroup.Enemys);
 
         for (int i = 0; i < AttackCount; i++)
         {
@@ -161,6 +162,8 @@ public class PowerBreakAction : SingleAttackAction
 
 public class SoloAction : SingleAttackAction
 {
+    Card Card;
+
     public SoloAction(Card card) : base(card)
     {
     }
@@ -182,6 +185,7 @@ public class SoloAction : SingleAttackAction
            return Vector3.Lerp(M0, M1, t);
        };
 
+        Card = card;
 
         yield return new WaitUntil(() => bit1 == true);
 
@@ -204,20 +208,23 @@ public class SoloAction : SingleAttackAction
         yield return SingleAttack(cardData, Target, SingleAttackCount); // 단일 데미지
         player.PlayerEffectSystem.StopEffect("Solo_Effect");
         yield return new WaitUntil(() => bit3 == true);
-    
+    }
+
+    protected override void CompleteEvent(TrackEntry entry)
+    {
+        base.CompleteEvent(entry);
 
         List<Card> changeCard = new List<Card>();
-        changeCard.AddRange(card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021").ToList());
+        changeCard.AddRange(Card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021").ToList());
         changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C1021").ToList());
         changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C1021").ToList());
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
 
-        
+
         for (int i = 0; i < changeCard.Count; i++)
         {
             changeCard[i].Initialized("C2021");
         }
-
     }
 }
 
@@ -441,7 +448,50 @@ public class SkillAction : MultiAttackAction
         yield return new WaitForSeconds(1);
         //이펙트 추가
         yield return MultiAttack(cardData, Target, 1);
+        
+        CompleteEvent(null);
         card.transform.parent.gameObject.SetActive(false);
+
+    }
+}
+
+public class Skill2Action : MultiAttackAction
+{
+    public Skill2Action(Card card) : base(card)
+    {
+    }
+
+
+    public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
+    {
+        yield return new WaitForSeconds(1);
+        //이펙트 추가
+        yield return MultiAttack(cardData, Target, 1);
+        
+        CompleteEvent(null);
+        card.transform.parent.gameObject.SetActive(false);
+
+    }
+}
+
+
+public class Skill3Action : MultiAttackAction
+{
+    public Skill3Action(Card card) : base(card)
+    {
+    }
+
+
+    public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
+    {
+        yield return new WaitForSeconds(1);
+        //이펙트 추가
+        player.addHP(cardData.HP_Recover);
+        player.PlayerEffectSystem.PlayEffect("Tuning_Effect", player.transform.position);
+
+        yield return MultiAttack(cardData, Target, 1);
+        card.transform.parent.gameObject.SetActive(false);
+        CompleteEvent(null);
 
     }
 }

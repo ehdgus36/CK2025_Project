@@ -81,8 +81,8 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             cardDescription.SetActive(false);
         }
 
-       
-        
+        cardDescription.DesctiptionActiveFalse();
+
     }
 
     public void HoldEffect(bool isHolding)

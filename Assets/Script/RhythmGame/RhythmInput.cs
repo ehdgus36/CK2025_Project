@@ -82,7 +82,7 @@ public class RhythmInput : MonoBehaviour
         {
             startObject.SetActive(true);
             currentBeat++;
-            RuntimeManager.PlayOneShot("event:/UI/Turn_End");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Go");
             return;
         }
 
@@ -93,8 +93,8 @@ public class RhythmInput : MonoBehaviour
             InputNote[noteIndex].gameObject.SetActive(true);
             InputNote[noteIndex].StartNote(NoteData[currentBeat]);
 
-        
 
+           
             inputInstanceNote.Add(InputNote[noteIndex]);
             noteIndex++;
         }
@@ -131,13 +131,13 @@ public class RhythmInput : MonoBehaviour
                 {
                     if (inputInstanceNote[0].mouseInput == 0)
                     {
-                        RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
+                        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Left");
                         GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani",false,null,null,false,1.5f);
                     }
 
                     if (inputInstanceNote[0].mouseInput == 1)
                     {
-                        RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");     
+                        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Right");
                         GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
                     }
 

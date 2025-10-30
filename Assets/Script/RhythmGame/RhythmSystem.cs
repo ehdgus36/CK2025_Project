@@ -101,7 +101,8 @@ public class RhythmSystem : MonoBehaviour
 
         //¿Ã∆Â∆Æ ≤Ù±‚
         GameManager.instance.Player.PlayerEffectSystem.StopEffect("SoftEcho_Buff_Effect");
-        GameManager.instance.Player.PlayerEffectSystem.StopEffect("BuildUpBuff_Effect"); 
+        GameManager.instance.Player.PlayerEffectSystem.StopEffect("BuildUpBuff_Effect");
+        GameManager.instance.Player.PlayerEffectSystem.StopEffect("VolumeUPStay_Effect");
         rhythmView.gameObject.SetActive(false);
         rhythmInput.gameObject.SetActive(false);
 

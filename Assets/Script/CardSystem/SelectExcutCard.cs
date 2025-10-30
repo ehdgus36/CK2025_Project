@@ -18,7 +18,8 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
     public void OnPointerDown(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
-        
+
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_Click");
         GameManager.instance.ExcutSelectCardSystem.SetSelectCard(CardSlot.ReadData<Card>());
         canvas = GetComponentInParent<Canvas>();
 
@@ -35,6 +36,9 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
+
+
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_Over");
 
         if (CardSlot.ReadData<Card>().cardData.Target_Type == "1")
         {

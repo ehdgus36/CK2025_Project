@@ -54,6 +54,11 @@ public class UnitAnimationSystem : MonoBehaviour
                               TrackEntryEventDelegate eventDelegate = null , 
                               TrackEntryDelegate CompleteDelegate = null, bool notEmpty = false , float TimeScale = 1.0f)
     {
+
+
+
+        
+
         if (loop)
         {
             if (AnimationDatas.ContainsKey(animeKey))
@@ -82,6 +87,7 @@ public class UnitAnimationSystem : MonoBehaviour
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
                 
                 track.Complete += CompleteDelegate;
+                track.Interrupt += CompleteDelegate;
                 track.Event += eventDelegate;
                 
             }
@@ -95,6 +101,7 @@ public class UnitAnimationSystem : MonoBehaviour
                     track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(AttackLayer, 0f); };
 
                 track.Complete += CompleteDelegate;
+                track.Interrupt += CompleteDelegate;
                 track.Event += eventDelegate;
             }
         }

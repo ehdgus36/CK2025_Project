@@ -25,7 +25,7 @@ public class Tutorial : MonoBehaviour
     {
         index++;
 
-        if (index == sprites.Length)
+        if (index >= sprites.Length)
         {
             
             FindFirstObjectByType<LoadingScreen>().LoadScene(LoadSceneName);

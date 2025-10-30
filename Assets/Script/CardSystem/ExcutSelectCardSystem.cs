@@ -121,7 +121,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        //if (_SelectCard.cardData.Range_Type == 3) return;
+        if (_SelectCard.cardData.Target_Type == "1") return;
 
         _TargetEnemy = enemy;
 
@@ -135,7 +135,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        //if (_SelectCard.cardData.Range_Type != 3) return;
+        if (_SelectCard.cardData.Target_Type != "1") return;
         _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
     }
 
@@ -149,7 +149,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 var ddd = disobject[i];
                 ddd.value = AbilityConditionData[disobject[i].key];
 
-                disobject[i] = ddd;// AbilityConditionData[disobject[i].key];
+                disobject[i] = ddd;
             }
         }
 
@@ -206,6 +206,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         else
         {
             GameManager.instance.UIManager.CardDescription.ActiveCard();
+
             int combo = 1;
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
             combo++;
@@ -266,6 +267,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
                 if (cardData.Target.isDie != true) //타겟이 죽지 않았을 때만
                 {
+
                     CardExcutEvent(cardData.card, cardData.Target);
 
                     //카드 사용이 완료될때 까지 대기

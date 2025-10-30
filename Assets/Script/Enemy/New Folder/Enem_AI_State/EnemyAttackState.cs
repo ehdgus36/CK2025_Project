@@ -37,7 +37,11 @@ public class EnemyAttackState : BaseAIState
         
         Enemy enemy = (Enemy)unit;
 
-        yield return new WaitForSeconds(.5f);
+        if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff))
+        {
+            Debug.Log("화상 버프 존재");
+            yield return new WaitForSeconds(1.5f);
+        }
 
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {

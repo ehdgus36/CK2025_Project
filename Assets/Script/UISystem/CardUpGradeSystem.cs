@@ -58,6 +58,8 @@ public class CardUpGradeSystem : MonoBehaviour
 
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, DackData);
+
+        Debug.Log("UpGrade¿‘¥œ¥Ÿ");
     }
 
 }

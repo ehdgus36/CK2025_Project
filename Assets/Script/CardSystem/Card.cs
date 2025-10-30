@@ -187,7 +187,7 @@ public class Card : MonoBehaviour
         }
         //if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
 
-        GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
+       
         EnemyTarget = Target;
 
         
@@ -197,7 +197,7 @@ public class Card : MonoBehaviour
 
     IEnumerator DelayCard()
     {
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(.5f);
         GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
         StartCoroutine(CardAction.StartAction(GameManager.instance.Player, this, this.cardData, EnemyTarget));
     }

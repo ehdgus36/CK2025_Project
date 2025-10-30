@@ -121,7 +121,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        //if (_SelectCard.cardData.Range_Type == 3) return;
+        if (_SelectCard.cardData.Target_Type == "1") return;
 
         _TargetEnemy = enemy;
 
@@ -135,7 +135,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        //if (_SelectCard.cardData.Range_Type != 3) return;
+        if (_SelectCard.cardData.Target_Type != "1") return;
         _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
     }
 
@@ -149,7 +149,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 var ddd = disobject[i];
                 ddd.value = AbilityConditionData[disobject[i].key];
 
-                disobject[i] = ddd;// AbilityConditionData[disobject[i].key];
+                disobject[i] = ddd;
             }
         }
 

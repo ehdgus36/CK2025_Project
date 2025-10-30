@@ -14,7 +14,7 @@ public class ManaBankUIView : DynamicUIObject
     private void OnEnable()
     {
         Skill_Bar = ManaBankFill.material;
-
+        GameObject.Find("Skill_Cut").gameObject.SetActive(false);
         //내부 프로퍼티만 초기화
 
     }
@@ -26,7 +26,7 @@ public class ManaBankUIView : DynamicUIObject
         int mana = Mathf.Clamp((int)update_ui_data, 0, ManaBankSystem.MAX_BANK_MANA); 
         if (mana >= 10)
         {
-            SkillButton?.gameObject.SetActive(true);
+            SkillButton.gameObject.SetActive(true);
             Skill_Bar?.SetFloat("_Health", 1);
 
         }

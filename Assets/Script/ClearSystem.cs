@@ -39,6 +39,7 @@ public class ClearSystem : MonoBehaviour
     {
         UpgradeView?.SetActive(true);
         yield return new WaitUntil(() => UpgradeView.activeSelf == false);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage");
         ClearView?.SetActive(true);
     }
 

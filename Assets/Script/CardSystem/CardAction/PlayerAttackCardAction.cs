@@ -447,8 +447,15 @@ public class SkillAction : MultiAttackAction
     {
         yield return new WaitForSeconds(1);
         //¿Ã∆Â∆Æ √ﬂ∞°
+
+        Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
+
+        player.PlayerEffectSystem.PlayEffect("PowerBreak_Effect", targetPos);
+       
         yield return MultiAttack(cardData, Target, 1);
-        
+
+      
+
         CompleteEvent(null);
         card.transform.parent.gameObject.SetActive(false);
 

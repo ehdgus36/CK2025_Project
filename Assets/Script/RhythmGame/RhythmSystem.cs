@@ -60,13 +60,16 @@ public class RhythmSystem : MonoBehaviour
         //애니 연출 재생
         GameManager.instance.ControlleCam.Play("EnemyTurnCamAnime");
 
-
+        for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
+        {
+            GameManager.instance.EnemysGroup.Enemys[i].GetEnemyStatus.NextAttackUI.gameObject.SetActive(false);
+        }
 
         //애니메이션 재생이후 활성화
         yield return new WaitForSeconds(1.55f);     
         rhythmView.gameObject.SetActive(true);
         rhythmView.GetComponent<RectTransform>().anchoredPosition = new Vector3(-219, 294, 0);
-        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
+        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(1.6f, 1.6f, 1.6f);
         yield return new WaitForSeconds(.2f);
 
 
@@ -81,7 +84,7 @@ public class RhythmSystem : MonoBehaviour
 
         GameManager.instance.ControlleCam.Play("EnemyTurnCamReturn");
         rhythmView.GetComponent<RectTransform>().anchoredPosition = new Vector3(260, 230, 0);
-        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(.7f, .7f, .7f);
 
         //애니메이션 재생이후 활성화
         yield return new WaitForSeconds(.8f);

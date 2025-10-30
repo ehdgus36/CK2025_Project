@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class CardSellSystem : MonoBehaviour
 
     public void SellEvent()
     {
+        RuntimeManager.PlayOneShot("event:/UI/Store/Buy_Card");
         //µ·³ª°¡´Â°Å
         int coin = 0;
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out coin);

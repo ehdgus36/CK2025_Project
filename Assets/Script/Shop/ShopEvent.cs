@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMODUnity;
 using Unity.Mathematics;
 
 public class ShopEvent : MonoBehaviour
@@ -37,8 +38,8 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
-       
 
+        RuntimeManager.PlayOneShot("event:/UI/Store/Store_In");
         for (int i = 0; i < PeakList.Count; i++)
         {
             PeakList[i].ShopEvent = this;
@@ -130,12 +131,13 @@ public class ShopEvent : MonoBehaviour
 
     public void ExitShop()
     {
+        RuntimeManager.PlayOneShot("event:/UI/Store/Store_Out");
         SceneManager.LoadScene("GameMap");
     }
 
     public void BuyEvent()
     {
-
+        RuntimeManager.PlayOneShot("event:/UI/Store/Buy_Card");
         NoGold.SetActive(false);
 
         ShopData data;

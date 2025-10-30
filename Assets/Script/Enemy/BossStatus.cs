@@ -13,6 +13,8 @@ public class BossStatus : EnemyStatus
     {
         base.Initialize(enemy);
 
+
+        BossHP_Bar.gameObject.SetActive(true);
         BossHP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
 
         _BossEnemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint, enemyData.MaxSkillPoint);

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ManaBankUIView : DynamicUIObject
 {
-    [SerializeField] Button SkillButton;
+    [SerializeField] GameObject SkillButton;
     [SerializeField] Image ManaBankFill;
     [SerializeField] TextMeshProUGUI SkillPointText;
     [SerializeField] int manas;
@@ -27,11 +27,13 @@ public class ManaBankUIView : DynamicUIObject
         if (mana >= 10)
         {
             SkillButton?.gameObject.SetActive(true);
-            
+            Skill_Bar?.SetFloat("_Health", 1);
+
         }
         else 
         {
-            SkillButton?.gameObject.SetActive(false);
+            //SkillButton?.gameObject.SetActive(false);
+            Skill_Bar?.SetFloat("_Health", 0);
         }
         //Cut Angle Size
 
@@ -46,7 +48,7 @@ public class ManaBankUIView : DynamicUIObject
             {
                 Skill_Bar?.SetFloat("Cut Angle Size", 0.065f);
             }
-            Skill_Bar?.SetFloat("_Health", (float)mana / (float)ManaBankSystem.MAX_BANK_MANA);
+            
         }
 
         ManaBankFill.fillAmount = (float)mana / (float)ManaBankSystem.MAX_BANK_MANA;

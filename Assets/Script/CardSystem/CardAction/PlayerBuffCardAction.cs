@@ -9,7 +9,7 @@ public class PlayerBuffCardAction
     
 }
 
-public class DistortionAction : PlayerBaseCardAction
+public class DistortionAction : SingleAttackAction
 {
     public DistortionAction(Card card) : base(card)
     {
@@ -36,6 +36,8 @@ public class DistortionAction : PlayerBaseCardAction
             T += 0.05f;
             yield return new WaitForSeconds(0.012f);
         }
+
+        yield return SingleAttack(cardData, Target, 1);
 
         player.PlayerEffectSystem.StopEffect("Distortion_Effect");
         player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);

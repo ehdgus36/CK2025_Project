@@ -198,6 +198,7 @@ public class Card : MonoBehaviour
     IEnumerator DelayCard()
     {
         yield return new WaitForSeconds(.7f);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
         StartCoroutine(CardAction.StartAction(GameManager.instance.Player, this, this.cardData, EnemyTarget));
     }
 

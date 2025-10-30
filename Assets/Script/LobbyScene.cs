@@ -61,7 +61,7 @@ public class LobbyScene : MonoBehaviour
 
     public void LoadScene()
     {
-        if (VideoPlayObject.activeSelf == true) return;
+        if (startCutScene == true) return;
 
 
         RuntimeManager.PlayOneShot("event:/UI/Lobby_Click");

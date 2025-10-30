@@ -75,7 +75,8 @@ public class MultiAttackAction : PlayerBaseCardAction
     public IEnumerator MultiAttack(CardData cardData, Enemy Target , int attackCount)
     {
         int AttackCount = attackCount;
-        List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
+        List<Enemy> enemies = new List<Enemy>();
+        enemies.AddRange(GameManager.instance.EnemysGroup.Enemys);
 
         for (int i = 0; i < AttackCount; i++)
         {
@@ -447,6 +448,8 @@ public class SkillAction : MultiAttackAction
         yield return new WaitForSeconds(1);
         //ÀÌÆåÆ® Ãß°¡
         yield return MultiAttack(cardData, Target, 1);
+        
+        CompleteEvent(null);
         card.transform.parent.gameObject.SetActive(false);
 
     }
@@ -464,6 +467,8 @@ public class Skill2Action : MultiAttackAction
         yield return new WaitForSeconds(1);
         //ÀÌÆåÆ® Ãß°¡
         yield return MultiAttack(cardData, Target, 1);
+        
+        CompleteEvent(null);
         card.transform.parent.gameObject.SetActive(false);
 
     }
@@ -486,6 +491,7 @@ public class Skill3Action : MultiAttackAction
 
         yield return MultiAttack(cardData, Target, 1);
         card.transform.parent.gameObject.SetActive(false);
+        CompleteEvent(null);
 
     }
 }

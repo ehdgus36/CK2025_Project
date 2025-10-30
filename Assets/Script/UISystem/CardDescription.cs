@@ -63,7 +63,7 @@ public class CardDescription : MonoBehaviour
 
         if (cardData.Buff_Ex2 != "0")
         {
-            BuffEx2.text = cardData.Buff_Ex1;
+            BuffEx2.text = cardData.Buff_Ex2;
         }
 
 

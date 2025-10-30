@@ -46,7 +46,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void ResetCard()
     {
-
+        isSoldOut = false;
         string randomCard = GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.RandomCard();
         ItemID = randomCard;
 

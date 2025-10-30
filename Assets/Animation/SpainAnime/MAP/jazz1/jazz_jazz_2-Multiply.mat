@@ -12,7 +12,9 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _LIGHT_AFFECTS_ADDITIVE
   - _STRAIGHT_ALPHA_INPUT
+  - _TINT_BLACK_ON
   m_InvalidKeywords:
   - _USE8NEIGHBOURHOOD_ON
   m_LightmapFlags: 4
@@ -51,7 +53,7 @@ Material:
     - _Cutoff: 0.1
     - _EnableExternalAlpha: 0
     - _Fill: 0
-    - _LightAffectsAdditive: 0
+    - _LightAffectsAdditive: 1
     - _OutlineMipLevel: 0
     - _OutlineOpaqueAlpha: 1
     - _OutlineReferenceTexWidth: 1024
@@ -61,14 +63,14 @@ Material:
     - _StencilRef: 1
     - _StraightAlphaInput: 1
     - _ThresholdEnd: 0.25
-    - _TintBlack: 0
+    - _TintBlack: 1
     - _Use8Neighbourhood: 1
     - _UseScreenSpaceOutlineWidth: 0
     - _ZWrite: 0
     m_Colors:
     - <noninit>: {r: 0, g: 2.018574, b: 1e-45, a: 0.000007110106}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0.9575472, b: 0.9575472, a: 0}
     - _OutlineColor: {r: 1, g: 1, b: 0, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

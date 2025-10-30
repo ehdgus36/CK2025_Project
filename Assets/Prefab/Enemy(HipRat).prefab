@@ -466,27 +466,31 @@ MonoBehaviour:
     MaxHp: 12
     _CurrentHp: 12
     _CurrentBarrier: 0
+    buffs: []
   IsTurn: 0
   EnemyData:
-    Enemy_ID: 
+    Enemy_ID: E04
     EnemyUnitData:
       DataKey: 
       MaxHp: 12
       _CurrentHp: 12
       _CurrentBarrier: 0
+      buffs: []
     MaxSkillPoint: 1
     CurrentSkillPoint: 0
     MaxDamage: 5
     CurrentDamage: 5
-    Enemy_Sprite: {fileID: 21300000, guid: e06aa7e61ff1d324b89633473b97ed43, type: 3}
+    Enemy_Sprite: {fileID: 21300000, guid: cc18c7b5ccc5d2f4bbe2111c862c77f0, type: 3}
   EnemyAnimator: {fileID: 2268474195922947219}
   EnemyStatus: {fileID: 113841952387769093}
   buffLayer: -1
   fontSystem: {fileID: 3650802288120212782}
   EffectSystem: {fileID: 3516856929990264621}
   AttackOffset: {x: 2, y: 0, z: 0}
-  isAttackEnd: 0
   isBarbedArmor: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &2268474195922947219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1054,11 +1058,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 272.62
+      value: 262.52
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 279.35
+      value: 247.9
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_LocalScale.x
@@ -1074,11 +1078,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -177.66
+      value: -174.49
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -29.41
+      value: -27.95
       objectReference: {fileID: 0}
     - target: {fileID: 8699681874241878795, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_text

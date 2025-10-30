@@ -234,14 +234,14 @@ public class GameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        EndTurnButton.gameObject.SetActive(true);
+        EndTurnButton.gameObject.SetActive(false);
     }
 
     public void TurnSwap()
     {
         // 턴앤드 클릭시 TurnSwap함수 재생
-        
 
+        EndTurn();
         Metronome.AddOnceMetronomX4Event(() =>
         {
             ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
@@ -253,6 +253,7 @@ public class GameManager : MonoBehaviour
             {
                 UIAnime.Play("Active_UIAnimation");
                 _FMODManagerSystem.FMODChangePlayer();
+               
             }
 
             if (ThisTurnUnit.GetType() == typeof(EnemysGroup))

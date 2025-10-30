@@ -86,6 +86,7 @@ public class LoadStage : MonoBehaviour,IPointerEnterHandler, IPointerDownHandler
     {
         if (IsSelect == true) return;
 
+        if(active != null)
         StopCoroutine(active);
         this.transform.localScale = start;
 

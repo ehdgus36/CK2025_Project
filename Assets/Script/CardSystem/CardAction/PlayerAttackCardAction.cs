@@ -74,17 +74,21 @@ public class MultiAttackAction : PlayerBaseCardAction
 
     public IEnumerator MultiAttack(CardData cardData, Enemy Target , int attackCount)
     {
-        int AttackCount = attackCount;
+        
         List<Enemy> enemies = new List<Enemy>();
-        enemies.AddRange(GameManager.instance.EnemysGroup.Enemys);
 
-        for (int i = 0; i < AttackCount; i++)
+        for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
+        {
+            enemies.Add(GameManager.instance.EnemysGroup.Enemys[i]);
+        }
+     
+        for (int i = 0; i < attackCount; i++)
         {
             for (int j = 0; j < enemies.Count; j++)
             {
                 enemies[j].TakeDamage(GameManager.instance.Player, cardData.Attack_DMG, cardData.CardBuff);
             }
-            if (i < AttackCount - 1)
+            if (i < attackCount - 1)
                 yield return new WaitForSeconds(.3f);
         }
     }
@@ -129,8 +133,9 @@ public class NoteBombAction : MultiAttackAction
 
       
         Player.PlayerEffectSystem.EffectObject("NoteBomb_Effect", targetPos);
+        
+        yield return MultiAttack(cardData, Target, 1);
         GameManager.instance.UIInputSetActive(true);
-        yield return MultiAttack(cardData, Target, int.Parse(cardData.Attack_Count));
     }
 
     

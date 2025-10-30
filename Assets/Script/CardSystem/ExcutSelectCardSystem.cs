@@ -202,6 +202,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
             selecCard.TargetExcute(enemy);
 
             isTargeting = false;
+            return;
         }
         else
         {
@@ -248,7 +249,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         if (_CardQueue.Count == 0)
         {
             GameManager.instance.UIInputSetActive(false);
-            //card.SetOutLineColor(Color.blue);
+            
             _CardQueue.Enqueue(new CardReservedData(card, enemy));
             return true;
         }

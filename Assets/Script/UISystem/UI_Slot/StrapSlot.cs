@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,6 +14,7 @@ public class StrapSlot : SlotUI
     {
         if (data.GetComponent<StrapItem>())
         {
+            RuntimeManager.PlayOneShot("event:/UI/Item_Stage/Item_Set");
             base.InsertData(data);
         }
     }

@@ -94,7 +94,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     void PlayerDieEvent()
     {
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Die");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Die");
         GameManager.instance.GameFail();
     }
 
@@ -105,7 +105,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         //카메라 효과 , 사운드 , 이펙트효과
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true , 0.2f, 0.0f , 0.2f);
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Hurt");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Hurt");
 
         _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
         

@@ -53,6 +53,9 @@ public class LoadStage : MonoBehaviour,IPointerEnterHandler, IPointerDownHandler
 
     public void SetUP()
     {
+        ClearMark = this.transform.GetChild(0).gameObject;
+        ClearMark.SetActive(false);
+
         if (state == StageState.ClEAR)
         {
             if (ClearMark != null)
@@ -69,6 +72,7 @@ public class LoadStage : MonoBehaviour,IPointerEnterHandler, IPointerDownHandler
         if (state == StageState.NULOCK)
         {
             this.GetComponent<Button>().interactable = true;
+            
             active = StartCoroutine(Active());
         }
 

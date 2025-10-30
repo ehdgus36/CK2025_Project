@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class BossStageLoader : MonoBehaviour
 {
-    [SerializeField] string SceneID = "BossStage";
+    [SerializeField] string SceneID;
 
     public void BossStageLoad()
     {

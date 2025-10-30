@@ -189,6 +189,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     void EnemyDieEvent()
     {
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Hurt");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Die");
 
         EffectSystem.PlayEffect("Monster_Die_Effect", this.transform.position);      
         GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);

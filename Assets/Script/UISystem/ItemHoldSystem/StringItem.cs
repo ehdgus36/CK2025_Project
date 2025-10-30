@@ -1,8 +1,14 @@
+using FMODUnity;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class StringItem : Item
+public class StringItem : Item, IPointerDownHandler
 {
-    
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        RuntimeManager.PlayOneShot("event:/UI/Item_Stage/Item_Click");
+    }
     protected override void Initialized()
     {
         object data = null;

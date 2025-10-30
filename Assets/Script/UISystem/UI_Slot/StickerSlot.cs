@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,7 +14,9 @@ public class StickerSlot : SlotUI
     {
         if (data.GetComponent<StickerItem>())
         {
+            RuntimeManager.PlayOneShot("event:/UI/Item_Stage/Item_Set");
             base.InsertData(data);
+
         }
     }
 

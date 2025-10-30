@@ -13,6 +13,9 @@ public class ItemInventorySystem : MonoBehaviour
     [SerializeField] Button _StrapItemSlotButton;
     [SerializeField] Button _StringItemSlotButton;
 
+    [SerializeField] CanvasGroup _StickerGroup;
+    [SerializeField] CanvasGroup _StrapGroup;
+    [SerializeField] CanvasGroup _StringGroup;
 
     Sprite startStickerSprite;
     Sprite startStrapSprite;
@@ -32,7 +35,11 @@ public class ItemInventorySystem : MonoBehaviour
         startStrapSprite = (_StrapItemSlotButton.targetGraphic as Image).sprite;
         startStringSprite = (_StringItemSlotButton.targetGraphic as Image).sprite;
 
-      
+
+        _StickerGroup.alpha = .5f;
+        _StrapGroup.alpha = .5f; ;
+        _StringGroup.alpha = .5f; ;
+
 
         _StickerItemSlotButton.onClick.AddListener(() =>{ 
             _StickerItemSlotGroup.gameObject.SetActive(true);
@@ -43,6 +50,9 @@ public class ItemInventorySystem : MonoBehaviour
             (_StrapItemSlotButton.targetGraphic as Image).sprite = startStrapSprite;
             (_StringItemSlotButton.targetGraphic as Image).sprite = startStringSprite;
             SetUpItem();
+            _StickerGroup.alpha = 1f;
+            _StrapGroup.alpha = .5f; ;
+            _StringGroup.alpha = .5f; ;
         });
         _StrapItemSlotButton.onClick.AddListener(() => {
             _StickerItemSlotGroup.gameObject.SetActive(false);
@@ -53,6 +63,10 @@ public class ItemInventorySystem : MonoBehaviour
             (_StrapItemSlotButton.targetGraphic as Image).sprite = _StrapItemSlotButton.spriteState.selectedSprite;
             (_StringItemSlotButton.targetGraphic as Image).sprite = startStringSprite;
             SetUpItem();
+
+            _StickerGroup.alpha = .5f;
+            _StrapGroup.alpha = 1f; ;
+            _StringGroup.alpha = .5f; ;
         });
         _StringItemSlotButton.onClick.AddListener(() => {
             _StickerItemSlotGroup.gameObject.SetActive(false);
@@ -63,6 +77,10 @@ public class ItemInventorySystem : MonoBehaviour
             (_StrapItemSlotButton.targetGraphic as Image).sprite = startStrapSprite;
             (_StringItemSlotButton.targetGraphic as Image).sprite = _StringItemSlotButton.spriteState.selectedSprite;
             SetUpItem();
+
+            _StickerGroup.alpha = .5f;
+            _StrapGroup.alpha = .5f; ;
+            _StringGroup.alpha = 1f; ;
         });
         _StickerItemSlotButton.onClick.Invoke();
 

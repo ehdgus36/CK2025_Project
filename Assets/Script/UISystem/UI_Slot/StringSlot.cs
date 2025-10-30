@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,8 +12,9 @@ public class StringSlot : SlotUI
     public override void InsertData(GameObject data)
     {
         if (data.GetComponent<StringItem>())
-        { 
-        base.InsertData(data); 
+        {
+            RuntimeManager.PlayOneShot("event:/UI/Item_Stage/Item_Set");
+            base.InsertData(data); 
         }
     }
 

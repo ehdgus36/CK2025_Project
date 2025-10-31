@@ -21,7 +21,8 @@ public class CardUpGradeView : MonoBehaviour
     public void UpdateUI(CardData cardData,CardData UpGradeCardData ,Action ButtonEvent)
     {
         
-        CardImage.sprite = Resources.Load<Sprite>("CardImage/" + cardData.Card_Im);       
+        CardImage.sprite = Resources.Load<Sprite>("CardImage/" + cardData.Card_Im);
+        BgImage.sprite = CardImage.sprite;
         Name.text = cardData.Card_Name_KR;
 
         StringBuilder stringBuilder = new StringBuilder(cardData.Card_ID);

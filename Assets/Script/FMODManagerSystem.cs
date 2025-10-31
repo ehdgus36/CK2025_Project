@@ -64,7 +64,7 @@ public class FMODManagerSystem : MonoBehaviour
 
     IEnumerator Sound()
     {
-        yield return null;
+        yield return new WaitForSeconds(.1f);
         bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
     }
 

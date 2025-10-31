@@ -138,6 +138,11 @@ public class EnergizerAction : RecoverAction
         //애니메이션 타이밍
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+        int skillPoint = 0;
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out skillPoint);
+        skillPoint += cardData.Char_SkillPoint_Get;
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
+
         yield return new WaitUntil(() => bit2 == true);
         //이펙트
 
@@ -151,10 +156,7 @@ public class EnergizerAction : RecoverAction
         player.addHP(cardData.HP_Recover);
 
         //스킬 포인트 증가
-        int skillPoint = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out skillPoint);
-        skillPoint += cardData.Char_SkillPoint_Get;
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
+       
 
         // 스킬포인트 이펙트
 

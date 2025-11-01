@@ -165,6 +165,12 @@ public class Card : MonoBehaviour
         if ("C3052" == cardID) { CardAction = new BlessingofRockAction(this); }
         if ("C3061" == cardID) { CardAction = new SoulShoutingAction(this); }
         if ("C3062" == cardID) { CardAction = new SoulShoutingAction(this); }
+
+        if (this.gameObject.GetComponent<DragDropUI>() != null)
+        {
+            if (cardData.Target_Type == "2") this.gameObject.GetComponent<DragDropUI>().enabled = false;
+            else this.gameObject.GetComponent<DragDropUI>().enabled = true;
+        }
        
     }
 

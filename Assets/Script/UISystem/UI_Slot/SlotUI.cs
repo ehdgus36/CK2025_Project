@@ -39,7 +39,8 @@ public class SlotUI : MonoBehaviour,IDropHandler
         if (data.GetComponent<DragDropUI>())
         {
             data.GetComponent<DragDropUI>().startScale = imageScale;
-            data.GetComponent<DragDropUI>().startParent.GetComponent<SlotUI>().RemoveSlotItem();
+            if (data.GetComponent<DragDropUI>()?.startParent != null)
+                data.GetComponent<DragDropUI>().startParent.GetComponent<SlotUI>().RemoveSlotItem();
         }
 
         data.transform.position = transform.position;

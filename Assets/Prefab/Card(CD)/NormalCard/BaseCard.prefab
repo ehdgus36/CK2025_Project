@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2833597242690917622}
   - component: {fileID: 1193670871971324752}
   - component: {fileID: 3471467144511322545}
+  - component: {fileID: 5882060769006366482}
+  - component: {fileID: 1045713731073738387}
   m_Layer: 6
   m_Name: BaseCard
   m_TagString: Untagged
@@ -94,3 +96,29 @@ MonoBehaviour:
   BaseMaterial: {fileID: 2100000, guid: 226c0a734709cac4f81b54fcc0eef2b6, type: 2}
   DamageBuff: 0
   Buff_Recover_HP: 0
+--- !u!114 &5882060769006366482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498016368079986942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4d6784a7fc802c43818935fd72bf87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startScale: {x: 1, y: 1, z: 1}
+  CardDropArea: {fileID: 0}
+--- !u!225 &1045713731073738387
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498016368079986942}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

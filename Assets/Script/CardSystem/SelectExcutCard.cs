@@ -8,6 +8,8 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
 
     private Canvas canvas;
 
+    Card card;
+
     public void OnDrag(PointerEventData eventData)
     {
        
@@ -18,16 +20,17 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
     public void OnPointerDown(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
+        card = CardSlot.ReadData<Card>();
+
 
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_Click");
-        GameManager.instance.ExcutSelectCardSystem.SetSelectCard(CardSlot.ReadData<Card>());
+        GameManager.instance.ExcutSelectCardSystem.SetSelectCard(card);
         canvas = GetComponentInParent<Canvas>();
 
 
+        card.EffectSystem.PlayEffect("CardHold_Effect", card.transform, new Vector3(62,62,62));
 
-        EffectSystem?.PlayEffect("CardHold_Effect", new Vector3(CardSlot.ReadData<Card>().transform.position.x,
-                                                               -4.377778f,
-                                                                CardSlot.ReadData<Card>().transform.position.z));
+
         GetComponent<HoverEffectUI>()?.HoldEffect(true);
         GetComponent<RectTransform>().sizeDelta = new Vector2(2100f, 300f);
 
@@ -56,7 +59,7 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         if (GameManager.instance.ExcutSelectCardSystem.IsSelectCard == false)
         {
             GameManager.instance.DimBackGroundObject.gameObject.SetActive(false);
-            EffectSystem?.StopEffect("CardHold_Effect");
+            card.EffectSystem?.StopEffect("CardHold_Effect");
             GetComponent<HoverEffectUI>()?.HoldEffect(false);
             GetComponent<RectTransform>().sizeDelta = new Vector2(150f, 150f);
         }

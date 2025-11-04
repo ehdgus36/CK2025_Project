@@ -17,10 +17,13 @@ public struct dicobj
 
 public class Card : MonoBehaviour
 {
+    public static float UsePos = -4f; //카드가 절대죄표기준 어디 이상 올라가야 작동하는지
+
     [SerializeField] public string CardID;
-    [SerializeField] public Sprite DescSprite;
     [SerializeField] Image cardImage;
     [SerializeField] private Material BaseMaterial;
+
+    [SerializeField] EffectSystem effectSystem;
 
 
 
@@ -33,6 +36,7 @@ public class Card : MonoBehaviour
     bool isCardEnd = false;
     Enemy EnemyTarget;
     public bool IsCardEnd { get { return isCardEnd; } set { isCardEnd = value; } }
+    public EffectSystem EffectSystem { get => effectSystem; }
 
     protected SlotGroup CardSloats;
 
@@ -112,6 +116,8 @@ public class Card : MonoBehaviour
         this.CardID = cardData.Card_ID;
 
         this.gameObject.name = cardData.Card_Name_EN;
+
+        if(effectSystem == null) effectSystem = GetComponent<EffectSystem>();
 
         CardActionInitialized(cardID);
     }

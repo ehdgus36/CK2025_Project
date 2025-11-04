@@ -111,9 +111,15 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _SelectCard = card;
         isTargeting = true;
 
-
-        ArrowUIObject.SetActive(true);
-        ArrowUIObject.transform.position = card.transform.position;      
+        if (card.cardData.Target_Type == "2")
+        {
+            ArrowUIObject.SetActive(true);
+            ArrowUIObject.transform.position = card.transform.position;
+        }
+        else
+        {
+            _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
+        }
     }
 
     public void SetTargetEnemy(Enemy enemy) // 타겟팅한 몬스터 등록
@@ -121,7 +127,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        if (_SelectCard.cardData.Target_Type == "1") return;
+        if (_SelectCard.cardData.Target_Type != "2") return;
 
         _TargetEnemy = enemy;
 
@@ -129,7 +135,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     }
 
-    public void SetTargetPlayer(Player player) // 타겟팅한 몬스터 등록
+    public void SetTargetPlayer(Player player) // 타겟팅한 플레이어
     {
         if (player == null) _TargetEnemy = null;
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
@@ -169,12 +175,15 @@ public class ExcutSelectCardSystem : MonoBehaviour
                     }
                     else
                     {
-                        //마나가 사용가능하고, 예약이 가능한 상황일때
-                        if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                        if (_SelectCard.transform.position.y > Card.UsePos)
                         {
-                            // 큐에 예약 데이터 넣기
-                            ArrowUIObject.SetActive(false);
+                            //마나가 사용가능하고, 예약이 가능한 상황일때
+                            if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                            {
+                                // 큐에 예약 데이터 넣기
+                                ArrowUIObject.SetActive(false);
 
+                            }
                         }
                     }
 

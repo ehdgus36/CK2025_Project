@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.InputSystem;
 
-public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler 
+public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
 
@@ -13,55 +13,55 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     Transform onDragParent;
 
-   [SerializeField] public Transform startParent { get; private set; }
+    [SerializeField] public Transform startParent { get; private set; }
 
     public Vector3 startScale; //임시
 
-    Transform PointerEnterParent;
-
     int index;
-    bool onDrage = false;
-
-
-    Card card; // 임시용
-
-    [SerializeField] GameObject CardDropArea;
 
     private Canvas canvas;
 
     void Start()
     {
         startScale = transform.localScale; // 일단 야매
-        card = GetComponent<Card>();
         canvas = GetComponentInParent<Canvas>();
     }
 
     // 인터페이스 IBeginDragHandler를 상속 받았을 때 구현해야하는 콜백함수
     public void OnBeginDrag(PointerEventData eventData)
     {
-        CardDropArea?.SetActive(true);
+
         transform.parent.transform.SetSiblingIndex(index); // 0407 수정 드래그 시작하면 부모 원상복구
-        //transform.SetSiblingIndex(index);
         onDragParent = GameObject.Find("Filds").gameObject.transform;
 
         // 백업용 포지션과 부모 트랜스폼을 백업 해둔다.
 
         startParent = transform.parent;
-       
-    
+
+
         // 드래그 시작할때 부모transform을 변경
-        transform.SetParent(onDragParent);
+        this.transform.SetParent(onDragParent);
+
+
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 
-       
+
+        Card card = GetComponent<Card>();
+
+        if (card != null)
+        {
+            if (card.cardData.Target_Type == "2")
+            {
+                card.transform.localScale = new Vector3(1.44f, 1.44f, 1.44f);
+            }
+        }
     }
+
+
 
     // 인터페이스 IDragHandler 상속 받았을 때 구현 해야하는 콜백함수
     public void OnDrag(PointerEventData eventData)
     {
-        //드래그중에는 Icon을 마우스나 터치된 포인트의 위치로 이동시킨다.
-        //transform.position = (Input.mousePosition / 211);
-
 
         Vector2 localPoint;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -79,8 +79,12 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     // 인터페이스 IEndDragHandler 상속 받았을 때 구현 해야하는 콜백함수
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log("카드의 좌표 :" + this.transform.position.y);
+        if (GetComponent<Card>() != null && this.transform.position.y > Card.UsePos)
+        {
 
-        if (transform.parent == onDragParent)
+        }
+        else if (transform.parent == onDragParent)
         {
             transform.position = startParent.position;
             transform.SetParent(startParent);
@@ -88,7 +92,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             transform.localScale = new Vector3(1, 1, 1);
         }
 
-        CardDropArea?.SetActive(false);
+        //CardDropArea?.SetActive(false);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 

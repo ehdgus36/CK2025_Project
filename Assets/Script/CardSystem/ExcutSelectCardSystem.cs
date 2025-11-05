@@ -175,13 +175,23 @@ public class ExcutSelectCardSystem : MonoBehaviour
                     }
                     else
                     {
-                        if (_SelectCard.transform.position.y > Card.UsePos)
+                        if (_SelectCard.cardData.Target_Type == "2")
                         {
-                            //마나가 사용가능하고, 예약이 가능한 상황일때
                             if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
                             {
-                                // 큐에 예약 데이터 넣기
                                 ArrowUIObject.SetActive(false);
+
+                            }
+                        }
+                        else
+                        {
+                            if (_SelectCard.transform.position.y > Card.UsePos)
+                            {
+                                if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                                {
+                                    ArrowUIObject.SetActive(false);
+
+                                }
 
                             }
                         }

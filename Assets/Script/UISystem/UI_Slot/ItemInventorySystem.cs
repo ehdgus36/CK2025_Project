@@ -21,21 +21,32 @@ public class ItemInventorySystem : MonoBehaviour
     Sprite startStrapSprite;
     Sprite startStringSprite;
 
-    [SerializeField] List<string> Data = new List<string>();
+    
 
   
   
     private void Start()
     {
+        //인벤토리 활성화 후 초기화
+        _StickerItemSlotGroup.gameObject.SetActive(true);
+        _StrapItemSlotGroup.gameObject.SetActive(true);
+        _StringItemSlotGroup.gameObject.SetActive(true);
+
+        SetUpItem();// 초기화
+
+
+        //비활성화
         _StickerItemSlotGroup.gameObject.SetActive(false);
         _StrapItemSlotGroup.gameObject.SetActive(false);
         _StringItemSlotGroup.gameObject.SetActive(false);
 
+        //버튼의 기본 시작이미지 설정
         startStickerSprite = (_StickerItemSlotButton.targetGraphic as Image).sprite;
         startStrapSprite = (_StrapItemSlotButton.targetGraphic as Image).sprite;
         startStringSprite = (_StringItemSlotButton.targetGraphic as Image).sprite;
 
 
+        //아이템 장착칸 알파데이터 설정
         _StickerGroup.alpha = .5f;
         _StrapGroup.alpha = .5f; ;
         _StringGroup.alpha = .5f; ;
@@ -49,11 +60,16 @@ public class ItemInventorySystem : MonoBehaviour
             (_StickerItemSlotButton.targetGraphic as Image).sprite = _StickerItemSlotButton.spriteState.selectedSprite;
             (_StrapItemSlotButton.targetGraphic as Image).sprite = startStrapSprite;
             (_StringItemSlotButton.targetGraphic as Image).sprite = startStringSprite;
-            SetUpItem();
+           
             _StickerGroup.alpha = 1f;
             _StrapGroup.alpha = .5f; ;
-            _StringGroup.alpha = .5f; ;
+            _StringGroup.alpha = .5f;
+
+            (_StickerItemSlotButton.targetGraphic as Image).SetNativeSize();
+            (_StrapItemSlotButton.targetGraphic as Image).SetNativeSize();
+            (_StringItemSlotButton.targetGraphic as Image).SetNativeSize();
         });
+
         _StrapItemSlotButton.onClick.AddListener(() => {
             _StickerItemSlotGroup.gameObject.SetActive(false);
             _StrapItemSlotGroup.gameObject.SetActive(true);
@@ -62,12 +78,17 @@ public class ItemInventorySystem : MonoBehaviour
             (_StickerItemSlotButton.targetGraphic as Image).sprite = startStickerSprite;
             (_StrapItemSlotButton.targetGraphic as Image).sprite = _StrapItemSlotButton.spriteState.selectedSprite;
             (_StringItemSlotButton.targetGraphic as Image).sprite = startStringSprite;
-            SetUpItem();
+           
 
             _StickerGroup.alpha = .5f;
             _StrapGroup.alpha = 1f; ;
-            _StringGroup.alpha = .5f; ;
+            _StringGroup.alpha = .5f;
+
+            (_StickerItemSlotButton.targetGraphic as Image).SetNativeSize();
+            (_StrapItemSlotButton.targetGraphic as Image).SetNativeSize();
+            (_StringItemSlotButton.targetGraphic as Image).SetNativeSize();
         });
+
         _StringItemSlotButton.onClick.AddListener(() => {
             _StickerItemSlotGroup.gameObject.SetActive(false);
             _StrapItemSlotGroup.gameObject.SetActive(false);
@@ -76,12 +97,18 @@ public class ItemInventorySystem : MonoBehaviour
             (_StickerItemSlotButton.targetGraphic as Image).sprite = startStickerSprite;
             (_StrapItemSlotButton.targetGraphic as Image).sprite = startStrapSprite;
             (_StringItemSlotButton.targetGraphic as Image).sprite = _StringItemSlotButton.spriteState.selectedSprite;
-            SetUpItem();
+           
 
             _StickerGroup.alpha = .5f;
             _StrapGroup.alpha = .5f; ;
             _StringGroup.alpha = 1f; ;
+
+            (_StickerItemSlotButton.targetGraphic as Image).SetNativeSize();
+            (_StrapItemSlotButton.targetGraphic as Image).SetNativeSize();
+            (_StringItemSlotButton.targetGraphic as Image).SetNativeSize();
         });
+
+        //처음 시작은 스티커 인벤토리로
         _StickerItemSlotButton.onClick.Invoke();
 
 
@@ -92,26 +119,61 @@ public class ItemInventorySystem : MonoBehaviour
 
     public void SetUpItem()
     {
+        List<string> Data = new List<string>();
+
         if (_StickerItemSlotGroup.gameObject.activeSelf == true)
         {
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, out Data);
-
+            CreateInventoryItem(_StickerItemSlotGroup, Data);
         }
 
         if (_StrapItemSlotGroup.gameObject.activeSelf == true)
         {
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, out Data);
+            CreateInventoryItem(_StrapItemSlotGroup, Data);
         }
 
         if (_StringItemSlotGroup.gameObject.activeSelf == true)
         {
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, out Data);
+            CreateInventoryItem(_StringItemSlotGroup, Data);
         }
 
 
-        (_StickerItemSlotButton.targetGraphic as Image).SetNativeSize();
-        (_StrapItemSlotButton.targetGraphic as Image).SetNativeSize();
-        (_StringItemSlotButton.targetGraphic as Image).SetNativeSize();
+       
+    }
+
+    void CreateInventoryItem(SlotGroup inventory , List<string> Data)
+    {
+
+        for (int i = 0; i < Data.Count; i++)
+        { 
+            if (Data[i] == "0") continue; 
+
+            GameObject itemobj = new GameObject("PlayerInvenItem");
+            itemobj.AddComponent<RectTransform>().sizeDelta = new Vector3(128f, 128f);
+            itemobj.AddComponent<Image>();
+            itemobj.AddComponent<DragDropUI>();
+            itemobj.AddComponent<CanvasGroup>();
+
+            if (Data[i][2] == '0')
+            {
+                itemobj.AddComponent<StickerItem>().Initialized(Data[i]);
+                Debug.Log(Data[i]);
+            }
+            if (Data[i][2] == '1')
+            {
+                itemobj.AddComponent<StrapItem>().Initialized(Data[i]);
+                Debug.Log(Data[i]);
+            }
+            if (Data[i][2] == '3')
+            {
+                itemobj.AddComponent<StringItem>().Initialized(Data[i]);
+                Debug.Log(Data[i]);
+            }
+
+            inventory.InsertData(itemobj);
+        }
     }
 
     public void SaveInventory()
@@ -119,9 +181,9 @@ public class ItemInventorySystem : MonoBehaviour
         List<string> inventoryData = new List<string>();
 
 
-        for (int i = 0; i < _StickerItemSlotGroup.ReadData<Item>().Count; i++)
+        for (int i = 0; i < _StickerItemSlotGroup.Getsloat().Length; i++)
         {
-            inventoryData.Add(_StickerItemSlotGroup.ReadData<Item>()[i].ItemCode);
+            inventoryData.Add(_StickerItemSlotGroup.Getsloat()[i].ReadData<Item>() != null ? _StickerItemSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode : "0");
         }
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, inventoryData);
@@ -129,9 +191,9 @@ public class ItemInventorySystem : MonoBehaviour
 
         inventoryData = new List<string>();
 
-        for (int i = 0; i < _StrapItemSlotGroup.ReadData<Item>().Count; i++)
+        for (int i = 0; i < _StrapItemSlotGroup.Getsloat().Length; i++)
         {
-            inventoryData.Add(_StickerItemSlotGroup.ReadData<Item>()[i].ItemCode);
+            inventoryData.Add(_StrapItemSlotGroup.Getsloat()[i].ReadData<Item>() != null ? _StrapItemSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode :"0");
         }
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, inventoryData);
@@ -139,9 +201,9 @@ public class ItemInventorySystem : MonoBehaviour
 
         inventoryData = new List<string>();
 
-        for (int i = 0; i < _StringItemSlotGroup.ReadData<Item>().Count; i++)
+        for (int i = 0; i < _StringItemSlotGroup.Getsloat().Length; i++)
         {
-            inventoryData.Add(_StickerItemSlotGroup.ReadData<Item>()[i].ItemCode);
+            inventoryData.Add(_StringItemSlotGroup.Getsloat()[i].ReadData<Item>() != null ? _StringItemSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode : "0");
         }
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, inventoryData);

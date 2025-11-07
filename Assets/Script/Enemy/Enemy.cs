@@ -97,8 +97,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
             EnemyData.EnemyUnitData.CurrentBarrier = loadData.Start_Barrier;
             EnemyData.MaxDamage = loadData.Damage;
 
-            Debug.Log(loadData.EnemyAI);
-
             AIMachine.aIBehavior = loadData.EnemyAI;
         }
 

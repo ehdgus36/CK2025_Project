@@ -166,7 +166,15 @@ public class ExcutSelectCardSystem : MonoBehaviour
             SelectExcutCard currnetCard = null;
             if (_SelectCard != null)
             {
-                currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
+                if (_SelectCard.cardData.Target_Type == "2")
+                {
+                    currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
+                }
+                else
+                {
+                    currnetCard = _SelectCard.GetComponent<DragDropUI>().startParent.GetComponent<SelectExcutCard>();
+                }
+
                 if (_TargetEnemy != null)
                 {
                     if (_SelectCard.GetComponent<SkillCard>() != null)

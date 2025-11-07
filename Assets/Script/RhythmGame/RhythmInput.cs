@@ -146,6 +146,12 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote.Remove(inputInstanceNote[0]);
                     score++;
                 }
+
+                if (inputInstanceNote[0].miss)
+                { 
+                    inputInstanceNote[0].gameObject.GetComponent<Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
+                    inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
+                }
             }
         }
        

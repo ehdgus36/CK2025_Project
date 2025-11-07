@@ -20,13 +20,13 @@ namespace GameDataSystem.KeyCode
         public static readonly string TARGET_CARD_DATA = "TARGET_CARD_DATA";
 
         public static readonly string ITME_DATA = "ITEM_DATA";
-        public static readonly string HOLD_ITEM_DATA = "HOLD_ITEM_DATA";
+        
 
         public static readonly string STICKER_ITME_INVENTORY_DATA = "STICKER_ITME_INVENTORY_DATA";
         public static readonly string STRAP_ITME_INVENTORY_DATA = "STRAP_ITME_INVENTORY_DATA";
         public static readonly string STRING_ITME_INVENTORY_DATA = "STRING_ITME_INVENTORY_DATA";
 
-        public static readonly string ITEM_HOLD_DATA = "ITEM_HOLD_DATA";
+        public static string ITEM_HOLD_DATA { get { return "ITEM_HOLD_DATA"; } }
 
         public static readonly string STAGE_DATA = "STAGE_DATA";
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
@@ -191,7 +191,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, new List<string>() { "It11", "It12", "It13" });
             AddDynamicDataBase(DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, new List<string>() { "It31", "It32", "It33" });
 
-            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>());
+            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();

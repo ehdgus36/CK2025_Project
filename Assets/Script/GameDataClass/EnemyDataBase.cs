@@ -42,7 +42,7 @@ public struct EnemyTableData
         BaseAIState Skill1_State = null;
         BaseAIState Skill2_State = null;
 
-        Debug.Log(Skill1);
+       
         switch (Skill1)
         {
 
@@ -76,7 +76,7 @@ public struct EnemyTableData
                 Skill1_State = new EnemySkill_DackAttack_State();
                 break;
         }
-        Debug.Log(Skill2);
+      
         switch (Skill2)
         {
             case "DoubleAttack":

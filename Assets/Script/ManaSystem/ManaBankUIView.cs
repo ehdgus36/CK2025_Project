@@ -23,8 +23,12 @@ public class ManaBankUIView : DynamicUIObject
     {
         manas = (int)update_ui_data;
 
+        int MaxSkillPoint = GameManager.instance.ItemDataLoader.stickerData.CardCount;
+
+        if (MaxSkillPoint == 0) gameObject.SetActive(false);
+
         int mana = Mathf.Clamp((int)update_ui_data, 0, ManaBankSystem.MAX_BANK_MANA); 
-        if (mana >= 10)
+        if (mana >= MaxSkillPoint)
         {
             SkillButton.gameObject.SetActive(true);
             Skill_Bar?.SetFloat("_Health", 1);
@@ -53,7 +57,7 @@ public class ManaBankUIView : DynamicUIObject
 
         ManaBankFill.fillAmount = (float)mana / (float)ManaBankSystem.MAX_BANK_MANA;
 
-        SkillPointText.text = mana.ToString()+ "/"  + ManaBankSystem.MAX_BANK_MANA.ToString();
+        SkillPointText.text = mana.ToString() + "/" + MaxSkillPoint.ToString();
     }
 
 }

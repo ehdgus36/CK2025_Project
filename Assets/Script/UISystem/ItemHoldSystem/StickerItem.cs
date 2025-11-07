@@ -12,15 +12,17 @@ public class StickerItem : Item ,IPointerDownHandler
 
     protected override void Initialized()
     {
-
+        Debug.Log("초기화 :" + ItemID);
         object data = null;
 
         GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
         StickerItemData stickerItemData= (StickerItemData)data;
 
+        
+
         string Path = "ItemImage/" + stickerItemData.ItemImage;
         Sprite cardSprite = Resources.Load<Sprite>(Path);
-
+        Debug.Log("초기화 :" + cardSprite.name);
         GetComponent<Image>().sprite = cardSprite;
 
         ItemType = "string";

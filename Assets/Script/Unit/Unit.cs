@@ -1,3 +1,4 @@
+using GameDataSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -187,5 +188,15 @@ public class Unit : MonoBehaviour
         }
 
 
+    }
+
+    public virtual void LossHP(int HP)
+    {
+        UnitData.CurrentHp -= HP;
+
+        if (UnitData.CurrentHp <= 0)
+            TakeDamage(this, 1);
+
+       
     }
 }

@@ -16,6 +16,8 @@ public class RhythmSystem : MonoBehaviour
     [SerializeField] Sprite ReverseRImage;
     [SerializeField] Sprite ReverseLImage;
 
+    [SerializeField] Sprite FailNoteImage;
+
     Sprite StartRImage;
     Sprite StartLImage;
 
@@ -26,6 +28,7 @@ public class RhythmSystem : MonoBehaviour
 
     public Sprite GetRImage { get { return RImage; } }
     public Sprite GetLImage { get { return LImage; } }
+    public Sprite GetFailImage { get { return FailNoteImage; } }
     private void Awake()
     {
         (StartRImage, StartLImage) = (RImage, LImage);
@@ -100,6 +103,9 @@ public class RhythmSystem : MonoBehaviour
 
 
         yield return new WaitUntil(() => rhythmInput.IsEnd == true);
+
+       
+
         yield return new WaitForSeconds(.4f);
 
         //¿Ã∆Â∆Æ ≤Ù±‚
@@ -109,11 +115,11 @@ public class RhythmSystem : MonoBehaviour
         rhythmView.gameObject.SetActive(false);
         rhythmInput.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(.2f);
 
         rhythmInput.SuccessNoteEvent = null;
         IsEndGame = true;
-       
+
+
     }
 
     string GetNotData(string noteGroupID)

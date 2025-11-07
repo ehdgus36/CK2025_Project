@@ -12,7 +12,8 @@ public class ManaSystem
 
     public ManaSystem(int maxMana)
     {
-        MaxMana = maxMana;
+      
+        MaxMana = maxMana + GameManager.instance.ItemDataLoader.strapData.PC_Mana;
         Initialize();
     }
 

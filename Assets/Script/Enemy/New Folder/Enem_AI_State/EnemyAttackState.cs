@@ -29,23 +29,25 @@ public class EnemyAttackState : BaseAIState
     [SerializeReference] BaseAIState EnemyDefultAttack;
 
     public EnemyAttackState(BaseAIState defultAttackState ,BaseAIState ChangeSkillState) { EnemyDefultAttack = defultAttackState; EnemySkill = ChangeSkillState;}
-
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
-   
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-        
-        Enemy enemy = (Enemy)unit;
 
+        Debug.Log("몬스터 AI 실행");
+
+
+        Enemy enemy = (Enemy)unit;
         if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff))
         {
             Debug.Log("화상 버프 존재");
-            yield return new WaitForSeconds(1.5f);
+            //yield return new WaitForSeconds(1.0f);
         }
 
+       
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {
 
+            Debug.Log("몬스터 AI 스킬 실행");
             enemy.EnemyData.CurrentSkillPoint = 0;
             aIBehavior.ChangeState(EnemySkill, unit, aIBehavior);
             yield break;
@@ -53,20 +55,14 @@ public class EnemyAttackState : BaseAIState
         else
         {
             enemy.EnemyData.CurrentSkillPoint++;
+            Debug.Log("몬스터 평타");
             aIBehavior.ChangeState(EnemyDefultAttack, unit, aIBehavior);
+           
             yield break;
         }
-
-
-      
-
     }
 
-    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) {
-    
-    
-    
-    }
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) {}
   
 
 }

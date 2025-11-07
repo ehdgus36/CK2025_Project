@@ -28,8 +28,15 @@ public class AttackDamageDownBuff : Buff
 
     public override void BuffEvent(Unit unit)
     {
-       
-        float downPercent = DownPercent + GameManager.instance.ItemDataLoader.EnDf_Down;
+
+
+        int ItemDownDamage = 0;
+        if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Weak")
+        {
+            ItemDownDamage = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+        }
+
+        float downPercent = DownPercent + (float)ItemDownDamage;
 
         if (unit.GetComponent<Enemy>())
         {

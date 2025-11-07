@@ -22,8 +22,12 @@ public class BossAttackState : BaseAIState
         
         Enemy enemy = (Enemy)unit;
 
-        yield return new WaitForSeconds(1.5f); // 자연스럽게 하려면 버프가 있으면 조금 길게주고 없으면 좀 늦게 주는 그런 느낌
-
+        if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff))
+        {
+            Debug.Log("화상 버프 존재");
+            yield return new WaitForSeconds(1.0f);
+        }
+     
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {
             enemy.EnemyData.CurrentSkillPoint = 0;

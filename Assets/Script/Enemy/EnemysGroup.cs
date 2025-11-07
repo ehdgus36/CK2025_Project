@@ -65,8 +65,7 @@ public class EnemysGroup : Unit
 
         yield return new WaitUntil(() => RhythmGameSystem?.IsEndGame == true);
 
-        yield return new WaitForSeconds(.1f);
-
+       
         //리듬게임 종료후 Enemy공격 시작
         for (int i = 0; i < Enemys.Count;)
         {
@@ -74,8 +73,7 @@ public class EnemysGroup : Unit
             startEnemy.StartTurn();
             yield return new WaitUntil(() => startEnemy.isAttackEnd == true || startEnemy.isDie == true);
             if (startEnemy.isDie == false)i++;
-
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.5f);
         }
 
         yield return new WaitForSeconds(.5f);

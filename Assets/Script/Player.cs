@@ -50,7 +50,12 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             Debug.LogError("Player데이터를 가져오지 못함");
         }
 
+
         UnitData.MaxHp = Mathf.Clamp(UnitData.MaxHp + GameManager.instance.ItemDataLoader.strapData.PC_HP , 0 , 130);
+        Debug.Log("제바 제발" + GameManager.instance.ItemDataLoader.strapData.PC_HP);
+        Debug.Log("제발 제발 플레이어 체력" + UnitData.MaxHp);
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+
 
         StartTurnEvent += () => {
             StaticGameDataSchema.CARD_DATA_BASE.LossValueDamage(GameManager.instance.ItemDataLoader.strapData.Card_Damage, new List<Card>());
@@ -93,8 +98,6 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         };
 
         DieEvent += PlayerDieEvent;
-        UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
-
         HellfireAction.EndHellFire();
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);

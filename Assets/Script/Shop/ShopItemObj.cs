@@ -62,7 +62,14 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
 
         ItemNameText.text = ((CardData)cardData).Card_Name_KR;
-        ItemPriceText.text = data.Price.ToString();
+
+        float itemPrice = (float)data.Price;
+        if (ShopEvent.GetItemDataLoader.strapData.Shop_Sale > 0)
+        {
+            itemPrice = Mathf.Round((float)data.Price / (float)ShopEvent.GetItemDataLoader.strapData.Shop_Sale);
+        }
+
+        ItemPriceText.text = ((int)itemPrice).ToString();
     }
 
 

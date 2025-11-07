@@ -24,8 +24,13 @@ public class ShopEvent : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI ResetPriceText;
 
+    [SerializeField] ItemDataLoader ItemDataLoader;
+
     [SerializeField] int ResetCount = 1;
-    [SerializeField] int ResetPrice = 45;
+    [SerializeField] int ResetPrice = 20;
+
+
+    public ItemDataLoader GetItemDataLoader { get { return ItemDataLoader; } }
 
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
     public List<ShopItemObj> PeakList { get { return _PeakList; } }
@@ -38,6 +43,8 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
+        ItemDataLoader.LoadData();
+
 
         RuntimeManager.PlayOneShot("event:/UI/Store/Store_In");
         for (int i = 0; i < PeakList.Count; i++)
@@ -48,7 +55,7 @@ public class ShopEvent : MonoBehaviour
         SelectDescPopUp.gameObject.SetActive(false);
        
         ResetButton.onClick.AddListener(ResetItem);
-        ResetPriceText.text = ResetPrice.ToString();
+        ResetPriceText.text = (ResetPrice + ItemDataLoader.strapData.Reroll_Cost).ToString();
 
     }
 
@@ -67,7 +74,7 @@ public class ShopEvent : MonoBehaviour
 
         ResetCount++;
 
-        ResetPrice = (int)(((((float)ResetCount + 10f) * ((float)ResetCount + 10f)) / ((10f + 10f) * (10f + 10f))) *150f);
+        ResetPrice = 20 + ItemDataLoader.strapData.Reroll_Cost;//(int)(((((float)ResetCount + 10f) * ((float)ResetCount + 10f)) / ((10f + 10f) * (10f + 10f))) *150f);
        
         ResetPriceText.text = ResetPrice.ToString();
 
@@ -146,7 +153,14 @@ public class ShopEvent : MonoBehaviour
         GameDataSystem.StaticGameDataSchema.Shop_DATA_BASE.SearchData(SelectItemID, out data);
 
 
-        if (coins < data.Price) // 돈없으면 리턴
+        int itemPrice = data.Price;
+        if (ItemDataLoader.strapData.Shop_Sale > 0)
+        {
+            itemPrice = Mathf.RoundToInt((float)data.Price / (float)ItemDataLoader.strapData.Shop_Sale);
+        }
+
+
+        if (coins < itemPrice) // 돈없으면 리턴
         {
             NoGold.SetActive(true);
             return;
@@ -164,7 +178,7 @@ public class ShopEvent : MonoBehaviour
 
             //실질적인 구매 실행
             playerItemData.Add(SelectItemID);
-            coins -= data.Price;
+            coins -= itemPrice;
 
           
 
@@ -185,7 +199,7 @@ public class ShopEvent : MonoBehaviour
             if (playerDackDatas != null)
             {
                 playerDackDatas.Add(SelectItemID);
-                coins -= data.Price;
+                coins -= itemPrice;
             }
 
 

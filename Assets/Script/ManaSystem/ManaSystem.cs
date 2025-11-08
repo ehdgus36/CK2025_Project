@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ManaSystem 
 {
-    int CurrentMana;
+    public int CurrentMana { get; private set; }
     int MaxMana = 5;
     ManaUIView ManaUIView = null;
     ManaBankSystem ManaBank = new ManaBankSystem();

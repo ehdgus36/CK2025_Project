@@ -20,6 +20,7 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
     public void OnPointerDown(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
+        if (GameManager.instance.ExcutSelectCardSystem.CurrentMana == 0) return;
         card = CardSlot.ReadData<Card>();
 
 
@@ -59,7 +60,7 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         if (GameManager.instance.ExcutSelectCardSystem.IsSelectCard == false)
         {
             GameManager.instance.DimBackGroundObject.gameObject.SetActive(false);
-            card.EffectSystem?.StopEffect("CardHold_Effect");
+            card?.EffectSystem?.StopEffect("CardHold_Effect");
             GetComponent<HoverEffectUI>()?.HoldEffect(false);
             GetComponent<RectTransform>().sizeDelta = new Vector2(150f, 150f);
         }

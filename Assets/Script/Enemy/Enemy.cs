@@ -179,7 +179,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     {
         yield return new WaitForSeconds(.5f);
 
-        unit.TakeDamage(this, ((damage + 1) / 2));
+        unit.TakeDamage(this, 3);
     }
 
     

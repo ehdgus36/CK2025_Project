@@ -51,6 +51,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     Coroutine ReservedCardCoroutine;
     public int UseManaCount { get { return ManaSystem.UseManaCount(); } }
+    public int CurrentMana => ManaSystem.CurrentMana;
 
     public string[] UsedCard { get { return _UsedCard.ToArray(); } }
     public bool IsSelectCard => _SelectCard != null;
@@ -271,6 +272,12 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
             CurrentExcutCardCount++;
             //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
+
+
+            if (ManaSystem.CurrentMana == 0)
+            {
+                selecCard.GetCardSloat.ReadData<Card>().ForEach( card => card.DisableCard());
+            }
 
         }
     }

@@ -1,10 +1,10 @@
 
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
 using GameDataSystem;
 using Spine;
+using System.Collections;
+using System.Collections.Generic;
+
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -67,6 +67,9 @@ public class Card : MonoBehaviour
         }
 
         CardActionInitialized(cardData.Card_ID);
+
+
+        SetOutLineColor(Color.white);
     }
 
     public void ReflashCardData()
@@ -101,16 +104,19 @@ public class Card : MonoBehaviour
         string Path = "CardImage/" + cardData.Card_Im;
         Sprite cardSprite = Resources.Load<Sprite>(Path);
 
-        Material instanceMaterial = new Material(BaseMaterial);
+        //Material instanceMaterial = new Material(BaseMaterial);
         if (cardSprite != null)
         {
            
-            instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
+            //instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
         }
 
         if (cardImage != null)
         {
-            cardImage.material = instanceMaterial;
+            //cardImage.material = instanceMaterial;
+            cardImage.sprite = cardSprite;
+            
+            SetOutLineColor(Color.white);
         }
 
         this.CardID = cardData.Card_ID;
@@ -219,6 +225,16 @@ public class Card : MonoBehaviour
     public void SetOutLineColor(Color color)
     {
         if (cardImage != null)
-            cardImage.material.SetColor("_BgColor", color);
+        {
+            GetComponent<Image>().color = color;
+        }
+            
+    }
+
+
+    public void DisableCard()
+    {
+        
+        SetOutLineColor(new Color(1, 1, 1, 0));
     }
 }

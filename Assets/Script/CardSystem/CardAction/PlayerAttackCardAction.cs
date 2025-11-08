@@ -463,10 +463,12 @@ public class SkillAction : MultiAttackAction
 
         CompleteEvent(null);
         card.transform.parent.gameObject.SetActive(false);
+        GameManager.instance.UIInputSetActive(true);
 
     }
 }
 
+//"적 전체에게 <color=#ff2e2e>12데미지</color>와 <color=#ff2e2e>화상 2턴</color>을 부여한다."
 public class Skill2Action : MultiAttackAction
 {
     public Skill2Action(Card card) : base(card)
@@ -478,16 +480,25 @@ public class Skill2Action : MultiAttackAction
     {
         yield return new WaitForSeconds(1);
         //이펙트 추가
+
+        Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
+
+        player.PlayerEffectSystem.PlayEffect("PowerBreak_Effect", targetPos);
+
         yield return MultiAttack(cardData, Target, 1);
-        
+
+
+
         CompleteEvent(null);
         card.transform.parent.gameObject.SetActive(false);
         GameManager.instance.UIInputSetActive(true);
+
 
     }
 }
 
 
+//"노이즈의 체력을 <color=#0ab52b>30</color> 회복시킨다."
 public class Skill3Action : MultiAttackAction
 {
     public Skill3Action(Card card) : base(card)
@@ -499,12 +510,18 @@ public class Skill3Action : MultiAttackAction
     {
         yield return new WaitForSeconds(1);
         //이펙트 추가
-        player.addHP(cardData.HP_Recover);
-        player.PlayerEffectSystem.PlayEffect("Tuning_Effect", player.transform.position);
 
-        yield return MultiAttack(cardData, Target, 1);
-        card.transform.parent.gameObject.SetActive(false);
+        Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
+
+        player.addHP(cardData.HP_Recover);
+
+        
+
+
+
         CompleteEvent(null);
+        card.transform.parent.gameObject.SetActive(false);
+        GameManager.instance.UIInputSetActive(true);
 
     }
 }

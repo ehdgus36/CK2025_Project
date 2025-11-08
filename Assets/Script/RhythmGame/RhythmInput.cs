@@ -153,6 +153,62 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
             }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow) && inputInstanceNote.Count != 0  && inputInstanceNote[0].mouseInput == 0)
+            {
+                if (inputInstanceNote[0].good)
+                {
+                    if (inputInstanceNote[0].mouseInput == 0)
+                    {
+                        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Left");
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.5f);
+                    }
+
+                    if (inputInstanceNote[0].mouseInput == 1)
+                    {
+                        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Right");
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
+                    }
+
+                    SuccessNoteEvent.Invoke(inputInstanceNote[0].gameObject);
+                    inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
+                    inputInstanceNote.Remove(inputInstanceNote[0]);
+                    score++;
+                }
+
+                if (inputInstanceNote[0].miss)
+                {
+                    inputInstanceNote[0].gameObject.GetComponent<Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
+                    inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow) && inputInstanceNote.Count != 0 && inputInstanceNote[0].mouseInput == 1)
+            {
+                if (inputInstanceNote[0].good)
+                {
+                    if (inputInstanceNote[0].mouseInput == 0)
+                    {
+                        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Left");
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.5f);
+                    }
+
+                    if (inputInstanceNote[0].mouseInput == 1)
+                    {
+                        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Right");
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
+                    }
+
+                    SuccessNoteEvent.Invoke(inputInstanceNote[0].gameObject);
+                    inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
+                    inputInstanceNote.Remove(inputInstanceNote[0]);
+                    score++;
+                }
+
+                if (inputInstanceNote[0].miss)
+                {
+                    inputInstanceNote[0].gameObject.GetComponent<Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
+                    inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
+                }
+            }
         }
        
     }

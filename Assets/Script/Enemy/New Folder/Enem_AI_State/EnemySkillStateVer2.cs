@@ -5,13 +5,15 @@ using System.Collections.Generic;
 /// <summary>
 ///힙합 쥐, 힙팝 최종보스 데미지 (데미지 값 조절 가능하게) + 돈 (돈 개수 조절 가능하게)
 /// </summary>
-public class EnemySkill_AttackAndCoin_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
+public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
     int ADD_CoinCount;
-    int Damage = 5;
+    int Damage = 0;
 
-    public EnemySkill_AttackAndCoin_State(int attackCount , int AddCoinCount) : base(attackCount) { 
-    ADD_CoinCount = AddCoinCount;
+    public EnemySkill_DMG_Gold_State(int attackCount, int AddCoinCount, int damage = 0) : base(attackCount) { 
+    
+        ADD_CoinCount = AddCoinCount;
+        Damage = damage;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
@@ -48,11 +50,11 @@ public class EnemySkill_AttackAndCoin_State : EnemySkill_MultiAttack_State // 때
 /// 플레이어 번업 (턴수 조절 가능하게)
 /// </summary>
 
-public class EnemySkill_BurnUp_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
+public class EnemySkill_Buff_Burnup_State : EnemySkill_MultiAttack_State 
 {
     int BurnUP_Turn;
 
-    public EnemySkill_BurnUp_State(int attackCount, int Turn) : base(attackCount)
+    public EnemySkill_Buff_Burnup_State(int attackCount, int Turn) : base(attackCount)
     {
         BurnUP_Turn = Turn;
     }
@@ -71,7 +73,7 @@ public class EnemySkill_BurnUp_State : EnemySkill_MultiAttack_State // 때린 데미
         yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);
-        // 코인 획득
+      
         GameManager.instance.Player.AddBuff(new FireBuff(BuffType.Start, BurnUP_Turn, 4));
 
         enemy.isAttackEnd = true; // 공격함
@@ -87,11 +89,11 @@ public class EnemySkill_BurnUp_State : EnemySkill_MultiAttack_State // 때린 데미
 /// <summary>
 /// 플레이어 번아웃 (턴수 조절 가능하게) feat. 임페리얼 블레스터
 /// </summary>
-public class EnemySkill_BurnOut_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
+public class EnemySkill_Buff_Burnout_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
     int BurnUP_Turn;
 
-    public EnemySkill_BurnOut_State(int attackCount, int Turn) : base(attackCount)
+    public EnemySkill_Buff_Burnout_State(int attackCount, int Turn) : base(attackCount)
     {
         BurnUP_Turn = Turn;
     }
@@ -126,13 +128,13 @@ public class EnemySkill_BurnOut_State : EnemySkill_MultiAttack_State // 때린 데�
 /// 체력 소모 (남은 체력 비례) + 셀프 볼륨업 (중첩수 조절 가능하게)
 
 /// </summary>
-public class EnemySkill_VolumUPLossHP_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
+public class EnemySkill_HP_Volumeup_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
     float LossValueHP = .2f;
 
     int VolumeUP_Value;
 
-    public EnemySkill_VolumUPLossHP_State(int attackCount, float LossValue , int volumeup) : base(attackCount)
+    public EnemySkill_HP_Volumeup_State(int attackCount, float LossValue , int volumeup) : base(attackCount)
     {
         LossValueHP = LossValue;
         VolumeUP_Value = volumeup;
@@ -175,16 +177,16 @@ public class EnemySkill_VolumUPLossHP_State : EnemySkill_MultiAttack_State // 때
 /// 가장 낮은 체력 회복 (최대 체력 비례 회복. 만약 가장낮은 체력이 두명이면 배열 순으로) + 데미지 (데미지 값 조절 가능하게);
 /// </summary>
 
-public class EnemySkill_LowEnemysRecoverHP_Attack_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
+public class EnemySkill_Heal_Lowest_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
     
-    int Damage = 5;
+    int Damage = 0;
 
-    float HP_Percent;
+    float HP_Percent = .2f;
 
-    public EnemySkill_LowEnemysRecoverHP_Attack_State(int attackCount) : base(attackCount)
+    public EnemySkill_Heal_Lowest_State(int attackCount , int damage) : base(attackCount , damage)
     {
-        
+        Damage = damage;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
@@ -238,9 +240,9 @@ public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // 때�
 
     int PoisonBuffTurn = 4;
 
-    public EnemySkill_PoisonAttack_State(int attackCount) : base(attackCount)
+    public EnemySkill_PoisonAttack_State(int attackCount , int Turn) : base(attackCount)
     {
-
+        PoisonBuffTurn = Turn;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
@@ -278,14 +280,15 @@ public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // 때�
 /// <summary>
 /// 셀프 볼륨업 (중첩수 조절 가능하게) + 데미지 (데미지 값 조절 가능하게)
 /// </summary>
-public class EnemySkill_VolumUPAttack_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
+public class EnemySkill_Self_Volumeup_State : EnemySkill_MultiAttack_State 
 {
     int VolumeUP_Value;
-    int Damage = 5;
+    int Damage = 0;
 
-    public EnemySkill_VolumUPAttack_State(int attackCount,  int volumeup) : base(attackCount)
+    public EnemySkill_Self_Volumeup_State(int attackCount,  int volumeup , int damage) : base(attackCount , damage)
     {
         VolumeUP_Value = volumeup;
+        Damage = damage;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
@@ -328,9 +331,9 @@ public class EnemySkill_VolumUPAttack_State : EnemySkill_MultiAttack_State // 때
 public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
     int Barrier_Value;
-    int Damage = 5;
+    int Damage = 0;
 
-    public EnemySkill_BarrierAttack_State(int attackCount, int barrier , int customDamage = 0) : base(attackCount)
+    public EnemySkill_BarrierAttack_State(int attackCount, int barrier , int customDamage = 0) : base(attackCount , customDamage)
     {
         Barrier_Value = barrier;
         Damage = customDamage;
@@ -433,7 +436,12 @@ public class EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State : EnemySkill_Mu
     int BarrierValue = 5;
     int PlayerVolumeUP = 5;
 
-    public EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State(int attackConut) : base(attackConut) { }
+    public EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State(int attackConut , int barrier ,int barbedArmorTurn , int volumeUP ) : base(attackConut) 
+    {
+        BarbedArmorTurn = barbedArmorTurn;
+        BarrierValue = barrier;
+        PlayerVolumeUP = volumeUP;
+    }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
 

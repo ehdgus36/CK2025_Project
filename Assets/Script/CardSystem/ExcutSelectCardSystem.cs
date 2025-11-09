@@ -173,7 +173,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 }
                 else
                 {
-                    currnetCard = _SelectCard.GetComponent<DragDropUI>().startParent.GetComponent<SelectExcutCard>();
+                    currnetCard = _SelectCard.GetComponent<DragDropUI>().startParent.transform.GetComponent<SelectExcutCard>();
                 }
 
                 if (_TargetEnemy != null)

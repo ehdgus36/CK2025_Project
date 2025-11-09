@@ -27,16 +27,28 @@ public class SingleAttackAction : PlayerBaseCardAction
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent , CompleteEvent);
 
+        yield return new WaitForSeconds(.1f);
+        Vector3 startpos = player.transform.position;
+        yield return MoveToUnit(player.transform, Target.transform.position, new Vector3(-6f, 0f, 0f));
 
 
-        //bit4 일때 데미지 처리
+        yield return new WaitUntil(() => bit1 == true);
+        
+
+
+
         yield return new WaitUntil(() => bit3 == true);
+       
 
         yield return new WaitForSeconds(0.1f);
         player.PlayerEffectSystem.EffectObject("Break_Effect", Target.transform.position);
         yield return SingleAttack(cardData,Target,SingleAttackCount);
+
+
         yield return new WaitUntil(() => bit4 == true);
         //player.PlayerEffectSystem.StopEffect("Break_Effect");
+        yield return new WaitForSeconds(0.1f);
+        MoveUnit(player.transform, startpos, Vector3.zero);
 
     }
 
@@ -52,6 +64,26 @@ public class SingleAttackAction : PlayerBaseCardAction
                 yield return new WaitForSeconds(.2f);
         }
     }
+
+    protected void MoveUnit(Transform unit, Vector3 to, Vector3 offset)
+    {
+        unit.position = to + offset;
+
+    }
+
+    protected IEnumerator MoveToUnit(Transform unit, Vector3 to, Vector3 offset)
+    {
+
+        float T = 0;
+        Vector3 pos = unit.position;
+        for (int i = 0; i < 11; i++)
+        {
+            unit.transform.position = Vector3.Lerp(pos, to + offset, T);
+            T += 0.1f;
+
+            yield return new WaitForSeconds(.01f);
+        }
+    }
 }
 
 public class MultiAttackAction : PlayerBaseCardAction
@@ -64,12 +96,14 @@ public class MultiAttackAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         //애니메이션 실행
-        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+        GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);    
 
-
+        yield return new WaitUntil(() => bit3 == true);
+       
         yield return new WaitUntil(() => bit4 == true);
         player.PlayerEffectSystem.EffectObject("Notebomb_Effect", Target.transform.position);
         yield return MultiAttack(cardData, Target, MultiAttackCount);
+       
     }
 
     public IEnumerator MultiAttack(CardData cardData, Enemy Target , int attackCount)
@@ -92,6 +126,8 @@ public class MultiAttackAction : PlayerBaseCardAction
                 yield return new WaitForSeconds(.3f);
         }
     }
+
+   
 }
 
 
@@ -155,13 +191,21 @@ public class PowerBreakAction : SingleAttackAction
     {
         //애니메이션 실행
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
+       
+        yield return new WaitForSeconds(.1f);
+        Vector3 startpos = player.transform.position;
+        yield return MoveToUnit(player.transform, Target.transform.position, new Vector3(-6f, 0f, 0f));
 
-        //bit4 일때 데미지 처리
         yield return new WaitUntil(() => bit3 == true);
+        
 
         yield return new WaitForSeconds(0.08f);
         player.PlayerEffectSystem.EffectObject("PowerBreak_Effect", Target.transform.position); // 수정 예정
         yield return SingleAttack(cardData, Target, SingleAttackCount);
+
+        yield return new WaitUntil(() => bit4 == true);
+        yield return new WaitForSeconds(0.1f);
+        MoveUnit(player.transform, startpos, Vector3.zero);
     }
 }
 
@@ -220,14 +264,24 @@ public class SoloAction : SingleAttackAction
         base.CompleteEvent(entry);
 
         List<Card> changeCard = new List<Card>();
-        changeCard.AddRange(Card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021").ToList());
-        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C1021").ToList());
-        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C1021").ToList());
+        changeCard.AddRange(Card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021" || id.cardData.Card_ID == "C1022").ToList());
+        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C1021" || id.cardData.Card_ID == "C1022").ToList());
+        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C1021" || id.cardData.Card_ID == "C1022").ToList());
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
 
 
         for (int i = 0; i < changeCard.Count; i++)
         {
+            if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '1')
+            {
+                changeCard[i].Initialized("C2021");
+            }
+
+            if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '2')
+            {
+                changeCard[i].Initialized("C2021");
+            }
+
             changeCard[i].Initialized("C2021");
         }
     }
@@ -349,16 +403,26 @@ public class FreestyleSoloAction: SingleAttackAction
 
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
         List<Card> changeCard = new List<Card>();
-        changeCard.AddRange( card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C2021").ToList());
-        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C2021").ToList());
-        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C2021").ToList());
+        changeCard.AddRange( card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C2021" || id.cardData.Card_ID == "C2022").ToList());
+        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C2021" || id.cardData.Card_ID == "C2022").ToList());
+        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C2021" || id.cardData.Card_ID == "C2022").ToList());
 
         for (int i = 0; i < changeCard.Count; i++)
         {
-            changeCard[i].Initialized("C3011");
+            if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '1')
+            {
+                changeCard[i].Initialized("C3011");
+            }
+
+            if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '2')
+            {
+                changeCard[i].Initialized("C3012");
+            }
         }
 
     }
+
+    
 }
 
 

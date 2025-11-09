@@ -43,6 +43,8 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
+        if (ItemDataLoader == null) ItemDataLoader = GetComponent<ItemDataLoader>();
+
         ItemDataLoader.LoadData();
 
 
@@ -50,7 +52,7 @@ public class ShopEvent : MonoBehaviour
         for (int i = 0; i < PeakList.Count; i++)
         {
             PeakList[i].ShopEvent = this;
-            //PeakSelectList[i].GetComponent<SelectShopItemObj>().Initialize(PeakList[i].gameObject);
+            PeakList[i].ResetCard( i == 0 ? null : PeakList[i - 1]);
         }
         SelectDescPopUp.gameObject.SetActive(false);
        
@@ -81,8 +83,7 @@ public class ShopEvent : MonoBehaviour
         SelectDescPopUp.gameObject.SetActive(false);
         for (int i = 0; i < PeakList.Count; i++)
         {
-            PeakList[i].ResetCard();
-           
+            PeakList[i].ResetCard(i == 0 ? null : PeakList[i - 1]);
         }
 
         SelectDescPopUp.gameObject.SetActive(false);

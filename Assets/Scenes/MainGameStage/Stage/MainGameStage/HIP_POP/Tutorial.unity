@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 175317196}
   - component: {fileID: 175317195}
   - component: {fileID: 175317197}
+  - component: {fileID: 175317198}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -216,6 +217,35 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f93e42649036dfe44b50b111af6746b3, type: 3}
   - {fileID: 21300000, guid: 37c4f47946ea20149a50a3d5da8c3c8b, type: 3}
   LoadSceneName: 1-T
+--- !u!114 &175317198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175317193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 175317197}
+          m_TargetAssemblyTypeName: Tutorial, Assembly-CSharp
+          m_MethodName: nextTutorial
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &374844568
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +518,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Loading
       objectReference: {fileID: 0}
+    - target: {fileID: 1063631728508800056, guid: b1e9705d1c3794c4aa526364db8548c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2985560211331480957, guid: b1e9705d1c3794c4aa526364db8548c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -522,15 +556,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2985560211331480957, guid: b1e9705d1c3794c4aa526364db8548c3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.00981
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2985560211331480957, guid: b1e9705d1c3794c4aa526364db8548c3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.00981
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2985560211331480957, guid: b1e9705d1c3794c4aa526364db8548c3, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.00981
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2985560211331480957, guid: b1e9705d1c3794c4aa526364db8548c3, type: 3}
       propertyPath: m_LocalPosition.x

@@ -29,7 +29,7 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         canvas = GetComponentInParent<Canvas>();
 
 
-        card.EffectSystem.PlayEffect("CardHold_Effect", card.transform, new Vector3(62,62,62));
+        card?.EffectSystem?.PlayEffect("CardHold_Effect", card.transform, new Vector3(62,62,62));
 
 
         GetComponent<HoverEffectUI>()?.HoldEffect(true);

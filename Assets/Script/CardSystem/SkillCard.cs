@@ -13,7 +13,7 @@ public class SkillCard : Card
 
         if (CardID == null) return;
 
-        if ("SKILL" == CardID) { CardAction = new SkillAction(this); }
+        if ("SKILL1" == CardID) { CardAction = new SkillAction(this); }
         if ("SKILL2" == CardID) { CardAction = new Skill2Action(this); }
         if ("SKILL3" == CardID) { CardAction = new Skill3Action(this); }
         Initialized(new SlotGroup());

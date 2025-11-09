@@ -29,7 +29,7 @@ public class SlotUI : MonoBehaviour,IDropHandler
     public virtual void OnDrop(PointerEventData eventData)
     {          
         InsertData(eventData.pointerDrag);
-        this.transform.localScale = imageScale;
+        this.transform.localScale = new Vector3(.8f, .8f, .8f);
     }
 
     public virtual void InsertData(GameObject data)

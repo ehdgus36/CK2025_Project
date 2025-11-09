@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Linq.Expressions;
-using UnityEngine.EventSystems;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
         get
         {
             if (_EnemysGroup.Enemys.Count == 0)
-                Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
+                Debug.Log("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
 
             return _EnemysGroup;
         }
@@ -161,7 +162,7 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         EndTurnButton?.onClick.AddListener(TurnSwap);
-        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/Turn_End"); }); // 클릭시 사운드
+        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/In_Game/Turnend_Button"); }); // 클릭시 사운드
         
         //EndTurnButton?.gameObject.SetActive(false);
 
@@ -269,6 +270,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator TurnMark()
     {
+        UIInputSetActive(false);
         if (isStart == false)
         {    
             isStart = true;
@@ -281,14 +283,14 @@ public class GameManager : MonoBehaviour
 
 
         yield return new WaitForSeconds(.2f);
-        _FMODManagerSystem.PlayEffectSound("event:/UI/Change_Turn"); // 사운드도 같이
+        _FMODManagerSystem.PlayEffectSound("event:/UI/In_Game/Turn_Change"); // 사운드도 같이
         ThisTrunMark.SetActive(true);
         yield return new WaitForSeconds(1f);
         ThisTrunMark.SetActive(false);
 
         (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
 
-       
+        UIInputSetActive(true);
 
     }
 

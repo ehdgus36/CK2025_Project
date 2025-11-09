@@ -106,7 +106,7 @@ public struct CardData
 
         if (Buff_BurnUp != 0) // 화상 도트 2 데미지
         {
-            return new FireBuff(BuffType.Start, Buff_BurnUp, 2);
+            return new FireBuff(BuffType.Start, Buff_BurnUp, 4);
         }
 
         if (Buff_BurnOut != 0)// 화상 도트 12 데미지

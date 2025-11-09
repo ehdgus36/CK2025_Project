@@ -61,6 +61,8 @@ public class Card : MonoBehaviour
         {
             Debug.LogError("카드데이터를 불러오지못했습니다. CardID를 확인해주세요. 혹은 저장된 값이 없습니다 " + this.gameObject.name);
         }
+
+        CardActionInitialized(cardData.Card_ID);
     }
 
     public void ReflashCardData()
@@ -80,6 +82,7 @@ public class Card : MonoBehaviour
     public virtual void Initialized(string cardID)
     {
         if (cardID == "" || cardID == null) return;
+
         object data = null;
         if (StaticGameDataSchema.CARD_DATA_BASE.SearchData(cardID, out data))
         {
@@ -106,7 +109,7 @@ public class Card : MonoBehaviour
             cardImage.material = instanceMaterial;
         }
 
-        this.CardID = cardID;
+        this.CardID = cardData.Card_ID;
 
         this.gameObject.name = cardData.Card_Name_EN;
 
@@ -184,13 +187,21 @@ public class Card : MonoBehaviour
         }
         //if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
 
-        GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
+       
         EnemyTarget = Target;
 
         
-        StartCoroutine(CardAction.StartAction(GameManager.instance.Player,this, this.cardData, EnemyTarget));
+        StartCoroutine(DelayCard());
 
     }
+
+    IEnumerator DelayCard()
+    {
+        yield return new WaitForSeconds(.5f);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
+        StartCoroutine(CardAction.StartAction(GameManager.instance.Player, this, this.cardData, EnemyTarget));
+    }
+
 
 
     public void SetOutLineColor(Color color)

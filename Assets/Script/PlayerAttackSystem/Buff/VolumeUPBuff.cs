@@ -13,7 +13,7 @@ public class VolumeUPBuff : Buff
 
     public override void BuffEvent(Unit unit)
     {
-        
+        BuffDurationTurn = 0;
     }
 
     public override void PreviewBuffEffect<T>(T value, out T outobject)
@@ -21,8 +21,5 @@ public class VolumeUPBuff : Buff
         outobject = value;
     }
 
-    public override void AddBuffTurnCount(int addCount)
-    {
-        
-    }
+    
 }

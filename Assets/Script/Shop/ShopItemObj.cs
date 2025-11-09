@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using FMODUnity;
+
 public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
@@ -46,7 +47,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void ResetCard()
     {
-
+        isSoldOut = false;
         string randomCard = GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.RandomCard();
         ItemID = randomCard;
 
@@ -76,7 +77,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (ItemType == "Tape") ShopEvent.SelectTape(ShopEvent.TapeList.IndexOf(this));
         if (ItemType == "Peak") ShopEvent.SelectPeak(ShopEvent.PeakList.IndexOf(this));
 
-        
+        RuntimeManager.PlayOneShot("event:/UI/Card_Click");
 
         transform.position = Pos;
         transform.rotation = Rotat;
@@ -99,6 +100,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         this.transform.SetAsLastSibling();
 
         Empty.localScale = Vector3.one * 2f;
+
+        RuntimeManager.PlayOneShot("event:/UI/Card_Over");
 
         StartCoroutine(MoveSlot());
     }

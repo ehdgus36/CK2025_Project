@@ -44,7 +44,7 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
         yield return enemyAction.AttackEnemy(enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player);
         yield return new WaitForSeconds(.5f);
 
-        Debug.Log("isAttackEndControll" + isAttackEndControll);
+        
         //완료 이벤트
         enemy.isAttackEnd = isAttackEndControll;
        

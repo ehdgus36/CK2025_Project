@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Spine;
 using Spine.Unity;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class CardDescription : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class CardDescription : MonoBehaviour
 
         if (cardData.Buff_Ex2 != "0")
         {
-            BuffEx2.text = cardData.Buff_Ex1;
+            BuffEx2.text = cardData.Buff_Ex2;
         }
 
 
@@ -85,6 +86,11 @@ public class CardDescription : MonoBehaviour
         }
     }
 
+    public void DesctiptionActiveFalse()
+    {
+        CardName.gameObject.transform.parent.gameObject.SetActive(false);
+    }
+
     public void SetActive(bool isactive)
     {
         if (isactive == true)
@@ -101,7 +107,7 @@ public class CardDescription : MonoBehaviour
             BuffEx.gameObject.SetActive (false);
             BuffEx2.gameObject.SetActive(false);
 
-            delayTime = .05f;
+            delayTime = .02f;
             coroutine = StartCoroutine("DisableGameObjectDelay");
         }
     }

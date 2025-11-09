@@ -11,9 +11,19 @@ public abstract class Item : MonoBehaviour
     [SerializeField] protected string ItemID;
     void Start()
     {
-        Initialized();
+        if (ItemID != "" && ItemID != "0")
+        {
+            Initialized();
+            GetComponent<RectTransform>().sizeDelta = new Vector3(128f, 128f);
+        }
     }
 
     protected abstract void Initialized();
-    
+
+    public void Initialized(string itemID)
+    {
+        ItemID = itemID;
+        Initialized();
+        GetComponent<RectTransform>().sizeDelta = new Vector3(128f, 128f);
+    }
 }

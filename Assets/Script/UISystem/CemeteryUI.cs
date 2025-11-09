@@ -52,10 +52,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
             effectSystem = GetComponent<EffectSystem>();
         }
 
-        
-
        
-
         //카드 묘지 이동효과 출력
 
 

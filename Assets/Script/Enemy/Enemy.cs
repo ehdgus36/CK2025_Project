@@ -97,8 +97,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
             EnemyData.EnemyUnitData.CurrentBarrier = loadData.Start_Barrier;
             EnemyData.MaxDamage = loadData.Damage;
 
-            Debug.Log(loadData.EnemyAI);
-
             AIMachine.aIBehavior = loadData.EnemyAI;
         }
 
@@ -181,7 +179,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     {
         yield return new WaitForSeconds(.5f);
 
-        unit.TakeDamage(this, ((damage + 1) / 2));
+        unit.TakeDamage(this, 3);
     }
 
     
@@ -189,6 +187,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     void EnemyDieEvent()
     {
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Hurt");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Die");
 
         EffectSystem.PlayEffect("Monster_Die_Effect", this.transform.position);      
         GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);

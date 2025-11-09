@@ -204,7 +204,7 @@ public class STFUAction : SingleAttackAction
         
         player.PlayerEffectSystem.StopEffect("STFU_Shoot_Effect");
         player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);
-        Target.AddBuff(cardData.CardBuff);
+        //Target.AddBuff(cardData.CardBuff);
     }
 }
 

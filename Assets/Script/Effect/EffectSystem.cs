@@ -8,6 +8,16 @@ public class EffectSystem : MonoBehaviour
 
     Dictionary<string, ParticleSystem> EffectSystemInstanceData = new Dictionary<string, ParticleSystem>();
 
+
+
+    public void PlayEffect(string effectCode, Transform Parent, Vector3 setScale)
+    {
+        GameObject effectObject =  EffectObject(effectCode, Parent.position);
+        effectObject.transform.SetParent(Parent);
+        effectObject.transform.localPosition = Vector3.zero;
+        effectObject.transform.localScale = setScale;
+    }
+
     public void PlayEffect(string effectCode, Vector3 TargetPos) // 수정 필요 스크립터블 오브젝트에서 데이터 받아서 이펙트 생성하고 사용 딕셔너리로 관리
     {
         

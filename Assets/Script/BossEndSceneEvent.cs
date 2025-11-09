@@ -13,7 +13,7 @@ public class BossEndSceneEvent : MonoBehaviour
     void Start()
     {
         BossCutScene = GetComponent<VideoPlayer>();
-        BossCutScene.loopPointReached += (vp) => { SceneManager.LoadScene("LobbyScene"); };
+        BossCutScene.loopPointReached += (vp) => { SceneManager.LoadScene("GameMap"); };
     }
 
    

@@ -4,6 +4,11 @@ public class VolumeUPBuff : Buff
 {
     public VolumeUPBuff(BuffType type, int buffDurationTurn) : base(type, buffDurationTurn)
     {
+        this.type = type;
+        if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Strength")
+        {
+            BuffDurationTurn = buffDurationTurn + GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+        }
     }
 
     public override void BuffEndEvent(Unit unit)

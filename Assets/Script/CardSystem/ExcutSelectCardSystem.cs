@@ -51,6 +51,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     Coroutine ReservedCardCoroutine;
     public int UseManaCount { get { return ManaSystem.UseManaCount(); } }
+    public int CurrentMana => ManaSystem.CurrentMana;
 
     public string[] UsedCard { get { return _UsedCard.ToArray(); } }
     public bool IsSelectCard => _SelectCard != null;
@@ -111,9 +112,15 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _SelectCard = card;
         isTargeting = true;
 
-
-        ArrowUIObject.SetActive(true);
-        ArrowUIObject.transform.position = card.transform.position;      
+        if (card.cardData.Target_Type == "2")
+        {
+            ArrowUIObject.SetActive(true);
+            ArrowUIObject.transform.position = card.transform.position;
+        }
+        else
+        {
+            _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
+        }
     }
 
     public void SetTargetEnemy(Enemy enemy) // 타겟팅한 몬스터 등록
@@ -121,7 +128,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        if (_SelectCard.cardData.Target_Type == "1") return;
+        if (_SelectCard.cardData.Target_Type != "2") return;
 
         _TargetEnemy = enemy;
 
@@ -129,7 +136,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     }
 
-    public void SetTargetPlayer(Player player) // 타겟팅한 몬스터 등록
+    public void SetTargetPlayer(Player player) // 타겟팅한 플레이어
     {
         if (player == null) _TargetEnemy = null;
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
@@ -160,21 +167,46 @@ public class ExcutSelectCardSystem : MonoBehaviour
             SelectExcutCard currnetCard = null;
             if (_SelectCard != null)
             {
-                currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
+                if (_SelectCard.cardData.Target_Type == "2")
+                {
+                    currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
+                }
+                else
+                {
+                    currnetCard = _SelectCard.GetComponent<DragDropUI>().startParent.transform.GetComponent<SelectExcutCard>();
+                }
+
                 if (_TargetEnemy != null)
                 {
-                    //마나가 사용가능하고, 예약이 가능한 상황일때
-                    if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
-                    {
-                        // 큐에 예약 데이터 넣기
-                        ArrowUIObject.SetActive(false);
-
-                    }
-
-                    if (_SelectCard.GetComponent<SkillCard>() == true)
+                    if (_SelectCard.GetComponent<SkillCard>() != null)
                     {
                         ReservedCard(_SelectCard, _TargetEnemy);
                     }
+                    else
+                    {
+                        if (_SelectCard.cardData.Target_Type == "2")
+                        {
+                            if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                            {
+                                ArrowUIObject.SetActive(false);
+
+                            }
+                        }
+                        else
+                        {
+                            if (_SelectCard.transform.position.y > Card.UsePos)
+                            {
+                                if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                                {
+                                    ArrowUIObject.SetActive(false);
+
+                                }
+
+                            }
+                        }
+                    }
+
+                    
                 }
             }
 
@@ -202,6 +234,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
             selecCard.TargetExcute(enemy);
 
             isTargeting = false;
+            return;
         }
         else
         {
@@ -240,6 +273,12 @@ public class ExcutSelectCardSystem : MonoBehaviour
             CurrentExcutCardCount++;
             //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
 
+
+            if (ManaSystem.CurrentMana == 0)
+            {
+                selecCard.GetCardSloat.ReadData<Card>().ForEach( card => card.DisableCard());
+            }
+
         }
     }
 
@@ -248,7 +287,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         if (_CardQueue.Count == 0)
         {
             GameManager.instance.UIInputSetActive(false);
-            //card.SetOutLineColor(Color.blue);
+            
             _CardQueue.Enqueue(new CardReservedData(card, enemy));
             return true;
         }

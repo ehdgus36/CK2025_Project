@@ -1,10 +1,10 @@
 
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
 using GameDataSystem;
 using Spine;
+using System.Collections;
+using System.Collections.Generic;
+
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -17,10 +17,13 @@ public struct dicobj
 
 public class Card : MonoBehaviour
 {
+    public static float UsePos = -4f; //카드가 절대죄표기준 어디 이상 올라가야 작동하는지
+
     [SerializeField] public string CardID;
-    [SerializeField] public Sprite DescSprite;
     [SerializeField] Image cardImage;
     [SerializeField] private Material BaseMaterial;
+
+    [SerializeField] EffectSystem effectSystem;
 
 
 
@@ -33,6 +36,7 @@ public class Card : MonoBehaviour
     bool isCardEnd = false;
     Enemy EnemyTarget;
     public bool IsCardEnd { get { return isCardEnd; } set { isCardEnd = value; } }
+    public EffectSystem EffectSystem { get => effectSystem; }
 
     protected SlotGroup CardSloats;
 
@@ -63,6 +67,9 @@ public class Card : MonoBehaviour
         }
 
         CardActionInitialized(cardData.Card_ID);
+
+
+        SetOutLineColor(Color.white);
     }
 
     public void ReflashCardData()
@@ -97,21 +104,26 @@ public class Card : MonoBehaviour
         string Path = "CardImage/" + cardData.Card_Im;
         Sprite cardSprite = Resources.Load<Sprite>(Path);
 
-        Material instanceMaterial = new Material(BaseMaterial);
+        //Material instanceMaterial = new Material(BaseMaterial);
         if (cardSprite != null)
         {
            
-            instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
+            //instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
         }
 
         if (cardImage != null)
         {
-            cardImage.material = instanceMaterial;
+            //cardImage.material = instanceMaterial;
+            cardImage.sprite = cardSprite;
+            
+            SetOutLineColor(Color.white);
         }
 
         this.CardID = cardData.Card_ID;
 
         this.gameObject.name = cardData.Card_Name_EN;
+
+        if(effectSystem == null) effectSystem = GetComponent<EffectSystem>();
 
         CardActionInitialized(cardID);
     }
@@ -165,6 +177,12 @@ public class Card : MonoBehaviour
         if ("C3052" == cardID) { CardAction = new BlessingofRockAction(this); }
         if ("C3061" == cardID) { CardAction = new SoulShoutingAction(this); }
         if ("C3062" == cardID) { CardAction = new SoulShoutingAction(this); }
+
+        if (this.gameObject.GetComponent<DragDropUI>() != null)
+        {
+            if (cardData.Target_Type == "2") this.gameObject.GetComponent<DragDropUI>().enabled = false;
+            else this.gameObject.GetComponent<DragDropUI>().enabled = true;
+        }
        
     }
 
@@ -207,6 +225,16 @@ public class Card : MonoBehaviour
     public void SetOutLineColor(Color color)
     {
         if (cardImage != null)
-            cardImage.material.SetColor("_BgColor", color);
+        {
+            GetComponent<Image>().color = color;
+        }
+            
+    }
+
+
+    public void DisableCard()
+    {
+        
+        SetOutLineColor(new Color(1, 1, 1, 0));
     }
 }

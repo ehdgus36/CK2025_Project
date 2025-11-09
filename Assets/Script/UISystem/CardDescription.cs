@@ -39,6 +39,8 @@ public class CardDescription : MonoBehaviour
         LD_Buff.gameObject.SetActive(false);
         LD_Debuff.gameObject.SetActive(false);
 
+
+        
         if (cardData.Target_Type == "1")
         {
            selectLD = LD_Buff;     
@@ -67,12 +69,22 @@ public class CardDescription : MonoBehaviour
         }
 
 
+        DescImage.transform.position = pos;
 
-        selectLD.gameObject.SetActive(true);
-        selectLD.AnimationState.SetAnimation(0, "idle", true);
+        if (cardData.Card_ID != "SKILL")
+        {
+            selectLD.gameObject.SetActive(true);
+            selectLD.AnimationState.SetAnimation(0, "idle", true);
+
+           
+        }
+        else
+        {
+            DescImage.transform.position = pos - new Vector3(0, 1.0f, 0);
+        }
         CardName.text = cardData.Card_Name_KR;
         Desc.text = cardData.Card_Des;
-        DescImage.transform.position = pos;
+       
     }
 
     public void ActiveCard()

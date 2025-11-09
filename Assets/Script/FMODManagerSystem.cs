@@ -13,7 +13,7 @@ enum FMODLabeled
 
 public class FMODManagerSystem : MonoBehaviour
 {
-    [SerializeField] string MainBgm;
+    [SerializeField] EventReference MainBgm;
     [SerializeField] string SubBgm;
     private EventInstance bgmInstance;
     private EventInstance bgmInstance2;
@@ -29,7 +29,7 @@ public class FMODManagerSystem : MonoBehaviour
     {
         if (metronomeSystem == null)
         {
-            metronomeSystem = GameManager.instance.Metronome;
+            metronomeSystem = GameManager.instance?.Metronome;
         }
 
         bgmInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
@@ -38,7 +38,7 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance2.release();
 
-        if (MainBgm != "") metronomeSystem.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
+        metronomeSystem.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
 
         if (SubBgm != "") metronomeSystem.AddOnceMetronomX4Event(() => { PlayBGMSub(SubBgm); }); 
 
@@ -64,7 +64,7 @@ public class FMODManagerSystem : MonoBehaviour
 
     IEnumerator Sound()
     {
-        yield return null;
+        yield return new WaitForSeconds(.1f);
         bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
     }
 
@@ -83,7 +83,7 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Player_Turn);
     }
 
-    void PlayBGM(string key)
+    void PlayBGM(EventReference key)
     {
         bgmInstance = RuntimeManager.CreateInstance(key);
         bgmInstance.start();

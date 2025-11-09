@@ -202,17 +202,80 @@ public class CardDataBase
     {
         List<string> keys = CommonCardDatas.Keys.ToList();
 
+        int volumeUpItem = 0;
+
+        if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Strength")
+        {
+            volumeUpItem =  GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+        }
+
+
         for (int i = 0; i < keys.Count; i++)
         {
             CardData card = CommonCardDatas[keys[i]];
 
             if (card.Attack_DMG > 0)
             {
-                card.Attack_DMG = card.Attack_DMG+ amount;
+                card.Attack_DMG = card.Attack_DMG+ amount + volumeUpItem;
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
                 Debug.Log(card.Card_Des);
                 Debug.Log(card.Attack_DMG);
 
+                CommonCardDatas[keys[i]] = card;
+            }
+        }
+
+        for (int i = 0; i < ReflashCard.Count; i++)
+        {
+            ReflashCard[i].ReflashCardData();
+        }
+    }
+
+    public void LossValueDamage(int amount, List<Card> ReflashCard)
+    {
+        List<string> keys = CommonCardDatas.Keys.ToList();
+
+        
+
+
+        for (int i = 0; i < keys.Count; i++)
+        {
+            CardData card = CommonCardDatas[keys[i]];
+
+            if (card.Attack_DMG > 0)
+            {
+                card.Attack_DMG = card.Attack_DMG + amount;
+                card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
+                Debug.Log(card.Card_Des);
+                Debug.Log(card.Attack_DMG);
+
+                CommonCardDatas[keys[i]] = card;
+            }
+        }
+
+        for (int i = 0; i < ReflashCard.Count; i++)
+        {
+            ReflashCard[i].ReflashCardData();
+        }
+    }
+
+
+    public void LossValueRecoverHP(int amount, List<Card> ReflashCard)
+    {
+        List<string> keys = CommonCardDatas.Keys.ToList();
+
+        int volumeUpItem = 0;
+
+       
+        for (int i = 0; i < keys.Count; i++)
+        {
+            CardData card = CommonCardDatas[keys[i]];
+
+            if (card.HP_Recover > 0)
+            {
+                card.HP_Recover = card.Attack_DMG + amount;
+                //card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
+               
                 CommonCardDatas[keys[i]] = card;
             }
         }

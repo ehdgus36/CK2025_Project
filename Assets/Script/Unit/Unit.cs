@@ -1,3 +1,4 @@
+using GameDataSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,14 +43,9 @@ public class Unit : MonoBehaviour
 
     [SerializeField]
     protected UnitData UnitData;
-   
-    
-
-
 
     [HideInInspector]public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
 
-    
     protected int TurnCount = 0;
 
     [SerializeField] protected UnityAction StartTurnEvent;
@@ -192,5 +188,15 @@ public class Unit : MonoBehaviour
         }
 
 
+    }
+
+    public virtual void LossHP(int HP)
+    {
+        UnitData.CurrentHp -= HP;
+
+        if (UnitData.CurrentHp <= 0)
+            TakeDamage(this, 1);
+
+       
     }
 }

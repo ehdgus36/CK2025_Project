@@ -463,30 +463,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitData:
     DataKey: 
-    MaxHp: 12
-    _CurrentHp: 12
+    MaxHp: 20
+    _CurrentHp: 20
     _CurrentBarrier: 0
+    buffs: []
   IsTurn: 0
   EnemyData:
-    Enemy_ID: 
+    Enemy_ID: E04
     EnemyUnitData:
       DataKey: 
-      MaxHp: 12
-      _CurrentHp: 12
+      MaxHp: 20
+      _CurrentHp: 20
       _CurrentBarrier: 0
-    MaxSkillPoint: 1
+      buffs: []
+    MaxSkillPoint: 3
     CurrentSkillPoint: 0
-    MaxDamage: 5
-    CurrentDamage: 5
-    Enemy_Sprite: {fileID: 21300000, guid: e06aa7e61ff1d324b89633473b97ed43, type: 3}
+    MaxDamage: 6
+    CurrentDamage: 6
+    Enemy_Sprite: {fileID: 21300000, guid: cc18c7b5ccc5d2f4bbe2111c862c77f0, type: 3}
   EnemyAnimator: {fileID: 2268474195922947219}
   EnemyStatus: {fileID: 113841952387769093}
   buffLayer: -1
   fontSystem: {fileID: 3650802288120212782}
   EffectSystem: {fileID: 3516856929990264621}
   AttackOffset: {x: 2, y: 0, z: 0}
-  isAttackEnd: 0
   isBarbedArmor: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &2268474195922947219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,28 +519,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aIBehavior:
-    rid: 2090276449113342086
+    rid: 2090276757005664347
   references:
     version: 2
     RefIds:
-    - rid: 2090276449113342086
-      type: {class: EnemyAI_HIPPOP_Behavior, ns: , asm: Assembly-CSharp}
+    - rid: 2090276757005664347
+      type: {class: EnemyAI_CustomSkill2_Behavior, ns: , asm: Assembly-CSharp}
       data:
         EnemyDefaultAttackState:
-          rid: 2090276449113342087
+          rid: 2090276757005664348
         EnemySkillState:
-          rid: 2090276449113342088
+          rid: 2090276757005664349
         EnemySkillState2:
-          rid: 2090276449113342089
-    - rid: 2090276449113342087
+          rid: 2090276757005664350
+    - rid: 2090276757005664348
       type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
       data:
         _AttackCount: 1
-    - rid: 2090276449113342088
-      type: {class: EnemySkill_BarbedArmor_State, ns: , asm: Assembly-CSharp}
+    - rid: 2090276757005664349
+      type: {class: EnemySkill_AttackRecoverHP_State, ns: , asm: Assembly-CSharp}
       data:
         _AttackCount: 1
-    - rid: 2090276449113342089
+    - rid: 2090276757005664350
       type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
       data:
         _AttackCount: 2
@@ -874,7 +878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1241670494157325067, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_text
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1929899961638006886, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_IsActive
@@ -894,7 +898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2675319555051951160, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3115560647410766174, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_IsActive
@@ -1002,7 +1006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3928013135876641447, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_text
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4412363175000387819, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_IsActive
@@ -1010,11 +1014,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5782391617699699596, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_text
-      value: 12
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5929568702295424127, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_text
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050610931977720533, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6725639372918287730, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_text
@@ -1046,7 +1054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7535450610816011855, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7660287265537324509, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_IsActive
@@ -1054,11 +1062,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 272.62
+      value: 262.52
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 279.35
+      value: 247.9
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_LocalScale.x
@@ -1074,11 +1082,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -177.66
+      value: -174.49
       objectReference: {fileID: 0}
     - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -29.41
+      value: -27.95
       objectReference: {fileID: 0}
     - target: {fileID: 8699681874241878795, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_text
@@ -1091,6 +1099,10 @@ PrefabInstance:
     - target: {fileID: 9167744072614090655, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201799795365233716, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_text
+      value: "1\uD68C \uACF5\uACA9"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

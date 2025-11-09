@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using FMODUnity;
+using System.Collections.Generic;
 
 public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -24,15 +25,21 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [SerializeField] Quaternion startRotat;
     [SerializeField] RectTransform Empty;
 
+    [SerializeField] bool isRedCard;
+    [SerializeField] bool isYellowCard;
+    [SerializeField] bool isBlueCard;
+
     int startIndex;
 
     bool isSelect = false;
+
+    public string randomCard;
     private void Start()
     {
         startPos = transform.position;
         startRotat = transform.rotation;
 
-        ResetCard();
+        // ResetCard();
         startIndex = this.transform.GetSiblingIndex();
     }
 
@@ -45,10 +52,27 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         transform.localScale = Vector3.one;
     }
 
-    public void ResetCard()
+    public void ResetCard(ShopItemObj previewData = null)
     {
+        List<string> cardID = new List<string>();
+
+        if (isRedCard) { cardID.AddRange(new List<string>() { "C1011", "C1021", "C1021" }); }
+        if (isYellowCard) { cardID.AddRange(new List<string>() { "C1031", "C1041", "C1061", "C1071", "C2051", "C3021" }); }
+        if (isBlueCard) { cardID.AddRange(new List<string>() { "C1051", "C2031", "C2041", "C3031", "C3041", "C3051" }); }
+
+
+
         isSoldOut = false;
-        string randomCard = GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.RandomCard();
+        if (previewData == null)
+            randomCard = cardID[Random.Range(0, cardID.Count)];
+        else 
+        {
+            randomCard = cardID[Random.Range(0, cardID.Count)];
+            while (randomCard == previewData.randomCard)
+            {
+                randomCard = cardID[Random.Range(0, cardID.Count)];
+            }
+        }
         ItemID = randomCard;
 
         ShopData data;
@@ -62,7 +86,14 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
 
         ItemNameText.text = ((CardData)cardData).Card_Name_KR;
-        ItemPriceText.text = data.Price.ToString();
+
+        float itemPrice = (float)data.Price;
+        if (ShopEvent.GetItemDataLoader.strapData.Shop_Sale > 0)
+        {
+            itemPrice = Mathf.Round((float)data.Price / (float)ShopEvent.GetItemDataLoader.strapData.Shop_Sale);
+        }
+
+        ItemPriceText.text = ((int)itemPrice).ToString();
     }
 
 
@@ -118,7 +149,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             t += .1f;
             transform.position = Vector3.Lerp(transform.position, targetPos, t);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetQuat, t);
-            transform.localScale = Vector3.Lerp( transform.localScale,Vector3.one * 1.2f,t);
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * 1.2f, t);
 
             yield return new WaitForSeconds(.025f);
         }

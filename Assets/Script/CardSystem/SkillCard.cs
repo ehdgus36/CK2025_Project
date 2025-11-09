@@ -8,12 +8,20 @@ public class SkillCard : Card
     {
         
         Skill_Cut?.SetActive(false);
-        if ("SKILL" == CardID) { CardAction = new SkillAction(this); }
+
+        CardID = GameManager.instance.ItemDataLoader.stickerData.Card_Bring;
+
+        if (CardID == null) return;
+
+        if ("SKILL1" == CardID) { CardAction = new SkillAction(this); }
+        if ("SKILL2" == CardID) { CardAction = new Skill2Action(this); }
+        if ("SKILL3" == CardID) { CardAction = new Skill3Action(this); }
         Initialized(new SlotGroup());
     }
     public override void TargetExcute(Enemy Target, Card nextCard = null)
     {
-                
+        if (CardID == null) return;
+
         Skill_Cut?.SetActive(false);
         Skill_Cut?.SetActive(true);
         Skill_Cut?.GetComponent<Animator>().Play("Skill1_Cut_Animation");

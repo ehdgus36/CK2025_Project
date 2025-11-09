@@ -42,7 +42,7 @@ public struct EnemyTableData
         BaseAIState Skill1_State = null;
         BaseAIState Skill2_State = null;
 
-        Debug.Log(Skill1);
+       
         switch (Skill1)
         {
 
@@ -75,8 +75,87 @@ public struct EnemyTableData
             case "DeckAttack":
                 Skill1_State = new EnemySkill_DackAttack_State();
                 break;
+
+            case "DMG _Gold":
+                Skill1_State = new EnemySkill_DMG_Gold_State(1, 3, 5); // 공격 횟수, 코인 횟수 , 데미지
+                break;
+
+            case "DMG _Gold_Boss":
+                Skill1_State = new EnemySkill_DMG_Gold_State(1, 3, 5); // 공격 횟수, 코인 횟수 , 데미지
+                break;
+
+            case "Heal_HP":
+                Skill1_State = new EnemySkill_AttackRecoverHP_State(1); // 공격횟수, 현재 자신의 체력의 20%회복
+                break;
+
+            case "Buff_Burnup":
+                Skill1_State = new EnemySkill_Buff_Burnup_State(1, 2); // 공격 회수 ,턴수
+                break;
+
+            case "Buff_Burnout":
+                Skill1_State = new EnemySkill_Buff_Burnout_State(1, 2);// 공격 회수 ,턴수
+                break;
+
+            case "HP_Volumeup":
+                Skill1_State = new EnemySkill_HP_Volumeup_State(1, 0.2f, 5);// 공격 회수 , 소모할 체력 비례 0 ~1 , 볼륨업 중첩수
+                break;
+
+            case "Heal_Lowest":
+                Skill1_State = new EnemySkill_Heal_Lowest_State(1, 5);// 공격 회수 , 데미지
+                break;
+
+            case "Poison_ATK":
+                Skill1_State = new EnemySkill_PoisonAttack_State(1, 4);// 공격 회수 , 턴수
+                break;
+
+            case "Poison_ATK_Boss":
+                Skill1_State = new EnemySkill_PoisonAttack_State(1, 4);// 공격 회수 , 턴수
+                break;
+
+            case "Double_Damage":
+                Skill1_State = new EnemySkill_MultiAttack_State(2, 5); //공격 회수, 데미지
+                break;
+
+            case "Self_Volumeup":
+                Skill1_State = new EnemySkill_Self_Volumeup_State(2, 2, 5); //공격 회수, 볼륨업 중첩 ,데미지
+                break;
+
+            case "Barrier_DMG":
+                Skill1_State = new EnemySkill_BarrierAttack_State(5, 5, 5); //공격 회수, 베리어 , 데미지
+                break;
+
+            case "All_Volumeup":
+                Skill1_State = new EnemySkill_JAZZBOSS_ALL_VolumeUp_State(1, 4, 5); //공격 회수 , 베리어 ,볼륨업된 데미지를 입력
+                break;
+
+            case "Confuse_PC":
+                Skill1_State = new EnemySkill_RhythmReverse_State(2, 0); // 턴수 , 0이면 기본 공격력
+                break;
+
+            case "Heal_All":
+                Skill1_State = new EnemySkill_AllEnemyRecoverHP_State(1); // 공격 횟수
+                break;
+
+            case "Spike_Enemy":
+                Skill1_State = new EnemySkill_AllBarbedArmor_State(1); // 공격 횟수
+                break;
+
+            case "Confuse_Heal":
+                Skill1_State = new EnemySkill_HpRecover_ReversRhythm_State(1); // 턴수
+                break;
+
+            case "Confuse_DMG":
+                Skill1_State = new EnemySkill_RhythmReverse_State(2, 5); //턴수 데미지
+                break;
+
+            case "Self_Spike_Barrier":
+                Skill1_State = new EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State(1, 2, 2, 5); //공격 횟수 , 베리어 , 가시 턴수 , 볼륨업 중첩
+                break;
+
         }
-        Debug.Log(Skill2);
+
+
+      
         switch (Skill2)
         {
             case "DoubleAttack":
@@ -107,6 +186,82 @@ public struct EnemyTableData
 
             case "DeckAttack":
                 Skill2_State = new EnemySkill_DackAttack_State();
+                break;
+
+            case "DMG _Gold":
+                Skill2_State = new EnemySkill_DMG_Gold_State(1, 3 ,5); // 공격 횟수, 코인 횟수 , 데미지
+                break;
+
+            case "DMG _Gold_Boss":
+                Skill2_State = new EnemySkill_DMG_Gold_State(1, 3, 5); // 공격 횟수, 코인 횟수 , 데미지
+                break;
+
+            case "Heal_HP":
+                Skill2_State = new EnemySkill_AttackRecoverHP_State(1); // 공격횟수, 현재 자신의 체력의 20%회복
+                break;
+
+            case "Buff_Burnup":
+                Skill2_State = new EnemySkill_Buff_Burnup_State(1 , 2); // 공격 회수 ,턴수
+                break;
+
+            case "Buff_Burnout":
+                Skill2_State = new EnemySkill_Buff_Burnout_State(1, 2);// 공격 회수 ,턴수
+                break;
+
+            case "HP_Volumeup":
+                Skill2_State = new EnemySkill_HP_Volumeup_State(1, 0.2f, 5);// 공격 회수 , 소모할 체력 비례 0 ~1 , 볼륨업 중첩수
+                break;
+
+            case "Heal_Lowest":
+                Skill2_State = new EnemySkill_Heal_Lowest_State(1 , 5);// 공격 회수 , 데미지
+                break;
+
+            case "Poison_ATK":
+                Skill2_State = new EnemySkill_PoisonAttack_State(1 , 4);// 공격 회수 , 턴수
+                break;
+
+            case "Poison_ATK_Boss":
+                Skill2_State = new EnemySkill_PoisonAttack_State(1, 4);// 공격 회수 , 턴수
+                break;
+
+            case "Double_Damage":
+                Skill2_State = new EnemySkill_MultiAttack_State(2 , 5); //공격 회수, 데미지
+                break;
+
+            case "Self_Volumeup":
+                Skill2_State = new EnemySkill_Self_Volumeup_State(2, 2 , 5); //공격 회수, 볼륨업 중첩 ,데미지
+                break;
+
+            case "Barrier_DMG":
+                Skill2_State = new EnemySkill_BarrierAttack_State(5, 5, 5); //공격 회수, 베리어 , 데미지
+                break;
+
+            case "All_Volumeup":
+                Skill2_State = new EnemySkill_JAZZBOSS_ALL_VolumeUp_State(1, 4, 5); //공격 회수 , 베리어 ,볼륨업된 데미지를 입력
+                break;
+
+            case "Confuse_PC":
+                Skill2_State = new EnemySkill_RhythmReverse_State(2, 0); // 턴수 , 0이면 기본 공격력
+                break;
+
+            case "Heal_All":
+                Skill2_State = new EnemySkill_AllEnemyRecoverHP_State(1); // 공격 횟수
+                break;
+
+            case "Spike_Enemy":
+                Skill2_State = new EnemySkill_AllBarbedArmor_State(1); // 공격 횟수
+                break;
+
+            case "Confuse_Heal":
+                Skill2_State = new EnemySkill_HpRecover_ReversRhythm_State(1); // 턴수
+                break;
+
+            case "Confuse_DMG":
+                Skill2_State = new EnemySkill_RhythmReverse_State(2, 5); //턴수 데미지
+                break;
+
+            case "Self_Spike_Barrier":
+                Skill2_State = new EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State(1 , 2 , 2 , 5); //공격 횟수 , 베리어 , 가시 턴수 , 볼륨업 중첩
                 break;
         }
 
@@ -183,3 +338,4 @@ public class EnemyDataBase
 
 
 }
+

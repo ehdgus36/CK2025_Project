@@ -48,9 +48,20 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
-        }       
-       
+        }
+
+
+        UnitData.MaxHp = Mathf.Clamp(UnitData.MaxHp + GameManager.instance.ItemDataLoader.strapData.PC_HP , 0 , 130);
+        Debug.Log("제바 제발" + GameManager.instance.ItemDataLoader.strapData.PC_HP);
+        Debug.Log("제발 제발 플레이어 체력" + UnitData.MaxHp);
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+
+
         StartTurnEvent += () => {
+            StaticGameDataSchema.CARD_DATA_BASE.LossValueDamage(GameManager.instance.ItemDataLoader.strapData.Card_Damage, new List<Card>());
+            StaticGameDataSchema.CARD_DATA_BASE.LossValueRecoverHP(GameManager.instance.ItemDataLoader.strapData.Card_HP_Recover, new List<Card>());
+
+
             CDSlotGroup.PlayerTurnDrow();
            
             TurnEnd.SetActive(true);
@@ -64,6 +75,8 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             GameManager.instance.UIInputSetActive(true);
 
             GameManager.instance.EnemysGroup.EnemyUIAllUpdata();
+
+            
         };
 
        
@@ -85,8 +98,6 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         };
 
         DieEvent += PlayerDieEvent;
-        UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
-
         HellfireAction.EndHellFire();
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
@@ -94,7 +105,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     void PlayerDieEvent()
     {
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Die");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Die");
         GameManager.instance.GameFail();
     }
 
@@ -105,7 +116,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         //카메라 효과 , 사운드 , 이펙트효과
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true , 0.2f, 0.0f , 0.2f);
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Hurt");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Hurt");
 
         _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
         
@@ -138,7 +149,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);   
     }
 
-    public void LossHP(int HP)
+    public override void LossHP(int HP)
     {
         UnitData.CurrentHp -= HP;
 

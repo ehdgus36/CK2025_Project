@@ -14,13 +14,21 @@ public class MapSystem : MonoBehaviour
     [SerializeField] LoadStage[] loadingScreens;
 
 
-    [SerializeField]string Data;
+    [SerializeField] string Data;
+
+    [SerializeField] Scrollbar Scrollbar;
+
+    public Scrollbar GetScrollbar => Scrollbar;
+
+    [SerializeField]int CamCount = 0;
 
     // 0 :이면 진입불가  1: 입장가능  2: 클리어한거
 
     const string MapKey = "MapSave";
     public void Start()
     {
+        CamCount = 0;
+
         if (GameDataSystem.DynamicGameDataSchema.DynamicDataBaseContainsKey(MapKey))
         {
             string SceneSaveData = "";
@@ -37,9 +45,11 @@ public class MapSystem : MonoBehaviour
                         break;
                     case '1':
                         loadingScreens[i].state = StageState.NULOCK;
+                       
                         break;
                     case '2':
                         loadingScreens[i].state = StageState.ClEAR;
+                        CamCount++;
                         break;
                 }
 
@@ -48,6 +58,18 @@ public class MapSystem : MonoBehaviour
 
         }
 
+        Scrollbar.value = 0;
+
+        float CamValue = 0;
+        for (int i = 0; i < CamCount - 2; i++)
+        {
+            CamValue += 0.1f;
+           
+            Debug.Log("Campos");
+        }
+
+        Scrollbar.value = CamValue;
+        Canvas.ForceUpdateCanvases();
 
         for (int i = 0; i < loadingScreens.Length; i++)
         {

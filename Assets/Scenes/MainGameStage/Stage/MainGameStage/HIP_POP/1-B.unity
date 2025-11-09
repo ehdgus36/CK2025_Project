@@ -1009,7 +1009,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1627,7 +1627,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e293011e898ab8479faf32bc42cf963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainBgm: event:/BGM/HipHop_1
+  MainBgm:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   SubBgm: 
   isStartBgm: 0
   metronomeSystem: {fileID: 0}
@@ -2024,6 +2030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9977f2a0f1e38641812c76e75f13ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneID: BossStage
 --- !u!114 &2057253400
 MonoBehaviour:
   m_ObjectHideFlags: 0

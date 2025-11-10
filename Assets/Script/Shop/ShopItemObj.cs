@@ -46,7 +46,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void PositionReset()
     {
         isSelect = false;
-        CardImage.color = Color.white;
+
+        CardImage.color = isSoldOut == false ? Color.white :  CardImage.color;
         transform.position = startPos;
         transform.rotation = startRotat;
         transform.localScale = Vector3.one;
@@ -83,7 +84,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         object cardData = null;
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID, out cardData);
         CardImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
-
+        CardImage.color = Color.white;
 
         ItemNameText.text = ((CardData)cardData).Card_Name_KR;
 
@@ -121,7 +122,9 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         ItemNameText.text = string.Format("<s>{0}</s>", ItemNameText.text);
 
-        ItemPriceText.text = "SOLD OUT!!";
+        CardImage.color = new Color(1, 1, 1, 0);
+
+        ItemPriceText.text = "";
         isSoldOut = true;
     }
 

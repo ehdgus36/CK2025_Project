@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using FMODUnity;
 using Unity.Mathematics;
+using Spine.Unity;
 
 public class ShopEvent : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class ShopEvent : MonoBehaviour
 
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
     public List<ShopItemObj> PeakList { get { return _PeakList; } }
+
+    [SerializeField] SkeletonGraphic UIAnime;
     // Update is called once per frame
 
     public string SelectItemID;
@@ -47,6 +50,7 @@ public class ShopEvent : MonoBehaviour
 
         ItemDataLoader.LoadData();
 
+        UIAnime.AnimationState.SetAnimation(0, "idle", true);
 
         RuntimeManager.PlayOneShot("event:/UI/Store/Store_In");
         for (int i = 0; i < PeakList.Count; i++)
@@ -165,8 +169,12 @@ public class ShopEvent : MonoBehaviour
         if (coins < itemPrice) // 돈없으면 리턴
         {
             NoGold.SetActive(true);
+            UIAnime.AnimationState.SetAnimation(0, "no-sell", false).Complete += Clear => { UIAnime.AnimationState.SetAnimation(0, "idle", true); };
             return;
         }
+
+
+        UIAnime.AnimationState.SetAnimation(0, "buy", false).Complete += Clear => { UIAnime.AnimationState.SetAnimation(0, "idle", true); };
 
         if (SelectTapeIndex != -1)
         {

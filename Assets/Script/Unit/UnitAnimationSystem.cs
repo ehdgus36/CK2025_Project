@@ -21,7 +21,7 @@ public class UnitAnimationSystem : MonoBehaviour
 
     [SerializeField] bool isattack = false;
 
-   
+    
 
 
     public void Awake()

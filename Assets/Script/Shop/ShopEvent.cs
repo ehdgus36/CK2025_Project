@@ -27,7 +27,7 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] ItemDataLoader ItemDataLoader;
 
     [SerializeField] int ResetCount = 1;
-    int ResetPrice = 30;
+    int ResetPrice = 20;
 
 
     public ItemDataLoader GetItemDataLoader { get { return ItemDataLoader; } }

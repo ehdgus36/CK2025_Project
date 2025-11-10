@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Animator _ControlleCam;
 
-    int ClearGold = 50;
+    [SerializeField]int ClearGold = 50;
 
     [SerializeField] DimBackGroundObject _DimBackGroundObject;
 

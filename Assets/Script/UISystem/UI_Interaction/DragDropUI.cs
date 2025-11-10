@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.InputSystem;
 
-public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
 
 
@@ -13,7 +13,7 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     Transform onDragParent;
 
-    [SerializeField] public Transform startParent { get; private set; }
+    [SerializeField] public Transform startParent;
 
     public Vector3 startScale; //임시
 
@@ -26,6 +26,8 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         startScale = transform.localScale; // 일단 야매
         canvas = GetComponentInParent<Canvas>();
     }
+
+   
 
     // 인터페이스 IBeginDragHandler를 상속 받았을 때 구현해야하는 콜백함수
     public void OnBeginDrag(PointerEventData eventData)
@@ -96,4 +98,13 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        startParent = transform.parent;
+
+        if (transform.parent.GetComponent<IPointerDownHandler>() != null)
+        {
+            transform.parent.GetComponent<IPointerDownHandler>().OnPointerDown(eventData);
+        }
+    }
 }

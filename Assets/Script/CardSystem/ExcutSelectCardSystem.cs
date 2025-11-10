@@ -35,7 +35,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
     Enemy _TargetEnemy;
 
     Card _PreviousCard;
-    Card _SelectCard;
+    [SerializeField]Card _SelectCard;
 
     bool isTargeting = false; // 몬스터 타겟팅이 가능한지 확인
 

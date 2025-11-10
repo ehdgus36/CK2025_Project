@@ -29,7 +29,7 @@ public class SingleAttackAction : PlayerBaseCardAction
 
         yield return new WaitForSeconds(.1f);
         Vector3 startpos = player.transform.position;
-        yield return MoveToUnit(player.transform, Target.transform.position, new Vector3(-6f, 0f, 0f));
+        yield return MoveToUnit(player.transform.GetChild(0), Target.transform.position, new Vector3(-6f, 0f, 0f));
 
 
         yield return new WaitUntil(() => bit1 == true);
@@ -48,7 +48,7 @@ public class SingleAttackAction : PlayerBaseCardAction
         yield return new WaitUntil(() => bit4 == true);
         //player.PlayerEffectSystem.StopEffect("Break_Effect");
         yield return new WaitForSeconds(0.1f);
-        MoveUnit(player.transform, startpos, Vector3.zero);
+        MoveUnit(player.transform.GetChild(0), startpos, Vector3.zero);
 
     }
 
@@ -194,7 +194,7 @@ public class PowerBreakAction : SingleAttackAction
        
         yield return new WaitForSeconds(.1f);
         Vector3 startpos = player.transform.position;
-        yield return MoveToUnit(player.transform, Target.transform.position, new Vector3(-6f, 0f, 0f));
+        yield return MoveToUnit(player.transform.GetChild(0), Target.transform.position, new Vector3(-6f, 0f, 0f));
 
         yield return new WaitUntil(() => bit3 == true);
         
@@ -205,7 +205,7 @@ public class PowerBreakAction : SingleAttackAction
 
         yield return new WaitUntil(() => bit4 == true);
         yield return new WaitForSeconds(0.1f);
-        MoveUnit(player.transform, startpos, Vector3.zero);
+        MoveUnit(player.transform.GetChild(0), startpos, Vector3.zero);
     }
 }
 
@@ -281,8 +281,7 @@ public class SoloAction : SingleAttackAction
             {
                 changeCard[i].Initialized("C2021");
             }
-
-            changeCard[i].Initialized("C2021");
+          
         }
     }
 }

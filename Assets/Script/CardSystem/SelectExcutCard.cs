@@ -37,6 +37,8 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
 
     }
 
+ 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
@@ -66,5 +68,5 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         }
     }
 
-   
+  
 }

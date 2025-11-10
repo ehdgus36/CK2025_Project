@@ -273,7 +273,7 @@ public class CardDataBase
 
             if (card.HP_Recover > 0)
             {
-                card.HP_Recover = card.Attack_DMG + amount;
+                card.HP_Recover = card.HP_Recover + amount;
                 //card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
                
                 CommonCardDatas[keys[i]] = card;

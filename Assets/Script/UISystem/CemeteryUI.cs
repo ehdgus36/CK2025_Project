@@ -127,6 +127,8 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
         //카드 묘지에 넣기
         CemeteryCard.Add(card);
         card.gameObject.SetActive(true);
+
+        card.EffectSystem.StopEffect("CardHold_Effect");
         GameManager.instance.UIManager.CardCemeteryUI.UpdateUI(CemeteryCard.Count);
 
         moveTarget.gameObject.SetActive(false);

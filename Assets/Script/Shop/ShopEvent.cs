@@ -27,7 +27,7 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] ItemDataLoader ItemDataLoader;
 
     [SerializeField] int ResetCount = 1;
-    [SerializeField] int ResetPrice = 20;
+    int ResetPrice = 30;
 
 
     public ItemDataLoader GetItemDataLoader { get { return ItemDataLoader; } }
@@ -63,6 +63,7 @@ public class ShopEvent : MonoBehaviour
 
     private void ResetItem()
     {
+
         int useGold = 0;
 
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out useGold);

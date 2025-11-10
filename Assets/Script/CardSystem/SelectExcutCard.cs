@@ -20,7 +20,7 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
     public void OnPointerDown(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
-        if (GameManager.instance.ExcutSelectCardSystem.CurrentMana == 0) return;
+        if (GameManager.instance.ExcutSelectCardSystem.CurrentMana == 0 && CardSlot.ReadData<SkillCard>() == null) return;
         card = CardSlot.ReadData<Card>();
 
 

@@ -35,6 +35,7 @@ public class RecoverAction : PlayerBaseCardAction
     {
         player.PlayerEffectSystem.PlayEffect("Tuning_Effect", player.transform.position);
         player.addHP(cardData.HP_Recover);
+        Debug.Log("È¸º¹·® :" + cardData.HP_Recover);
     }
 }
 

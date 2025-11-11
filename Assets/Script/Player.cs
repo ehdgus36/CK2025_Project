@@ -10,7 +10,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
     [SerializeField] ImageFontSystem fontSystem;
     [SerializeField] UnitAnimationSystem AnimationSystem;
-    [SerializeField] GameObject Combo;
+   
     [SerializeField] GameObject TurnEnd;
 
     [SerializeField] EffectSystem _PlayerEffectSystem;
@@ -24,36 +24,46 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     public UnitData PlayerUnitData { get { return UnitData; } }
 
+    //노트 버프
+
+
 
     public void MaxButtonDisable()    
     {
-        Combo.GetComponent<ComboUIView>().DisableButton();
+        
     }
 
     public void MaxButtonEnable()
     {
-        Combo.GetComponent<ComboUIView>().EnableButton();
+        
     }
 
     public void Initialize()
     {
-       
-
         UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
 
 
         StartPlayerPos = this.transform.position;
-        StartPos = Combo.GetComponent<RectTransform>().anchoredPosition;
+        
         if (!DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, out UnitData))
         {
             Debug.LogError("Player데이터를 가져오지 못함");
-        }       
-       
-        StartTurnEvent += CDSlotGroup.PlayerTurnDrow;
+        }
+
+
+        UnitData.MaxHp = Mathf.Clamp(UnitData.MaxHp + GameManager.instance.ItemDataLoader.strapData.PC_HP , 0 , 130);
+        Debug.Log("제바 제발" + GameManager.instance.ItemDataLoader.strapData.PC_HP);
+        Debug.Log("제발 제발 플레이어 체력" + UnitData.MaxHp);
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+
+
         StartTurnEvent += () => {
-            Combo.GetComponent<RectTransform>().anchoredPosition = StartPos; 
-            Combo.transform.localScale = new Vector3(1, 1, 1);
-            Combo.GetComponent<ComboUIView>().EnableButton();
+            StaticGameDataSchema.CARD_DATA_BASE.LossValueDamage(GameManager.instance.ItemDataLoader.strapData.Card_Damage, new List<Card>());
+            StaticGameDataSchema.CARD_DATA_BASE.LossValueRecoverHP(GameManager.instance.ItemDataLoader.strapData.Card_HP_Recover, new List<Card>());
+
+
+            CDSlotGroup.PlayerTurnDrow();
+           
             TurnEnd.SetActive(true);
 
             AttackEnemy = null;
@@ -62,72 +72,51 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
             GameManager.instance.ExcutSelectCardSystem.StartTurnRest();
             GameManager.instance.UIManager.ManaUI.gameObject.SetActive(true);
             DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+            GameManager.instance.UIInputSetActive(true);
+
+            GameManager.instance.EnemysGroup.EnemyUIAllUpdata();
+
+            
         };
 
-        EndTurnEvent += CDSlotGroup.ReturnCard;
-        EndTurnEvent += GameManager.instance.PlayerCardCastPlace.Reset;
-        EndTurnEvent += GameManager.instance.ExcutSelectCardSystem.Reset; ;
+       
 
         EndTurnEvent += () => {
-            Combo.GetComponent<RectTransform>().anchoredPosition = new Vector3(659, 94, 0);
-            Combo.GetComponent<RectTransform>().transform.localScale = new Vector3(2, 2, 2);
-            Combo.GetComponent<ComboUIView>().DisableButton();
+            HellfireAction.EndHellFire();
+
+            CDSlotGroup.ReturnCard();
+            GameManager.instance.PlayerCardCastPlace.Reset();
+            GameManager.instance.ExcutSelectCardSystem.Reset();
+          
             TurnEnd.SetActive(false);
             GameManager.instance.UIManager.ManaUI.gameObject.SetActive(false);
+            GameManager.instance.UIInputSetActive(false);
+            GameManager.instance.EnemysGroup.EnemyUIAllUpdata();
+            DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+
+            StaticGameDataSchema.CARD_DATA_BASE.ResetTable();
         };
 
-        UnitData.MaxHp = GameDataSystem.StaticGameDataSchema.StartPlayerData.MaxHp +GameManager.instance.ItemDataLoader.PCMaxHP_UP;
-
+        DieEvent += PlayerDieEvent;
+        HellfireAction.EndHellFire();
 
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 
-    protected override void Die()
+    void PlayerDieEvent()
     {
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Die");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Die");
         GameManager.instance.GameFail();
     }
 
-    public void TakeDamage(int damage, Enemy enemy)
-    {
-        AttackEnemy = enemy;
-        TakeDamage(damage);
-    }
-
-
-
-    public override void TakeDamage(int damage)
-    {
-        if (damage <= 0) return;
-        int resultDamage = damage;
-
-        if (UnitData.CurrentBarrier > 0)
-        {
-            UnitData.CurrentBarrier -= resultDamage;
-
-            if (UnitData.CurrentBarrier >= 0)
-            {
-                resultDamage = 0;
-            }
-
-            if (UnitData.CurrentBarrier < 0)
-            {
-                resultDamage = -UnitData.CurrentBarrier;
-                UnitData.CurrentBarrier = 0;
-            }
-        }
-
-
-
-
-        base.TakeDamage(resultDamage);
-              
+    protected override void TakeDamageEvent(Unit form, int damage, int resultDamage, Buff buff = null)
+    {       
         AnimationSystem?.PlayAnimation("hit");
         
         //카메라 효과 , 사운드 , 이펙트효과
         GameManager.instance.Shake.PlayShake();
         GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true , 0.2f, 0.0f , 0.2f);
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Player_CH/Player_Hurt");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Hurt");
 
         _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
         
@@ -136,7 +125,8 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
         fontSystem.FontConvert(damage.ToString());
 
-        GameManager.instance.ExcutSelectCardSystem.ExcutAbiltyCondition("IsPlayerHit");
+        
+        GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_PLAYER_HIT, this);
     }
 
     
@@ -149,34 +139,24 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     public void PlayerCardAnime()
     {
-
         //AnimationSystem.PlayAnimation("card");
     }
 
     public void addHP(int HP)
     {
+        Debug.Log("리듬게임 회복" + HP);
         UnitData.CurrentHp += HP;
-
-        if (UnitData.CurrentHp > UnitData.MaxHp)
-        {
-            UnitData.CurrentHp = UnitData.MaxHp;
-        }
-
-        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
-       // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);   
     }
 
-    public void LossHP(int HP)
+    public override void LossHP(int HP)
     {
         UnitData.CurrentHp -= HP;
 
         if (UnitData.CurrentHp <= 0)
-        {
-            GameManager.instance.Player.TakeDamage(1);
-        }
-
+            TakeDamage(this,1);
+        
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
-        // playerStatus.UpdataStatus(UnitData.MaxHp, UnitData.CurrentHp);
     }
 
 
@@ -204,6 +184,12 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
     }
 
+    public override void AddBuff(Buff buff)
+    {
+        base.AddBuff(buff);
+
+        DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
+    }
     public void ReturnPlayer()
     {
         this.transform.position = StartPlayerPos;

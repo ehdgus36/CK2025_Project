@@ -1,5 +1,42 @@
-TableName,URL,SheetNum,
-ItemDataTable,https://docs.google.com/spreadsheets/d/1RpGLto7vEkCxZXFkMZJgvgTofoX4ccSQFoRKTGL_W2s/export?format=csv&gid=0,0,https://docs.google.com/spreadsheets/d/1RpGLto7vEkCxZXFkMZJgvgTofoX4ccSQFoRKTGL_W2s/export?format=csv&gid=
-CardDataTable,https://docs.google.com/spreadsheets/d/1RpGLto7vEkCxZXFkMZJgvgTofoX4ccSQFoRKTGL_W2s/export?format=csv&gid=1101163040,1101163040,
-PlayerDeckDataTable,https://docs.google.com/spreadsheets/d/1RpGLto7vEkCxZXFkMZJgvgTofoX4ccSQFoRKTGL_W2s/export?format=csv&gid=1498726455,1498726455,
-EnemyDataTable,https://docs.google.com/spreadsheets/d/1RpGLto7vEkCxZXFkMZJgvgTofoX4ccSQFoRKTGL_W2s/export?format=csv&gid=613876710,613876710,
+Enemy_ID,Enemy_Name_KR,HP,Start_Barrier,SkillPoint,Damage,Skill1,Skill2,난이도,스테이지 번호,,,,
+E01,쓰레기통,16,0,2,3,Double_Damage,,T,1_T,,,DMG _Gold,데미지 + 돈
+E02,쓰레기통,16,0,2,3,Double_Damage,,T,1_T,,,DMG _Gold_Boss,데미지 + 돈 (힙합 보스용)
+E03,스프레이,18,0,2,2,Buff_Burnup,,M,1_1_1,,               ,Heal_HP,자신 회복
+E04,쥐,20,0,3,6,DMG _Gold,,M,1_1_1,,,Buff_Burnup,플레이어 번업
+E05,쓰레기통,16,0,2,3,Double_Damage,,E,1_1_2,,,Buff_Burnout,플레이어 번아웃
+E06,쥐,20,0,3,6,DMG _Gold,,E,1_1_2,,,HP_Volumeup,자신 체력 소모 + 셀프 볼륨업
+E07,쓰레기통,16,0,2,3,Double_Damage,,H,1_2_1,,,Heal_Lowest,가장 낮은 체력 회복
+E08,쓰레기통,16,0,2,3,Double_Damage,,H,1_2_1,,,Poison_ATK,플레이어 중독
+E09,초롱이,40,0,2,8,HP_Volumeup,,H,1_2_1,,,Poison_ATK_Boss,플레이어 중독 (재즈 중간보스용)
+E10,쓰레기통,16,0,3,4,Double_Damage,,M,1_2_2,,,Double_Damage,두번 데미지
+E11,초롱이,60,0,3,7,HP_Volumeup,,M,1_2_2,,,Self_Volumeup,셀프 볼륨업
+E12,힙합 보스,100,0,2,9,Buff_Burnout,Double_Damage,B,1_B,,,Barrier_DMG,베리어 + 데미지 5 번
+E13,칵테일(파랑),30,0,1,3,Heal_Lowest,,M,2_1_1,,,All_Volumeup,플레이어랑 몬스터 전체 볼륨업
+E14,칵테일(초록),25,0,2,5,Poison_ATK,,M,2_1_1,,,Confuse_PC,플레이어 혼란
+E15,칵테일(초록),25,0,2,5,Poison_ATK,,H,2_1_2,,,Heal_All,몬스터 전체 회복
+E16,칵테일(파랑),30,0,1,3,Heal_Lowest,,H,2_1_2,,,Spike_Enemy,몬스터 전체 가시
+E17,트럼펫(갈색),40,0,3,3,TripleAttack,,H,2_1_2,,,Confuse_Heal,플레이어 혼란 + 셀프 회복
+E18,칵테일(빨강),20,0,3,6,Double_Damage,,E,2_1_3,,,Confuse_DMG,플레이어 혼란  데미지
+E19,칵테일(초록),25,0,2,5,Poison_ATK,,E,2_1_3,,,Self_Spike_Barrier,셀프 가시 + 셀프 베리어 + 플레이어 볼륨업
+E20,칵테일(초록),25,0,2,5,Poison_ATK,,M,2_2_1,,,TripleAttack,세번 데미지
+E21,트럼펫(보라),50,0,1,2,Self_Volumeup,,M,2_2_1,,,,
+E22,여자 중간 보스,70,0,2,3,Poison_ATK_Boss,,M,2_2_1,,,,
+E23,칵테일(빨강),20,0,3,6,Double_Damage,,H,2_2_2,,,,
+E24,칵테일(파랑),30,0,1,3,Heal_Lowest,,H,2_2_2,,,,
+E25,여자 중간 보스,80,0,2,3,Poison_ATK_Boss,,H,2_2_2,,,,
+E26,트럼펫(갈색),40,0,3,3,TripleAttack,,M,2_2_3,,,,
+E27,트럼펫(보라),50,0,1,2,Self_Volumeup,,M,2_2_3,,,,
+E28,여자 중간 보스,70,0,2,3,Poison_ATK_Boss,,M,2_2_3,,,,
+E29,재즈 보스,200,0,2,9,Barrier_DMG,All_Volumeup,B,2_B,,,,
+E30,CD 앨범,60,0,2,6,Spike_Enemy,,E,3_1_1,,,,
+E31,티켓 도마뱀,35,0,2,8,Heal_All,,E,3_1_1,,,,
+E32,CD 앨범,60,0,3,8,Spike_Enemy,,M,3_1_2,,,,
+E33,카메라,25,0,2,4,Confuse_PC,,M,3_1_2,,,,
+E34,카메라,25,0,2,4,Confuse_PC,,M,3_1_2,,,,
+E35,카메라,25,0,2,4,Confuse_PC,,H,3_2_1,,,,
+E36,CD 앨범,60,0,3,8,Spike_Enemy,,H,3_2_1,,,,
+E37,JYP,120,0,2,10,Confuse_Heal,,H,3_2_1,,,,
+E38,티켓 도마뱀,35,0,2,8,Heal_All,,M,3_2_2,,,,
+E39,CD 앨범,60,0,3,8,Spike_Enemy,,M,3_2_2,,,,
+E40,JYP,90,0,2,10,Confuse_Heal,,M,3_2_2,,,,
+E41,K-POP 최종보스,300,0,2,12,Confuse_DMG,Self_Spike_Barrier,B,3_B,,,,

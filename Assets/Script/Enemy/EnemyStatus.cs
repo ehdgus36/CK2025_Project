@@ -10,7 +10,7 @@ public class EnemyStatus : MonoBehaviour
 
     //HP
     [SerializeField] HP_Bar HP_Bar;
-
+   
     [SerializeField] Barrier_ViewUI Barrier_viewUI;
     
     
@@ -27,6 +27,7 @@ public class EnemyStatus : MonoBehaviour
     [SerializeField] GameObject _StatusPopUp;
 
     [SerializeField] EnemySkillPoint _enemySkillPoint;
+    
 
     [SerializeField] TextMeshProUGUI _RhythmDamageText;
 
@@ -38,34 +39,45 @@ public class EnemyStatus : MonoBehaviour
  
     public NextAttackUIView NextAttackUI { get { return _NextAttackUI; } }
 
+    protected EnemyData enemyData;
 
+    protected Enemy UpdateTargetEnemy;
 
-    public void Initialize(EnemyData enemyData)
+    public virtual void  Initialize(Enemy enemy)
     {
+       
+        UpdateTargetEnemy = enemy;
+        enemyData = enemy.EnemyData;
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
         
-        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
+        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint , enemyData.MaxSkillPoint);
 
-        Barrier_viewUI.UpdateUI(enemyData.Barrier);
+        Barrier_viewUI.UpdateUI(enemyData.EnemyUnitData.CurrentBarrier);
 
         DamageText.text = enemyData.CurrentDamage.ToString();
-        Buff_UI.UpdateBuffIcon(enemyData.buffs);
+        Buff_UI.UpdateBuffIcon(enemyData.EnemyUnitData.buffs);
         _StatusPopUp.SetActive(false);
+
+        NextAttackUI.UpdateUI(enemyData, UpdateTargetEnemy.AIMachine.aIBehavior as EnemyAIBehavior);
     }
 
-    
-    public void UpdateStatus(EnemyData enemyData)
+
+    public virtual void UpdateStatus()
     {
+
+        enemyData = UpdateTargetEnemy.EnemyData;
 
         HP_Bar.UpdateUI(enemyData.EnemyUnitData.MaxHp, enemyData.EnemyUnitData.CurrentHp);
 
-        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint);
+        _enemySkillPoint.UpdateUI(enemyData.CurrentSkillPoint, enemyData.MaxSkillPoint);
 
 
-        Barrier_viewUI.UpdateUI(enemyData.Barrier);
+        Barrier_viewUI.UpdateUI(enemyData.EnemyUnitData.CurrentBarrier);
         DamageText.text = enemyData.CurrentDamage.ToString();
 
-        Buff_UI.UpdateBuffIcon(enemyData.buffs);
+        Buff_UI.UpdateBuffIcon(enemyData.EnemyUnitData.buffs);
+
+        NextAttackUI.UpdateUI(enemyData, UpdateTargetEnemy.AIMachine.aIBehavior as EnemyAIBehavior);
     }
 
     public void OnPassiveDescription()

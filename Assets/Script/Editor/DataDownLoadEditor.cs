@@ -155,7 +155,7 @@ public class DataDownLoadEditor : EditorWindow
 
         }
 
-        
+        AssetDatabase.Refresh();
     }
 }
 

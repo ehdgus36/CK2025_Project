@@ -3,21 +3,23 @@ using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 enum FMODLabeled
 {
-    Nomal	= 0,	
-    Upgrad  = 1
+    Player_Turn	= 0,	
+    Monster_Turn  = 1
 }
 
 public class FMODManagerSystem : MonoBehaviour
 {
-    [SerializeField] string MainBgm;
+    [SerializeField] EventReference MainBgm;
     [SerializeField] string SubBgm;
     private EventInstance bgmInstance;
     private EventInstance bgmInstance2;
     [SerializeField] bool isStartBgm = false;
 
+    [SerializeField]MetronomeSystem metronomeSystem;
     public void Start()
     {
         if (isStartBgm == true) Initialize();
@@ -25,46 +27,67 @@ public class FMODManagerSystem : MonoBehaviour
 
     public void Initialize()
     {
+        if (metronomeSystem == null)
+        {
+            metronomeSystem = GameManager.instance?.Metronome;
+        }
+
         bgmInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance.release();
 
         bgmInstance2.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         bgmInstance2.release();
 
-        if (MainBgm != "") PlayBGM(MainBgm);
+        metronomeSystem.AddOnceMetronomX4Event(()=> { PlayBGM(MainBgm); });
 
-        if (SubBgm != "") PlayBGMSub(SubBgm);
+        if (SubBgm != "") metronomeSystem.AddOnceMetronomX4Event(() => { PlayBGMSub(SubBgm); }); 
 
         SceneManager.sceneUnloaded += (Scene) => { OnEndSound(); };
     }
 
     public void FMODChangeNomal()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Nomal);
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
+    }
+
+
+    public void FMODChangePlayer()
+    {
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
+    }
+
+    public void FMODChangeMonsterTurn()
+    {
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Monster_Turn);
+        StartCoroutine(Sound());
+    }
+
+    IEnumerator Sound()
+    {
+        yield return new WaitForSeconds(.1f);
+        bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
     }
 
     public void FMODChangeUpgrade()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Upgrad);
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Monster_Turn);
     }
 
     public void FMODChangeNomal2()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Nomal);
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Player_Turn);
     }
 
     public void FMODChangeUpgrade2()
     {
-        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Upgrad);
+        bgmInstance.setParameterByName("Upgrade_Attack", (float)FMODLabeled.Player_Turn);
     }
 
-    void PlayBGM(string key)
+    void PlayBGM(EventReference key)
     {
         bgmInstance = RuntimeManager.CreateInstance(key);
         bgmInstance.start();
         FMODChangeNomal();
-
-
     }
 
     void PlayBGMSub(string key)

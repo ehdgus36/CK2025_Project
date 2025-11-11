@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Threading.Tasks;
 
 
 public struct CardReservedData
@@ -26,10 +27,15 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
 
     [SerializeField] List<dicobj> disobject = new List<dicobj>();
+
+    List<string> _UsedCard = new List<string>();
+    
+    // 사용한카드
+
     Enemy _TargetEnemy;
 
     Card _PreviousCard;
-    Card _SelectCard;
+    [SerializeField]Card _SelectCard;
 
     bool isTargeting = false; // 몬스터 타겟팅이 가능한지 확인
 
@@ -45,51 +51,19 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     Coroutine ReservedCardCoroutine;
     public int UseManaCount { get { return ManaSystem.UseManaCount(); } }
+    public int CurrentMana => ManaSystem.CurrentMana;
+
+    public string[] UsedCard { get { return _UsedCard.ToArray(); } }
+    public bool IsSelectCard => _SelectCard != null;
 
     //1회성 어빌리티가 아닌 다회성 어빌리티 관리
-    public void ExcutAbiltyCondition(string key)
-    {
-        if (AbilityConditionData.ContainsKey(key))
-        {
-            AbilityConditionData[key] = true;// 조건을 발동 상태로 만듬
-
-            //이번턴에 사용한 카드 중에서 조건에 맞을때 실행할 어빌리티 
-            for (int i = 0; i < ThisTurnExcutCard.Count; i++)
-            {
-                ThisTurnExcutCard[i].AbilieySystem();
-
-                if (ThisTurnExcutCard[i].cardData.Ability_Type == "None" || ThisTurnExcutCard[i].cardData.Ability_Type == "Onec")
-                {
-                    ThisTurnExcutCard.Remove(ThisTurnExcutCard[i]);
-                }
-            }
-
-            AbilityConditionData[key] = false;
-        }
-    }
-
-    public bool GetAbiltyCondition(string key)
-    {
-        if (AbilityConditionData.ContainsKey(key))
-        {
-            return AbilityConditionData[key];
-        }
-
-        return false;
-    }
-
-
+   
 
     public void initialize() // 1회성으로 초기화 해야하는것
     {
         ManaSystem = new ManaSystem(MaxExcutCardCount);
         ManaSystem.Initialize();
-        AbilityConditionData.TryAdd("0", true); // 항상 참인 조건
-        AbilityConditionData.TryAdd("IsBarrierActive", false);
-        AbilityConditionData.TryAdd("IsCardPlayed", false);
-        AbilityConditionData.TryAdd("IsNotFullHP", false);
-        AbilityConditionData.TryAdd("IsEnemyHit", false);
-        AbilityConditionData.TryAdd("IsPlayerHit", false);
+        
 
         List<string> keys = new List<string>(AbilityConditionData.Keys);
 
@@ -102,6 +76,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
             disobject.Add(obj);
         }
 
+
+
     }
 
     public void Reset()// 시스템 로직에서 특정타이밍 마다 초기화 해야하는것 플레이어 엔드턴일때 사용
@@ -113,14 +89,21 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _TargetEnemy = null;
         BuffDamage = 0;
 
-        StopCoroutine(ReservedCardCoroutine);
-        ReservedCardCoroutine = null;
+        if (ReservedCardCoroutine != null)
+        {
+            StopCoroutine(ReservedCardCoroutine);
+            ReservedCardCoroutine = null;
+        }
+        
     }
 
     public void StartTurnRest()
     {
         ManaSystem.EndTurnReset();
         ReservedCardCoroutine = StartCoroutine(UseReservedCard()); // 예약시스템 실행
+        _UsedCard.Clear();
+
+
     }
 
     public void SetSelectCard(Card card) // 선택한 카드를 등록
@@ -128,17 +111,15 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         _SelectCard = card;
         isTargeting = true;
-        ArrowUIObject.SetActive(true);
-        ArrowUIObject.transform.position = card.transform.position;
 
-        //player에게 사용하는 카드
-        if (card.cardData.Range_Type == 3)
+        if (card.cardData.Target_Type == "2" || card.GetComponent<SkillCard>() != null)
         {
-            DimObject.SetActiveDim("Enemy");//enemy를 어둡게
+            ArrowUIObject.SetActive(true);
+            ArrowUIObject.transform.position = card.transform.position;
         }
         else
         {
-            DimObject.SetActiveDim("Player");
+            _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
         }
     }
 
@@ -147,7 +128,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        if (_SelectCard.cardData.Range_Type == 3) return;
+        if (_SelectCard.cardData.Target_Type != "2" && _SelectCard.GetComponent<SkillCard>() == null) return;
 
         _TargetEnemy = enemy;
 
@@ -155,41 +136,19 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
     }
 
-    public void SetTargetPlayer(Player player) // 타겟팅한 몬스터 등록
+    public void SetTargetPlayer(Player player) // 타겟팅한 플레이어
     {
         if (player == null) _TargetEnemy = null;
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-
-        if (_SelectCard.cardData.Range_Type != 3) return;
+        if (_SelectCard.cardData.Target_Type != "1") return;
         _TargetEnemy = GameManager.instance.EnemysGroup.Enemys[0];
-
-
-
     }
 
     private void Update()
     {
-        //배리어 있을때
-        if (GameManager.instance.Player.PlayerUnitData.CurrentBarrier > 0)
-        {
-            AbilityConditionData["IsBarrierActive"] = true;
-        }
-        else
-        {
-            AbilityConditionData["IsBarrierActive"] = false;
-        }
-
-        if (GameManager.instance.Player.PlayerUnitData.CurrentHp < GameManager.instance.Player.PlayerUnitData.MaxHp)
-        {
-            AbilityConditionData["IsNotFullHP"] = true;
-        }
-        else
-        {
-            AbilityConditionData["IsNotFullHP"] = false;
-        }
-
+     
         if (disobject != null)
         {
             for (int i = 0; i < disobject.Count; i++)
@@ -197,7 +156,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 var ddd = disobject[i];
                 ddd.value = AbilityConditionData[disobject[i].key];
 
-                disobject[i] = ddd;// AbilityConditionData[disobject[i].key];
+                disobject[i] = ddd;
             }
         }
 
@@ -205,29 +164,62 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) == true)
         {
+            SelectExcutCard currnetCard = null;
             if (_SelectCard != null)
             {
-                if (_TargetEnemy != null)
+                if (_SelectCard.cardData.Target_Type == "2" || _SelectCard.GetComponent<SkillCard>() != null)
                 {
-                    if (ManaSystem.UseMana(_SelectCard.cardData.Cost_Type))
-                    {
-
-                        ReservedCard(_SelectCard, _TargetEnemy);// 큐에 예약 데이터 넣기
-                        ArrowUIObject.SetActive(false);
-                        //CardExcutEvent();
-
-                        
-                    }
+                    currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
+                }
+                else
+                {
+                    currnetCard = _SelectCard.GetComponent<DragDropUI>().startParent.transform.GetComponent<SelectExcutCard>();
                 }
 
-                
+                if (_TargetEnemy != null)
+                {
+                    if (_SelectCard.GetComponent<SkillCard>() != null)
+                    {
+                        ReservedCard(_SelectCard, _TargetEnemy);
+                    }
+                    else
+                    {
+                        if (_SelectCard.cardData.Target_Type == "2")
+                        {
+                            if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                            {
+                                ArrowUIObject.SetActive(false);
 
+                            }
+                        }
+                        else
+                        {
+                            if (_SelectCard.transform.position.y > Card.UsePos)
+                            {
+                                if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                                {
+                                    ArrowUIObject.SetActive(false);
 
+                                }
+
+                            }
+                        }
+                    }
+
+                    
+                }
             }
+
+          
             _TargetEnemy = null;
             _SelectCard = null;
             ArrowUIObject.SetActive(false);
-            DimObject.gameObject.SetActive(false);
+            
+            if (currnetCard != null)
+            {
+                currnetCard.OnPointerExit(null);
+                DimObject.gameObject.SetActive(false);
+            }
         }
 
 
@@ -238,18 +230,17 @@ public class ExcutSelectCardSystem : MonoBehaviour
     {
         if (selecCard.GetComponent<SkillCard>() == true)
         {
-
             //카드 사용
             selecCard.TargetExcute(enemy);
 
             isTargeting = false;
-
-
+            return;
         }
         else
         {
+            GameManager.instance.UIManager.CardDescription.ActiveCard();
 
-            int combo = 0;
+            int combo = 1;
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
             combo++;
             GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
@@ -258,19 +249,22 @@ public class ExcutSelectCardSystem : MonoBehaviour
             ThisTurnExcutCard.Add(selecCard);
 
 
-            ExcutAbiltyCondition("IsCardPlayed");
+            GameManager.instance.AbilitySystem.PlayeEvent(AbilitySystem.KEY_IS_CARD_PLAYED, null);
             if (_PreviousCard != null)
             {
-                selecCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
+                //selecCard.DamageBuff = _PreviousCard.cardData.Damage_Buff;
 
                 if (_PreviousCard.GetType() == typeof(Drain_Card))
                 {
-                    selecCard.Buff_Recover_HP = selecCard.cardData.Damage;
+                    selecCard.Buff_Recover_HP = selecCard.cardData.Attack_DMG;
                 }
             }
 
             //카드 사용
             selecCard.TargetExcute(enemy);
+
+
+            _UsedCard.Add(selecCard.CardID);
 
             isTargeting = false;
             _PreviousCard = _SelectCard;
@@ -279,15 +273,26 @@ public class ExcutSelectCardSystem : MonoBehaviour
             CurrentExcutCardCount++;
             //GameManager.instance.UIManager.UseCardCountText.text = string.Format("{0}/{1}", CurrentExcutCardCount, MaxExcutCardCount);
 
-        }
 
-        
+            if (ManaSystem.CurrentMana == 0)
+            {
+                selecCard.GetCardSloat.ReadData<Card>().ForEach( card => card.DisableCard());
+            }
+
+        }
     }
 
-    private void ReservedCard(Card card, Enemy enemy)
+    private bool ReservedCard(Card card, Enemy enemy)
     {
-        card.SetOutLineColor(Color.blue);
-        _CardQueue.Enqueue(new CardReservedData(card, enemy));
+        if (_CardQueue.Count == 0)
+        {
+            GameManager.instance.UIInputSetActive(false);
+            
+            _CardQueue.Enqueue(new CardReservedData(card, enemy));
+            return true;
+        }
+
+        return false;
     }
 
     private IEnumerator UseReservedCard()
@@ -301,8 +306,13 @@ public class ExcutSelectCardSystem : MonoBehaviour
 
                 if (cardData.Target.isDie != true) //타겟이 죽지 않았을 때만
                 {
+
                     CardExcutEvent(cardData.card, cardData.Target);
+
+                    //카드 사용이 완료될때 까지 대기
                     yield return new WaitUntil(() => { return cardData.card.IsCardEnd == true; });
+
+                    
                 }
                 else // 타겟 죽으면 해당시점에 감소한 마나 회복
                 {
@@ -312,6 +322,8 @@ public class ExcutSelectCardSystem : MonoBehaviour
                 cardData.card.SetOutLineColor(Color.white); // 예약이사용 되면 색원상 복구
             }
 
+
+            GameManager.instance.UIInputSetActive(true);
             GameManager.instance.GetEndTurnButton.interactable = true;
             yield return null;
         }

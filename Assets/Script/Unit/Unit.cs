@@ -1,3 +1,4 @@
+using GameDataSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,8 +18,7 @@ public class UnitData
         get { return _CurrentHp; }
         set
         {
-            _CurrentHp = value;
-            //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
+            _CurrentHp = Mathf.Clamp(value , 0 , MaxHp);  
         }
     }
 
@@ -28,12 +28,11 @@ public class UnitData
         get { return _CurrentBarrier; }
         set
         {
-            _CurrentBarrier = value;
-            //GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(DataKey, this);
+            _CurrentBarrier = value; // 아마 1000까지는 올라가지 않을듯
         }
     }
 
-
+  [SerializeReference] public List<Buff> buffs = new List<Buff>();
 
 
 
@@ -44,60 +43,96 @@ public class Unit : MonoBehaviour
 
     [SerializeField]
     protected UnitData UnitData;
-   
-    protected List<Buff> CurrentBuff;
-
-
 
     [HideInInspector]public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
 
-    
     protected int TurnCount = 0;
 
     [SerializeField] protected UnityAction StartTurnEvent;
     protected UnityAction EndTurnEvent;
-    //protected UnityAction DieEvent;
+    protected UnityAction DieEvent;
     // protected int UnitDamage =1;
 
     
 
     public void InitTurnCount() { TurnCount = 0; }
 
-    public virtual void TakeDamage(int damage)
+    protected virtual void TakeDamageEvent(Unit form, int damage, int resultDamage, Buff buff = null) { }
+    public void TakeDamage(Unit form ,int damage, Buff buff = null)
     {
         
+        if (damage <= 0) return;
+        int resultDamage = damage;
 
-        if (damage <= 0)
+        if (UnitData.CurrentBarrier > 0)
         {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-            return;
+
+           
+            if (UnitData.CurrentBarrier - resultDamage >= 0) //베리어가 남거나 0이면
+            {
+                UnitData.CurrentBarrier -= resultDamage;
+                resultDamage = 0;
+            }
+
+            if (UnitData.CurrentBarrier - resultDamage < 0) // 베리어가 0미만이면 데미지
+            {
+                resultDamage -= UnitData.CurrentBarrier;
+                UnitData.CurrentBarrier = 0;
+            }
         }
 
-        UnitData.CurrentHp -= damage;
+
+        UnitData.CurrentHp -= resultDamage;
 
         if (UnitData.CurrentHp <= 0)
         {
             UnitData.CurrentHp = 0;
             Die();
+            return;
         }
 
-       
+        AddBuff(buff);
+        TakeDamageEvent(form, damage, resultDamage, buff);
     }
 
-    public virtual void TakeDamage(AttackData data)
+    void Die() 
     {
-        if (UnitData.CurrentHp <= 0)
-        {
-            Die();
-        }
         
-      
+        DieEvent?.Invoke();
     }
 
-    protected virtual void Die() 
+    public virtual void AddBuff(Buff buff)
     {
-        Debug.Log("Die() 활성화");
-        //DieEvent?.Invoke();
+        if (HellfireAction.isHellFire == true)
+        {
+            if (buff.GetType() == typeof(FireBuff))
+            {
+
+                Debug.Log("듀" );
+                buff = new FireBuffBrunOut(BuffType.Start, buff.GetBuffDurationTurn(), 12); //번아웃
+            }
+        }
+
+
+        if (buff != null)
+        {
+            bool IsBuffType = false;
+
+            for (int i = 0; i < UnitData.buffs.Count; i++)
+            {
+                if (UnitData.buffs[i].GetType() == buff.GetType())
+                {
+                    UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+
+                    IsBuffType = true;
+                }
+            }
+
+            if (IsBuffType == false)
+            {
+                UnitData.buffs.Add(buff.Clone());
+            }
+        }
     }
 
     //Unit의 턴이 시작했을 때 호출
@@ -106,7 +141,6 @@ public class Unit : MonoBehaviour
         IsTurn = true;
         BuffExecution(BuffType.Start);
       
-
         if (IsTurn == false) return; 
         
         StartTurnEvent?.Invoke();
@@ -122,20 +156,47 @@ public class Unit : MonoBehaviour
         EndTurnEvent?.Invoke();
     }
 
+    public void RemoveBuff(Buff buff)
+    { 
+        UnitData.buffs.Remove(buff);
+    }
+
     void BuffExecution(BuffType type)
     {
-        if (CurrentBuff == null) return;
+        if (UnitData.buffs == null) return;
 
-        Debug.Log("buffCount :"+ CurrentBuff.Count.ToString());
-        if (CurrentBuff.Count != 0)
+       
+        if (UnitData.buffs.Count != 0)
         {
-            for (int i = 0; i < CurrentBuff.Count; i++)
+            for (int i = 0; i < UnitData.buffs.Count; i++)
             {
-                if (CurrentBuff[i].GetBuffType() == type)
+                if (UnitData.buffs[i].GetBuffType() == type)
                 {
-                    CurrentBuff[i].StartBuff(this);
+                    UnitData.buffs[i].StartBuff(this);
+                   
                 }
             }
         }
+
+
+        for (int i = 0; i < UnitData.buffs.Count; i++)
+        {
+            if (UnitData.buffs[i].GetBuffDurationTurn() <= 0)
+            {
+                RemoveBuff(UnitData.buffs[i]);  
+            }
+        }
+
+
+    }
+
+    public virtual void LossHP(int HP)
+    {
+        UnitData.CurrentHp -= HP;
+
+        if (UnitData.CurrentHp <= 0)
+            TakeDamage(this, 1);
+
+       
     }
 }

@@ -10,24 +10,46 @@ public class ItemDataLoader : MonoBehaviour
     public int EnAF_Up    { get; private set; }
 
 
-    public void LoadData()
-    { 
-    
-        List<string> itemcodes = new List<string>();
-        ItemData data;
 
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA,out itemcodes);
-        
+   
+    public StickerItemData stickerData{ get; private set; }
+    public StrapItemData strapData{ get; private set; }
+    public StringItemData stringData{ get; private set; }
+
+    
+
+    public void LoadData()
+    {
+
+        List<string> itemcodes = new List<string>();
+       
+
+
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA, out itemcodes);
+
         for (int i = 0; i < itemcodes.Count; i++)
         {
-            GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(itemcodes[i], out data);
+            object data = null;
+            if (GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(itemcodes[i], out data))
+            {
+                if (data is StickerItemData)
+                {
+                    stickerData = (StickerItemData)data;
+                }
 
-            PCMaxHP_UP += data.PCMaxHP_UP;
-            FireDm_UP += data.FireDm_UP;
-            EnDm_Down += data.EnDm_Down;
-            EnDf_Down += data.EnDf_Down;
-            EnAF_Up += 0;// 가라 나중에 구현 중요X
+                if (data is StrapItemData)
+                {
+                    strapData = (StrapItemData)data;
+                }
+
+                if (data is StringItemData)
+                {
+                    stringData = (StringItemData)data;
+                }
+
+            }
+
         }
-    
+
     }
 }

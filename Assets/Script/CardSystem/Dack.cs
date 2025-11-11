@@ -6,9 +6,6 @@ using TMPro;
 
 public class Dack : MonoBehaviour
 {
-   
-  
-
     [SerializeField] TextMeshProUGUI TextCardCount;
     [SerializeField] SlotGroup CardSlots;
     [SerializeField] CemeteryUI Cemetery;
@@ -63,29 +60,6 @@ public class Dack : MonoBehaviour
             {
                 Debug.Log("DackData Count" + DackData.Count.ToString());
 
-
-                //이전 생성
-                /*
-                for (int i = 0; i < DackData.Count; i++)
-                {
-                   
-                    for (int j = 0; j < CardDatas.Count; j++)
-                    {
-                        
-                        if (DackData[i] == CardDatas[j].CardID)
-                        {
-                            GameObject NewCard = Instantiate(CardDatas[j].gameObject);
-                            NewCard.transform.SetParent(CardPos);
-                            NewCard.transform.position = CardPos.position;
-                            NewCard.transform.localScale = Vector3.one;
-
-                            DackDatas.Add(NewCard.GetComponent<Card>());
-                        }
-                    }
-
-                }
-                */
-
                 //신규 오토 생성
                 for (int i = 0; i < DackData.Count; i++)
                 {
@@ -110,10 +84,13 @@ public class Dack : MonoBehaviour
             isOnce = true;
         }
 
+        
 
+
+        //카드 뽑기
         for (int i = 0; i < CardSlots.Getsloat().Length ; i++)
         {
-            Debug.Log(gameObject.name + "Drow");
+            
             if (CardSlots.Getsloat()[i].ReadData<Card>() == null)
             {
                 Card drowCard = CardDrow();
@@ -121,7 +98,7 @@ public class Dack : MonoBehaviour
                 
                 DackDatas.Remove(drowCard);
 
-                Debug.Log(gameObject.name + "Drow");
+               
             }
         }
 
@@ -157,5 +134,15 @@ public class Dack : MonoBehaviour
         }
 
         return list;
+    }
+
+    public void ReflashSlot()
+    {
+        List<Card> resetCard = CardSlots.ReadData<Card>();
+
+        for (int i = 0; i < resetCard.Count; i++)
+        {
+            InsertCard(resetCard[i]);
+        }
     }
 }

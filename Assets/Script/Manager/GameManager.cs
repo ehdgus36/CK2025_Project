@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Linq.Expressions;
-using UnityEngine.EventSystems;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,10 +19,10 @@ public class GameManager : MonoBehaviour
     private Unit ThisTurnUnit;
     private Unit NextTurnUnit;
 
-   
+    public Animator UIAnime;
     //Get; Set;
 
-   
+
     public CamShake Shake { get { return _Shaker; } }
     public Player Player { get { return _Player; } }
 
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
         get
         {
             if (_EnemysGroup.Enemys.Count == 0)
-                Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
+                Debug.Log("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
 
             return _EnemysGroup;
         }
@@ -42,11 +43,13 @@ public class GameManager : MonoBehaviour
     //Public
 
     public static GameManager instance { get; private set; }
-   
+
     public UIManager UIManager { get; private set; }
     public MetronomeSystem Metronome { get; private set; }
 
     public ExcutSelectCardSystem ExcutSelectCardSystem { get; private set; }
+
+    public AbilitySystem AbilitySystem { get; private set; }
 
     //public GameObject PlayerCardSlot { get { return _CardSlot; } }
 
@@ -63,6 +66,9 @@ public class GameManager : MonoBehaviour
 
     public FMODManagerSystem FMODManagerSystem { get { return _FMODManagerSystem; } }
 
+    public DimBackGroundObject DimBackGroundObject { get { return _DimBackGroundObject; } }
+
+
 
     public void ExitGame()
     {
@@ -72,14 +78,14 @@ public class GameManager : MonoBehaviour
     //인스펙터에서 데이터 받아옴
 
     [SerializeField] CardCastPlace _PlayerCardCastPlace;
-   
+
     [SerializeField] CemeteryUI _CardCemetery;
     [SerializeField] PlayerCDSlotGroup _PlayerCDSlotGroup;
     [SerializeField] GameObject GameClear;
     [SerializeField] GameObject GameOver;
     [SerializeField] CamShake _Shaker;
 
-   // [SerializeField] GameObject _CardSlot;
+    // [SerializeField] GameObject _CardSlot;
     [SerializeField] GameObject PlayerTurnMark;
     [SerializeField] GameObject EnemyTurnMark;
     [SerializeField] GameObject GameStartMark;
@@ -89,11 +95,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] FMODManagerSystem _FMODManagerSystem;
     [SerializeField] GameObject EventSystem;
 
-    [SerializeField] int ClearGold = 0;
-    
+    [SerializeField] Animator _ControlleCam;
+
+    [SerializeField]int ClearGold = 50;
+
+    [SerializeField] DimBackGroundObject _DimBackGroundObject;
+
     GameObject ThisTrunMark;
     GameObject NextTrunMark;
 
+
+    public Animator ControlleCam => _ControlleCam;
     public int GetClearGold { get { return ClearGold; } }
 
     public Button GetEndTurnButton { get { return EndTurnButton; } }
@@ -101,7 +113,7 @@ public class GameManager : MonoBehaviour
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
     IEnumerator Initialize()
     {
-
+        
         ItemDataLoader = gameObject.GetComponent<ItemDataLoader>();
 
         ExcutSelectCardSystem = gameObject.GetComponent<ExcutSelectCardSystem>();
@@ -115,9 +127,13 @@ public class GameManager : MonoBehaviour
 
         ThisTrunMark = PlayerTurnMark;
         NextTrunMark = EnemyTurnMark;
-       
+
+
+        AbilitySystem = new AbilitySystem();
+
         yield return null;
 
+        
      
 
         if (Metronome == null)
@@ -146,7 +162,7 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         EndTurnButton?.onClick.AddListener(TurnSwap);
-        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/Turn_End"); }); // 클릭시 사운드
+        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/In_Game/Turnend_Button"); }); // 클릭시 사운드
         
         //EndTurnButton?.gameObject.SetActive(false);
 
@@ -218,25 +234,44 @@ public class GameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        EndTurnButton.gameObject.SetActive(true);
+        EndTurnButton.gameObject.SetActive(false);
     }
 
     public void TurnSwap()
     {
         // 턴앤드 클릭시 TurnSwap함수 재생
-        Debug.Log("턴앤드 클릭");
 
-        ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
-        (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
+        EndTurn();
+        Metronome.AddOnceMetronomX4Event(() =>
+        {
+            ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
+            (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
 
-        ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
+            ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
 
-        StartCoroutine(TurnMark());
+            if (ThisTurnUnit.GetType() == typeof(Player))
+            {
+                UIAnime.Play("Active_UIAnimation");
+                _FMODManagerSystem.FMODChangePlayer();
+               
+            }
+
+            if (ThisTurnUnit.GetType() == typeof(EnemysGroup))
+            {
+                UIAnime.Play("Hide_UIAnimation");
+                _FMODManagerSystem.FMODChangeMonsterTurn();
+            }
+
+            StartCoroutine(TurnMark());
+        });
+
+       
 
     }
 
     IEnumerator TurnMark()
     {
+        UIInputSetActive(false);
         if (isStart == false)
         {    
             isStart = true;
@@ -249,12 +284,14 @@ public class GameManager : MonoBehaviour
 
 
         yield return new WaitForSeconds(.2f);
-        _FMODManagerSystem.PlayEffectSound("event:/UI/Change_Turn"); // 사운드도 같이
+        _FMODManagerSystem.PlayEffectSound("event:/UI/In_Game/Turn_Change"); // 사운드도 같이
         ThisTrunMark.SetActive(true);
         yield return new WaitForSeconds(1f);
         ThisTrunMark.SetActive(false);
 
         (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
+
+        UIInputSetActive(true);
 
     }
 
@@ -274,22 +311,11 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(UPdateComboCount(data*2));
     }
 
-    IEnumerator UPdateComboCount(int count)
-    {
-        int combo = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out combo);
-        for (int i = 0; i < count; i++)
-        {
-            combo++;
-            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, combo);
-            
-            if(i % 200 == 0)yield return null;
-        }
-    }
+ 
 
 
     public void UIInputSetActive(bool active)
     {
-       // EventSystem.SetActive(active);
+       EventSystem.SetActive(active);
     }
 }

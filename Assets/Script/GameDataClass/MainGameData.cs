@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using GameDataSystem.KeyCode;
 
+
 using UnityEngine;
 
 
@@ -17,10 +18,19 @@ namespace GameDataSystem.KeyCode
         public static readonly string COMMON_CARD_DATA = "COMMON_CARD_DATA";
         public static readonly string SPECIAL_CARD_DATA = "SPECIAL_CARD_DATA";
         public static readonly string TARGET_CARD_DATA = "TARGET_CARD_DATA";
-        public static readonly string ITME_DATA = "ITME_DATA";
+
+        public static readonly string ITME_DATA = "ITEM_DATA";
+        
+
+        public static readonly string STICKER_ITME_INVENTORY_DATA = "STICKER_ITME_INVENTORY_DATA";
+        public static readonly string STRAP_ITME_INVENTORY_DATA = "STRAP_ITME_INVENTORY_DATA";
+        public static readonly string STRING_ITME_INVENTORY_DATA = "STRING_ITME_INVENTORY_DATA";
+
+        public static string ITEM_HOLD_DATA { get { return "ITEM_HOLD_DATA"; } }
+
         public static readonly string STAGE_DATA = "STAGE_DATA";
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
-        public static readonly string SKILL_POINT_DATA = "SKILL_POINT_DATA";
+        public static string SKILL_POINT_DATA { get { return "SKILL_POINT_DATA"; } }
 
         public static readonly string DACK_DATA = "DACK_DATA";
 
@@ -36,7 +46,6 @@ public abstract class DynamicUIObject : MonoBehaviour
 {
 
     public abstract string DynamicDataKey { get; }
-
 
     /// <summary> update_ui_data를 저장되어있는 데이터 타입과 동일하게 형변환 후 사용 </summary>
     public abstract void UpdateUIData(object update_ui_data);
@@ -57,7 +66,7 @@ namespace GameDataSystem
 
     public static class DataTableLoader
     {
-
+        /// <summary> 가져온 문자열 데이터를 TextAsset으로 변경하여 반환</summary>
         public static TextAsset LoadTextAsset(string fileName)
         {
             fileName += ".csv";
@@ -72,6 +81,8 @@ namespace GameDataSystem
             }
 
             string text = File.ReadAllText(path);
+            
+            
             // TextAsset 객체 생성
             TextAsset asset = new TextAsset(text);
             return asset;
@@ -81,46 +92,54 @@ namespace GameDataSystem
     /// <summary> 데이터 테이블에서 가져온 데이터를 관리하는 클래스 </summary>
     public static class StaticGameDataSchema
     {
-
        
-        private static TextAsset RecipeDataTable = new TextAsset();
         private static TextAsset CardStatusDataTable = new TextAsset();
-        private static TextAsset CardDataTable = DataTableLoader.LoadTextAsset("CardDataTable");// Resources.Load<TextAsset>("DataTable/CardDataTable");
-        private static TextAsset NoteDataTable = new TextAsset();
-        private static TextAsset ItemDataTable = DataTableLoader.LoadTextAsset("ItemDataTable");// Resources.Load<TextAsset>("DataTable/ItemDataTable");
-        private static TextAsset Status_Table;
+        private static TextAsset CardDataTable = DataTableLoader.LoadTextAsset("CardDataTable");
+        private static TextAsset NoteDataTable = DataTableLoader.LoadTextAsset("NoteDataTable");
+        private static TextAsset NoteGroupDataTable = DataTableLoader.LoadTextAsset("NoteGroupDataTable");
+        private static TextAsset ShopDataTable = DataTableLoader.LoadTextAsset("ShopDataTable");
+
+        private static TextAsset StickerItemDataTable = DataTableLoader.LoadTextAsset("StickerItemDataTable");
+        private static TextAsset StrapItemDataTable = DataTableLoader.LoadTextAsset("StrapItemDataTable");
+        private static TextAsset StringItemDataTable = DataTableLoader.LoadTextAsset("StringItemDataTable");
+
+        private static TextAsset EnemyDataTable = DataTableLoader.LoadTextAsset("EnemyDataTable");
+
+
         // 카드의 기본 시작 덱이 설정되어있는 거
 
 
-        private static RecipeDataBase _RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
         private static CardDataBase _CARD_DATA_BASE = new CardDataBase(CardStatusDataTable, CardDataTable);
-        private static NoteDataBase _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
-        private static ItemDataBase _ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+        private static NoteDataBase _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable, NoteGroupDataTable);
+        private static ShopDataBase _SHOP_DATA_BASE = new ShopDataBase(ShopDataTable);
+        private static ItemDataBase _ITEM_DATA_BASE = new ItemDataBase(StickerItemDataTable, StrapItemDataTable, StringItemDataTable);
+        private static EnemyDataBase _ENEMY_DATA_BASE = new EnemyDataBase(EnemyDataTable);
 
-
-
-        public static RecipeDataBase RECIPE_DATA_BASE => _RECIPE_DATA_BASE;
+        
+        // 읽기 전용으로 선언
         public static CardDataBase CARD_DATA_BASE => _CARD_DATA_BASE;
         public static NoteDataBase NOTE_DATA_BASE => _NOTE_DATA_BASE;
+        public static ShopDataBase Shop_DATA_BASE => _SHOP_DATA_BASE;
         public static ItemDataBase ITEM_DATA_BASE => _ITEM_DATA_BASE;
+        public static EnemyDataBase ENEMY_DATA_BASE => _ENEMY_DATA_BASE;
 
 
         public readonly static UnitData StartPlayerData = new UnitData();
         public readonly static TextAsset PlayerDeckDataTable = DataTableLoader.LoadTextAsset("PlayerDeckDataTable");
 
-
+        //초기화 
         public static void Initialize()
         {
-            RecipeDataTable = new TextAsset();
+           
             CardStatusDataTable = new TextAsset();
             CardDataTable = DataTableLoader.LoadTextAsset("CardDataTable");
             NoteDataTable = new TextAsset();
-            ItemDataTable = DataTableLoader.LoadTextAsset("ItemDataTable");
+            ShopDataTable = DataTableLoader.LoadTextAsset("ItemDataTable");
 
-            _RECIPE_DATA_BASE = new RecipeDataBase(RecipeDataTable);
+            
             _CARD_DATA_BASE = new CardDataBase(CardStatusDataTable, CardDataTable);
-            _NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
-            _ITEM_DATA_BASE = new ItemDataBase(ItemDataTable);
+            //_NOTE_DATA_BASE = new NoteDataBase(NoteDataTable);
+            _SHOP_DATA_BASE = new ShopDataBase(ShopDataTable);
         }
     }
 
@@ -130,8 +149,11 @@ namespace GameDataSystem
     /// <remarks> 데이터에 UIDynamicUIObject가 등록 되어있으면 자동으로 업데이트함 </remarks>
     public static class DynamicGameDataSchema
     {
+        // 유동적으로 변할 데이터 저장
         static Dictionary<string, object> DynamicDataBase = new Dictionary<string, object>();
-        static Dictionary<string, List<DynamicUIObject>> DynamicUIDataBase = new Dictionary<string, List<DynamicUIObject>>(); // DynamicDataBase가 업데이트 했을때 같이 갱신할 UI
+
+        // DynamicDataBase가 업데이트 했을때 같이 갱신할 UI
+        static Dictionary<string, List<DynamicUIObject>> DynamicUIDataBase = new Dictionary<string, List<DynamicUIObject>>(); 
 
 
         static DynamicGameDataSchema()
@@ -147,76 +169,42 @@ namespace GameDataSystem
 
         static void Initialize()
         {
-            //기본 스펙
+            //플레이어 기본 스펙정의
             StaticGameDataSchema.StartPlayerData.MaxHp = 100;
             StaticGameDataSchema.StartPlayerData.CurrentHp = StaticGameDataSchema.StartPlayerData.MaxHp;
             StaticGameDataSchema.StartPlayerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
-
-
-            AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
-            AddDynamicDataBase(DynamicGameDataKeys.UPGRADE_POINT_DATA, 0);
 
             UnitData playerData = new UnitData();
             playerData.MaxHp = StaticGameDataSchema.StartPlayerData.MaxHp;
             playerData.CurrentHp = playerData.MaxHp;
             playerData.DataKey = StaticGameDataSchema.StartPlayerData.DataKey;
-            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData);
 
-            AddDynamicDataBase(DynamicGameDataKeys.COMMON_CARD_DATA, new List<Card>());
-            AddDynamicDataBase(DynamicGameDataKeys.SPECIAL_CARD_DATA, new List<Card>());
-
+            AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
+            AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData); 
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA, "1-1");
-            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,0);
+            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,7);
 
             AddDynamicDataBase("MapSave", "");
 
+            //ITEM관련 초기화
+            AddDynamicDataBase(DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, new List<string>() { "It01", "It02", "It03" });
+            AddDynamicDataBase(DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, new List<string>() { "It11", "It12", "It13" });
+            AddDynamicDataBase(DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, new List<string>() { "It31", "It32", "It33" });
 
-            List<string> testItem = new List<string>();
-            //testItem.Add("IT03");
-            AddDynamicDataBase(DynamicGameDataKeys.ITME_DATA, testItem);
+            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();
 
             for (int i = 0; i < CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable).Count; i++)
             {
-                CardCodes.Add(CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable)[i]["Card_Code"].ToString());
+                CardCodes.Add(CSVReader.Read(StaticGameDataSchema.PlayerDeckDataTable)[i]["Card_ID"].ToString()); //Csv 읽기
             }
-
-
-            //CardCodes.Add("C1011");
-            //CardCodes.Add("C1021");
-            //CardCodes.Add("C1011");
-            //CardCodes.Add("C1021");
-
-
-            //CardCodes.Add("C1011");
-            //CardCodes.Add("C1021");
-            //CardCodes.Add("C1011");
-            //CardCodes.Add("C1021");
-            //CardCodes.Add("C1011");
-            //CardCodes.Add("C1021");
-            //CardCodes.Add("C1011");
-            //CardCodes.Add("C1021");
-
-            //CardCodes.Add("C1031");
-            //CardCodes.Add("C1031");
-
-            //CardCodes.Add("C1041");
-            //CardCodes.Add("C1061");
-            //CardCodes.Add("C1071");
-            //CardCodes.Add("C1101");
-
-            //CardCodes.Add("C2031");
-            //CardCodes.Add("C2031");
-
-           
-            
-
-
 
             AddDynamicDataBase(DynamicGameDataKeys.DACK_DATA, CardCodes);
         }
+
+
         /// <summary> 동적으로 변하는 데이터를 등록 </summary>
         public static void AddDynamicDataBase(string key, object data)
         {
@@ -260,12 +248,12 @@ namespace GameDataSystem
         {
             if (DynamicDataBase.ContainsKey(key))
             {
-
                 //data의 타입이 기존 key value의 데이터 타입과 같을 때만 업데이트
                 if (DynamicDataBase[key].GetType() == data.GetType())
                 {
-                    DynamicDataBase[key] = data;
+                    if (data == null) return;
 
+                    DynamicDataBase[key] = data;
 
                     // DynamicUIDataBase 에 같은 key값으로 등록이 되어있다면 UI Data도 같이 업데이트 
                     if (DynamicUIDataBase.ContainsKey(key))

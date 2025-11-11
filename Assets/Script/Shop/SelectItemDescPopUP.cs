@@ -13,65 +13,56 @@ struct PopUpItemData
 public class SelectItemDescPopUP : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI ItemName;
-    [SerializeField] TextMeshProUGUI ItemTag;
+    [SerializeField] TextMeshProUGUI ItemRank;
     [SerializeField] TextMeshProUGUI ItemDesc;
+    [SerializeField] TextMeshProUGUI ItmePrice;
+
+
+    [SerializeField] TextMeshProUGUI BuffText;
 
     [SerializeField] Image ItemImage;
-    [SerializeField] PopUpItemData[] popUpItemDatas;
 
+    CardData SelectCardData;
 
     public void ViewPopUP(string itemID)
     {
-        ItemData data;
-        GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(itemID, out data);
-        ItemName.text = data.Name;
+        ShopData data;
+      
+        object cardData;
+
+        GameDataSystem.StaticGameDataSchema.Shop_DATA_BASE.SearchData(itemID, out data);
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(itemID, out cardData);
+
+        ItemImage.rectTransform.sizeDelta = new Vector2(576f, 576f);
+
+        SelectCardData = (CardData)cardData;
+
+        ItemName.text = ((CardData)cardData).Card_Name_KR;
+        ItemDesc.text = ((CardData)cardData).Card_Des;
+
+        if (data.Rank == "1") { ItemRank.text = "ÀÏ¹Ý"; }
+        if (data.Rank == "2") { ItemRank.text = "Èñ±Í"; }
+        if (data.Rank == "3") { ItemRank.text = "Àü¼³"; }
        
+        ItmePrice.text = data.Price.ToString();
+
+        ItemImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+    }
 
 
+    public void BuffDesc(string Tag)
+    {
 
-        for (int i = 0; i < popUpItemDatas.Length; i++)
+
+        if (Tag == "buff1")
         {
-            if (popUpItemDatas[i].itemID == itemID)
-            {
-                if (itemID[0] == 'I')
-                {
-                    ItemImage.rectTransform.sizeDelta = new Vector2(1024f, 1024f);
-                    ItemTag.text = data.Tag;
-                    ItemDesc.text = data.Example;
-                    ItemImage.sprite = popUpItemDatas[i].itemImage;
-                }
-
-                if (itemID[0] == 'C')
-                {
-                    ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
-                    ItemTag.text = data.Tag;
-                    ItemDesc.text = data.Example;
-                    object cardData;
-
-                    GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(itemID, out cardData);
-
-                    ItemImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
-
-                }
-            }
-            else
-            {
-                if (itemID[0] == 'C')
-                {
-                    ItemImage.rectTransform.sizeDelta = new Vector2(704f, 704f);
-                    ItemTag.text = data.Tag;
-                    ItemDesc.text = data.Example;
-                    object cardData;
-
-                    GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(itemID, out cardData);
-
-                    ItemImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
-
-                }
-            }
-
+            BuffText.text = SelectCardData.Buff_Ex1;
         }
-    
+
+        if (Tag == "buff2")
+        {
+            BuffText.text = SelectCardData.Buff_Ex2;
+        }
     }
 
 }

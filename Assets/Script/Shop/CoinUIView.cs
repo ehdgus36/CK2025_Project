@@ -7,6 +7,16 @@ public class CoinUIView : DynamicUIObject
 
     [SerializeField] TextMeshProUGUI GoldText;
 
+
+    [SerializeField]bool isManageble = true;
+    private void Awake()
+    {
+        if (isManageble == false)
+        {
+            GameDataSystem.DynamicGameDataSchema.AddDynamicUIDataBase(DynamicDataKey, this);
+        }
+    }
+
     public override void UpdateUIData(object update_ui_data)
     {
         int coin = (int)update_ui_data;

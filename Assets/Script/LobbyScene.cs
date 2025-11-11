@@ -1,3 +1,5 @@
+using FMODUnity;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +13,8 @@ public class LobbyScene : MonoBehaviour
 
     [SerializeField] GameObject SettingView;
     [SerializeField] GameObject VideoPlayObject;
+
+    [SerializeField] GameObject selectGameAnime;
 
     [SerializeField] VideoPlayer CutScenePlayer;
 
@@ -45,24 +49,37 @@ public class LobbyScene : MonoBehaviour
 
     private void Exit()
     {
+        RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
         Application.Quit();
     }
 
     private void SETTING()
     {
-       SettingView.SetActive(true);
+        RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
+        SettingView.SetActive(true);
     }
 
     public void LoadScene()
     {
-        if (VideoPlayObject.activeSelf == true) return;
+        if (startCutScene == true) return;
 
+
+        RuntimeManager.PlayOneShot("event:/UI/Lobby_Click");
         GameDataSystem.DynamicGameDataSchema.NewGameDataInit(); // 로비에서 다시시작시 게임 데이터 초기화
         CutScenePlayer.time = 0;
         CutScenePlayer.Play();
-        VideoPlayObject.SetActive(true);
-        CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName);  };
+
+        selectGameAnime.SetActive(true);
         startCutScene = true;
+
+        StartCoroutine(DelayScene());
     }
-   
+
+    IEnumerator DelayScene()
+    {
+        yield return new WaitForSeconds(1.3f);
+        VideoPlayObject.SetActive(true);
+        CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName); };
+    }
+    
 }

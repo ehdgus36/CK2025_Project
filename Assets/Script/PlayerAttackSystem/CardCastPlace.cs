@@ -48,7 +48,7 @@ public class CardCastPlace : MonoBehaviour
         isByeByeStart = false;
         CurrentCount = MaxCardCount;
         cards.Clear();
-        status.Reset();
+        status?.Reset();
         _TargetEnemy = null;
         isByeBye = false;
         isAttackClear = true;
@@ -93,10 +93,10 @@ public class CardCastPlace : MonoBehaviour
         isAttackClear = false;
         for (int i = 0; i < count; i++)
         {
-            if(cards[0].cardData.MoveType == "M" && isByeBye == false)
-            {
-                GameManager.instance.Player.transform.position = _TargetEnemy.transform.position - new Vector3(2, 0, 0);
-            }
+            //if(cards[0].cardData.MoveType == "M" && isByeBye == false)
+            //{
+            //    GameManager.instance.Player.transform.position = _TargetEnemy.transform.position - new Vector3(2, 0, 0);
+            //}
 
             yield return new WaitForSeconds(.1f); // 이동 후 딜레이
 

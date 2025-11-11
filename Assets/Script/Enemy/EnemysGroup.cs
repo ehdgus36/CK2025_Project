@@ -4,29 +4,33 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public delegate void DieEnemy(Enemy enemy);
 
-public class EnemysGroup :Unit
+public class EnemysGroup : Unit
 {
 
     public List<Enemy> Enemys { get => _Enemys; }
     [SerializeField] private List<Enemy> _Enemys; // 인스펙터에 보이게
-    [SerializeField] RhythmGameSystem RhythmGameSystem;
-    
+    [SerializeField] RhythmSystem RhythmGameSystem;
+
+    public RhythmSystem GetRhythmSystem { get { return RhythmGameSystem; } }
+
     public void Initialize()
     {
-      
-        for (int i = 0; i < Enemys.Count; i++)
+        if (RhythmGameSystem == null)
         {
-            Enemys[i].Initialize(i);
+            RhythmGameSystem = GameObject.Find("RhyremGameSystem").GetComponent<RhythmSystem>();
         }
 
         for (int i = 0; i < Enemys.Count; i++)
         {
-            Enemys[i].SetDieEvent(EnemysDieEvent);
+            Enemys[i].Initialize(i, this);
         }
 
-        StartTurnEvent += () => { StartCoroutine(AttackSequenceEvent()); };
+        StartTurnEvent += () =>
+        {
+            StartCoroutine(AttackSequenceEvent());
+        };
+
 
         EndTurnEvent += () =>
         {
@@ -35,45 +39,70 @@ public class EnemysGroup :Unit
             {
                 Enemys[i].EndTurn();
             }
+
+            RhythmGameSystem.ReverseNote(false); //노트 방향 초기
         };
     }
 
-    void EnemysDieEvent(Enemy thisEnemy)
+    public void RemoveSelf(Enemy thisEnemy)
     {
-        //사망한 Enemy 삭제
-        RhythmGameSystem?.RhythmGameTracksRemove(Enemys.IndexOf(thisEnemy));
+        if (thisEnemy == null) return;
 
         Enemys.Remove(thisEnemy);
 
+
         if (Enemys.Count == 0)
         {
-            Die();
+            GameManager.instance.GameClearFun();
         }
     }
 
-    protected override void Die()
-    {
-        GameManager.instance.GameClearFun();
-    }
 
-
-    // 이것도 나중에 시퀀스 다시
     IEnumerator AttackSequenceEvent()
     {
-        RhythmGameSystem?.StartGame();
+        //리듬게임 시작
+        RhythmGameSystem?.StartEvent();
 
-        yield return new WaitUntil(() => RhythmGameSystem?.isEndGame == true);
+        yield return new WaitUntil(() => RhythmGameSystem?.IsEndGame == true);
 
-        yield return new WaitForSeconds(2f);
-        for (int i = 0; i < Enemys.Count; i++)
+       
+        //리듬게임 종료후 Enemy공격 시작
+        for (int i = 0; i < Enemys.Count;)
         {
-            Enemys[i].StartTurn();
-            yield return new WaitUntil(() => Enemys[i].isAttackEnd == true);
+            Enemy startEnemy = Enemys[i];
+            startEnemy.StartTurn();
+            yield return new WaitUntil(() => startEnemy.isAttackEnd == true || startEnemy.isDie == true);
+            if (startEnemy.isDie == false)i++;
             yield return new WaitForSeconds(.5f);
         }
 
         yield return new WaitForSeconds(.5f);
+
+        //턴 바꾸면서 마무리
         GameManager.instance.TurnSwap();
         yield return null;
+    }
+
+    public void EnemyUIAllUpdata()
+    {
+        if (_Enemys == null) return;
+
+        for (int i = 0; i < _Enemys.Count; i++)
+        {
+            _Enemys[i].GetEnemyStatus.UpdateStatus();
+        }
+    }
+
+    public int DrainSkillPoint()
+    {
+        int value = 0;
+        for (int i = 0; i < Enemys.Count; i++)
+        {
+            value += _Enemys[i].EnemyData.CurrentSkillPoint;
+            _Enemys[i].EnemyData.CurrentSkillPoint = 0;
+            _Enemys[i].GetEnemyStatus.UpdateStatus();
+        }
+
+        return value;
     }
 }

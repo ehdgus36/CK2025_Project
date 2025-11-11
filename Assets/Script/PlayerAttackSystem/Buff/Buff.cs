@@ -10,12 +10,18 @@ public enum BuffState
 {
     Enable, Disable
 }
+
+[System.Serializable]
 public abstract class Buff
 {
-    [SerializeField] BuffType type;
-    [SerializeField] private int BuffDurationTurn = 1;
+    [SerializeField] protected BuffType type = BuffType.Start;
+
+
+
+    [SerializeField] protected int BuffDurationTurn { get; set; }
     [SerializeField] protected BuffState State = BuffState.Disable;
 
+    
     public BuffState GetState { get { return State; } }
   
 
@@ -38,9 +44,12 @@ public abstract class Buff
     public BuffType GetBuffType() { return type; }
     public void StartBuff(Unit unit)
     {
+        Debug.Log("버프실행" + this.GetType() + "남은 턴수" + BuffDurationTurn);
+
         if (BuffDurationTurn <= 0)
         {
             State = BuffState.Disable;
+           
             return;
         }
         State = BuffState.Enable;
@@ -48,17 +57,27 @@ public abstract class Buff
 
         BuffEvent(unit);
         BuffDurationTurn--;
+
+       
     }
 
-    public abstract void BuffEvent(Unit unit);
+    public abstract void BuffEvent(Unit unit); // 버프가 작용할 때 이벤트
 
-    public void AddBuffTurnCount(int addCount) {
+    public abstract void BuffEndEvent(Unit unit); // 버프가 끝날때 이벤트
+
+    public abstract void PreviewBuffEffect<T>(T value , out T outobject);
+
+
+    public virtual void AddBuffTurnCount(int addCount) {
         State = BuffState.Enable;
-        BuffDurationTurn += addCount; 
+        BuffDurationTurn += addCount;
     }
 
-    //public void SetBuffDuationTurn(int value) { BuffDurationTurn = value; Initialize();   }
-
+    
+    public virtual Buff Clone()
+    {
+        return (Buff)this.MemberwiseClone();
+    }
 }
 
 

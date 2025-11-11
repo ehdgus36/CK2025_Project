@@ -41,7 +41,7 @@ public class DistortionAction : SingleAttackAction
 
         player.PlayerEffectSystem.StopEffect("Distortion_Effect");
         player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);
-        Target.AddBuff(cardData.CardBuff);
+       
         yield return new WaitUntil(() => bit4 == true);
 
        

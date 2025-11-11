@@ -256,6 +256,7 @@ public class SoloAction : SingleAttackAction
         }
         yield return SingleAttack(cardData, Target, SingleAttackCount); // 단일 데미지
         player.PlayerEffectSystem.StopEffect("Solo_Effect");
+       
         yield return new WaitUntil(() => bit3 == true);
     }
 

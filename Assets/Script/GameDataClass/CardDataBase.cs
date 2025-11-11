@@ -85,6 +85,7 @@ public struct CardData
         CardBuff = GetBuff();
 
         Card_Des = CardDescDamageReplace(Attack_DMG.ToString());
+        Card_Des = CardDescRcoverReplace(HP_Recover.ToString());
     }
 
 
@@ -128,6 +129,14 @@ public struct CardData
     public string CardDescDamageReplace(string currentDamage)
     {
         string result = DefaultCard_Des.Replace("@", currentDamage);
+
+        return result;
+    }
+
+
+    public string CardDescRcoverReplace(string currentRecover)
+    {
+        string result = DefaultCard_Des.Replace("#", currentRecover);
 
         return result;
     }

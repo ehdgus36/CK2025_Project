@@ -112,7 +112,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _SelectCard = card;
         isTargeting = true;
 
-        if (card.cardData.Target_Type == "2")
+        if (card.cardData.Target_Type == "2" || card.GetComponent<SkillCard>() != null)
         {
             ArrowUIObject.SetActive(true);
             ArrowUIObject.transform.position = card.transform.position;
@@ -128,7 +128,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         //if (MaxExcutCardCount == CurrentExcutCardCount) return;
         if (_SelectCard == null || isTargeting == false) return;
 
-        if (_SelectCard.cardData.Target_Type != "2") return;
+        if (_SelectCard.cardData.Target_Type != "2" && _SelectCard.GetComponent<SkillCard>() == null) return;
 
         _TargetEnemy = enemy;
 
@@ -167,7 +167,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
             SelectExcutCard currnetCard = null;
             if (_SelectCard != null)
             {
-                if (_SelectCard.cardData.Target_Type == "2")
+                if (_SelectCard.cardData.Target_Type == "2" || _SelectCard.GetComponent<SkillCard>() != null)
                 {
                     currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
                 }

@@ -161,6 +161,8 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
         fontSystem.FontConvert(damage.ToString());
 
+        GameManager.instance.Shake.PlayShake();
+
         if (isBarbedArmor == true)
         {
             if(formUnit.GetType() == typeof(Player))

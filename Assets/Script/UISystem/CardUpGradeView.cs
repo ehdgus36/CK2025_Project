@@ -15,12 +15,12 @@ public class CardUpGradeView : MonoBehaviour
     [SerializeField] TextMeshProUGUI CurrentCardDesc;
     [SerializeField] TextMeshProUGUI UpGradeCardDesc;
     [SerializeField] Button UpGradeButton;
-    
 
 
-    public void UpdateUI(CardData cardData,CardData UpGradeCardData ,Action ButtonEvent)
+
+    public void UpdateUI(CardData cardData, CardData UpGradeCardData, Action ButtonEvent)
     {
-        
+
         CardImage.sprite = Resources.Load<Sprite>("CardImage/" + cardData.Card_Im);
         BgImage.sprite = CardImage.sprite;
         Name.text = cardData.Card_Name_KR;
@@ -29,13 +29,24 @@ public class CardUpGradeView : MonoBehaviour
         stringBuilder[stringBuilder.Length - 1] = '2';
 
         CurrentCardDesc.text = cardData.Card_Des;
+
+
         UpGradeCardDesc.text = UpGradeCardData.Card_Des;
 
         UpGradeButton.onClick.RemoveAllListeners();
-        UpGradeButton.onClick.AddListener(() => { ButtonEvent.Invoke(); });
+        UpGradeButton.onClick.AddListener(() => { ButtonEvent.Invoke();
+
+            UpGradeCardDesc.text = UpGradeCardData.Card_Des;
+            UpGradeCardDesc.gameObject.SetActive(true);
+        });
+
+
+
+
+
     }
 
-  
+
 
 
 }

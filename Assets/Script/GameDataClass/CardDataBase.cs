@@ -136,7 +136,7 @@ public struct CardData
 
     public string CardDescRcoverReplace(string currentRecover)
     {
-        string result = DefaultCard_Des.Replace("#", currentRecover);
+        string result = DefaultCard_Des.Replace("$", currentRecover);
 
         return result;
     }

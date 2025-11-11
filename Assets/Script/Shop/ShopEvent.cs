@@ -63,7 +63,7 @@ public class ShopEvent : MonoBehaviour
         ResetButton.onClick.AddListener(ResetItem);
         ResetPriceText.text = (ResetPrice + ItemDataLoader.strapData.Reroll_Cost).ToString();
 
-       // _PeakList[0].OnPointerEnter(null);
+        _PeakList[0].OnPointerEnter(null);
         _PeakList[0].OnPointerDown(null);
     }
 

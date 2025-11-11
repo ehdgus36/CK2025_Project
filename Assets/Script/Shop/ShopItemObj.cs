@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using FMODUnity;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -34,6 +35,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     bool isSelect = false;
 
     public string randomCard;
+
+    Coroutine StopObject;
     private void Start()
     {
         startPos = transform.position;
@@ -47,10 +50,13 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         isSelect = false;
 
-        CardImage.color = isSoldOut == false ? Color.white :  CardImage.color;
+        CardImage.color = isSoldOut == false ? Color.white : CardImage.color;
         transform.position = startPos;
         transform.rotation = startRotat;
         transform.localScale = Vector3.one;
+
+
+        GetComponent<Image>().raycastTarget = true;
     }
 
     public void ResetCard(ShopItemObj previewData = null)
@@ -66,7 +72,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         isSoldOut = false;
         if (previewData == null)
             randomCard = cardID[Random.Range(0, cardID.Count)];
-        else 
+        else
         {
             randomCard = cardID[Random.Range(0, cardID.Count)];
             while (randomCard == previewData.randomCard)
@@ -114,6 +120,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         transform.position = Pos;
         transform.rotation = Rotat;
 
+
+        GetComponent<Image>().raycastTarget = false;
         CardImage.color = new Color(0, 0, 0, 0);
         isSelect = true;
     }
@@ -137,7 +145,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         RuntimeManager.PlayOneShot("event:/UI/Card_Over");
 
-        StartCoroutine(MoveSlot());
+        StopObject = StartCoroutine(MoveSlot());
     }
 
     IEnumerator MoveSlot()
@@ -160,7 +168,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        StopAllCoroutines();
+        if (StopObject != null)
+            StopCoroutine(StopObject);
 
         if (isSelect == true) return;
 

@@ -1,22 +1,33 @@
+using Google.GData.Extensions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class CardUpGradeView : MonoBehaviour
+public class CardUpGradeView : MonoBehaviour,  IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Image CardImage;
+
+
     [SerializeField] Image BgImage;
     [SerializeField] TextMeshProUGUI Name;
     [SerializeField] TextMeshProUGUI CurrentCardDesc;
     [SerializeField] TextMeshProUGUI UpGradeCardDesc;
     [SerializeField] Button UpGradeButton;
 
+    [SerializeField] GameObject NextButton;
 
+    bool isSelect = false;
+
+
+    string UpGradeName = "";
+    string CurrentName = "";
 
     public void UpdateUI(CardData cardData, CardData UpGradeCardData, Action ButtonEvent)
     {
@@ -33,20 +44,41 @@ public class CardUpGradeView : MonoBehaviour
 
         UpGradeCardDesc.text = UpGradeCardData.Card_Des;
 
+
+        UpGradeName = UpGradeCardData.Card_Name_KR;
+        CurrentName = cardData.Card_Name_KR;
+
         UpGradeButton.onClick.RemoveAllListeners();
         UpGradeButton.onClick.AddListener(() => { ButtonEvent.Invoke();
 
             UpGradeCardDesc.text = UpGradeCardData.Card_Des;
             UpGradeCardDesc.gameObject.SetActive(true);
+            NextButton?.SetActive(true);
+            isSelect = true;
         });
-
-
-
-
-
     }
 
 
 
 
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Name.text = UpGradeName;
+        CurrentCardDesc.gameObject.SetActive(false);
+
+        UpGradeCardDesc.gameObject.SetActive(true);
+    }
+
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (isSelect == false)
+        {
+            Name.text = CurrentName;
+            CurrentCardDesc.gameObject.SetActive(true);
+
+            UpGradeCardDesc.gameObject.SetActive(false);
+        }
+    }
 }

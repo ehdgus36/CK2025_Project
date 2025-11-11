@@ -37,10 +37,10 @@ public class ClearSystem : MonoBehaviour
 
     IEnumerator ClearSequence()
     {
-        UpgradeView?.SetActive(true);
-        yield return new WaitUntil(() => UpgradeView.activeSelf == false);
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage");
         ClearView?.SetActive(true);
+        yield return new WaitUntil(() => ClearView.activeSelf == false);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage");
+        UpgradeView?.SetActive(true);
     }
 
     public void LoadMap()

@@ -11,23 +11,23 @@ using UnityEngine;
 public struct CardData
 {
     public string Card_ID;
-    public int    Card_Rank;
-    public int    Card_Level;
+    public int Card_Rank;
+    public int Card_Level;
     public string Card_Name_KR;
     public string Card_Name_EN;
     public string Card_Drag;
     public string Target_Type;
     public string Attack_Count;
-    public int    Attack_DMG;
-    public int    Barrier_Get;
-    public int    HP_Recover;
-    public int    Buff_VolumeUp;
-    public int    Buff_Buzz;
-    public int    Buff_Mute;
-    public int    Buff_BurnUp;
-    public int    Buff_BurnOut;
-    public int    Buff_Confusion;
-    public int    Char_SkillPoint_Get;
+    public int Attack_DMG;
+    public int Barrier_Get;
+    public int HP_Recover;
+    public int Buff_VolumeUp;
+    public int Buff_Buzz;
+    public int Buff_Mute;
+    public int Buff_BurnUp;
+    public int Buff_BurnOut;
+    public int Buff_Confusion;
+    public int Char_SkillPoint_Get;
     public string SpecialAbility_Desc;
     public string Move_Type;
     public string Ani_Code;
@@ -84,7 +84,10 @@ public struct CardData
 
         CardBuff = GetBuff();
 
+
         Card_Des = CardDescDamageReplace(Attack_DMG.ToString());
+
+
         Card_Des = CardDescRcoverReplace(HP_Recover.ToString());
     }
 
@@ -94,7 +97,7 @@ public struct CardData
 
     Buff GetBuff()
     {
-       
+
         if (Buff_Buzz != 0) // 공격력 20% 다운
         {
             return new AttackDamageDownBuff(BuffType.Start, Buff_Buzz, 20);
@@ -117,7 +120,7 @@ public struct CardData
 
         if (Buff_Confusion != 0) // 리듬게임 반대로
         {
-            return new RhythmDebuff(BuffType.End,Buff_Confusion);
+            return new RhythmDebuff(BuffType.End, Buff_Confusion);
         }
 
 
@@ -130,13 +133,15 @@ public struct CardData
     {
         string result = DefaultCard_Des.Replace("@", currentDamage);
 
+        result = result.Replace("\"", ""); // 모든 따옴표 제거
+       
         return result;
     }
 
 
     public string CardDescRcoverReplace(string currentRecover)
     {
-        string result = DefaultCard_Des.Replace("$", currentRecover);
+        string result = Card_Des.Replace("$", currentRecover);
 
         return result;
     }
@@ -159,7 +164,7 @@ public struct CardStatusData
     public CardStatusData(Dictionary<string, object> data)
     {
         Status_Code = data["Status_Code"].ToString();
-        Status_Dm   = data["Status_Dm"].ToString();
+        Status_Dm = data["Status_Dm"].ToString();
 
         Ex = data["Ex"].ToString();
     }
@@ -171,17 +176,17 @@ public struct CardStatusData
 }
 
 
-public class CardDataBase 
+public class CardDataBase
 {
-    
-   
+
+
     Dictionary<string, CardData> CommonCardDatas = new Dictionary<string, CardData>();
 
     TextAsset CardDataTableTextData;
     TextAsset CardStatusDataTableTextData;
 
 
-    public CardDataBase(TextAsset CardStatusDataTable , TextAsset CardDataTable)
+    public CardDataBase(TextAsset CardStatusDataTable, TextAsset CardDataTable)
     {
 
         CardDataTableTextData = CardDataTable;
@@ -194,7 +199,7 @@ public class CardDataBase
     {
         int CardDataIndex = CSVReader.Read(CardDataTableTextData).Count;
 
-        List<Dictionary<string,object>> csvData = CSVReader.Read(CardDataTableTextData);
+        List<Dictionary<string, object>> csvData = CSVReader.Read(CardDataTableTextData);
 
         for (int i = 0; i < CardDataIndex; i++)
         {
@@ -207,7 +212,7 @@ public class CardDataBase
     }
 
 
-    public void AddValueDamage(int amount , List<Card> ReflashCard)
+    public void AddValueDamage(int amount, List<Card> ReflashCard)
     {
         List<string> keys = CommonCardDatas.Keys.ToList();
 
@@ -215,7 +220,7 @@ public class CardDataBase
 
         if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Strength")
         {
-            volumeUpItem =  GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+            volumeUpItem = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
         }
 
 
@@ -225,7 +230,7 @@ public class CardDataBase
 
             if (card.Attack_DMG > 0)
             {
-                card.Attack_DMG = card.Attack_DMG+ amount + volumeUpItem;
+                card.Attack_DMG = card.Attack_DMG + amount + volumeUpItem;
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
                 Debug.Log(card.Card_Des);
                 Debug.Log(card.Attack_DMG);
@@ -244,7 +249,7 @@ public class CardDataBase
     {
         List<string> keys = CommonCardDatas.Keys.ToList();
 
-        
+
 
 
         for (int i = 0; i < keys.Count; i++)
@@ -275,7 +280,7 @@ public class CardDataBase
 
         int volumeUpItem = 0;
 
-       
+
         for (int i = 0; i < keys.Count; i++)
         {
             CardData card = CommonCardDatas[keys[i]];
@@ -284,7 +289,7 @@ public class CardDataBase
             {
                 card.HP_Recover = card.HP_Recover + amount;
                 //card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
-               
+
                 CommonCardDatas[keys[i]] = card;
             }
         }
@@ -298,17 +303,17 @@ public class CardDataBase
     public bool SearchData(string cardCode, out object get_cardData)
     {
         bool isData = false;
-        
+
         get_cardData = null;
-      
-        if (CommonCardDatas.ContainsKey(cardCode)) 
-        { 
+
+        if (CommonCardDatas.ContainsKey(cardCode))
+        {
             isData = true;
             get_cardData = CommonCardDatas[cardCode];
         }
 
-      
-        
+
+
         return isData;
     }
 
@@ -318,7 +323,7 @@ public class CardDataBase
         bool isData = false;
 
         if (CommonCardDatas.ContainsKey(CardCode)) isData = true;
-       
+
 
         return isData;
     }
@@ -329,7 +334,7 @@ public class CardDataBase
 
         string code = keys[Random.Range(0, keys.Count)];
 
-        if (code == "SKILL" || code == "C2102" || code == "C2101" || code == "C3031" || code == "C3032" ) code = "C1031";
+        if (code == "SKILL" || code == "C2102" || code == "C2101" || code == "C3031" || code == "C3032") code = "C1031";
 
         return code;
 

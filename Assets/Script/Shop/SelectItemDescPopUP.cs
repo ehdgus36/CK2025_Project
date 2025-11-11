@@ -17,9 +17,12 @@ public class SelectItemDescPopUP : MonoBehaviour
     [SerializeField] TextMeshProUGUI ItemDesc;
     [SerializeField] TextMeshProUGUI ItmePrice;
 
+
+    [SerializeField] TextMeshProUGUI BuffText;
+
     [SerializeField] Image ItemImage;
 
-
+    CardData SelectCardData;
 
     public void ViewPopUP(string itemID)
     {
@@ -32,7 +35,7 @@ public class SelectItemDescPopUP : MonoBehaviour
 
         ItemImage.rectTransform.sizeDelta = new Vector2(576f, 576f);
 
-      
+        SelectCardData = (CardData)cardData;
 
         ItemName.text = ((CardData)cardData).Card_Name_KR;
         ItemDesc.text = ((CardData)cardData).Card_Des;
@@ -44,6 +47,22 @@ public class SelectItemDescPopUP : MonoBehaviour
         ItmePrice.text = data.Price.ToString();
 
         ItemImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
+    }
+
+
+    public void BuffDesc(string Tag)
+    {
+
+
+        if (Tag == "buff1")
+        {
+            BuffText.text = SelectCardData.Buff_Ex1;
+        }
+
+        if (Tag == "buff2")
+        {
+            BuffText.text = SelectCardData.Buff_Ex2;
+        }
     }
 
 }

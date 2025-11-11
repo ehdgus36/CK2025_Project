@@ -112,7 +112,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
         _SelectCard = card;
         isTargeting = true;
 
-        if (card.cardData.Target_Type == "2" || card.GetComponent<SkillCard>() != null)
+        if (card.cardData.Target_Type == "2" )
         {
             ArrowUIObject.SetActive(true);
             ArrowUIObject.transform.position = card.transform.position;

@@ -50,21 +50,25 @@ public class CardDescription : MonoBehaviour
             selectLD = LD_Attack;
         }
 
-        BuffEx.gameObject.SetActive(true);
-        BuffEx2.gameObject.SetActive(true);
+       
 
 
         BuffEx.text = "";
         BuffEx2.text = "";
 
+        BuffEx.transform.parent.gameObject.SetActive(false);
+        BuffEx2.transform.parent.gameObject.SetActive(false);
+
         if (cardData.Buff_Ex1 != "0")
-        { 
+        {
+            BuffEx.transform.parent.gameObject.SetActive(true);
             BuffEx.text = cardData.Buff_Ex1;
         }
         
 
         if (cardData.Buff_Ex2 != "0")
         {
+            BuffEx2.transform.parent.gameObject.SetActive(true);
             BuffEx2.text = cardData.Buff_Ex2;
         }
 
@@ -116,8 +120,8 @@ public class CardDescription : MonoBehaviour
         if (isactive == false)
         {
             CardName.gameObject.transform.parent.gameObject.SetActive(false);
-            BuffEx.gameObject.SetActive (false);
-            BuffEx2.gameObject.SetActive(false);
+            BuffEx.transform.parent.gameObject.SetActive (false);
+            BuffEx2.transform.parent.gameObject.SetActive(false);
 
             delayTime = .02f;
             coroutine = StartCoroutine("DisableGameObjectDelay");

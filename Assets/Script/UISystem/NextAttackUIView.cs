@@ -6,7 +6,10 @@ public class NextAttackUIView : MonoBehaviour
 {
     public enum AttackIconEnum
     {
-        Attack, RecverHP, MultiRecverHP ,DackCountAttack , RhythmRevers,BarbeArmor
+        Attack, RecverHP, MultiRecverHP ,DackCountAttack , RhythmRevers,BarbeArmor , All_Volumeup, Barrier_DMG, 
+        Buff_Burnout, Buff_Burnup, Confuse_DMG, Confuse_Heal, Confuse_PC, DMG_Gold, Double_Damage, Heal_All, Heal_HP,
+        Heal_Lowest, HP_Volumeup, Poison_ATK, Self_Spike_Barrier, Self_Volumeup, Spike_Enemy
+
     }
 
     [System.Serializable]

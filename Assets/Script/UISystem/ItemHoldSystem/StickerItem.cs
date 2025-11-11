@@ -25,7 +25,7 @@ public class StickerItem : Item ,IPointerDownHandler
         Debug.Log("√ ±‚»≠ :" + cardSprite.name);
         GetComponent<Image>().sprite = cardSprite;
 
-        ItemType = "string";
+        ItemType = "sticker";
         ItemName = stickerItemData.ItemNameKR;
         ItemDesc = stickerItemData.ItemDes;
     }

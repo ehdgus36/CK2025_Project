@@ -106,7 +106,7 @@ public class MultiAttackAction : PlayerBaseCardAction
        
     }
 
-    public IEnumerator MultiAttack(CardData cardData, Enemy Target , int attackCount)
+    public IEnumerator MultiAttack(CardData cardData, Enemy Target , int attackCount , float delay = .3f)
     {
         
         List<Enemy> enemies = new List<Enemy>();
@@ -123,7 +123,7 @@ public class MultiAttackAction : PlayerBaseCardAction
                 enemies[j].TakeDamage(GameManager.instance.Player, cardData.Attack_DMG, cardData.CardBuff);
             }
             if (i < attackCount - 1)
-                yield return new WaitForSeconds(.3f);
+                yield return new WaitForSeconds(delay);
         }
     }
 
@@ -466,7 +466,7 @@ public class LegendarySoloAction : MultiAttackAction
         //ÀÌÆåÆ® Ãß°¡
         player.PlayerEffectSystem.PlayEffect("LegendarySoloHit_Effect", targetPos);
       
-        yield return MultiAttack(cardData, Target, int.Parse(cardData.Attack_Count));
+        yield return MultiAttack(cardData, Target, int.Parse(cardData.Attack_Count) , .15f);
         player.PlayerEffectSystem.StopEffect("LegendarySoloCharge_Effect");
     }
 

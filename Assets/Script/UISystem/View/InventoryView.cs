@@ -1,23 +1,17 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryView : MonoBehaviour
 {
-    [System.Serializable]
-    struct ItemViewData
-    {
-        [SerializeField] public string key;
-        [SerializeField] public Sprite image;
-    }
 
-    [SerializeField] ItemViewData[] itemViewDatas;
     [SerializeField] Image[] ItemImage;
 
     [SerializeField] bool isStart = false;
 
-    Dictionary<string, Sprite> itemsData = new Dictionary<string, Sprite>();
 
     List<string> itemCodeData = null;
 
@@ -27,13 +21,6 @@ public class InventoryView : MonoBehaviour
     }
     public void PopUpView()
     {
-        if (itemsData.Count == 0)
-        {
-            for (int i = 0; i < itemViewDatas.Length; i++)
-            {
-                itemsData.Add(itemViewDatas[i].key, itemViewDatas[i].image);
-            }
-        }
 
         if (this.gameObject.activeSelf == false)
         {
@@ -44,18 +31,51 @@ public class InventoryView : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        if(isStart == true) this.gameObject.SetActive(true);
+        if (isStart == true) this.gameObject.SetActive(true);
 
-
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA, out itemCodeData);
-        if (itemCodeData != null)
+        for (int i = 0; i  <  ItemImage.Length; i++)
         {
-            for (int i = 0; i < itemCodeData.Count; i++)
-            {
-                ItemImage[i].sprite = itemsData[itemCodeData[i]];
+            ItemImage[i].color = new Color(1,1,1,0);
+        }
 
-                ItemImage[i].color = new Color(1, 1, 1, 1);
+
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA, out itemCodeData);
+
+        int selectImageIndex = 0;
+
+        for (int i = 0; i < itemCodeData.Count; i++)
+        {
+            if (itemCodeData[i] == "0") continue;
+
+            object getitem = null;
+
+            GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(itemCodeData[i], out getitem);
+
+            string Path = "ItemImage/";
+            Sprite cardSprite = null;
+
+            if (i == 0)
+            {
+                Path += ((StickerItemData)getitem).ItemImage;
+                cardSprite = Resources.Load<Sprite>(Path);
             }
+
+            if (i == 1)
+            {
+                Path += ((StrapItemData)getitem).ItemImage;
+                cardSprite = Resources.Load<Sprite>(Path);
+            }
+
+            if (i == 2)
+            {
+                Path += ((StringItemData)getitem).ItemImage;
+                cardSprite = Resources.Load<Sprite>(Path);
+            }
+
+            ItemImage[selectImageIndex].sprite = cardSprite;
+            ItemImage[selectImageIndex].color = Color.white;
+
+            selectImageIndex++;
         }
     }
 

@@ -82,9 +82,9 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("카드의 좌표 :" + this.transform.position.y);
-        if (GetComponent<Card>() != null && this.transform.position.y > Card.UsePos)
+        if (GetComponent<Card>() != null && this.transform.position.y > Card.UsePos && GameManager.instance.ExcutSelectCardSystem.CurrentMana != 0)
         {
-
+            
         }
         else if (transform.parent == onDragParent)
         {

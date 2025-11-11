@@ -382,7 +382,7 @@ public class FreestyleSoloAction: SingleAttackAction
             SoloEffects[1].transform.position = Bezier(StartPos[1], Target.transform.position + new Vector3(0, .5f, 0), randTarget[1].transform.position + new Vector3(0, 1, 0), T);
             SoloEffects[2].transform.position = Bezier(StartPos[2], Target.transform.position + new Vector3(0, -3, 0), randTarget[2].transform.position + new Vector3(0, 1, 0), T);
             T += 0.05f - (i / 1000f);
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.018f);
         }
 
 

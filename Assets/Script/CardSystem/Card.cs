@@ -68,7 +68,8 @@ public class Card : MonoBehaviour
 
         CardActionInitialized(cardData.Card_ID);
 
-
+        if (effectSystem == null)
+            effectSystem.StopEffect("CardHold_Effect");
         SetOutLineColor(Color.white);
     }
 
@@ -107,7 +108,7 @@ public class Card : MonoBehaviour
         //Material instanceMaterial = new Material(BaseMaterial);
         if (cardSprite != null)
         {
-           
+
             //instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
         }
 
@@ -115,7 +116,7 @@ public class Card : MonoBehaviour
         {
             //cardImage.material = instanceMaterial;
             cardImage.sprite = cardSprite;
-            
+
             SetOutLineColor(Color.white);
         }
 
@@ -123,7 +124,7 @@ public class Card : MonoBehaviour
 
         this.gameObject.name = cardData.Card_Name_EN;
 
-        if(effectSystem == null) effectSystem = GetComponent<EffectSystem>();
+        if (effectSystem == null) effectSystem = GetComponent<EffectSystem>();
 
         CardActionInitialized(cardID);
     }
@@ -183,7 +184,7 @@ public class Card : MonoBehaviour
             if (cardData.Target_Type == "2") this.gameObject.GetComponent<DragDropUI>().enabled = false;
             else this.gameObject.GetComponent<DragDropUI>().enabled = true;
         }
-       
+
     }
 
     public virtual void TargetExcute(Enemy Target, Card nextCard = null)
@@ -205,10 +206,10 @@ public class Card : MonoBehaviour
         }
         //if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
 
-       
+
         EnemyTarget = Target;
 
-        
+
         StartCoroutine(DelayCard());
 
     }
@@ -228,13 +229,13 @@ public class Card : MonoBehaviour
         {
             GetComponent<Image>().color = color;
         }
-            
+
     }
 
 
     public void DisableCard()
     {
-        
+
         SetOutLineColor(new Color(1, 1, 1, 0));
     }
 }

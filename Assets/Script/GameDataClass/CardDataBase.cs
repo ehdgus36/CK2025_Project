@@ -100,7 +100,7 @@ public struct CardData
 
         if (Buff_Buzz != 0) // 공격력 20% 다운
         {
-            return new AttackDamageDownBuff(BuffType.Start, Buff_Buzz, 20);
+            return new AttackDamageDownBuff(BuffType.Start, Buff_Buzz, 25);
         }
 
         if (Buff_Mute != 0) // 공격력 100% 다운
@@ -231,6 +231,34 @@ public class CardDataBase
             if (card.Attack_DMG > 0)
             {
                 card.Attack_DMG = card.Attack_DMG + amount + volumeUpItem;
+                card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
+                Debug.Log(card.Card_Des);
+                Debug.Log(card.Attack_DMG);
+
+                CommonCardDatas[keys[i]] = card;
+            }
+        }
+
+        for (int i = 0; i < ReflashCard.Count; i++)
+        {
+            ReflashCard[i].ReflashCardData();
+        }
+    }
+
+    public void PlayerBuzz(float percent, List<Card> ReflashCard)
+    {
+        List<string> keys = CommonCardDatas.Keys.ToList();
+
+
+
+
+        for (int i = 0; i < keys.Count; i++)
+        {
+            CardData card = CommonCardDatas[keys[i]];
+
+            if (card.Attack_DMG > 0)
+            {
+                card.Attack_DMG = Mathf.CeilToInt( (float)card.Attack_DMG * percent);
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
                 Debug.Log(card.Card_Des);
                 Debug.Log(card.Attack_DMG);

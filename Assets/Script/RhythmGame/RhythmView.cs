@@ -73,7 +73,7 @@ public class RhythmView : MonoBehaviour
 
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
-                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.5f);
+                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.7f);
 
             }
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Left");
@@ -86,7 +86,7 @@ public class RhythmView : MonoBehaviour
             ViewNote[noteIndex].sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetRImage;
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
-                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
+                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.7f);
             }
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Right");
             noteIndex++;

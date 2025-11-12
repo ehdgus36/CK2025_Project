@@ -103,6 +103,8 @@ public class Unit : MonoBehaviour
 
     public virtual void AddBuff(Buff buff)
     {
+        if (buff == null) return;
+
         if (HellfireAction.isHellFire == true)
         {
             if (buff.GetType() == typeof(FireBuff))

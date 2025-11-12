@@ -526,7 +526,7 @@ public class SkillAction : MultiAttackAction
       
 
         CompleteEvent(null);
-        card.transform.parent.gameObject.SetActive(false);
+        
         GameManager.instance.UIInputSetActive(true);
 
     }
@@ -554,7 +554,7 @@ public class Skill2Action : MultiAttackAction
 
 
         CompleteEvent(null);
-        card.transform.parent.gameObject.SetActive(false);
+        
         GameManager.instance.UIInputSetActive(true);
 
 
@@ -584,7 +584,7 @@ public class Skill3Action : MultiAttackAction
 
 
         CompleteEvent(null);
-        card.transform.parent.gameObject.SetActive(false);
+        
         GameManager.instance.UIInputSetActive(true);
 
     }

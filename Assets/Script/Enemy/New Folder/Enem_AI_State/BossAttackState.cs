@@ -22,12 +22,14 @@ public class BossAttackState : BaseAIState
         
         Enemy enemy = (Enemy)unit;
 
-        if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff))
+        if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff) ||
+           enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuffBrunOut))
+
         {
             Debug.Log("화상 버프 존재");
             yield return new WaitForSeconds(1.0f);
         }
-     
+
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {
             enemy.EnemyData.CurrentSkillPoint = 0;

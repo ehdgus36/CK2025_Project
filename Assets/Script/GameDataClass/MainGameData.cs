@@ -34,6 +34,8 @@ namespace GameDataSystem.KeyCode
 
         public static readonly string DACK_DATA = "DACK_DATA";
 
+        public static readonly string RAND_ITEM_DATA = "RAND_ITEM_DATA";
+
 
 
     }
@@ -190,6 +192,9 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, new List<string>() { "It01", "It02", "It03" });
             AddDynamicDataBase(DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, new List<string>() { "It11", "It12", "It13" });
             AddDynamicDataBase(DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, new List<string>() { "It31", "It32", "It33" });
+
+            AddDynamicDataBase(DynamicGameDataKeys.RAND_ITEM_DATA, new List<string>() { "It01", "It02", "It03", "It11", "It12", "It13", "It31", "It32", "It33" });
+          
 
             AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -75,7 +76,7 @@ public struct EnemyTableData
             case "DeckAttack":
                 Skill1_State = new EnemySkill_DackAttack_State();
                 break;
-
+                ////////////////////////////////////////////////////////////////////////////////////////////
             case "DMG _Gold":
                 Skill1_State = new EnemySkill_DMG_Gold_State(1, 3, 5); // °ø°Ý È½¼ö, ÄÚÀÎ È½¼ö , µ¥¹ÌÁö
                 break;
@@ -339,3 +340,9 @@ public class EnemyDataBase
 
 }
 
+
+
+//Attack, RecverHP, MultiRecverHP, DackCountAttack, RhythmRevers, BarbeArmor,
+//       All_Volumeup, Barrier_DMG,
+//       Buff_Burnout, Buff_Burnup, Confuse_DMG, Confuse_Heal, Confuse_PC, DMG_Gold, Double_Damage, Heal_All, Heal_HP,
+//       Heal_Lowest, HP_Volumeup, Poison_ATK, Self_Spike_Barrier, Self_Volumeup, Spike_Enemy

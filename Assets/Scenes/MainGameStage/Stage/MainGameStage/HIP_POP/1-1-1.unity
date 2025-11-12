@@ -640,6 +640,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3346812778325693355, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: ClearGold
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 3352885848669043855, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -859,6 +863,10 @@ PrefabInstance:
     - target: {fileID: 4598193912505552198, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4967079512566587734, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: NoteGroupID
+      value: RG102
       objectReference: {fileID: 0}
     - target: {fileID: 5135204922272769622, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1427,7 +1435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3520374069274065194, guid: b3eea7e865ae7bb48b067aa57f055dec, type: 3}
       propertyPath: EnemyData.Enemy_ID
-      value: E03
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3520374069274065194, guid: b3eea7e865ae7bb48b067aa57f055dec, type: 3}
       propertyPath: EnemyData.EnemyUnitData.MaxHp
@@ -1914,6 +1922,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: EnemyData.Enemy_ID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: EnemyData.EnemyUnitData.MaxHp
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417949181310612101, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: EnemyData.EnemyUnitData._CurrentHp
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 1447817334644898827, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1969,6 +1989,38 @@ PrefabInstance:
     - target: {fileID: 3393966250617586381, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: aIBehavior
+      value: 6547763546150142119
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: 'managedReferences[6547763546150142119]'
+      value: Assembly-CSharp EnemyAI_Spray_Behavior
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: 'managedReferences[6547763546150142120]'
+      value: Assembly-CSharp EnemySkill_MultiAttack_State
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: 'managedReferences[6547763546150142121]'
+      value: Assembly-CSharp EnemySkill_AttackRecoverHP_State
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[6547763546150142120]._AttackCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[6547763546150142121]._AttackCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[6547763546150142119].EnemySkillState
+      value: 6547763546150142121
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425736900702566673, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
+      propertyPath: managedReferences[6547763546150142119].EnemyDefaultAttackState
+      value: 6547763546150142120
       objectReference: {fileID: 0}
     - target: {fileID: 3592792928845746158, guid: 6d37f21ff8b605547bde272e765dfdd4, type: 3}
       propertyPath: m_IsActive

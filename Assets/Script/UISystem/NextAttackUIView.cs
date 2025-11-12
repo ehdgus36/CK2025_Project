@@ -47,7 +47,73 @@ public class NextAttackUIView : MonoBehaviour
 
         switch (EnemyAction)
         {
-            case EnemySkill_MultiAttack_State:
+            
+            case EnemySkill_DMG_Gold_State st:
+
+                iconEnum = AttackIconEnum.DMG_Gold;
+                break;
+
+            case EnemySkill_AttackRecoverHP_State st:
+                iconEnum = AttackIconEnum.Heal_HP;
+                break;
+
+            case EnemySkill_Buff_Burnup_State st:
+                iconEnum = AttackIconEnum.Buff_Burnup;
+                break;
+
+            case EnemySkill_Buff_Burnout_State st:
+                iconEnum = AttackIconEnum.Buff_Burnout;
+                break;
+
+            case EnemySkill_HP_Volumeup_State st:
+                iconEnum = AttackIconEnum.HP_Volumeup;
+                break;
+
+            case EnemySkill_Heal_Lowest_State st:
+                iconEnum = AttackIconEnum.Heal_Lowest;
+                break;
+
+            case EnemySkill_PoisonAttack_State st:
+                iconEnum = AttackIconEnum.Poison_ATK;
+                break;
+
+            case EnemySkill_Self_Volumeup_State st:
+                iconEnum = AttackIconEnum.Self_Volumeup;
+                break;
+
+            case EnemySkill_BarrierAttack_State st:
+                iconEnum = AttackIconEnum.Barrier_DMG;
+                break;
+
+            case EnemySkill_JAZZBOSS_ALL_VolumeUp_State st:
+                iconEnum = AttackIconEnum.All_Volumeup;
+                break;
+
+            case EnemySkill_AllEnemyRecoverHP_State st:
+                iconEnum = AttackIconEnum.Heal_All;
+                break;
+
+            case EnemySkill_AllBarbedArmor_State st:
+                iconEnum = AttackIconEnum.Spike_Enemy;
+                break;
+
+            case EnemySkill_HpRecover_ReversRhythm_State st:
+                iconEnum = AttackIconEnum.Confuse_Heal;
+                break;
+
+            case EnemySkill_RhythmReverse_State st:
+                iconEnum = AttackIconEnum.Confuse_DMG;
+                iconEnum = AttackIconEnum.Confuse_PC;
+                break;
+
+            case EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State st:
+                iconEnum = AttackIconEnum.Self_Spike_Barrier;
+                break;
+
+            case EnemySkill_MultiAttack_State st:
+
+                iconEnum = AttackIconEnum.Attack;
+                iconEnum = AttackIconEnum.Double_Damage;
                 break;
         }
 

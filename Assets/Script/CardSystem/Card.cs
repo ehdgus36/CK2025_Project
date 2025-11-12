@@ -68,8 +68,9 @@ public class Card : MonoBehaviour
 
         CardActionInitialized(cardData.Card_ID);
 
-        if (effectSystem == null)
-            effectSystem.StopEffect("CardHold_Effect");
+       
+        effectSystem.StopEffect("CardHold_Effect");
+      
         SetOutLineColor(Color.white);
     }
 

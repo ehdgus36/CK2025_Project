@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class InventoryView : MonoBehaviour
 
     [SerializeField] bool isStart = false;
 
-
+    [SerializeField] TextMeshProUGUI[] Itemtext;
     List<string> itemCodeData = null;
 
     private void Start()
@@ -58,22 +59,33 @@ public class InventoryView : MonoBehaviour
             {
                 Path += ((StickerItemData)getitem).ItemImage;
                 cardSprite = Resources.Load<Sprite>(Path);
+
+                Itemtext[selectImageIndex].text = string.Format("<color=#E0096C>Sticker</color>\n<size=14>{0}</size>", ((StickerItemData)getitem).ItemDes);
             }
 
             if (i == 1)
             {
                 Path += ((StrapItemData)getitem).ItemImage;
                 cardSprite = Resources.Load<Sprite>(Path);
+
+                Itemtext[selectImageIndex].text = string.Format("<color=#C6A8EE>Sticker</color>\n<size=14>{0}</size>", ((StrapItemData)getitem).ItemDes);
             }
 
             if (i == 2)
             {
                 Path += ((StringItemData)getitem).ItemImage;
                 cardSprite = Resources.Load<Sprite>(Path);
+
+
+                Itemtext[selectImageIndex].text = string.Format("<color=#0D9E9B>Sticker</color>\n<size=14>{0}</size>", ((StringItemData)getitem).ItemDes);
             }
 
             ItemImage[selectImageIndex].sprite = cardSprite;
             ItemImage[selectImageIndex].color = Color.white;
+            ItemImage[selectImageIndex].raycastTarget = true;
+
+
+
 
             selectImageIndex++;
         }

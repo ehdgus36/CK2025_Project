@@ -6,8 +6,8 @@ public class NextAttackUIView : MonoBehaviour
 {
     public enum AttackIconEnum
     {
-        Attack, RecverHP, MultiRecverHP ,DackCountAttack , RhythmRevers,BarbeArmor ,
-        All_Volumeup, Barrier_DMG, 
+        Attack, RecverHP, MultiRecverHP, DackCountAttack, RhythmRevers, BarbeArmor,
+        All_Volumeup, Barrier_DMG,
         Buff_Burnout, Buff_Burnup, Confuse_DMG, Confuse_Heal, Confuse_PC, DMG_Gold, Double_Damage, Heal_All, Heal_HP,
         Heal_Lowest, HP_Volumeup, Poison_ATK, Self_Spike_Barrier, Self_Volumeup, Spike_Enemy
 
@@ -21,10 +21,17 @@ public class NextAttackUIView : MonoBehaviour
     }
 
     [SerializeField] Image AttackIcon;
+    [SerializeField] Image SkillIcon;
     [SerializeField] TextMeshProUGUI NextStateText;
+    [SerializeField] TextMeshProUGUI SkillStateText;
     [SerializeField] TextMeshProUGUI DescText;
 
+    [SerializeField] Image Base_Image;
+    [SerializeField] Image Skill_Image;
+
     [SerializeField] AttackIconData[] IconDatas;
+
+    [SerializeField] Image Attackimage;
     public void UpdateUI(EnemyData enemyData, EnemyAIBehavior enemyAIBehavior)
     {
         BaseAIState EnemyAction = null; //enemy가 어떤상태일지 비교를 위한 변수
@@ -45,84 +52,121 @@ public class NextAttackUIView : MonoBehaviour
             EnemyAction = enemyAIBehavior.GetEnemyDefaultAttackState;
         }
 
+        
+
         switch (EnemyAction)
         {
-            
+
             case EnemySkill_DMG_Gold_State st:
 
                 iconEnum = AttackIconEnum.DMG_Gold;
+                
                 break;
 
             case EnemySkill_AttackRecoverHP_State st:
                 iconEnum = AttackIconEnum.Heal_HP;
+                
                 break;
 
             case EnemySkill_Buff_Burnup_State st:
                 iconEnum = AttackIconEnum.Buff_Burnup;
+                
                 break;
 
             case EnemySkill_Buff_Burnout_State st:
                 iconEnum = AttackIconEnum.Buff_Burnout;
+                
                 break;
 
             case EnemySkill_HP_Volumeup_State st:
                 iconEnum = AttackIconEnum.HP_Volumeup;
+                
                 break;
 
             case EnemySkill_Heal_Lowest_State st:
                 iconEnum = AttackIconEnum.Heal_Lowest;
+                
                 break;
 
             case EnemySkill_PoisonAttack_State st:
                 iconEnum = AttackIconEnum.Poison_ATK;
+                
                 break;
 
             case EnemySkill_Self_Volumeup_State st:
                 iconEnum = AttackIconEnum.Self_Volumeup;
+                
                 break;
 
             case EnemySkill_BarrierAttack_State st:
                 iconEnum = AttackIconEnum.Barrier_DMG;
+                
                 break;
 
             case EnemySkill_JAZZBOSS_ALL_VolumeUp_State st:
+                
                 iconEnum = AttackIconEnum.All_Volumeup;
                 break;
 
             case EnemySkill_AllEnemyRecoverHP_State st:
+                
                 iconEnum = AttackIconEnum.Heal_All;
                 break;
 
             case EnemySkill_AllBarbedArmor_State st:
                 iconEnum = AttackIconEnum.Spike_Enemy;
+                
                 break;
 
             case EnemySkill_HpRecover_ReversRhythm_State st:
                 iconEnum = AttackIconEnum.Confuse_Heal;
+                
                 break;
 
             case EnemySkill_RhythmReverse_State st:
                 iconEnum = AttackIconEnum.Confuse_DMG;
                 iconEnum = AttackIconEnum.Confuse_PC;
+               
                 break;
 
             case EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State st:
                 iconEnum = AttackIconEnum.Self_Spike_Barrier;
+                
                 break;
 
             case EnemySkill_MultiAttack_State st:
 
-                iconEnum = AttackIconEnum.Attack;
-                iconEnum = AttackIconEnum.Double_Damage;
+                if (st.AttackCount == 1)
+                    iconEnum = AttackIconEnum.Attack;
+
+                if (st.AttackCount == 2)
+                {
+                    iconEnum = AttackIconEnum.Double_Damage;          
+                }
                 break;
         }
+
+
+        if (iconEnum == AttackIconEnum.Attack)
+        {
+            Base_Image.gameObject.SetActive(true);
+            Skill_Image.gameObject.SetActive(false);
+        }
+        else
+        {
+            Base_Image.gameObject.SetActive(false);
+            Skill_Image.gameObject.SetActive(true);
+        }
+
+
+       
 
 
         for (int i = 0; i < enemyData.EnemyUnitData.buffs.Count; i++)
         {
             switch (enemyData.EnemyUnitData.buffs[i])
             {
-                case FireBuff buff:                    
+                case FireBuff buff:
                     break;
 
                 case AttackDamageDownBuff buff:
@@ -132,11 +176,12 @@ public class NextAttackUIView : MonoBehaviour
         }
 
 
-        if (viewAttackCount > 1)
-            NextStateText.text = string.Format("{0}X{1}", viewDamage.ToString(), viewAttackCount.ToString());
-        else if (viewAttackCount == 1)
-            NextStateText.text = string.Format("{0}", viewDamage.ToString());
-
+        //if (viewAttackCount > 1) { }
+        //    //NextStateText.text = string.Format("{0}X{1}", viewDamage.ToString(), viewAttackCount.ToString());
+        //else if (viewAttackCount == 1)
+           
+        NextStateText.text = string.Format("{0}", viewDamage.ToString());
+        SkillStateText.text = string.Format("{0}", viewDamage.ToString());
         DescText.text = attackDesc;
 
 
@@ -145,6 +190,7 @@ public class NextAttackUIView : MonoBehaviour
             if (IconDatas[i].Key == iconEnum)
             {
                 AttackIcon.sprite = IconDatas[i].icon;
+                SkillIcon.sprite = IconDatas[i].icon;
             }
         }
 

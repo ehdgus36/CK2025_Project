@@ -721,6 +721,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8714488578776581850, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -811,9 +827,9 @@ MonoBehaviour:
     buffs: []
   IsTurn: 0
   _Enemys:
+  - {fileID: 1993229557}
   - {fileID: 1665688142}
   - {fileID: 1048745473}
-  - {fileID: 1993229557}
   RhythmGameSystem: {fileID: 0}
   references:
     version: 2
@@ -831,9 +847,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1665688144}
-  - {fileID: 1048745475}
   - {fileID: 1993229551}
+  - {fileID: 1048745475}
+  - {fileID: 1665688144}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &491900061
@@ -1370,7 +1386,7 @@ GameObject:
   - component: {fileID: 1048745477}
   - component: {fileID: 1048745474}
   m_Layer: 0
-  m_Name: Enemy(lizard) (1)
+  m_Name: Enemy(CD)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1396,7 +1412,7 @@ MonoBehaviour:
     buffs: []
   IsTurn: 0
   EnemyData:
-    Enemy_ID: E37
+    Enemy_ID: E36
     EnemyUnitData:
       DataKey: 
       MaxHp: 12
@@ -1440,7 +1456,7 @@ Transform:
   m_GameObject: {fileID: 1048745472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.87, y: -1.1800001, z: 0}
+  m_LocalPosition: {x: 1.65, y: -1.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1462,7 +1478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitAnimation: {fileID: 1207867929}
-  AddAnimation: {fileID: 11400000, guid: 968a1494b64a52546bf02d076d2aec21, type: 2}
+  AddAnimation: {fileID: 11400000, guid: 48d88737760c69d468808a32969c738a, type: 2}
   isattack: 0
 --- !u!114 &1048745477
 MonoBehaviour:
@@ -1779,7 +1795,7 @@ GameObject:
   - component: {fileID: 1207867930}
   - component: {fileID: 1207867929}
   m_Layer: 0
-  m_Name: Spine(lizard)
+  m_Name: Spine(CD)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1795,7 +1811,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.12, y: 0.12, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1048745475}
@@ -1812,8 +1828,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 399e6503b0ad6ec42853c6744a82d5e6, type: 2}
-  initialSkinName: P
+  skeletonDataAsset: {fileID: 11400000, guid: 20e512bf14eb6144fa070357ae564efc, type: 2}
+  initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
@@ -1866,17 +1882,13 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
+  - {fileID: 2100000, guid: 5a3e3ce5479fe694fb2d09ab9c64dbd5, type: 2}
+  - {fileID: 2100000, guid: 950b664c04318eb49b760d27b6eaa94e, type: 2}
+  - {fileID: 2100000, guid: 5a3e3ce5479fe694fb2d09ab9c64dbd5, type: 2}
+  - {fileID: 2100000, guid: 950b664c04318eb49b760d27b6eaa94e, type: 2}
+  - {fileID: 2100000, guid: 5a3e3ce5479fe694fb2d09ab9c64dbd5, type: 2}
+  - {fileID: 2100000, guid: 950b664c04318eb49b760d27b6eaa94e, type: 2}
+  - {fileID: 2100000, guid: 5a3e3ce5479fe694fb2d09ab9c64dbd5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2006,7 +2018,7 @@ GameObject:
   - component: {fileID: 1297669681}
   - component: {fileID: 1297669680}
   m_Layer: 0
-  m_Name: Spine(lizard)
+  m_Name: Spine(JYP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2021,8 +2033,8 @@ Transform:
   m_GameObject: {fileID: 1297669678}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.12, y: 0.12, z: 1}
+  m_LocalPosition: {x: 0.44, y: 0, z: 0}
+  m_LocalScale: {x: 0.23, y: 0.23, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1665688144}
@@ -2039,8 +2051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 399e6503b0ad6ec42853c6744a82d5e6, type: 2}
-  initialSkinName: M
+  skeletonDataAsset: {fileID: 11400000, guid: 151abf16f6b9b5c4fba86c5b6db22b51, type: 2}
+  initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
@@ -2093,16 +2105,11 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
+  - {fileID: 2100000, guid: 100dcd657a0f0c54d9147a13fe91a849, type: 2}
+  - {fileID: 2100000, guid: 53c0f0c7173e3f045bbfb789b9e1d913, type: 2}
+  - {fileID: 2100000, guid: 100dcd657a0f0c54d9147a13fe91a849, type: 2}
+  - {fileID: 2100000, guid: 639d43f5593a3664db6cbd6f657908c4, type: 2}
+  - {fileID: 2100000, guid: 100dcd657a0f0c54d9147a13fe91a849, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2373,6 +2380,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473520655799141743, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -3003,6 +3026,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653691079108607613, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8714488578776581850, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3096,7 +3135,7 @@ GameObject:
   - component: {fileID: 1636891465}
   - component: {fileID: 1636891464}
   m_Layer: 0
-  m_Name: Spine(lizard)
+  m_Name: Spine(camera)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3129,7 +3168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 399e6503b0ad6ec42853c6744a82d5e6, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 955d9e986b3e1b14988f4f0390e3d242, type: 2}
   initialSkinName: P
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -3183,17 +3222,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: 79c041e7364f8e24fb1f548846472b74, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
-  - {fileID: 2100000, guid: a659978fd963cf249aa27a16f4e0b533, type: 2}
-  - {fileID: 2100000, guid: e0ec2a9f4b4e1e54dbc6b54bcd5d7fd7, type: 2}
+  - {fileID: 2100000, guid: b30bd576b738b4d42a3ddb3dea3e4ffd, type: 2}
+  - {fileID: 2100000, guid: a6f168895ad86034bb1dbd6b22e78a78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3239,7 +3269,7 @@ GameObject:
   - component: {fileID: 1665688146}
   - component: {fileID: 1665688143}
   m_Layer: 0
-  m_Name: Enemy(lizard)
+  m_Name: Enemy(JYP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3265,7 +3295,7 @@ MonoBehaviour:
     buffs: []
   IsTurn: 0
   EnemyData:
-    Enemy_ID: E36
+    Enemy_ID: E37
     EnemyUnitData:
       DataKey: 
       MaxHp: 12
@@ -3309,7 +3339,7 @@ Transform:
   m_GameObject: {fileID: 1665688141}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.6399999, y: -0.1500001, z: 0}
+  m_LocalPosition: {x: 6.68, y: -1.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3331,7 +3361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitAnimation: {fileID: 1297669680}
-  AddAnimation: {fileID: 11400000, guid: 968a1494b64a52546bf02d076d2aec21, type: 2}
+  AddAnimation: {fileID: 11400000, guid: e47192a4c99c6364295acb516332cfa6, type: 2}
   isattack: 0
 --- !u!114 &1665688146
 MonoBehaviour:
@@ -3909,7 +3939,7 @@ GameObject:
   - component: {fileID: 1993229553}
   - component: {fileID: 1993229552}
   m_Layer: 0
-  m_Name: Enemy(lizard) (2)
+  m_Name: Enemy(camera)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3924,7 +3954,7 @@ Transform:
   m_GameObject: {fileID: 1993229550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.15, y: -1.57, z: 0}
+  m_LocalPosition: {x: 3.89, y: -0.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4069,8 +4099,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitAnimation: {fileID: 1636891464}
-  AddAnimation: {fileID: 11400000, guid: 968a1494b64a52546bf02d076d2aec21, type: 2}
-  isattack: 0
+  AddAnimation: {fileID: 11400000, guid: d09a8b8b15bd4074d94033ce53fdf86e, type: 2}
+  isattack: 1
 --- !u!114 &1993229557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4313,6 +4343,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1939344846356407897, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980621895675810059, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980621895675810059, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980621895675810059, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980621895675810059, guid: 0e024af2c6aa8274d8946151f0315af9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}

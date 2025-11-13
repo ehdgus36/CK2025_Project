@@ -18,6 +18,11 @@ public class EffectSystem : MonoBehaviour
         effectObject.transform.localScale = setScale;
     }
 
+    public void PlayUIEventEffect(string effectCode )
+    {
+        PlayEffect(effectCode, this.transform.position);
+    }
+
     public void PlayEffect(string effectCode, Vector3 TargetPos) // 수정 필요 스크립터블 오브젝트에서 데이터 받아서 이펙트 생성하고 사용 딕셔너리로 관리
     {
         

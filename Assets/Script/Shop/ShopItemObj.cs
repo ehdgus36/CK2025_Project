@@ -155,7 +155,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     IEnumerator MoveSlot()
     {
-        Vector3 targetPos = transform.position + new Vector3(0, 55f, 0);
+        Vector3 targetPos = transform.position + new Vector3(0, 0.8f, 0);
         Quaternion targetQuat = Quaternion.Euler(0, 0, transform.rotation.z + 5f);
 
         float t = 0;

@@ -16,7 +16,7 @@ public class EnemyStateAction
     {
         for (int i = 0; i < attackCount; i++)
         {
-            attackEnemy.UnitAnimationSystem.PlayAnimation("animeCode", false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
+            attackEnemy.UnitAnimationSystem.PlayAnimation(animeCode, false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
             yield return new WaitForSeconds(.8f);
         }
     }

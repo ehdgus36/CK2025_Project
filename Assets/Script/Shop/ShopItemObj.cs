@@ -99,8 +99,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         float itemPrice = (float)data.Price;
         if (ShopEvent.GetItemDataLoader.strapData.Shop_Sale > 0)
-        {
-            itemPrice = Mathf.Round((float)data.Price / (float)ShopEvent.GetItemDataLoader.strapData.Shop_Sale);
+        {          
+            itemPrice = Mathf.Round(((float)data.Price * ((100f - (float)ShopEvent.GetItemDataLoader.strapData.Shop_Sale) / 100f)));
         }
 
         ItemPriceText.text = ((int)itemPrice).ToString();

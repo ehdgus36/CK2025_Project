@@ -61,7 +61,7 @@ public class GetBarrierAction : PlayerBaseCardAction
     protected void GetBarrier(Player player, CardData cardData, bool iseffect = true)
     {
         if(iseffect == true)
-            player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", player.transform.position);
+            player.PlayerEffectSystem.PlayEffect("PlusRhythmShield_Effect", player.transform.position);
         
         player.AddBarrier(cardData.Barrier_Get);
     }
@@ -236,6 +236,6 @@ public class RockSpiritAction : GetBarrierAction
     void GetBarrierEvent(GameObject obj)
     {
         Player.AddBarrier(CardData.Barrier_Get);
-        Player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", Player.transform.position);
+        Player.PlayerEffectSystem.PlayEffect("PlusRhythmShield_Effect", Player.transform.position);
     }
 }

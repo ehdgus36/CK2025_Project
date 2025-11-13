@@ -55,29 +55,43 @@ public class InventoryView : MonoBehaviour
             string Path = "ItemImage/";
             Sprite cardSprite = null;
 
-            if (i == 0)
+
+            if (getitem != null)
             {
-                Path += ((StickerItemData)getitem).ItemImage;
-                cardSprite = Resources.Load<Sprite>(Path);
+                if (i == 0)
+                {
+                    if (getitem is StickerItemData)
+                    {
+                        Path += ((StickerItemData)getitem).ItemImage;
+                        cardSprite = Resources.Load<Sprite>(Path);
 
-                Itemtext[selectImageIndex].text = string.Format("<color=#E0096C>Sticker</color>\n<size=14>{0}</size>", ((StickerItemData)getitem).ItemDes);
-            }
+                        Itemtext[selectImageIndex].text = string.Format("<color=#E0096C>Sticker</color>\n<size=14>{0}</size>", ((StickerItemData)getitem).ItemDes);
+                    }
+                }
 
-            if (i == 1)
-            {
-                Path += ((StrapItemData)getitem).ItemImage;
-                cardSprite = Resources.Load<Sprite>(Path);
-
-                Itemtext[selectImageIndex].text = string.Format("<color=#C6A8EE>Sticker</color>\n<size=14>{0}</size>", ((StrapItemData)getitem).ItemDes);
-            }
-
-            if (i == 2)
-            {
-                Path += ((StringItemData)getitem).ItemImage;
-                cardSprite = Resources.Load<Sprite>(Path);
+                if (i == 1)
+                {
+                    if (getitem is StrapItemData)
+                    {
+                        Path += ((StrapItemData)getitem).ItemImage;
+                        cardSprite = Resources.Load<Sprite>(Path);
 
 
-                Itemtext[selectImageIndex].text = string.Format("<color=#0D9E9B>Sticker</color>\n<size=14>{0}</size>", ((StringItemData)getitem).ItemDes);
+                        Itemtext[selectImageIndex].text = string.Format("<color=#C6A8EE>Sticker</color>\n<size=14>{0}</size>", ((StrapItemData)getitem).ItemDes);
+                    }
+                }
+
+                if (i == 2)
+                {
+                    if (getitem is StringItemData)
+                    {
+                        Path += ((StringItemData)getitem).ItemImage;
+                        cardSprite = Resources.Load<Sprite>(Path);
+
+
+                        Itemtext[selectImageIndex].text = string.Format("<color=#0D9E9B>Sticker</color>\n<size=14>{0}</size>", ((StringItemData)getitem).ItemDes);
+                    }
+                }
             }
 
             ItemImage[selectImageIndex].sprite = cardSprite;

@@ -28,7 +28,7 @@ public class ManaBankUIView : DynamicUIObject
 
         if (MaxSkillPoint == 0) gameObject.SetActive(false);
 
-        int mana = Mathf.Clamp((int)update_ui_data, 0, ManaBankSystem.MAX_BANK_MANA); 
+        int mana = Mathf.Clamp((int)update_ui_data, 0, MaxSkillPoint); 
         if (mana >= MaxSkillPoint)
         {
             SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = true;

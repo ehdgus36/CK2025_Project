@@ -260,8 +260,7 @@ public class CardDataBase
             {
                 card.Attack_DMG = Mathf.CeilToInt( (float)card.Attack_DMG * percent);
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
-                Debug.Log(card.Card_Des);
-                Debug.Log(card.Attack_DMG);
+               
 
                 CommonCardDatas[keys[i]] = card;
             }
@@ -288,8 +287,7 @@ public class CardDataBase
             {
                 card.Attack_DMG = card.Attack_DMG + amount;
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
-                Debug.Log(card.Card_Des);
-                Debug.Log(card.Attack_DMG);
+               
 
                 CommonCardDatas[keys[i]] = card;
             }

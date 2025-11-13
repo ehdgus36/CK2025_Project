@@ -23,7 +23,7 @@ public class NextAttackUIView : MonoBehaviour
 
     [SerializeField] Image AttackIcon;
     [SerializeField] Image SkillIcon;
-    [SerializeField] TextMeshProUGUI NextStateText;
+    [SerializeField] TextMeshProUGUI NextSstateText;
     [SerializeField] TextMeshProUGUI SkillStateText;
     [SerializeField] TextMeshProUGUI DescText;
 
@@ -53,7 +53,7 @@ public class NextAttackUIView : MonoBehaviour
             EnemyAction = enemyAIBehavior.GetEnemyDefaultAttackState;
         }
 
-        
+        Debug.Log("공격력 수치" + viewDamage);
 
         switch (EnemyAction)
         {
@@ -165,6 +165,8 @@ public class NextAttackUIView : MonoBehaviour
                 {
                     iconEnum = AttackIconEnum.Attack;
                     attackDesc = "<color=#ff2e50>수치만큼</color> 피해를 준다.";
+
+                    viewDamage = enemyData.CurrentDamage;
                 }
 
                 if (st.AttackCount == 2)
@@ -217,11 +219,9 @@ public class NextAttackUIView : MonoBehaviour
         }
 
 
-        //if (viewAttackCount > 1) { }
-        //    //NextStateText.text = string.Format("{0}X{1}", viewDamage.ToString(), viewAttackCount.ToString());
-        //else if (viewAttackCount == 1)
-           
-        NextStateText.text = string.Format("{0}", viewDamage.ToString());
+
+
+        NextSstateText.text = string.Format("{0}", viewDamage.ToString());
         SkillStateText.text = string.Format("{0}", viewDamage.ToString());
         DescText.text = attackDesc;
 

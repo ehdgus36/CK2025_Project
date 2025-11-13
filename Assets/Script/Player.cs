@@ -57,7 +57,11 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
 
 
+        UnitData.buffs.Clear();
+        StaticGameDataSchema.CARD_DATA_BASE.ResetTable();
+
         StartTurnEvent += () => {
+            Debug.Log("체력 감소 아이템" + GameManager.instance.ItemDataLoader.strapData.Card_Damage);
             StaticGameDataSchema.CARD_DATA_BASE.LossValueDamage(GameManager.instance.ItemDataLoader.strapData.Card_Damage, new List<Card>());
             StaticGameDataSchema.CARD_DATA_BASE.LossValueRecoverHP(GameManager.instance.ItemDataLoader.strapData.Card_HP_Recover, new List<Card>());
 

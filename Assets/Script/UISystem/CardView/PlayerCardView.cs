@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Composites;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerCardView : MonoBehaviour
 {
@@ -162,11 +163,11 @@ public class PlayerCardView : MonoBehaviour
         SubDesc1.text = data.Buff_Ex1;
         SubDesc2.text = data.Buff_Ex2;
 
-        if(SubDesc1.GetComponent<BuffTextRePlace>())
-            SubDesc1.GetComponent<BuffTextRePlace>().OnEnable();
+        if(SubDesc1.GetComponent<BuffTextRePlace>() != null)
+            SubDesc1.GetComponent<BuffTextRePlace>().Replace();
 
-        if (SubDesc2.GetComponent<BuffTextRePlace>())
-            SubDesc2.GetComponent<BuffTextRePlace>().OnEnable();
+        if (SubDesc2.GetComponent<BuffTextRePlace>() != null)
+            SubDesc2.GetComponent<BuffTextRePlace>().Replace();
 
         if (data.Buff_Ex1 == "0")
            SubDesc1.text = "";
@@ -178,6 +179,19 @@ public class PlayerCardView : MonoBehaviour
         SelectObject = selectObj;
         SelectCardCode = data.Card_ID;
 
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(DescLayout);
+        StartCoroutine(sort());
+    }
+
+    IEnumerator sort()
+    { 
+    
+        yield return null;
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(DescLayout);
+
+        yield return null;
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(DescLayout);
     }

@@ -1,17 +1,28 @@
-using UnityEngine;
+using System.Collections;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class NextAttackDescView : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textDesc;
     private void OnEnable()
     {
-        if(textDesc == null) textDesc = GetComponent<TextMeshProUGUI>();
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
+        StartCoroutine(sort());
 
-        //Vector2 size;
-        //size.x = textDesc.preferredWidth;
-        //size.y = textDesc.preferredHeight;
+    }
 
-        //GetComponent<RectTransform>().sizeDelta = size;
+    IEnumerator sort()
+    {
+
+        yield return null;
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
+
+        yield return null;
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
     }
 }

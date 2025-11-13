@@ -120,7 +120,7 @@ public class EnemySkill_Buff_Burnout_State : EnemySkill_MultiAttack_State // ¶§¸
         if (enemy.EnemyData.Enemy_ID == "E12")
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hip_Hop_Boss/Fire_Attack");
-            animeCode = "Skill2_Ani";
+            animeCode = "Skill_Ani";
         }
 
         isAttackEndControll = false;

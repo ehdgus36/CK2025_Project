@@ -82,6 +82,8 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public bool isBarbedArmor = false;
 
+    public bool isMove = true;
+
     public virtual void Initialize(int index,  EnemysGroup group) 
     {
         AIMachine = GetComponent<UnitAIMachine>();

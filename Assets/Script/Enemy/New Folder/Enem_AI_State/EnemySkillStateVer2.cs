@@ -30,6 +30,7 @@ public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // ¶§¸° µ¥¹
         if (enemy.EnemyData.Enemy_ID == "E12")
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hip_Hop_Boss/Money_Attack");
+            animeCode = "Skill2_Ani";
         }
 
         isAttackEndControll = false;
@@ -119,6 +120,7 @@ public class EnemySkill_Buff_Burnout_State : EnemySkill_MultiAttack_State // ¶§¸
         if (enemy.EnemyData.Enemy_ID == "E12")
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hip_Hop_Boss/Fire_Attack");
+            animeCode = "Skill2_Ani";
         }
 
         isAttackEndControll = false;
@@ -167,6 +169,7 @@ public class EnemySkill_HP_Volumeup_State : EnemySkill_MultiAttack_State // ¶§¸°
         if (enemy.EnemyData.Enemy_ID == "E09" || enemy.EnemyData.Enemy_ID == "E11")
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hiphop_Monster/Speaker_Attack");
+            animeCode = "Skill_Ani";
         }
 
 
@@ -278,6 +281,7 @@ public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // ¶§¸
         if (enemy.EnemyData.Enemy_ID == "E22" || enemy.EnemyData.Enemy_ID == "E25")
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Monster/Poison_Attack");
+            animeCode = "Skill_Ani";
         }
 
 
@@ -382,6 +386,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // ¶§
         if (enemy.EnemyData.Enemy_ID == "E29" )
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Jump_Attack");
+           
         }
 
         //ÀÌÆåÆ® ³Ö±â
@@ -392,7 +397,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // ¶§
         isAttackEndControll = false;
         AttackDamage = Damage;
 
-        enemy.UnitAnimationSystem.PlayAnimation("Skill2", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, 5, null); }, null);
+        enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, 5, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, null);
         // yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);
@@ -431,6 +436,7 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
         if (enemy.EnemyData.Enemy_ID == "E29")
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
+            animeCode = "Skill2_Ani";
         }
 
         //º¼·ý¾÷
@@ -456,10 +462,8 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
         AttackDamage = Damage;
 
         
-        enemy.UnitAnimationSystem.PlayAnimation("Skill2", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, 5, null); }, null);
-
-       
-        //yield return base.Excut(unit, aIBehavior);
+    
+        yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);
 
@@ -497,6 +501,13 @@ public class EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State : EnemySkill_Mu
     {
 
         Enemy enemy = (Enemy)unit;
+
+
+        if (enemy.EnemyData.Enemy_ID == "E41")
+        {
+            //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
+            animeCode = "Skill2_Ani";
+        }
 
         //°¡½Ã
         Buff buff = new BarbedArmorBuff(BuffType.Start, BarbedArmorTurn);

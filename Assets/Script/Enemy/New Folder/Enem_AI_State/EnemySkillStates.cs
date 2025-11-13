@@ -7,7 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class EnemySkill_MultiAttack_State : BaseAIState // ¿©·¯¹ø ¶§¸®±â
 {
-     Vector3 StartPos;
+    Vector3 StartPos;
     [SerializeField] int _AttackCount;
 
     public int AttackCount { get { return _AttackCount; } }
@@ -17,7 +17,9 @@ public class EnemySkill_MultiAttack_State : BaseAIState // ¿©·¯¹ø ¶§¸®±â
     protected bool isAttackEndControll = true;
 
     protected int AttackDamage = 0;
-   
+
+    protected string animeCode = "";
+
 
     public EnemySkill_MultiAttack_State(int attackCount)
     {
@@ -31,39 +33,44 @@ public class EnemySkill_MultiAttack_State : BaseAIState // ¿©·¯¹ø ¶§¸®±â
         AttackDamage = customDamage;
     }
 
-    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
+    {
         isAttackEndControll = true;
     }
-   
+
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-       
+
         Enemy enemy = (Enemy)unit;
 
         EnemyStateAction enemyAction = new EnemyStateAction();
-        
+
         // À§Ä¡ ÀÌµ¿
         StartPos = enemy.transform.position;
-        enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
+
+        if (enemy.isMove == true)
+            enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
+
+
         Debug.Log("¸ó½ºÅÍ °ø°Ý");
         yield return new WaitForSeconds(.1f);
 
         //¾Ö´Ï¸ÞÀÌ¼Ç Àç»ý¹× °ø°Ý
-        yield return enemyAction.AttackEnemy(AttackDamage != 0? AttackDamage :enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player);
+        yield return enemyAction.AttackEnemy(AttackDamage != 0 ? AttackDamage : enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player, null,animeCode != "" ? animeCode : "attack");
         yield return new WaitForSeconds(.2f);
 
-        
+
         //¿Ï·á ÀÌº¥Æ®
         enemy.isAttackEnd = isAttackEndControll;
-       
+
         // °ø°ÝÇÔ
-        enemyAction.MoveEnemy(enemy.gameObject, StartPos, Vector3.zero); 
+        enemyAction.MoveEnemy(enemy.gameObject, StartPos, Vector3.zero);
         yield break;
     }
 
-    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) 
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior)
     {
-        
+
     }
 }
 
@@ -76,15 +83,16 @@ public class EnemySkill_AttackRecoverHP_State : EnemySkill_MultiAttack_State // 
     float HP_Percent = .2f;
 
 
-    public EnemySkill_AttackRecoverHP_State(int attackCount , float hppercent) : base(attackCount) { HP_Percent = hppercent; }
+    public EnemySkill_AttackRecoverHP_State(int attackCount, float hppercent) : base(attackCount) { HP_Percent = hppercent; }
 
-    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
-        
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
+    {
+
     }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-       
+
         Enemy enemy = (Enemy)unit;
 
         isAttackEndControll = false;
@@ -109,26 +117,26 @@ public class EnemySkill_AllEnemyRecoverHP_State : EnemySkill_MultiAttack_State /
 
     float HP_Percent = .2f;
 
-    public EnemySkill_AllEnemyRecoverHP_State(int attackCount , float hp) : base(attackCount) { HP_Percent = hp; }
+    public EnemySkill_AllEnemyRecoverHP_State(int attackCount, float hp) : base(attackCount) { HP_Percent = hp; }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
-    {}
+    { }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-        
+
         Enemy enemy = (Enemy)unit;
-       
+
         isAttackEndControll = false;
         yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);
         //Ã¼·Â È¸º¹ ½ÃÀüÀÚ ¸ÕÁ®
         enemy.RecoverHP(enemy.EnemyData.CurrentDamage);
-        
-     
+
+
         yield return new WaitForSeconds(.4f);
-        
+
         for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
         {
             if (GameManager.instance.EnemysGroup.Enemys[i] == enemy) continue;
@@ -157,7 +165,7 @@ public class EnemySkill_DackAttack_State : BaseAIState // µ¦±â¹Ý °ø°Ý
     Vector3 StartPos;
     [SerializeField] int _dackCount;
 
-     public int dackCount { get { _dackCount = GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Count; return _dackCount; } }
+    public int dackCount { get { _dackCount = GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Count; return _dackCount; } }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
 
@@ -196,12 +204,15 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // µ¦±â¹Ý °ø°Ý
 
     int reversRhythm = 0;
     public int CustomDamage { get; private set; }
+
+    string animeCode = "attack";
+
     public EnemySkill_RhythmReverse_State()
     {
         reversRhythm = 2;
     }
 
-    public EnemySkill_RhythmReverse_State(int Turn , int Damage = 0)
+    public EnemySkill_RhythmReverse_State(int Turn, int Damage = 0)
     {
         reversRhythm = Turn;
         CustomDamage = Damage;
@@ -215,13 +226,24 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // µ¦±â¹Ý °ø°Ý
         Enemy enemy = (Enemy)unit;
         EnemyStateAction enemyAction = new EnemyStateAction();
 
+        if (enemy.EnemyData.Enemy_ID == "E41")
+        {
+            //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
+            animeCode = "Skill_Ani";
+        }
+
+
+
         StartPos = enemy.transform.position;
-        enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
+
+        if(enemy.isMove == true)
+            enemyAction.MoveEnemy(enemy.gameObject, GameManager.instance.Player.transform.position, enemy.AttackOffset);
+        
         yield return new WaitForSeconds(.3f);
 
         // µ¦±â¹Ý °ø°Ý±â´É ¸¸µé±â
-        yield return enemyAction.AttackEnemy(CustomDamage !=0 ? CustomDamage : enemy.EnemyData.CurrentDamage, 1,
-                                             enemy, GameManager.instance.Player, new RhythmDebuff(BuffType.End, reversRhythm));
+        yield return enemyAction.AttackEnemy(CustomDamage != 0 ? CustomDamage : enemy.EnemyData.CurrentDamage, 1,
+                                             enemy, GameManager.instance.Player, new RhythmDebuff(BuffType.End, reversRhythm) , animeCode);
 
         yield return new WaitForSeconds(.5f);
 
@@ -238,20 +260,20 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // µ¦±â¹Ý °ø°Ý
 //Barbed Armor
 
 [System.Serializable]
-public class EnemySkill_BarbedArmor_State: EnemySkill_MultiAttack_State // ÀüÃ¼Èú // µ¦±â¹Ý °ø°Ý
+public class EnemySkill_BarbedArmor_State : EnemySkill_MultiAttack_State // ÀüÃ¼Èú // µ¦±â¹Ý °ø°Ý
 {
     Vector3 StartPos;
 
 
     public EnemySkill_BarbedArmor_State(int attackConut) : base(attackConut) { }
- 
+
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
 
         Enemy enemy = (Enemy)unit;
-       
+
         Buff buff = new BarbedArmorBuff(BuffType.Start, 2);
         buff.StartBuff(enemy);
         enemy.AddBuff(buff);
@@ -261,7 +283,7 @@ public class EnemySkill_BarbedArmor_State: EnemySkill_MultiAttack_State // ÀüÃ¼È
         yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);
-       
+
 
         enemy.isAttackEnd = true; // °ø°ÝÇÔ
         yield return null;
@@ -306,7 +328,7 @@ public class EnemySkill_AllBarbedArmor_State : EnemySkill_MultiAttack_State // À
 
         yield return new WaitForSeconds(.1f);
 
-       
+
         enemy.isAttackEnd = true; // °ø°ÝÇÔ
         yield return null;
         yield break;
@@ -325,7 +347,7 @@ public class EnemySkill_HpRecover_ReversRhythm_State : EnemySkill_RhythmReverse_
     Vector3 StartPos;
     float HP_Percent = .2f;
 
-    public EnemySkill_HpRecover_ReversRhythm_State(int buffTrun , float hp) : base(buffTrun,0) { HP_Percent = hp; }
+    public EnemySkill_HpRecover_ReversRhythm_State(int buffTrun, float hp) : base(buffTrun, 0) { HP_Percent = hp; }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
 

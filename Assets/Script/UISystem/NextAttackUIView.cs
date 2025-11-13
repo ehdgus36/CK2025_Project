@@ -113,6 +113,7 @@ public class NextAttackUIView : MonoBehaviour
 
             case EnemySkill_BarrierAttack_State st:
                 iconEnum = AttackIconEnum.Barrier_DMG;
+                viewDamage = 25;
                 attackDesc = "자신에게 베리어를 <color=#0ab52b>20</color>주고,\r\n<color=#ff2e50>약한</color> 피해를 5번 준다.";
                 break;
 

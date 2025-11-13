@@ -12,11 +12,11 @@ public class EnemyStateAction
         moveObject.transform.position = formPos + attackOffset;
     }
 
-    public IEnumerator AttackEnemy(int damage, int attackCount, Enemy attackEnemy, Unit targetUnit , Buff buff = null)
+    public IEnumerator AttackEnemy(int damage, int attackCount, Enemy attackEnemy, Unit targetUnit , Buff buff = null , string animeCode = "attack")
     {
         for (int i = 0; i < attackCount; i++)
         {
-            attackEnemy.UnitAnimationSystem.PlayAnimation("attack", false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
+            attackEnemy.UnitAnimationSystem.PlayAnimation("animeCode", false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
             yield return new WaitForSeconds(.8f);
         }
     }

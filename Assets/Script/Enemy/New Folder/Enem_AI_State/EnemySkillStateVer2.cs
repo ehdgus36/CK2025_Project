@@ -452,6 +452,11 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
         // 데이미지 주기
         isAttackEndControll = false;
         AttackDamage = Damage;
+
+        
+        enemy.UnitAnimationSystem.PlayAnimation("attack", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, 5, null); }, null);
+
+       
         yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);

@@ -30,6 +30,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [SerializeField] bool isYellowCard;
     [SerializeField] bool isBlueCard;
 
+    [SerializeField] GameObject SoldOutObject;
+
     int startIndex;
 
     bool isSelect = false;
@@ -67,6 +69,7 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (isYellowCard) { cardID.AddRange(new List<string>() { "C1031", "C1041", "C1061", "C1071", "C2051", "C3021" }); }
         if (isBlueCard) { cardID.AddRange(new List<string>() { "C1051", "C2031", "C2041", "C3031", "C3041", "C3051" }); }
 
+        SoldOutObject.SetActive(false);
 
 
         isSoldOut = false;
@@ -134,6 +137,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         ItemPriceText.text = "";
         isSoldOut = true;
+
+        SoldOutObject.SetActive(true);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

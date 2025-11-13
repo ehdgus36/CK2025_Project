@@ -103,9 +103,10 @@ public class ClearSystem : MonoBehaviour
 
     IEnumerator ClearSequence()
     {
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage");
         ClearView?.SetActive(true);
         yield return new WaitUntil(() => ClearView.activeSelf == false);
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage");
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Upgrade/Upgrade_Appear");
         UpgradeView?.SetActive(true);
     }
 

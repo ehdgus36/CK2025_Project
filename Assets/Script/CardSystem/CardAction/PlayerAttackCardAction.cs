@@ -514,6 +514,8 @@ public class SkillAction : MultiAttackAction
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Skill_Atk/Amped Bless_Upgrade");
+
         yield return new WaitForSeconds(1);
         //¿Ã∆Â∆Æ √ﬂ∞°
 
@@ -542,6 +544,7 @@ public class Skill2Action : MultiAttackAction
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Skill_Atk/CassTera_Upgrade");
         yield return new WaitForSeconds(1);
         //¿Ã∆Â∆Æ √ﬂ∞°
 
@@ -572,6 +575,7 @@ public class Skill3Action : MultiAttackAction
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Skill_Atk/RockSprits_Upgrade");
         yield return new WaitForSeconds(1);
         //¿Ã∆Â∆Æ √ﬂ∞°
 

@@ -76,7 +76,7 @@ public class EnemySkill_AttackRecoverHP_State : EnemySkill_MultiAttack_State // 
     float HP_Percent = .2f;
 
 
-    public EnemySkill_AttackRecoverHP_State(int attackCount) : base(attackCount) { }
+    public EnemySkill_AttackRecoverHP_State(int attackCount , float hppercent) : base(attackCount) { HP_Percent = hppercent; }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
         
@@ -109,7 +109,7 @@ public class EnemySkill_AllEnemyRecoverHP_State : EnemySkill_MultiAttack_State /
 
     float HP_Percent = .2f;
 
-    public EnemySkill_AllEnemyRecoverHP_State(int attackCount) : base(attackCount) { }
+    public EnemySkill_AllEnemyRecoverHP_State(int attackCount , float hp) : base(attackCount) { HP_Percent = hp; }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
     {}
@@ -195,13 +195,13 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // µ¦±â¹Ý °ø°Ý
     Vector3 StartPos;
 
     int reversRhythm = 0;
-    int CustomDamage = 0;
+    public int CustomDamage { get; private set; }
     public EnemySkill_RhythmReverse_State()
     {
         reversRhythm = 2;
     }
 
-    public EnemySkill_RhythmReverse_State(int Turn , int Damage)
+    public EnemySkill_RhythmReverse_State(int Turn , int Damage = 0)
     {
         reversRhythm = Turn;
         CustomDamage = Damage;
@@ -325,7 +325,7 @@ public class EnemySkill_HpRecover_ReversRhythm_State : EnemySkill_RhythmReverse_
     Vector3 StartPos;
     float HP_Percent = .2f;
 
-    public EnemySkill_HpRecover_ReversRhythm_State(int buffTrun) : base(buffTrun,0) { }
+    public EnemySkill_HpRecover_ReversRhythm_State(int buffTrun , float hp) : base(buffTrun,0) { HP_Percent = hp; }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
 

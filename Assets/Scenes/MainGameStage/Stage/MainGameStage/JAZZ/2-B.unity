@@ -2155,6 +2155,8 @@ PlayableDirector:
     value: {fileID: 2057253400}
   - key: {fileID: 4365105513770291668, guid: 447ceace65e8e304faf1dfd86ab6f0b0, type: 2}
     value: {fileID: 1186763325}
+  - key: {fileID: 5293688521976509271, guid: 447ceace65e8e304faf1dfd86ab6f0b0, type: 2}
+    value: {fileID: 1231392436}
   m_ExposedReferences:
     m_References:
     - 21eaf9c86d9c3fa48bcffac5e0878cbc: {fileID: 915261900}
@@ -2246,6 +2248,7 @@ GameObject:
   - component: {fileID: 2071182695}
   - component: {fileID: 2071182694}
   - component: {fileID: 2071182698}
+  - component: {fileID: 2071182699}
   m_Layer: 0
   m_Name: Spine GameObject (Boss_Hiphop2)
   m_TagString: Untagged
@@ -2265,7 +2268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 5f28fffef6320024eb84ee67ad23cf16, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 5e058f5c24248494ea88149acd057626, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -2319,10 +2322,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 57951008125e0094782c0b1e5b7a823d, type: 2}
-  - {fileID: 2100000, guid: 07e6745856eeb3f4db635969513dbbc0, type: 2}
-  - {fileID: 2100000, guid: 96755e19f84fb824c94b6891168ee958, type: 2}
-  - {fileID: 2100000, guid: 07e6745856eeb3f4db635969513dbbc0, type: 2}
+  - {fileID: 2100000, guid: da5e450154d95bb4fb57f2799506b73d, type: 2}
+  - {fileID: 2100000, guid: 2d52d61ff4df7d5468de45e275443e9f, type: 2}
+  - {fileID: 2100000, guid: df5d6a84fa690ee42a2ddb756a5cafc9, type: 2}
+  - {fileID: 2100000, guid: 2d52d61ff4df7d5468de45e275443e9f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2389,6 +2392,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2071182699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071182693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f21c9538588898a45a3da22bf4779ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootMotionBoneName: root
+  transformPositionX: 0
+  transformPositionY: 0
+  transformRotation: 0
+  rootMotionScaleX: 1
+  rootMotionScaleY: 1
+  rootMotionScaleRotation: 1
+  rootMotionTranslateXPerY: 0
+  rootMotionTranslateYPerX: 0
+  rigidBody2D: {fileID: 0}
+  applyRigidbody2DGravity: 0
+  rigidBody: {fileID: 0}
+  disableOnOverride: 1
+  animationTrackFlags: -1
 --- !u!1 &2133649295
 GameObject:
   m_ObjectHideFlags: 0

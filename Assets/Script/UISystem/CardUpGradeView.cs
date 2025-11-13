@@ -68,6 +68,7 @@ public class CardUpGradeView : MonoBehaviour,  IPointerEnterHandler, IPointerExi
         CurrentCardDesc.gameObject.SetActive(false);
 
         UpGradeCardDesc.gameObject.SetActive(true);
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Upgrade/Upgrade_Up");
     }
 
 

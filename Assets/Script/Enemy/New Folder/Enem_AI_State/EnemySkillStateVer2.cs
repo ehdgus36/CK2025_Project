@@ -7,8 +7,8 @@ using System.Collections.Generic;
 /// </summary>
 public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // ¶§¸° µ¥¹ÌÁö ¸¸Å­ Èú
 {
-    int ADD_CoinCount;
-    int Damage = 0;
+    public int ADD_CoinCount { get; private set; }
+    public int Damage { get; private set; }
 
     public EnemySkill_DMG_Gold_State(int attackCount, int AddCoinCount, int damage = 0) : base(attackCount) { 
     
@@ -25,6 +25,12 @@ public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // ¶§¸° µ¥¹
     {
 
         Enemy enemy = (Enemy)unit;
+
+        //»ç¿îµå
+        if (enemy.EnemyData.Enemy_ID == "E12")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hip_Hop_Boss/Money_Attack");
+        }
 
         isAttackEndControll = false;
         AttackDamage = Damage;
@@ -108,6 +114,13 @@ public class EnemySkill_Buff_Burnout_State : EnemySkill_MultiAttack_State // ¶§¸
 
         Enemy enemy = (Enemy)unit;
 
+
+        //»ç¿îµå
+        if (enemy.EnemyData.Enemy_ID == "E12")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hip_Hop_Boss/Fire_Attack");
+        }
+
         isAttackEndControll = false;
         yield return base.Excut(unit, aIBehavior);
 
@@ -150,6 +163,13 @@ public class EnemySkill_HP_Volumeup_State : EnemySkill_MultiAttack_State // ¶§¸°
 
         Enemy enemy = (Enemy)unit;
 
+
+        if (enemy.EnemyData.Enemy_ID == "E09" || enemy.EnemyData.Enemy_ID == "E11")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hiphop_Monster/Speaker_Attack");
+        }
+
+
         // µ¥¹ÌÁö »ó½Â, Ã¼·Â°¨¼Ò
         enemy.EnemyData.CurrentDamage += VolumeUP_Value;
         enemy.AddBuff(new VolumeUPBuff(BuffType.End, VolumeUP_Value));
@@ -184,9 +204,10 @@ public class EnemySkill_Heal_Lowest_State : EnemySkill_MultiAttack_State // ¶§¸°
 
     float HP_Percent = .2f;
 
-    public EnemySkill_Heal_Lowest_State(int attackCount , int damage) : base(attackCount , damage)
+    public EnemySkill_Heal_Lowest_State(int attackCount , int damage , float hp) : base(attackCount , damage)
     {
         Damage = damage;
+        HP_Percent = hp;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
@@ -238,7 +259,7 @@ public class EnemySkill_Heal_Lowest_State : EnemySkill_MultiAttack_State // ¶§¸°
 public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // ¶§¸° µ¥¹ÌÁö ¸¸Å­ Èú
 {
 
-    int PoisonBuffTurn = 4;
+    public int PoisonBuffTurn { get; private set; } 
 
     public EnemySkill_PoisonAttack_State(int attackCount , int Turn) : base(attackCount)
     {
@@ -254,8 +275,12 @@ public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // ¶§¸
     {
 
         Enemy enemy = (Enemy)unit;
+        if (enemy.EnemyData.Enemy_ID == "E22" || enemy.EnemyData.Enemy_ID == "E25")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Monster/Poison_Attack");
+        }
 
-       
+
         //µ¥¹ÌÁö ÁÖ±â
         yield return new WaitForSeconds(.2f);
 
@@ -350,6 +375,15 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // ¶§
 
         Enemy enemy = (Enemy)unit;
         enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value;
+
+        
+
+
+        if (enemy.EnemyData.Enemy_ID == "E29" )
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Jump_Attack");
+        }
+
         //ÀÌÆåÆ® ³Ö±â
 
         yield return new WaitForSeconds(.2f);
@@ -392,6 +426,11 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
 
         Enemy enemy = (Enemy)unit;
 
+        if (enemy.EnemyData.Enemy_ID == "E29")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
+        }
+
         //º¼·ý¾÷
         for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
         {
@@ -403,7 +442,9 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
 
         GameManager.instance.Player.AddBuff(new VolumeUPBuff(BuffType.End, VolumeUP_Value));
 
-       
+     
+
+
         //ÀÌÆåÆ® ³Ö±â
 
         yield return new WaitForSeconds(.2f);

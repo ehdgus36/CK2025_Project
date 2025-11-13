@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Drawing;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class NextAttackUIView : MonoBehaviour
@@ -59,89 +60,116 @@ public class NextAttackUIView : MonoBehaviour
 
             case EnemySkill_DMG_Gold_State st:
 
+                viewDamage = st.Damage;
                 iconEnum = AttackIconEnum.DMG_Gold;
-                
+
+                if (viewDamage == 8)
+                    attackDesc = "돈을 던져 <color=#ff2e50>약한</color> 피해를 준다.";
+
+                if (viewDamage == 12)
+                    attackDesc = "돈다발을 던져 <color=#ff2e50>강력한</color> 피해를 준다.";
+
                 break;
 
             case EnemySkill_AttackRecoverHP_State st:
                 iconEnum = AttackIconEnum.Heal_HP;
-                
+                attackDesc = "자신의 체력을 <color=#0ab52b>조금</color> 회복한다.";
+
                 break;
 
             case EnemySkill_Buff_Burnup_State st:
                 iconEnum = AttackIconEnum.Buff_Burnup;
-                
+                attackDesc = "<color=#d98f1c>번업</color>을 2 부여한다.";
+
                 break;
 
             case EnemySkill_Buff_Burnout_State st:
                 iconEnum = AttackIconEnum.Buff_Burnout;
-                
+                attackDesc = "<color=#d98f1c>번아웃</color>을 2 부여한다.";
+
                 break;
 
             case EnemySkill_HP_Volumeup_State st:
                 iconEnum = AttackIconEnum.HP_Volumeup;
-                
+                attackDesc = "자신의 체력을 <color=#ff2e50>조금</color> 깎고,\n<color=#d98f1c>볼륨업</color>을 4 부여한다.";
+
                 break;
 
             case EnemySkill_Heal_Lowest_State st:
                 iconEnum = AttackIconEnum.Heal_Lowest;
-                
+                attackDesc = "체력이 가장 낮은 아군을 <color=#0ab52b>적당히</color> 회복한다.";
+
                 break;
 
             case EnemySkill_PoisonAttack_State st:
                 iconEnum = AttackIconEnum.Poison_ATK;
-                
+                attackDesc = string.Format("<color=#d98f1c>중독</color>을 {0} 부여한다.", st.PoisonBuffTurn);
                 break;
 
             case EnemySkill_Self_Volumeup_State st:
                 iconEnum = AttackIconEnum.Self_Volumeup;
-                
+                attackDesc = "자신에게 <color=#d98f1c>볼륨업</color>을 10 부여한다.";
                 break;
 
             case EnemySkill_BarrierAttack_State st:
                 iconEnum = AttackIconEnum.Barrier_DMG;
-                
+                attackDesc = "자신에게 베리어를 <color=#0ab52b>20</color>주고,\r\n<color=#ff2e50>약한</color> 피해를 5번 준다.";
                 break;
 
             case EnemySkill_JAZZBOSS_ALL_VolumeUp_State st:
                 
                 iconEnum = AttackIconEnum.All_Volumeup;
+                attackDesc = "노이즈와 자신에게 <color=#d98f1c>볼륨업</color>을 7 부여한다.";
                 break;
 
             case EnemySkill_AllEnemyRecoverHP_State st:
                 
                 iconEnum = AttackIconEnum.Heal_All;
+                attackDesc = "모든 아군의 체력을 <color=#0ab52b>적당히</color> 회복한다.";
                 break;
 
             case EnemySkill_AllBarbedArmor_State st:
                 iconEnum = AttackIconEnum.Spike_Enemy;
-                
+                attackDesc = "모든 아군에게 <color=#d98f1c>가시</color>를 2 부여한다.";
                 break;
 
             case EnemySkill_HpRecover_ReversRhythm_State st:
                 iconEnum = AttackIconEnum.Confuse_Heal;
-                
+
+                attackDesc = "<color=#d98f1c>혼란</color>을 1 부여하고,\n자신의 체력을<color=#0ab52b>많이</color> 회복한다.";
+
                 break;
 
             case EnemySkill_RhythmReverse_State st:
                 iconEnum = AttackIconEnum.Confuse_DMG;
                 iconEnum = AttackIconEnum.Confuse_PC;
-               
+
+                if(st.CustomDamage == 0)
+                    attackDesc = "<color=#d98f1c>혼란</color>을 1 부여한다.";
+                if (st.CustomDamage == 36)
+                    attackDesc = "<color=#d98f1c>혼란</color>을 2 부여하고,\n<color=#ff2e50>치명적인</color> 피해를 준다.";
+
+
                 break;
 
             case EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State st:
                 iconEnum = AttackIconEnum.Self_Spike_Barrier;
-                
+
+                attackDesc = "노이즈에게 <color=#d98f1c>볼륨업</color>을 20 부여하고,\n자신에게 <color=#d98f1c>가시</color> 2와 베리어 <color=#0ab52b>30</color>을 준다.";
                 break;
 
             case EnemySkill_MultiAttack_State st:
 
                 if (st.AttackCount == 1)
+                {
                     iconEnum = AttackIconEnum.Attack;
+                    attackDesc = "<color=#ff2e50>수치만큼</color> 피해를 준다.";
+                }
 
                 if (st.AttackCount == 2)
                 {
-                    iconEnum = AttackIconEnum.Double_Damage;          
+                    iconEnum = AttackIconEnum.Double_Damage;
+                    attackDesc = "<color=#ff2e50>약한</color> 피해를 2번 준다.";
                 }
                 break;
         }
@@ -159,7 +187,19 @@ public class NextAttackUIView : MonoBehaviour
         }
 
 
-       
+
+
+
+        for (int i = 0; i < enemyData.EnemyUnitData.buffs.Count; i++)
+        {
+            switch (enemyData.EnemyUnitData.buffs[i])
+            {             
+                case VolumeUPBuff buff:
+                    buff.PreviewBuffEffect(viewDamage, out viewDamage);
+                    break;
+            }
+        }
+
 
 
         for (int i = 0; i < enemyData.EnemyUnitData.buffs.Count; i++)

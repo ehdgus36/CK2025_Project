@@ -52,7 +52,8 @@ public class Inputnote : MonoBehaviour
         {
             GetComponent<UnityEngine.UI.Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
             GetComponent<UnityEngine.UI.Image>().color = Color.white;
-        }
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Fail");
+    }
        
     }
 }

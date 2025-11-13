@@ -217,6 +217,9 @@ public class Card : MonoBehaviour
 
     IEnumerator DelayCard()
     {
+
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/PC_Start_ATK");
+
         yield return new WaitForSeconds(.5f);
         GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
         StartCoroutine(CardAction.StartAction(GameManager.instance.Player, this, this.cardData, EnemyTarget));

@@ -60,7 +60,7 @@ public class RhythmInput : MonoBehaviour
         SuccessNoteEvent += (obj) =>
         {
             GameManager.instance.Player.AddBarrier(1);
-            GameManager.instance.Player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", GameManager.instance.Player.transform.position);
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect("PlusRhythmShield_Effect", GameManager.instance.Player.transform.position);
         };
     }
 

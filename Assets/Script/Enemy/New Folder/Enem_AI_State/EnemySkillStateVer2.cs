@@ -361,6 +361,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
 {
     int Barrier_Value;
     int Damage = 0;
+    Vector3 startPos;
 
     public EnemySkill_BarrierAttack_State(int attackCount, int barrier , int customDamage = 0) : base(attackCount , customDamage)
     {
@@ -378,10 +379,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
     {
 
         Enemy enemy = (Enemy)unit;
-        enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value;
-
-        
-
+       
 
         if (enemy.EnemyData.Enemy_ID == "E29" )
         {
@@ -397,10 +395,16 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
         isAttackEndControll = false;
         AttackDamage = Damage;
 
+        startPos = enemy.transform.position;
+
+        enemy.transform.position = GameManager.instance.Player.transform.position + enemy.AttackOffset;
+
         enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, 5, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, null);
-        // yield return base.Excut(unit, aIBehavior);
+        
 
         yield return new WaitForSeconds(.1f);
+
+        enemy.transform.position = startPos;
 
         enemy.isAttackEnd = true; // 공격함
         yield return null;

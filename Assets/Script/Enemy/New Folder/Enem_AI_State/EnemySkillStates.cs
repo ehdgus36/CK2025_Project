@@ -57,7 +57,7 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 
         //애니메이션 재생및 공격
         yield return enemyAction.AttackEnemy(AttackDamage != 0 ? AttackDamage : enemy.EnemyData.CurrentDamage, AttackCount, enemy, GameManager.instance.Player, null,animeCode != "" ? animeCode : "attack");
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.5f);
 
 
         //완료 이벤트

@@ -162,8 +162,11 @@ public class PlayerCardView : MonoBehaviour
         SubDesc1.text = data.Buff_Ex1;
         SubDesc2.text = data.Buff_Ex2;
 
-        SubDesc1.GetComponent<BuffTextRePlace>().OnEnable();
-        SubDesc2.GetComponent<BuffTextRePlace>().OnEnable();
+        if(SubDesc1.GetComponent<BuffTextRePlace>())
+            SubDesc1.GetComponent<BuffTextRePlace>().OnEnable();
+
+        if (SubDesc2.GetComponent<BuffTextRePlace>())
+            SubDesc2.GetComponent<BuffTextRePlace>().OnEnable();
 
         if (data.Buff_Ex1 == "0")
            SubDesc1.text = "";

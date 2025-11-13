@@ -4,6 +4,8 @@ public class SkillCard : Card
 {
     
     [SerializeField] GameObject Skill_Cut;
+
+    string animeCode;
     private void Start()
     {
         
@@ -13,9 +15,9 @@ public class SkillCard : Card
 
         if (CardID == null) return;
 
-        if ("SKILL1" == CardID) { CardAction = new SkillAction(this); }
-        if ("SKILL2" == CardID) { CardAction = new Skill2Action(this); }
-        if ("SKILL3" == CardID) { CardAction = new Skill3Action(this); }
+        if ("SKILL1" == CardID) { CardAction = new SkillAction(this); animeCode = "Skill1_Cut_Animation"; }
+        if ("SKILL2" == CardID) { CardAction = new Skill2Action(this); animeCode = "Skill2_Cut_Animation"; }
+        if ("SKILL3" == CardID) { CardAction = new Skill3Action(this); animeCode = "Skill2_Cut_Animation"; }
         Initialized(new SlotGroup());
     }
     public override void TargetExcute(Enemy Target, Card nextCard = null)
@@ -24,7 +26,7 @@ public class SkillCard : Card
 
         Skill_Cut?.SetActive(false);
         Skill_Cut?.SetActive(true);
-        Skill_Cut?.GetComponent<Animator>().Play("Skill1_Cut_Animation");
+        Skill_Cut?.GetComponent<Animator>().Play(animeCode);
 
 
 

@@ -7320,7 +7320,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.06}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -77.8, y: 72.4}
+  m_AnchoredPosition: {x: -77.80002, y: 72.400024}
   m_SizeDelta: {x: -210.9488, y: -188.1214}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8619874336156977262
@@ -8606,7 +8606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39, y: -20.000004}
+  m_AnchoredPosition: {x: 39, y: -20.000008}
   m_SizeDelta: {x: -13, y: -164.4395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4754958360716384201
@@ -8781,6 +8781,7 @@ GameObject:
   - component: {fileID: 5447617262788169240}
   - component: {fileID: 8434449076788330685}
   - component: {fileID: 1838901289059432734}
+  - component: {fileID: 3652689681150844928}
   m_Layer: 5
   m_Name: CardUpGradeView (2)
   m_TagString: Untagged
@@ -8985,6 +8986,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 3652689681150844928}
+        m_TargetAssemblyTypeName: EffectSystem, Assembly-CSharp
+        m_MethodName: PlayUIEventEffect
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UpgradeSelect
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &3652689681150844928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605241697002073765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03c640b5047b4d46b4463c934a51115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectData: {fileID: 11400000, guid: 90ef4c16e28d76e449a344a3d8a6aee8, type: 2}
 --- !u!1 &1653682568558732783
 GameObject:
   m_ObjectHideFlags: 0
@@ -9142,7 +9168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 199.1, y: -19.6}
+  m_AnchoredPosition: {x: 199.1, y: -19.600006}
   m_SizeDelta: {x: 431, y: 65}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &723901859184416651
@@ -9521,7 +9547,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 185.175, y: -0}
+  m_AnchoredPosition: {x: 185.175, y: 0}
   m_SizeDelta: {x: 370.35, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2643154373730362983
@@ -24416,7 +24442,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39, y: -20.000004}
+  m_AnchoredPosition: {x: 39, y: -20.000008}
   m_SizeDelta: {x: -13, y: -164.4395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4657174946944875072
@@ -27930,7 +27956,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39, y: -20.000004}
+  m_AnchoredPosition: {x: 39, y: -20.000008}
   m_SizeDelta: {x: -13, y: -164.4395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5268873808329216247
@@ -32984,7 +33010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39, y: -20.000004}
+  m_AnchoredPosition: {x: 39, y: -20.000008}
   m_SizeDelta: {x: -13, y: -164.4395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8424406525532101963
@@ -38405,7 +38431,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -23.4}
+  m_AnchoredPosition: {x: 0, y: -23.400002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5470895365603206192
@@ -39344,7 +39370,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39, y: -20.000004}
+  m_AnchoredPosition: {x: 39, y: -20.000008}
   m_SizeDelta: {x: -13, y: -164.4395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8232479230306647188
@@ -39996,7 +40022,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39, y: -20}
+  m_AnchoredPosition: {x: 39, y: -19.999992}
   m_SizeDelta: {x: -13, y: -164.4395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5458832287957856144
@@ -41226,6 +41252,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2778851553041955785}
+        m_TargetAssemblyTypeName: EffectSystem, Assembly-CSharp
+        m_MethodName: PlayUIEventEffect
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UpgradeSelect
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2778851553041955785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41495,6 +41533,7 @@ GameObject:
   - component: {fileID: 1604855643406969258}
   - component: {fileID: 4619064861142894952}
   - component: {fileID: 861588891555371800}
+  - component: {fileID: 3975655548021381449}
   m_Layer: 5
   m_Name: CardUpGradeView (1)
   m_TagString: Untagged
@@ -41699,6 +41738,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3975655548021381449}
+        m_TargetAssemblyTypeName: EffectSystem, Assembly-CSharp
+        m_MethodName: PlayUIEventEffect
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UpgradeSelect
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3975655548021381449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6439150825941243870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03c640b5047b4d46b4463c934a51115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectData: {fileID: 11400000, guid: 90ef4c16e28d76e449a344a3d8a6aee8, type: 2}
 --- !u!1 &6464093430691043911
 GameObject:
   m_ObjectHideFlags: 0
@@ -42196,7 +42260,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6611149326297886840}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
   m_Name: 

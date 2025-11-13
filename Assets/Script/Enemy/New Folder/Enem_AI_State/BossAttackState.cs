@@ -35,7 +35,7 @@ public class BossAttackState : BaseAIState
             enemy.EnemyData.CurrentSkillPoint = 0;
             aIBehavior.ChangeState(EnemySkill, unit, aIBehavior);
 
-            if (aIBehavior.GetType()== typeof( EnemyAI_HIPPOP_Behavior))
+            if (aIBehavior.GetType()== typeof( EnemyAI_CustomSkill2_Behavior))
             {
                 (aIBehavior as EnemyAI_HIPPOP_Behavior).SwapSkill();
             }

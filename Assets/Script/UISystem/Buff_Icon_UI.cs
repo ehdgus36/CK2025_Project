@@ -82,7 +82,7 @@ public class Buff_Icon_UI : MonoBehaviour
 
             }
 
-            if (buffTurn == "")// 남은 턴수가 0이면 지워주기
+            if (buffTurn == "0")// 남은 턴수가 0이면 지워주기
             {
                 Debug.Log("UI갱신");
 

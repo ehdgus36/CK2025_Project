@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -111,6 +109,8 @@ public class GameManager : MonoBehaviour
     public Button GetEndTurnButton { get { return EndTurnButton; } }
 
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
+
+    bool isClear = false;
     IEnumerator Initialize()
     {
         
@@ -208,19 +208,22 @@ public class GameManager : MonoBehaviour
         _FMODManagerSystem.PlayEffectSound("event:/UI/Fail_Stage");
 
 
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.35f);
         Player.gameObject.SetActive(false);
     }
 
 
     public void GameClearFun()
     {
+        isClear = true;
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.ResetTable();
         StartCoroutine(DeleyLoadScene());
     }
 
     IEnumerator DeleyLoadScene()
     {
-
+        UIAnime.Play("Hide_UIAnimation");
+        yield return new WaitForSeconds(.2f);
         yield return new WaitForSeconds(1f);
         yield return new WaitUntil(() => PlayerCardCastPlace.isByeByeStart == false );
 
@@ -230,7 +233,12 @@ public class GameManager : MonoBehaviour
 
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, gold);
-        _FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage"); // 클리어 사운드
+
+
+        GameManager.instance.ControlleCam.Play("DieCamAnime");
+
+        yield return new WaitForSeconds(.5f);
+
         GameClear.SetActive(true);
         Player.PlayerSave();
 
@@ -257,7 +265,7 @@ public class GameManager : MonoBehaviour
     {
         // 턴앤드 클릭시 TurnSwap함수 재생
 
-        if (Player.isDie == true) return;
+        if (Player.isDie == true || isClear == true) return;
 
         EndTurn();
         Metronome.AddOnceMetronomX4Event(() =>

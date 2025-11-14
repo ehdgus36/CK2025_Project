@@ -6,6 +6,7 @@ public class StickerSlot : SlotUI
 {
     [SerializeField] SlotGroup StickerInventory;
 
+    [SerializeField] GameObject objjj = null;
     public override void OnDrop(PointerEventData eventData)
     {
         if (StickerInventory == null) Debug.LogError(gameObject.name + "오브젝트에 인벤토리 설정이 안돼어 있습니다.");
@@ -16,6 +17,7 @@ public class StickerSlot : SlotUI
     {
         if (data.GetComponent<StickerItem>())
         {
+            objjj = data.gameObject;
             RuntimeManager.PlayOneShot("event:/UI/Item_Stage/Item_Set");
 
             //만약 자리에 타입이 같은 새로운 아이템이 들어오면 

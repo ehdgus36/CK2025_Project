@@ -52,6 +52,7 @@ public class ItemHoldSystem : MonoBehaviour
 
         if (HoldData.Count == 0) return;
 
+        Debug.Log("Hold : " + string.Join(", ", HoldData));
         //item 생성하는 코드
         for (int i = 0; i < slots.Length; i++)
         {

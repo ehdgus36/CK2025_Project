@@ -58,8 +58,11 @@ public class SettingSystem : MonoBehaviour
 
         Masterbus.setVolume(MasterVolume.value);
         BGMbus.setVolume(MasterVolume.value);
-        BGMbus.setVolume(MasterVolume.value);
+        FXbus.setVolume(MasterVolume.value);
 
+
+        float value = 0;
+        BGMbus.getVolume(out value);
 
         Masterbus = RuntimeManager.GetBus("bus:/");
         BGMbus = RuntimeManager.GetBus("bus:/BGM");

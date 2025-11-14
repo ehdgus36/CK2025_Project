@@ -66,7 +66,7 @@ public class ClearSystem : MonoBehaviour
                 List<String> list = new List<String>();
                 GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, out list);
 
-                list.Add(randstr);
+                list[list.IndexOf("0")] = randstr;
                 GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, list);
             }
 
@@ -77,8 +77,8 @@ public class ClearSystem : MonoBehaviour
                 List<String> list = new List<String>();
                 GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, out list);
 
-                list.Add(randstr);
-                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, list);
+                list[list.IndexOf("0")] = randstr;
+                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, list);
             }
 
             if (data is StringItemData)
@@ -88,8 +88,8 @@ public class ClearSystem : MonoBehaviour
                 List<String> list = new List<String>();
                 GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, out list);
 
-                list.Add(randstr);
-                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, list);
+                list[list.IndexOf("0")] = randstr;
+                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, list);
             }
 
             itemImage.sprite = cardSprite;
@@ -102,10 +102,7 @@ public class ClearSystem : MonoBehaviour
 
     IEnumerator ClearSequence()
     {
-        GameManager.instance.ControlleCam.Play("DieCamAnime");
-
-        yield return new WaitForSeconds(.5f);
-
+      
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage");
         ClearView?.SetActive(true);
         yield return new WaitUntil(() => ClearView.activeSelf == false);

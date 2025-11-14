@@ -123,19 +123,24 @@ public class ItemInventorySystem : MonoBehaviour
 
         if (_StickerItemSlotGroup.gameObject.activeSelf == true)
         {
+            
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, out Data);
+
+            Debug.Log("sticker : "+string.Join(", ", Data));
             CreateInventoryItem(_StickerItemSlotGroup, Data);
         }
 
         if (_StrapItemSlotGroup.gameObject.activeSelf == true)
         {
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, out Data);
+            Debug.Log("strap : " + string.Join(", ", Data));
             CreateInventoryItem(_StrapItemSlotGroup, Data);
         }
 
         if (_StringItemSlotGroup.gameObject.activeSelf == true)
         {
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, out Data);
+            Debug.Log("string : " + string.Join(", ", Data));
             CreateInventoryItem(_StringItemSlotGroup, Data);
         }
 
@@ -184,7 +189,10 @@ public class ItemInventorySystem : MonoBehaviour
         for (int i = 0; i < _StickerItemSlotGroup.Getsloat().Length; i++)
         {
             inventoryData.Add(_StickerItemSlotGroup.Getsloat()[i].ReadData<Item>() != null ? _StickerItemSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode : "0");
+            Debug.Log(_StickerItemSlotGroup.Getsloat()[i].ReadData<Item>() != null ? _StickerItemSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode : "0");
         }
+
+        Debug.Log("stickerInvan : " + string.Join(", ", inventoryData));
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, inventoryData);
 
@@ -196,6 +204,7 @@ public class ItemInventorySystem : MonoBehaviour
             inventoryData.Add(_StrapItemSlotGroup.Getsloat()[i].ReadData<Item>() != null ? _StrapItemSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode :"0");
         }
 
+        Debug.Log("strapInvan : " + string.Join(", ", inventoryData));
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, inventoryData);
 
 
@@ -206,6 +215,7 @@ public class ItemInventorySystem : MonoBehaviour
             inventoryData.Add(_StringItemSlotGroup.Getsloat()[i].ReadData<Item>() != null ? _StringItemSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode : "0");
         }
 
+        Debug.Log("stringInvan : " + string.Join(", ", inventoryData));
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, inventoryData);
 
     }

@@ -172,7 +172,7 @@ namespace GameDataSystem
         static void Initialize()
         {
             //플레이어 기본 스펙정의
-            StaticGameDataSchema.StartPlayerData.MaxHp = 100;
+            StaticGameDataSchema.StartPlayerData.MaxHp = 1;
             StaticGameDataSchema.StartPlayerData.CurrentHp = StaticGameDataSchema.StartPlayerData.MaxHp;
             StaticGameDataSchema.StartPlayerData.DataKey = DynamicGameDataKeys.PLAYER_UNIT_DATA;
 
@@ -196,7 +196,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.RAND_ITEM_DATA, new List<string>() { "It01", "It02", "It03", "It11", "It12", "It13", "It31", "It32", "It33" });
           
 
-            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "It13", "0" });
+            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();

@@ -54,7 +54,7 @@ public class EnemyAI_Custom_Behavior: EnemyAIBehavior
 public class EnemyAI_CustomSkill2_Behavior : EnemyAI_HIPPOP_Behavior
 {
 
-    int attackCount = 1;
+    
     public EnemyAI_CustomSkill2_Behavior(BaseAIState Skill, BaseAIState Skill2)
     {
         EnemySkillState = Skill;
@@ -107,6 +107,7 @@ public class EnemyAI_Test_Behavior : EnemyAIBehavior
         EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
     }
 }
+
 
 public class EnemyAI_HIPPOP_Behavior : EnemyAIBehavior
 {

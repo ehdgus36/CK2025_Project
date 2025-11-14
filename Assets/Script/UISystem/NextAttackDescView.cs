@@ -11,7 +11,6 @@ public class NextAttackDescView : MonoBehaviour
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(this.GetComponent<RectTransform>());
         StartCoroutine(sort());
-
     }
 
     IEnumerator sort()

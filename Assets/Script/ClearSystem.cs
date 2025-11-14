@@ -102,6 +102,10 @@ public class ClearSystem : MonoBehaviour
 
     IEnumerator ClearSequence()
     {
+        GameManager.instance.ControlleCam.Play("DieCamAnime");
+
+        yield return new WaitForSeconds(.5f);
+
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage");
         ClearView?.SetActive(true);
         yield return new WaitUntil(() => ClearView.activeSelf == false);

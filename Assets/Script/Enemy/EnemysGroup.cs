@@ -73,7 +73,9 @@ public class EnemysGroup : Unit
             startEnemy.StartTurn();
             yield return new WaitUntil(() => startEnemy.isAttackEnd == true || startEnemy.isDie == true);
             if (startEnemy.isDie == false)i++;
-            yield return new WaitForSeconds(.5f);
+            if (GameManager.instance.Player.isDie == true) break;
+
+           yield return new WaitForSeconds(.5f);
         }
 
         yield return new WaitForSeconds(.5f);

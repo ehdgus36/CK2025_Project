@@ -192,10 +192,26 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameFail()
-    { 
+    {
+        StartCoroutine(FaillDeleyLoadScene());
+    }
+
+    IEnumerator FaillDeleyLoadScene()
+    {
+        UIAnime.Play("Hide_UIAnimation");
+        yield return new WaitForSeconds(.2f);
+        _ControlleCam.Play("DieCamAnime");
+        Player.PlayerAnimator.PlayAnimation("Die_Ani");
+        yield return new WaitForSeconds(1.5f);
+
         GameOver.SetActive(true);
         _FMODManagerSystem.PlayEffectSound("event:/UI/Fail_Stage");
+
+
+        yield return new WaitForSeconds(.2f);
+        Player.gameObject.SetActive(false);
     }
+
 
     public void GameClearFun()
     {
@@ -240,6 +256,8 @@ public class GameManager : MonoBehaviour
     public void TurnSwap()
     {
         // 턴앤드 클릭시 TurnSwap함수 재생
+
+        if (Player.isDie == true) return;
 
         EndTurn();
         Metronome.AddOnceMetronomX4Event(() =>

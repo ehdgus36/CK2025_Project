@@ -26,7 +26,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     //노트 버프
 
-
+    public bool isDie { get; private set; }
 
     public void MaxButtonDisable()    
     {
@@ -42,6 +42,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
     {
         UnitData.DataKey = GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA;
 
+        isDie = false; 
 
         StartPlayerPos = this.transform.position;
         
@@ -52,8 +53,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
 
         UnitData.MaxHp = Mathf.Clamp(UnitData.MaxHp + GameManager.instance.ItemDataLoader.strapData.PC_HP , 0 , 130);
-        Debug.Log("제바 제발" + GameManager.instance.ItemDataLoader.strapData.PC_HP);
-        Debug.Log("제발 제발 플레이어 체력" + UnitData.MaxHp);
+        
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
 
 
@@ -61,7 +61,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         StaticGameDataSchema.CARD_DATA_BASE.ResetTable();
 
         StartTurnEvent += () => {
-            Debug.Log("체력 감소 아이템" + GameManager.instance.ItemDataLoader.strapData.Card_Damage);
+           
             StaticGameDataSchema.CARD_DATA_BASE.LossValueDamage(GameManager.instance.ItemDataLoader.strapData.Card_Damage, new List<Card>());
             StaticGameDataSchema.CARD_DATA_BASE.LossValueRecoverHP(GameManager.instance.ItemDataLoader.strapData.Card_HP_Recover, new List<Card>());
 
@@ -109,6 +109,22 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     void PlayerDieEvent()
     {
+        AnimationSystem?.PlayAnimation("hit");
+
+        //카메라 효과 , 사운드 , 이펙트효과
+        GameManager.instance.Shake.PlayShake();
+        GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true, 0.2f, 0.0f, 0.2f);
+        //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Hurt");
+
+        _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
+
+        //UI 갱신
+        DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
+
+        //fontSystem.FontConvert(damage.ToString());
+
+        isDie = true;
+
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Die");
         GameManager.instance.GameFail();
     }

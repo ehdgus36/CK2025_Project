@@ -53,7 +53,7 @@ public class NextAttackUIView : MonoBehaviour
             EnemyAction = enemyAIBehavior.GetEnemyDefaultAttackState;
         }
 
-        Debug.Log("공격력 수치" + viewDamage);
+      
 
         switch (EnemyAction)
         {

@@ -14,7 +14,7 @@ public class ManaBankUIView : DynamicUIObject
     private void OnEnable()
     {
         Skill_Bar = ManaBankFill.material;
-        GameObject.Find("Skill_Cut").gameObject.SetActive(false);
+        GameObject.Find("Skill_Cut").gameObject?.SetActive(false);
         SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = false;
         //내부 프로퍼티만 초기화
 

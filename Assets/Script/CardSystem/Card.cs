@@ -138,52 +138,52 @@ public class Card : MonoBehaviour
     public void CardActionInitialized(string cardID)
     {
 
-        if ("C0011" == cardID) { CardAction = new SingleAttackAction(this); }
-        if ("C0012" == cardID) { CardAction = new SingleAttackAction(this); }
-        if ("C0021" == cardID) { CardAction = new NoteBombAction(this); }
-        if ("C0022" == cardID) { CardAction = new NoteBombAction(this); }
-        if ("C0031" == cardID) { CardAction = new GetBarrierAction(this); }
-        if ("C0032" == cardID) { CardAction = new GetBarrierAction(this); }
-        if ("C0041" == cardID) { CardAction = new RecoverAction(this); }
-        if ("C0042" == cardID) { CardAction = new RecoverAction(this); }
-        if ("C1011" == cardID) { CardAction = new PowerBreakAction(this); }
-        if ("C1012" == cardID) { CardAction = new PowerBreakAction(this); }
-        if ("C1021" == cardID) { CardAction = new SoloAction(this); }
-        if ("C1022" == cardID) { CardAction = new SoloAction(this); }
-        if ("C1031" == cardID) { CardAction = new VolumeShieldAction(this); }
-        if ("C1032" == cardID) { CardAction = new VolumeShieldAction(this); }
-        if ("C1041" == cardID) { CardAction = new DistortionAction(this); }
-        if ("C1042" == cardID) { CardAction = new DistortionAction(this); }
-        if ("C1051" == cardID) { CardAction = new FireStrokeAction(this); }
-        if ("C1052" == cardID) { CardAction = new FireStrokeAction(this); }
-        if ("C1061" == cardID) { CardAction = new SoftEchoAction(this); }
-        if ("C1062" == cardID) { CardAction = new SoftEchoAction(this); }
-        if ("C1071" == cardID) { CardAction = new EnergizerAction(this); }
-        if ("C1072" == cardID) { CardAction = new EnergizerAction(this); }
-        if ("C2011" == cardID) { CardAction = new WildRiffAction(this); }
-        if ("C2012" == cardID) { CardAction = new WildRiffAction(this); }
-        if ("C2021" == cardID) { CardAction = new FreestyleSoloAction(this); }
-        if ("C2022" == cardID) { CardAction = new FreestyleSoloAction(this); }
-        if ("C2031" == cardID) { CardAction = new CursedShieldAction(this); }
-        if ("C2032" == cardID) { CardAction = new CursedShieldAction(this); }
-        if ("C2041" == cardID) { CardAction = new BurningStageAction(this); }
-        if ("C2042" == cardID) { CardAction = new BurningStageAction(this); }
-        if ("C2051" == cardID) { CardAction = new BuildUpAction(this); }
-        if ("C2052" == cardID) { CardAction = new BuildUpAction(this); }
-        if ("C2061" == cardID) { CardAction = new EncoreAction(this); }
-        if ("C2062" == cardID) { CardAction = new EncoreAction(this); }
-        if ("C3011" == cardID) { CardAction = new LegendarySoloAction(this); }
-        if ("C3012" == cardID) { CardAction = new LegendarySoloAction(this); }
-        if ("C3021" == cardID) { CardAction = new RockSpiritAction(this); }
-        if ("C3022" == cardID) { CardAction = new RockSpiritAction(this); }
-        if ("C3031" == cardID) { CardAction = new STFUAction(this); }
-        if ("C3032" == cardID) { CardAction = new STFUAction(this); }
-        if ("C3041" == cardID) { CardAction = new HellfireAction(this); }
-        if ("C3042" == cardID) { CardAction = new HellfireAction(this); }
-        if ("C3051" == cardID) { CardAction = new BlessingofRockAction(this); }
-        if ("C3052" == cardID) { CardAction = new BlessingofRockAction(this); }
-        if ("C3061" == cardID) { CardAction = new SoulShoutingAction(this); }
-        if ("C3062" == cardID) { CardAction = new SoulShoutingAction(this); }
+        if ("CA0011" == cardID) { CardAction = new SingleAttackAction(this); }
+        if ("CA0012" == cardID) { CardAction = new SingleAttackAction(this); }
+        if ("CA0021" == cardID) { CardAction = new NoteBombAction(this); }
+        if ("CA0022" == cardID) { CardAction = new NoteBombAction(this); }
+        if ("CB0031" == cardID) { CardAction = new GetBarrierAction(this); }
+        if ("CB0032" == cardID) { CardAction = new GetBarrierAction(this); }
+        if ("CB0041" == cardID) { CardAction = new RecoverAction(this); }
+        if ("CB0042" == cardID) { CardAction = new RecoverAction(this); }
+        if ("CA1011" == cardID) { CardAction = new PowerBreakAction(this); }
+        if ("CA1012" == cardID) { CardAction = new PowerBreakAction(this); }
+        if ("CA1021" == cardID) { CardAction = new SoloAction(this); }
+        if ("CA1022" == cardID) { CardAction = new SoloAction(this); }
+        if ("CB1031" == cardID) { CardAction = new VolumeShieldAction(this); }
+        if ("CB1032" == cardID) { CardAction = new VolumeShieldAction(this); }
+        if ("CD1041" == cardID) { CardAction = new DistortionAction(this); }
+        if ("CD1042" == cardID) { CardAction = new DistortionAction(this); }
+        if ("CD1051" == cardID) { CardAction = new FireStrokeAction(this); }
+        if ("CD1052" == cardID) { CardAction = new FireStrokeAction(this); }
+        if ("CB1061" == cardID) { CardAction = new SoftEchoAction(this); }
+        if ("CB1062" == cardID) { CardAction = new SoftEchoAction(this); }
+        if ("CB1071" == cardID) { CardAction = new EnergizerAction(this); }
+        if ("CB1072" == cardID) { CardAction = new EnergizerAction(this); }
+        if ("" == cardID) { CardAction = new WildRiffAction(this); }
+        if ("" == cardID) { CardAction = new WildRiffAction(this); }
+        if ("CA2021" == cardID) { CardAction = new FreestyleSoloAction(this); }
+        if ("CA2022" == cardID) { CardAction = new FreestyleSoloAction(this); }
+        if ("CD2031" == cardID) { CardAction = new CursedShieldAction(this); }
+        if ("CD2032" == cardID) { CardAction = new CursedShieldAction(this); }
+        if ("CD2041" == cardID) { CardAction = new BurningStageAction(this); }
+        if ("CD2042" == cardID) { CardAction = new BurningStageAction(this); }
+        if ("CB2051" == cardID) { CardAction = new BuildUpAction(this); }
+        if ("CB2052" == cardID) { CardAction = new BuildUpAction(this); }
+        if ("CD2061" == cardID) { CardAction = new EncoreAction(this); }
+        if ("CD2062" == cardID) { CardAction = new EncoreAction(this); }
+        if ("CA3011" == cardID) { CardAction = new LegendarySoloAction(this); }
+        if ("CA3012" == cardID) { CardAction = new LegendarySoloAction(this); }
+        if ("CB3021" == cardID) { CardAction = new RockSpiritAction(this); }
+        if ("CB3022" == cardID) { CardAction = new RockSpiritAction(this); }
+        if ("CD3031" == cardID) { CardAction = new STFUAction(this); }
+        if ("CD3032" == cardID) { CardAction = new STFUAction(this); }
+        if ("CD3041" == cardID) { CardAction = new HellfireAction(this); }
+        if ("CD3042" == cardID) { CardAction = new HellfireAction(this); }
+        if ("CD3051" == cardID) { CardAction = new BlessingofRockAction(this); }
+        if ("CD3052" == cardID) { CardAction = new BlessingofRockAction(this); }
+        if ("CA3061" == cardID) { CardAction = new SoulShoutingAction(this); }
+        if ("CA3062" == cardID) { CardAction = new SoulShoutingAction(this); }
 
         if (this.gameObject.GetComponent<DragDropUI>() != null)
         {
@@ -248,3 +248,4 @@ public class Card : MonoBehaviour
         SetOutLineColor(new Color(1, 1, 1, 0));
     }
 }
+

@@ -7,8 +7,8 @@ using System.Collections.Generic;
 /// </summary>
 public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
-    int ADD_CoinCount;
-    int Damage = 0;
+    public int ADD_CoinCount { get; private set; }
+    public int Damage { get; private set; }
 
     public EnemySkill_DMG_Gold_State(int attackCount, int AddCoinCount, int damage = 0) : base(attackCount) { 
     
@@ -25,6 +25,13 @@ public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // 때린 데�
     {
 
         Enemy enemy = (Enemy)unit;
+
+        //사운드
+        if (enemy.EnemyData.Enemy_ID == "E12")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hip_Hop_Boss/Money_Attack");
+            animeCode = "Skill2_Ani";
+        }
 
         isAttackEndControll = false;
         AttackDamage = Damage;
@@ -108,6 +115,14 @@ public class EnemySkill_Buff_Burnout_State : EnemySkill_MultiAttack_State // 때�
 
         Enemy enemy = (Enemy)unit;
 
+
+        //사운드
+        if (enemy.EnemyData.Enemy_ID == "E12")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hip_Hop_Boss/Fire_Attack");
+            animeCode = "Skill_Ani";
+        }
+
         isAttackEndControll = false;
         yield return base.Excut(unit, aIBehavior);
 
@@ -150,6 +165,14 @@ public class EnemySkill_HP_Volumeup_State : EnemySkill_MultiAttack_State // 때린
 
         Enemy enemy = (Enemy)unit;
 
+
+        if (enemy.EnemyData.Enemy_ID == "E09" || enemy.EnemyData.Enemy_ID == "E11")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Hiphop_Monster/Speaker_Attack");
+            animeCode = "Skill_Ani";
+        }
+
+
         // 데미지 상승, 체력감소
         enemy.EnemyData.CurrentDamage += VolumeUP_Value;
         enemy.AddBuff(new VolumeUPBuff(BuffType.End, VolumeUP_Value));
@@ -184,9 +207,10 @@ public class EnemySkill_Heal_Lowest_State : EnemySkill_MultiAttack_State // 때린
 
     float HP_Percent = .2f;
 
-    public EnemySkill_Heal_Lowest_State(int attackCount , int damage) : base(attackCount , damage)
+    public EnemySkill_Heal_Lowest_State(int attackCount , int damage , float hp) : base(attackCount , damage)
     {
         Damage = damage;
+        HP_Percent = hp;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
@@ -238,7 +262,7 @@ public class EnemySkill_Heal_Lowest_State : EnemySkill_MultiAttack_State // 때린
 public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
 {
 
-    int PoisonBuffTurn = 4;
+    public int PoisonBuffTurn { get; private set; } 
 
     public EnemySkill_PoisonAttack_State(int attackCount , int Turn) : base(attackCount)
     {
@@ -254,8 +278,13 @@ public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // 때�
     {
 
         Enemy enemy = (Enemy)unit;
+        if (enemy.EnemyData.Enemy_ID == "E22" || enemy.EnemyData.Enemy_ID == "E25")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Monster/Poison_Attack");
+            animeCode = "Skill_Ani";
+        }
 
-       
+
         //데미지 주기
         yield return new WaitForSeconds(.2f);
 
@@ -332,6 +361,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
 {
     int Barrier_Value;
     int Damage = 0;
+    Vector3 startPos;
 
     public EnemySkill_BarrierAttack_State(int attackCount, int barrier , int customDamage = 0) : base(attackCount , customDamage)
     {
@@ -349,7 +379,14 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
     {
 
         Enemy enemy = (Enemy)unit;
-        enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value;
+       
+
+        if (enemy.EnemyData.Enemy_ID == "E29" )
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Jump_Attack");
+           
+        }
+
         //이펙트 넣기
 
         yield return new WaitForSeconds(.2f);
@@ -357,9 +394,17 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
         // 데이미지 주기
         isAttackEndControll = false;
         AttackDamage = Damage;
-        yield return base.Excut(unit, aIBehavior);
+
+        startPos = enemy.transform.position;
+
+        enemy.transform.position = GameManager.instance.Player.transform.position + enemy.AttackOffset;
+
+        enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, 5, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, null);
+        
 
         yield return new WaitForSeconds(.1f);
+
+        enemy.transform.position = startPos;
 
         enemy.isAttackEnd = true; // 공격함
         yield return null;
@@ -392,6 +437,12 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
 
         Enemy enemy = (Enemy)unit;
 
+        if (enemy.EnemyData.Enemy_ID == "E29")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
+            animeCode = "Skill2_Ani";
+        }
+
         //볼륨업
         for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
         {
@@ -403,7 +454,9 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
 
         GameManager.instance.Player.AddBuff(new VolumeUPBuff(BuffType.End, VolumeUP_Value));
 
-       
+     
+
+
         //이펙트 넣기
 
         yield return new WaitForSeconds(.2f);
@@ -411,6 +464,9 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
         // 데이미지 주기
         isAttackEndControll = false;
         AttackDamage = Damage;
+
+        
+    
         yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);
@@ -449,6 +505,13 @@ public class EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State : EnemySkill_Mu
     {
 
         Enemy enemy = (Enemy)unit;
+
+
+        if (enemy.EnemyData.Enemy_ID == "E41")
+        {
+            //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
+            animeCode = "Skill2_Ani";
+        }
 
         //가시
         Buff buff = new BarbedArmorBuff(BuffType.Start, BarbedArmorTurn);

@@ -15,6 +15,8 @@ public class StringItem : Item, IPointerDownHandler
         GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(ItemID, out data);
         StringItemData stringItemData = (StringItemData)data;
 
+        GetComponent<RectTransform>().sizeDelta = new Vector2(115.2f, 115.2f);
+
         string Path = "ItemImage/" + stringItemData.ItemImage;
         Sprite cardSprite = Resources.Load<Sprite>(Path);
 

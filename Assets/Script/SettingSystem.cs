@@ -100,6 +100,6 @@ public class SettingSystem : MonoBehaviour
     }
     void FXChangeValueEvent(Single value)
     {
-        BGMbus.setVolume((float)value);
+        FXbus.setVolume((float)value);
     }
 }

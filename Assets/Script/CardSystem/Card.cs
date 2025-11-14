@@ -68,7 +68,14 @@ public class Card : MonoBehaviour
 
         CardActionInitialized(cardData.Card_ID);
 
-
+        if (effectSystem != null)
+        {
+            effectSystem.StopEffect("CardHold_Effect");
+            effectSystem.StopEffect("CardHold_Effect");
+            effectSystem.StopEffect("CardHold_Effect_Epic");
+            effectSystem.StopEffect("CardHold_Effect_Legend");
+        }
+      
         SetOutLineColor(Color.white);
     }
 
@@ -107,7 +114,7 @@ public class Card : MonoBehaviour
         //Material instanceMaterial = new Material(BaseMaterial);
         if (cardSprite != null)
         {
-           
+
             //instanceMaterial.SetTexture("_OverlayTex", cardSprite.texture);
         }
 
@@ -115,7 +122,7 @@ public class Card : MonoBehaviour
         {
             //cardImage.material = instanceMaterial;
             cardImage.sprite = cardSprite;
-            
+
             SetOutLineColor(Color.white);
         }
 
@@ -123,7 +130,7 @@ public class Card : MonoBehaviour
 
         this.gameObject.name = cardData.Card_Name_EN;
 
-        if(effectSystem == null) effectSystem = GetComponent<EffectSystem>();
+        if (effectSystem == null) effectSystem = GetComponent<EffectSystem>();
 
         CardActionInitialized(cardID);
     }
@@ -183,7 +190,7 @@ public class Card : MonoBehaviour
             if (cardData.Target_Type == "2") this.gameObject.GetComponent<DragDropUI>().enabled = false;
             else this.gameObject.GetComponent<DragDropUI>().enabled = true;
         }
-       
+
     }
 
     public virtual void TargetExcute(Enemy Target, Card nextCard = null)
@@ -205,16 +212,19 @@ public class Card : MonoBehaviour
         }
         //if (nextCard != null) nextCard.DamageBuff = cardData.Damage_Buff; // 조건문 만족시 버프 추가
 
-       
+
         EnemyTarget = Target;
 
-        
+
         StartCoroutine(DelayCard());
 
     }
 
     IEnumerator DelayCard()
     {
+
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/PC_Start_ATK");
+
         yield return new WaitForSeconds(.5f);
         GameManager.instance.FMODManagerSystem.PlayEffectSound(cardData.Sound_Code);
         StartCoroutine(CardAction.StartAction(GameManager.instance.Player, this, this.cardData, EnemyTarget));
@@ -228,13 +238,13 @@ public class Card : MonoBehaviour
         {
             GetComponent<Image>().color = color;
         }
-            
+
     }
 
 
     public void DisableCard()
     {
-        
+
         SetOutLineColor(new Color(1, 1, 1, 0));
     }
 }

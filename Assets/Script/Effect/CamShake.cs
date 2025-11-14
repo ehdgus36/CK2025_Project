@@ -14,6 +14,7 @@ public class CamShake : MonoBehaviour
     }
     IEnumerator Shake(float duration)
     {
+        GetComponent<Animator>().enabled = false;
         float halfDuration = duration / 2;
         float elapsed = 0f;
         float tick = Random.Range(-10f, 10f);
@@ -32,5 +33,6 @@ public class CamShake : MonoBehaviour
         }
 
         transform.position = new Vector3(0, 0, -13.0f);
+        GetComponent<Animator>().enabled = true;
     }
 }

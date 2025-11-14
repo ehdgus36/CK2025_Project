@@ -13,8 +13,9 @@ public abstract class Item : MonoBehaviour
     {
         if (ItemID != "" && ItemID != "0")
         {
-            Initialized();
+            
             GetComponent<RectTransform>().sizeDelta = new Vector3(128f, 128f);
+            Initialized();
         }
     }
 

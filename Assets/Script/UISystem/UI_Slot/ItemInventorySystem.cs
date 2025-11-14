@@ -151,7 +151,7 @@ public class ItemInventorySystem : MonoBehaviour
             if (Data[i] == "0") continue; 
 
             GameObject itemobj = new GameObject("PlayerInvenItem");
-            itemobj.AddComponent<RectTransform>().sizeDelta = new Vector3(128f, 128f);
+            itemobj.AddComponent<RectTransform>().sizeDelta = new Vector2(128f, 128f);
             itemobj.AddComponent<Image>();
             itemobj.AddComponent<DragDropUI>();
             itemobj.AddComponent<CanvasGroup>();

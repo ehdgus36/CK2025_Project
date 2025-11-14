@@ -29,7 +29,14 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         canvas = GetComponentInParent<Canvas>();
 
 
-        card?.EffectSystem?.PlayEffect("CardHold_Effect", card.transform, new Vector3(62,62,62));
+        string cardEffecCode = "";
+
+        if (card.cardData.Card_Rank == 0) cardEffecCode = "CardHold_Effect";
+        if (card.cardData.Card_Rank == 1) cardEffecCode = "CardHold_Effect";
+        if (card.cardData.Card_Rank == 2) cardEffecCode = "CardHold_Effect_Epic";
+        if (card.cardData.Card_Rank == 3) cardEffecCode = "CardHold_Effect_Legend";
+
+        card?.EffectSystem?.PlayEffect(cardEffecCode, card.transform, new Vector3(62,62,62));
 
 
         GetComponent<HoverEffectUI>()?.HoldEffect(true);
@@ -63,6 +70,11 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         {
             GameManager.instance.DimBackGroundObject.gameObject.SetActive(false);
             card?.EffectSystem?.StopEffect("CardHold_Effect");
+            card?.EffectSystem?.StopEffect("CardHold_Effect_Epic");
+            card?.EffectSystem?.StopEffect("CardHold_Effect_Legend");
+
+
+            
             GetComponent<HoverEffectUI>()?.HoldEffect(false);
             GetComponent<RectTransform>().sizeDelta = new Vector2(150f, 150f);
         }

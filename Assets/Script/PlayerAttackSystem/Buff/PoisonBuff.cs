@@ -35,7 +35,7 @@ public class PoisonBuff : Buff
 
     public override Buff Clone()
     {
-        return new FireBuff(type, GetBuffDurationTurn(), Damage);
+        return new PoisonBuff(type, GetBuffDurationTurn(), Damage);
     }
 }
 

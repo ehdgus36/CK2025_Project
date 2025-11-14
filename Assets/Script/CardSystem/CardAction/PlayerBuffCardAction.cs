@@ -135,7 +135,7 @@ public class BurningStageAction : PlayerBaseCardAction
 
         for (int i = 0; i < enemies.Count; i++)
         { 
-            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", Target.transform.position);
+            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", enemies[i].transform.position);
             enemies[i].AddBuff(cardData.CardBuff);
         }
         

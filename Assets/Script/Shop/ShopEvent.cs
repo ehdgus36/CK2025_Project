@@ -164,7 +164,7 @@ public class ShopEvent : MonoBehaviour
         int itemPrice = data.Price;
         if (ItemDataLoader.strapData.Shop_Sale > 0)
         {
-            itemPrice = Mathf.RoundToInt((float)data.Price / (float)ItemDataLoader.strapData.Shop_Sale);
+            itemPrice = Mathf.RoundToInt(((float)data.Price * ((100f - (float)ItemDataLoader.strapData.Shop_Sale) / 100f)));
         }
 
 

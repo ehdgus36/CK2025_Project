@@ -60,7 +60,7 @@ public class RhythmInput : MonoBehaviour
         SuccessNoteEvent += (obj) =>
         {
             GameManager.instance.Player.AddBarrier(1);
-            GameManager.instance.Player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", GameManager.instance.Player.transform.position);
+            GameManager.instance.Player.PlayerEffectSystem.PlayEffect("PlusRhythmShield_Effect", GameManager.instance.Player.transform.position);
         };
     }
 
@@ -153,7 +153,7 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) && inputInstanceNote.Count != 0  && inputInstanceNote[0].mouseInput == 0)
+            else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.D)) && inputInstanceNote.Count != 0  && inputInstanceNote[0].mouseInput == 0)
             {
                 if (inputInstanceNote[0].good)
                 {
@@ -181,7 +181,7 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow) && inputInstanceNote.Count != 0 && inputInstanceNote[0].mouseInput == 1)
+            else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.A)) && inputInstanceNote.Count != 0 && inputInstanceNote[0].mouseInput == 1)
             {
                 if (inputInstanceNote[0].good)
                 {

@@ -1,19 +1,39 @@
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FireBuff : Buff
 {
+   
+
     protected int Damage = 0;
-  
+
+    static int getValue = 0;
+
+    public static int GetBuffValue
+    {
+        get
+        {
+            int plusValue = 0;
+            if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Burn")
+            {
+                plusValue = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+            }
+            return getValue + plusValue;
+        }
+    }
+
     public FireBuff(BuffType type, int buffDurationTurn , int damage) : base(type, buffDurationTurn)
     {
         Damage = damage;
+        getValue = Damage;
     }
 
     public override void BuffEndEvent(Unit unit){ }
 
     public override void BuffEvent(Unit unit)
     {
-
+       
         int ItemAddDamage = 0;
         if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Burn")
         {
@@ -33,8 +53,6 @@ public class FireBuff : Buff
             
             unit.GetComponent<Player>()?.TakeDamage(unit, Damage);
             unit.GetComponent<Player>()?.PlayerEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
-
-            
         }
 
       

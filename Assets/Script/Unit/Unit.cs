@@ -103,6 +103,8 @@ public class Unit : MonoBehaviour
 
     public virtual void AddBuff(Buff buff)
     {
+        if (buff == null) return;
+
         if (HellfireAction.isHellFire == true)
         {
             if (buff.GetType() == typeof(FireBuff))
@@ -181,7 +183,7 @@ public class Unit : MonoBehaviour
 
         for (int i = 0; i < UnitData.buffs.Count; i++)
         {
-            if (UnitData.buffs[i].GetBuffDurationTurn() <= 0)
+            if (UnitData.buffs[i].GetBuffDurationTurn() < 0)
             {
                 RemoveBuff(UnitData.buffs[i]);  
             }

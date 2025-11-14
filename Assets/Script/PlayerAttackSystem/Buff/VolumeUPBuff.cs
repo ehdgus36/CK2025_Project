@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class VolumeUPBuff : Buff
@@ -23,6 +24,13 @@ public class VolumeUPBuff : Buff
 
     public override void PreviewBuffEffect<T>(T value, out T outobject)
     {
+        int damage = Convert.ToInt32(value);
+
+       
+        damage += BuffDurationTurn;
+
+        value = (T)Convert.ChangeType(damage, typeof(T));
+
         outobject = value;
     }
 

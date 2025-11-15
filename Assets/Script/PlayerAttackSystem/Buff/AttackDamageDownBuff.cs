@@ -17,9 +17,14 @@ public class AttackDamageDownBuff : Buff
         get
         {
             int plusValue = 0;
-            if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Weak")
+            if (GameManager.instance != null)
             {
-                plusValue = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+
+
+                if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Weak")
+                {
+                    plusValue = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+                }
             }
             return getValue + plusValue;
         }
@@ -133,15 +138,7 @@ public class AttackDamageDownBuff_Mute : Buff
 
     public override void PreviewBuffEffect<T>(T value, out T outobject)
     {
-        int damage = Convert.ToInt32(value);
-
-        float downPercent = DownPercent + GameManager.instance.ItemDataLoader.EnDf_Down;
-
-        Down_Attack = (int)((float)damage * (downPercent / 100f));
-
-        damage -= Down_Attack;
-
-        value = (T)Convert.ChangeType(damage, typeof(T));
+        value = (T)Convert.ChangeType(0, typeof(T));
 
         outobject = value;
     }

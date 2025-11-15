@@ -146,6 +146,10 @@ public class PlayerCardView : MonoBehaviour
 
         switch (data.Card_Rank)
         {
+            case 0:
+                CardRank.text = "일반 등급";
+                break;
+
             case 1:
                 CardRank.text = "일반 등급";
 

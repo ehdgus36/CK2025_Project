@@ -28,6 +28,7 @@ public class SettingSystem : MonoBehaviour
     Bus Masterbus;
     Bus BGMbus;
     Bus FXbus;
+    float[] SoundData;
 
     private void Awake()
     {
@@ -51,14 +52,20 @@ public class SettingSystem : MonoBehaviour
         });
 
 
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<float[]>(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, out SoundData);
+
+        MasterVolume.value = SoundData[0];
+        BackGroundVolume.value = SoundData[1];
+        EffectVolume.value = SoundData[2];
+
         MasterVolume.onValueChanged.AddListener(MasterChangeValueEvent);
         BackGroundVolume.onValueChanged.AddListener(BGMChangeValueEvent);
         EffectVolume.onValueChanged.AddListener(FXChangeValueEvent);
 
 
         Masterbus.setVolume(MasterVolume.value);
-        BGMbus.setVolume(MasterVolume.value);
-        FXbus.setVolume(MasterVolume.value);
+        BGMbus.setVolume(BackGroundVolume.value);
+        FXbus.setVolume(EffectVolume.value);
 
 
         float value = 0;

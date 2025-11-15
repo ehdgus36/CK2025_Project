@@ -36,6 +36,8 @@ namespace GameDataSystem.KeyCode
 
         public static readonly string RAND_ITEM_DATA = "RAND_ITEM_DATA";
 
+        public static readonly string SOUNDVIEW_DATA = "SOUNDVIEW_DATA";
+
 
 
     }
@@ -197,6 +199,9 @@ namespace GameDataSystem
           
 
             AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
+
+            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new float[3] { 0.5f, 0.5f, 0.5f});
+           
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();

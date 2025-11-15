@@ -13,7 +13,7 @@ public class TextLinkEvent : MonoBehaviour
 
     public void Update()
     {
-        int linkIndex = TMP_TextUtilities.FindIntersectingLink(tmpText, Input.mousePosition, null);
+        int linkIndex = TMP_TextUtilities.FindIntersectingLink(tmpText, Input.mousePosition, Camera.main);
 
         if (linkIndex != -1 && linkIndex != currentLink)
         {
@@ -22,7 +22,9 @@ public class TextLinkEvent : MonoBehaviour
 
             if (linkInfo.GetLinkID() == "buff1" || linkInfo.GetLinkID() == "buff2")
             {
-                tooltip.transform.position = Input.mousePosition;
+                Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                tooltip.transform.position = pos;
                 popUP.BuffDesc(linkInfo.GetLinkID());
                 Debug.Log("정보처리");
                 tooltip.SetActive(true);

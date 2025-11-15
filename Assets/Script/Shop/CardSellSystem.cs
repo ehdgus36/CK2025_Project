@@ -71,8 +71,8 @@ public class CardSellSystem : MonoBehaviour
 
     IEnumerator DisPlayCardLoss()
     {
-        CardLossView.gameObject.SetActive(true);
-        yield return new WaitForSeconds(.3f);
-        CardLossView.gameObject.SetActive(false);
+        CardLossView.transform.parent.gameObject.SetActive(true);
+        yield return new WaitForSeconds(.6f);
+        CardLossView.transform.parent.gameObject.SetActive(false);
     }
 }

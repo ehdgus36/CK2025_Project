@@ -65,9 +65,9 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         List<string> cardID = new List<string>();
 
-        if (isRedCard) { cardID.AddRange(new List<string>() { "C1011", "C1021", "C1021" }); }
-        if (isYellowCard) { cardID.AddRange(new List<string>() { "C1031", "C1041", "C1061", "C1071", "C2051", "C3021" }); }
-        if (isBlueCard) { cardID.AddRange(new List<string>() { "C1051", "C2031", "C2041", "C3031", "C3041", "C3051" }); }
+        if (isRedCard) { cardID.AddRange(new List<string>() { "CA1011", "CA1021", "CA3061" }); }
+        if (isYellowCard) { cardID.AddRange(new List<string>() { "CB1031", "CB1061", "CB1071", "CB2051", "CB3021" }); }
+        if (isBlueCard) { cardID.AddRange(new List<string>() { "CD1051", "CD2031", "CD2041", "CD3031", "CD3041", "CD3051" ,"CD1041"}); }
 
         SoldOutObject.SetActive(false);
 
@@ -92,6 +92,8 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         object cardData = null;
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.SearchData(ItemID, out cardData);
+
+        Debug.Log("카드 이미지" + ((CardData)cardData).Card_Im);
         CardImage.sprite = Resources.Load<Sprite>("CardImage/" + ((CardData)cardData).Card_Im);
         CardImage.color = Color.white;
 

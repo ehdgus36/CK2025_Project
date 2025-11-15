@@ -212,9 +212,15 @@ public class NextAttackUIView : MonoBehaviour
                 case FireBuff buff:
                     break;
 
+                case AttackDamageDownBuff_Mute buff:
+                    buff.PreviewBuffEffect(viewDamage, out viewDamage);
+                    break;
+
                 case AttackDamageDownBuff buff:
                     buff.PreviewBuffEffect(viewDamage, out viewDamage);
                     break;
+               
+             
             }
         }
 

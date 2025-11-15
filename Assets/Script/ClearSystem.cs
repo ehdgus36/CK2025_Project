@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class ClearSystem : MonoBehaviour
     [SerializeField] GameObject ClearView;
     [SerializeField] GameObject UpgradeView;
     [SerializeField] Image itemImage;
+    [SerializeField] TextMeshProUGUI ItemDesc;
 
     private void OnEnable()
     {
@@ -33,7 +35,7 @@ public class ClearSystem : MonoBehaviour
         UpgradeView?.SetActive(false);
 
 
-
+        ItemDesc.transform.parent.gameObject.SetActive(false);
 
         // æ∆¿Ã≈€ ∑£¥˝
 
@@ -68,6 +70,8 @@ public class ClearSystem : MonoBehaviour
 
                 list[list.IndexOf("0")] = randstr;
                 GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, list);
+
+                ItemDesc.text = string.Format("<color=#E0096C>Sticker</color>\n<size=18>{0}</size>", ((StickerItemData)data).ItemDes);
             }
 
             if (data is StrapItemData)
@@ -79,6 +83,8 @@ public class ClearSystem : MonoBehaviour
 
                 list[list.IndexOf("0")] = randstr;
                 GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, list);
+
+                ItemDesc.text = string.Format("<color=#C6A8EE>Strap</color>\n<size=18>{0}</size>", ((StrapItemData)data).ItemDes);
             }
 
             if (data is StringItemData)
@@ -90,6 +96,8 @@ public class ClearSystem : MonoBehaviour
 
                 list[list.IndexOf("0")] = randstr;
                 GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, list);
+
+                ItemDesc.text = string.Format("<color=#0D9E9B>String</color>\n<size=18>{0}</size>", ((StringItemData)data).ItemDes);
             }
 
             itemImage.sprite = cardSprite;

@@ -17,5 +17,8 @@ public class CustomMouse : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f; // 카메라 거리
         transform.position = cam.ScreenToWorldPoint(mousePos);
+
+        
+        transform.localScale = new Vector3((cam.orthographicSize / 6.0f), (cam.orthographicSize / 6.0f), (cam.orthographicSize / 6.0f));
     }
 }

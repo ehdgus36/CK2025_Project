@@ -30,6 +30,8 @@ public class Buff_Icon_UI : MonoBehaviour
             {
                 buffTurn = "";
 
+                continue;
+
             }
 
 
@@ -47,12 +49,13 @@ public class Buff_Icon_UI : MonoBehaviour
 
                     BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[1].text = buffTurn;
-                    if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
+                    if (buffTurn == "") BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
 
                 case AttackDamageDownBuff_Mute F: // 초
                     BuffIcon[2].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[2].text = buffTurn;
+
                     break;
 
                 case AttackDamageDownBuff F: // 초
@@ -82,13 +85,8 @@ public class Buff_Icon_UI : MonoBehaviour
 
             }
 
-            if (buffTurn == "0")// 남은 턴수가 0이면 지워주기
-            {
-                Debug.Log("UI갱신");
-
-                BuffIcon[i].gameObject.transform.parent.gameObject.SetActive(false);
-                BuffIcon[i].text = buffs[i].GetBuffDurationTurn().ToString();
-            }
+            
+           
         }
     }
 

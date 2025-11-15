@@ -15,9 +15,13 @@ public class FireBuff : Buff
         get
         {
             int plusValue = 0;
-            if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Burn")
+
+            if (GameManager.instance != null)
             {
-                plusValue = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+                if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Burn")
+                {
+                    plusValue = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+                }
             }
             return getValue + plusValue;
         }

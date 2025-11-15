@@ -124,7 +124,7 @@ public class Unit : MonoBehaviour
             {
                 if (UnitData.buffs[i].GetType() == buff.GetType())
                 {
-                    UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+                    UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn() , this);
 
                     IsBuffType = true;
                 }

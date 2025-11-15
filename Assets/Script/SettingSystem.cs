@@ -1,6 +1,7 @@
 using FMOD.Studio;
 using FMODUnity;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,7 +29,7 @@ public class SettingSystem : MonoBehaviour
     Bus Masterbus;
     Bus BGMbus;
     Bus FXbus;
-    float[] SoundData;
+    List<string> SoundData = new List<string>();
 
     private void Awake()
     {
@@ -52,11 +53,13 @@ public class SettingSystem : MonoBehaviour
         });
 
 
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<float[]>(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, out SoundData);
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, out SoundData);
 
-        MasterVolume.value = SoundData[0];
-        BackGroundVolume.value = SoundData[1];
-        EffectVolume.value = SoundData[2];
+        Debug.Log("사운드 시스템" + string.Join(',', SoundData));
+
+        MasterVolume.value = float.Parse( SoundData[0]);
+        BackGroundVolume.value = float.Parse( SoundData[1]);
+        EffectVolume.value = float.Parse(SoundData[2]);
 
         MasterVolume.onValueChanged.AddListener(MasterChangeValueEvent);
         BackGroundVolume.onValueChanged.AddListener(BGMChangeValueEvent);
@@ -103,13 +106,20 @@ public class SettingSystem : MonoBehaviour
     void MasterChangeValueEvent(Single value)
     {
         Masterbus.setVolume((float)value);
+        SoundData[0] = MasterVolume.value.ToString();
+        
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, SoundData);
     }
     void BGMChangeValueEvent(Single value)
     {     
         BGMbus.setVolume((float)value);
+        SoundData[1] = BackGroundVolume.value.ToString();
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, SoundData);
     }
     void FXChangeValueEvent(Single value)
     {
         FXbus.setVolume((float)value);
+        SoundData[2] = EffectVolume.value.ToString();
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, SoundData);
     }
 }

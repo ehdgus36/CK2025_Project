@@ -68,7 +68,7 @@ public abstract class Buff
     public abstract void PreviewBuffEffect<T>(T value , out T outobject);
 
 
-    public virtual void AddBuffTurnCount(int addCount) {
+    public virtual void AddBuffTurnCount(int addCount, Unit buffUseUnit) {
         State = BuffState.Enable;
         BuffDurationTurn += addCount;
     }

@@ -200,7 +200,7 @@ namespace GameDataSystem
 
             AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
 
-            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new float[3] { 0.5f, 0.5f, 0.5f});
+            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new List<string>() { "0.5", "0.5", "0.5" });
            
 
             //기본 카드데이터 삽입

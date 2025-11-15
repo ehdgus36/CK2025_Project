@@ -33,6 +33,17 @@ public class FireBuff : Buff
         getValue = Damage;
     }
 
+    public override void AddBuffTurnCount(int addCount, Unit buffuseUnit)
+    {
+        base.AddBuffTurnCount(addCount , buffuseUnit);
+
+        if (GetBuffDurationTurn() >= 5)
+        {
+            this.BuffDurationTurn -= 5;
+            buffuseUnit.AddBuff(new FireBuffBrunOut(BuffType.Start, 1, 12));
+        }
+    }
+
     public override void BuffEndEvent(Unit unit){ }
 
     public override void BuffEvent(Unit unit)

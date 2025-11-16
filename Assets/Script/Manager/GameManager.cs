@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     //Get; Set;
 
 
+    public Unit GetThisTurnUnit { get { return ThisTurnUnit; } }
+
     public CamShake Shake { get { return _Shaker; } }
     public Player Player { get { return _Player; } }
 

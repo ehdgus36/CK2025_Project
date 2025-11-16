@@ -41,16 +41,20 @@ public class CardDescription : MonoBehaviour
 
 
         
-        if (cardData.Target_Type == "1")
+        if (cardData.Card_ID[1] == 'A')
         {
-           selectLD = LD_Buff;     
+           selectLD = LD_Attack;
         }
-        else
+        if (cardData.Card_ID[1] == 'B')
         {
-            selectLD = LD_Attack;
+            selectLD = LD_Buff;
+        }
+        if (cardData.Card_ID[1] == 'D')
+        {
+            selectLD = LD_Debuff;
         }
 
-       
+
 
 
         BuffEx.text = "";

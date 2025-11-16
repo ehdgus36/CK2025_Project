@@ -36,6 +36,28 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
     {
         isAttackEndControll = true;
+
+        if (AttackDamage != 0)
+        {
+            Enemy enemy = (Enemy)unit;
+
+
+            Buff buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff || c is AttackDamageDownBuff_Mute);
+
+
+
+            if (buff != null)
+            {
+                if (buff.GetBuffDurationTurn() > 0)
+                {
+                    int resultDamage = 0;
+                    buff.PreviewBuffEffect<int>(AttackDamage, out resultDamage);
+
+                    AttackDamage = resultDamage;
+                }
+            }
+
+        }
     }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
@@ -218,7 +240,30 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // 덱기반 공격
         CustomDamage = Damage;
     }
 
-    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
+
+        if (CustomDamage > 0)
+        {
+            Enemy enemy = (Enemy)unit;
+
+
+            Buff buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff || c is AttackDamageDownBuff_Mute);
+
+
+
+            if (buff != null)
+            {
+                if (buff.GetBuffDurationTurn() > 0)
+                {
+                    int resultDamage = 0;
+                    buff.PreviewBuffEffect<int>(CustomDamage, out resultDamage);
+
+                    CustomDamage = resultDamage;
+                }
+            }
+        }
+
+    }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {

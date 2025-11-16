@@ -222,7 +222,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DeleyLoadScene()
     {
+        yield return new WaitForSeconds(1f);
+        Player.transform.GetChild(0).transform.localPosition = Vector3.zero;
         UIAnime.Play("Hide_UIAnimation");
+        _PlayerCDSlotGroup.gameObject.SetActive(false);
         yield return new WaitForSeconds(.2f);
         yield return new WaitForSeconds(1f);
         yield return new WaitUntil(() => PlayerCardCastPlace.isByeByeStart == false );

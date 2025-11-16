@@ -59,7 +59,7 @@ public abstract class Item : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
 
         if (DescObject != null)
         {
-            DescObject.SetActive(false);
+            DescObject.transform.position = new Vector3(10000, 10000, 0);
         }
 
     }

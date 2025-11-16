@@ -109,20 +109,6 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
 
     void PlayerDieEvent()
     {
-        AnimationSystem?.PlayAnimation("hit");
-
-        //카메라 효과 , 사운드 , 이펙트효과
-        GameManager.instance.Shake.PlayShake();
-        GameManager.instance.PostProcessingSystem.ChangeVolume("Player_Hit", true, 0.2f, 0.0f, 0.2f);
-        //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Hurt");
-
-        _PlayerEffectSystem.PlayEffect("Hit_Effect", this.transform.position);
-
-        //UI 갱신
-        DynamicGameDataSchema.UpdateDynamicDataBase(UnitData.DataKey, UnitData);
-
-        //fontSystem.FontConvert(damage.ToString());
-
         isDie = true;
 
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/PC/PC_Die");

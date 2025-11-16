@@ -195,6 +195,8 @@ public class NextAttackUIView : MonoBehaviour
 
         for (int i = 0; i < enemyData.EnemyUnitData.buffs.Count; i++)
         {
+            if (enemyData.EnemyUnitData.buffs[i].GetBuffDurationTurn() <= 0) continue;
+
             switch (enemyData.EnemyUnitData.buffs[i])
             {             
                 case VolumeUPBuff buff:
@@ -207,6 +209,9 @@ public class NextAttackUIView : MonoBehaviour
 
         for (int i = 0; i < enemyData.EnemyUnitData.buffs.Count; i++)
         {
+
+            if (enemyData.EnemyUnitData.buffs[i].GetBuffDurationTurn() <= 0) continue;
+
             switch (enemyData.EnemyUnitData.buffs[i])
             {
                 case FireBuff buff:

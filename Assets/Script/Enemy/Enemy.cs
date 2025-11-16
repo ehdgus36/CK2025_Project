@@ -190,15 +190,11 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     void EnemyDieEvent()
     {
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Hurt");
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Die");
 
         EffectSystem.PlayEffect("Monster_Die_Effect", this.transform.position);      
         GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);
         this.transform.position = new Vector3(200, 200, 200);
-
-
-        GameManager.instance.Shake.PlayShake();
 
         isDie = true;
         EnemyGroup.RemoveSelf(this); // EnemyGroup에서 자기자신 지우기

@@ -87,6 +87,8 @@ public class Unit : MonoBehaviour
         if (UnitData.CurrentHp <= 0)
         {
             UnitData.CurrentHp = 0;
+           
+            TakeDamageEvent(form, damage, resultDamage, buff);
             Die();
             return;
         }

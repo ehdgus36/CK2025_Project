@@ -170,7 +170,7 @@ public class ShopEvent : MonoBehaviour
 
         if (coins < itemPrice) // 돈없으면 리턴
         {
-            NoGold.SetActive(true);
+            StartCoroutine(NoGoldEvent());
             UIAnime.AnimationState.SetAnimation(0, "no-sell", false).Complete += Clear => { UIAnime.AnimationState.SetAnimation(0, "idle", true); };
             return;
         }
@@ -225,5 +225,12 @@ public class ShopEvent : MonoBehaviour
         SelectPeakIndex = -1;
         BuyButton.interactable = false;
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, coins);
+    }
+
+    IEnumerator NoGoldEvent()
+    {
+        NoGold.SetActive(true);
+        yield return new WaitForSeconds(.5f);
+        NoGold.SetActive(false);
     }
 }

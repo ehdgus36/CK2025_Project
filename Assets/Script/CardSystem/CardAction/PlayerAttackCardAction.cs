@@ -47,7 +47,7 @@ public class SingleAttackAction : PlayerBaseCardAction
 
         yield return new WaitUntil(() => bit4 == true);
         //player.PlayerEffectSystem.StopEffect("Break_Effect");
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         MoveUnit(player.transform.GetChild(0), startpos, Vector3.zero);
 
     }
@@ -280,7 +280,7 @@ public class SoloAction : SingleAttackAction
 
             if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '2')
             {
-                changeCard[i].Initialized("C2021");
+                changeCard[i].Initialized("C2022");
             }
           
         }

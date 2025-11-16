@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 ///ÈüÇÕ Áã, ÈüÆË ÃÖÁ¾º¸½º µ¥¹ÌÁö (µ¥¹ÌÁö °ª Á¶Àý °¡´ÉÇÏ°Ô) + µ· (µ· °³¼ö Á¶Àý °¡´ÉÇÏ°Ô)
@@ -18,7 +19,26 @@ public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // ¶§¸° µ¥¹
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
     {
+        Enemy enemy = (Enemy)unit;
 
+
+        Buff buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff || c is AttackDamageDownBuff_Mute);
+        
+        
+
+        if (buff != null )
+        {
+            if (buff.GetBuffDurationTurn() > 0)
+            {
+
+                int resultDamage = 0;
+                buff.PreviewBuffEffect<int>(Damage, out resultDamage);
+
+                Damage = resultDamage;
+            }
+        }
+
+       
     }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)

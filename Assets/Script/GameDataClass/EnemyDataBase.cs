@@ -82,7 +82,7 @@ public struct EnemyTableData
                 break;
 
             case "DMG _Gold_Boss":
-                Skill1_State = new EnemySkill_DMG_Gold_State(1, 10, 8); // 공격 횟수, 코인 횟수 , 데미지
+                Skill1_State = new EnemySkill_DMG_Gold_State(1, 10, 12); // 공격 횟수, 코인 횟수 , 데미지
                 break;
 
             case "Heal_HP":
@@ -102,7 +102,7 @@ public struct EnemyTableData
                 break;
 
             case "Heal_Lowest":
-                Skill1_State = new EnemySkill_Heal_Lowest_State(1, 5 , .3f);// 공격 회수 , 데미지 , 회복량
+                Skill1_State = new EnemySkill_Heal_Lowest_State(1, 0 , .3f);// 공격 회수 , 데미지 , 회복량
                 break;
 
             case "Poison_ATK":
@@ -194,7 +194,7 @@ public struct EnemyTableData
                 break;
 
             case "DMG _Gold_Boss":
-                Skill2_State = new EnemySkill_DMG_Gold_State(1, 10, 8); // 공격 횟수, 코인 횟수 , 데미지
+                Skill2_State = new EnemySkill_DMG_Gold_State(1, 10, 12); // 공격 횟수, 코인 횟수 , 데미지
                 break;
 
             case "Heal_HP":
@@ -214,7 +214,7 @@ public struct EnemyTableData
                 break;
 
             case "Heal_Lowest":
-                Skill2_State = new EnemySkill_Heal_Lowest_State(1, 5, .3f);// 공격 회수 , 데미지 , 회복량
+                Skill2_State = new EnemySkill_Heal_Lowest_State(1, 0, .3f);// 공격 회수 , 데미지 , 회복량
                 break;
 
             case "Poison_ATK":

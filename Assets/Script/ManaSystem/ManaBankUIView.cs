@@ -28,7 +28,14 @@ public class ManaBankUIView : DynamicUIObject
 
         if (MaxSkillPoint == 0) gameObject.SetActive(false);
 
-        int mana = Mathf.Clamp((int)update_ui_data, 0, MaxSkillPoint); 
+        int mana = Mathf.Clamp((int)update_ui_data, 0, MaxSkillPoint);
+
+        if ((int)update_ui_data > MaxSkillPoint)
+        {
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, mana);
+        }
+        
+
         if (mana >= MaxSkillPoint)
         {
             SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = true;
@@ -45,7 +52,7 @@ public class ManaBankUIView : DynamicUIObject
 
         if (Skill_Bar != null)
         {
-            if ((float)mana / (float)ManaBankSystem.MAX_BANK_MANA == 1.0f)
+            if ((float)mana / (float)MaxSkillPoint == 1.0f)
             {
                 Skill_Bar?.SetFloat("Cut Angle Size", 0);
 
@@ -57,7 +64,7 @@ public class ManaBankUIView : DynamicUIObject
             
         }
 
-        ManaBankFill.fillAmount = (float)mana / (float)ManaBankSystem.MAX_BANK_MANA;
+        ManaBankFill.fillAmount = (float)mana / (float)MaxSkillPoint;
 
         SkillPointText.text = mana.ToString() + "/" + MaxSkillPoint.ToString();
     }

@@ -70,7 +70,13 @@ public class AttackDamageDownBuff : Buff
     {
         int damage = Convert.ToInt32(value);
 
-        float downPercent = DownPercent + GameManager.instance.ItemDataLoader.EnDf_Down;
+        int ItemDownDamage = 0;
+        if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Weak")
+        {
+            ItemDownDamage = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+        }
+
+        float downPercent = DownPercent + (float)ItemDownDamage;
 
         Down_Attack = (int)((float)damage * (downPercent / 100f));
 

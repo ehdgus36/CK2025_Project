@@ -116,6 +116,8 @@ public class RhythmInput : MonoBehaviour
     private void Update()
     {
         if (inputInstanceNote.Count == 0) return;
+
+
         else
         {
             if (inputInstanceNote[0].miss)
@@ -132,13 +134,13 @@ public class RhythmInput : MonoBehaviour
                     if (inputInstanceNote[0].mouseInput == 0)
                     {
                         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Left");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani",false,null,null,false,1.5f);
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani",false,null,null,false,1.1f);
                     }
 
                     if (inputInstanceNote[0].mouseInput == 1)
                     {
                         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Right");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.1f);
                     }
 
                     SuccessNoteEvent.Invoke(inputInstanceNote[0].gameObject);
@@ -153,20 +155,20 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
             }
-            else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && inputInstanceNote.Count != 0  && inputInstanceNote[0].mouseInput == 0)
+            else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && inputInstanceNote.Count != 0  && inputInstanceNote[0].mouseInput == 0 && inputInstanceNote.Count != 0)
             {
                 if (inputInstanceNote[0].good)
                 {
                     if (inputInstanceNote[0].mouseInput == 0)
                     {
                         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Left");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.5f);
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.1f);
                     }
 
                     if (inputInstanceNote[0].mouseInput == 1)
                     {
                         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Right");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.1f);
                     }
 
                     SuccessNoteEvent.Invoke(inputInstanceNote[0].gameObject);
@@ -181,20 +183,20 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
             }
-            else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && inputInstanceNote.Count != 0 && inputInstanceNote[0].mouseInput == 1)
+            else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && inputInstanceNote.Count != 0 && inputInstanceNote[0].mouseInput == 1 && inputInstanceNote.Count != 0)
             {
                 if (inputInstanceNote[0].good)
                 {
                     if (inputInstanceNote[0].mouseInput == 0)
                     {
                         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Left");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.5f);
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.1f);
                     }
 
                     if (inputInstanceNote[0].mouseInput == 1)
                     {
                         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Right");
-                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
+                        GameManager.instance.Player.PlayerAnimator.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.1f);
                     }
 
                     SuccessNoteEvent.Invoke(inputInstanceNote[0].gameObject);

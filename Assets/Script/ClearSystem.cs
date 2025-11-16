@@ -43,64 +43,62 @@ public class ClearSystem : MonoBehaviour
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.RAND_ITEM_DATA, out randData);
 
 
-        string randstr = randData[UnityEngine.Random.Range(0, randData.Count)];
-        randData.Remove(randstr);
-
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.RAND_ITEM_DATA, randData);
-
-        object data = null;
-        if (GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(randstr, out data))
+        if (randData.Count > 0)
         {
-            string Path = "ItemImage/";
-            Sprite cardSprite = null;
+            string randstr = randData[UnityEngine.Random.Range(0, randData.Count)];
+            randData.Remove(randstr);
 
+            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.RAND_ITEM_DATA, randData);
 
-
-            
-          
-
-            if (data is StickerItemData)
+            object data = null;
+            if (GameDataSystem.StaticGameDataSchema.ITEM_DATA_BASE.SearchData(randstr, out data))
             {
-                Path += ((StickerItemData)data).ItemImage;
-                cardSprite = Resources.Load<Sprite>(Path);
+                string Path = "ItemImage/";
+                Sprite cardSprite = null;
 
-                List<String> list = new List<String>();
-                GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, out list);
+                if (data is StickerItemData)
+                {
+                    Path += ((StickerItemData)data).ItemImage;
+                    cardSprite = Resources.Load<Sprite>(Path);
 
-                list[list.IndexOf("0")] = randstr;
-                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, list);
+                    List<String> list = new List<String>();
+                    GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, out list);
 
-                ItemDesc.text = string.Format("<color=#E0096C>Sticker</color>\n<size=18>{0}</size>", ((StickerItemData)data).ItemDes);
+                    list[list.IndexOf("0")] = randstr;
+                    GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, list);
+
+                    ItemDesc.text = string.Format("<color=#E0096C>Sticker</color>\n<size=18>{0}</size>", ((StickerItemData)data).ItemDes);
+                }
+
+                if (data is StrapItemData)
+                {
+                    Path += ((StrapItemData)data).ItemImage;
+                    cardSprite = Resources.Load<Sprite>(Path);
+                    List<String> list = new List<String>();
+                    GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, out list);
+
+                    list[list.IndexOf("0")] = randstr;
+                    GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, list);
+
+                    ItemDesc.text = string.Format("<color=#C6A8EE>Strap</color>\n<size=18>{0}</size>", ((StrapItemData)data).ItemDes);
+                }
+
+                if (data is StringItemData)
+                {
+                    Path += ((StringItemData)data).ItemImage;
+                    cardSprite = Resources.Load<Sprite>(Path);
+                    List<String> list = new List<String>();
+                    GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, out list);
+
+                    list[list.IndexOf("0")] = randstr;
+                    GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, list);
+
+                    ItemDesc.text = string.Format("<color=#0D9E9B>String</color>\n<size=18>{0}</size>", ((StringItemData)data).ItemDes);
+                }
+
+                itemImage.sprite = cardSprite;
+
             }
-
-            if (data is StrapItemData)
-            {
-                Path += ((StrapItemData)data).ItemImage;
-                cardSprite = Resources.Load<Sprite>(Path);
-                List<String> list = new List<String>();
-                GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, out list);
-
-                list[list.IndexOf("0")] = randstr;
-                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, list);
-
-                ItemDesc.text = string.Format("<color=#C6A8EE>Strap</color>\n<size=18>{0}</size>", ((StrapItemData)data).ItemDes);
-            }
-
-            if (data is StringItemData)
-            {
-                Path += ((StringItemData)data).ItemImage;
-                cardSprite = Resources.Load<Sprite>(Path);
-                List<String> list = new List<String>();
-                GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<String>>(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, out list);
-
-                list[list.IndexOf("0")] = randstr;
-                GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, list);
-
-                ItemDesc.text = string.Format("<color=#0D9E9B>String</color>\n<size=18>{0}</size>", ((StringItemData)data).ItemDes);
-            }
-
-            itemImage.sprite = cardSprite;
-
         }
 
         StartCoroutine(ClearSequence());

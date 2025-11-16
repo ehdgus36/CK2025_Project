@@ -81,10 +81,12 @@ public class VolumeShieldAction : GetBarrierAction
         yield return new WaitForSeconds(.03f);
         //볼륨업 구현
         //볼륨업은 데이터 테이블 수치조작하고 덱 묘지 플레이어 손에 있는카드 전부 초기화
-        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp, card.GetCardSloat.ReadData<Card>());
+       
         player.PlayerEffectSystem.PlayEffect("VolumeShield_Effect", player.transform.position);
         player.PlayerEffectSystem.PlayEffect("VolumeUPTick_Effect", player.transform.position);
+
         player.AddBuff(new VolumeUPBuff(BuffType.End, cardData.Buff_VolumeUp));
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp, card.GetCardSloat.ReadData<Card>());
         //볼륨업 이펙트
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
 

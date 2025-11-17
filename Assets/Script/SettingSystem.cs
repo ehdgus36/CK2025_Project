@@ -65,6 +65,10 @@ public class SettingSystem : MonoBehaviour
         BackGroundVolume.onValueChanged.AddListener(BGMChangeValueEvent);
         EffectVolume.onValueChanged.AddListener(FXChangeValueEvent);
 
+        Masterbus = RuntimeManager.GetBus("bus:/");
+        BGMbus = RuntimeManager.GetBus("bus:/BGM");
+        FXbus = RuntimeManager.GetBus("bus:/SFX");
+
 
         Masterbus.setVolume(MasterVolume.value);
         BGMbus.setVolume(BackGroundVolume.value);
@@ -74,9 +78,7 @@ public class SettingSystem : MonoBehaviour
         float value = 0;
         BGMbus.getVolume(out value);
 
-        Masterbus = RuntimeManager.GetBus("bus:/");
-        BGMbus = RuntimeManager.GetBus("bus:/BGM");
-        FXbus = RuntimeManager.GetBus("bus:/SFX");
+      
     }
 
     void ExitEvent()// ³ª°¡±â

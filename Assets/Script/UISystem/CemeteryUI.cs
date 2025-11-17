@@ -71,7 +71,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
         Vector3 targetPos = card.transform.localPosition + new Vector3(0f, 200f, 0f);
 
         // 이펙트 생성
-        GameObject CardSelectEffect = effectSystem.EffectObject("CardHold_Effect", card.transform.position);
+        GameObject CardSelectEffect = card.EffectSystem.EffectObject("CardHold_Effect", card.transform.position);
 
         // 신규 만든거 기획서 시스템
         for (int i = 0; i < 10; i++)
@@ -85,7 +85,7 @@ public class CemeteryUI : MonoBehaviour,IDropHandler
 
 
         //지우는 이펙트
-        effectSystem.StopEffect("CardHold_Effect");
+        card.EffectSystem.StopEffect("CardHold_Effect");
         effectSystem.PlayUIEffect("CardRemove_Effect", card.GetComponent<RectTransform>());
 
 

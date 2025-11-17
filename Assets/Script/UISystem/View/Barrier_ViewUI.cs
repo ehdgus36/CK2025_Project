@@ -16,12 +16,12 @@ public class Barrier_ViewUI : MonoBehaviour
 
         if (currentbarrier != 0)
         {
-            transform.localScale = Vector3.one * 1.5f;
+            this.gameObject.SetActive(true);
             animator.Play("GetBarrierAnimation");
         }
         else
         {
-            transform.localScale = Vector3.one;
+            this.gameObject.SetActive(false);
         }
 
         Barrier_Text.text = currentbarrier.ToString();

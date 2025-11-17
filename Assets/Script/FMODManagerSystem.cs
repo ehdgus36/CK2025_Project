@@ -56,6 +56,18 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Player_Turn);
     }
 
+    public void FMODChangeClear()
+    {
+        bgmInstance.setParameterByName("Game_Clear", 1f);
+        StartCoroutine(Sound());
+    }
+
+    public void FMODChangeNonClear()
+    {
+        bgmInstance.setParameterByName("Game_Clear", 0f);
+        StartCoroutine(Sound());
+    }
+
     public void FMODChangeMonsterTurn()
     {
         bgmInstance.setParameterByName("Change_Game", (float)FMODLabeled.Monster_Turn);
@@ -88,6 +100,7 @@ public class FMODManagerSystem : MonoBehaviour
         bgmInstance = RuntimeManager.CreateInstance(key);
         bgmInstance.start();
         FMODChangeNomal();
+        FMODChangeNonClear();
     }
 
     void PlayBGMSub(string key)

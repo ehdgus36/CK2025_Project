@@ -65,6 +65,17 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnDrag(PointerEventData eventData)
     {
 
+        Card card = GetComponent<Card>();
+
+        if (card != null)
+        {
+            if (card.cardData.Target_Type == "2")
+            {
+                card.transform.localScale = new Vector3(1.44f, 1.44f, 1.44f);
+            }
+        }
+
+
         Vector2 localPoint;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,

@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DeleyLoadScene()
     {
+
         
         yield return new WaitForSeconds(1f);
         Player.transform.GetChild(0).transform.localPosition = Vector3.zero;
@@ -249,8 +250,10 @@ public class GameManager : MonoBehaviour
 
 
         GameManager.instance.ControlleCam.Play("DieCamAnime");
-
         yield return new WaitForSeconds(.5f);
+        _Player.PlayerAnimator.MainLayerPlayAnimation("Win_Ani");
+
+        yield return new WaitForSeconds(1.5f);
 
         FMODManagerSystem.FMODChangeClear();
         GameClear.SetActive(true);

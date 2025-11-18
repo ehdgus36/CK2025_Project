@@ -133,7 +133,7 @@ public class CardDescription : MonoBehaviour
     IEnumerator DisableGameObjectDelay()
     {
         yield return new WaitForSeconds(delayTime);
-        selectLD.gameObject.SetActive(false);
+        selectLD?.gameObject.SetActive(false);
     }
 
 }

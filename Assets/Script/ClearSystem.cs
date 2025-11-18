@@ -99,7 +99,8 @@ public class ClearSystem : MonoBehaviour
                 itemImage.sprite = cardSprite;
 
             }
-            else 
+            
+            if (randData.Count == 0)
             {
                 itemImage.color = new Color(1, 1, 1, 0); // ≈ı∏Ì
                 itemImage.raycastTarget = false;

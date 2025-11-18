@@ -113,6 +113,8 @@ public class NextAttackUIView : MonoBehaviour
 
             case EnemySkill_BarrierAttack_State st:
                 iconEnum = AttackIconEnum.Barrier_DMG;
+
+                
                 viewDamage = 25;
                 attackDesc = "자신에게 베리어를 <color=#0ab52b>20</color>주고,\r\n<color=#ff2e50>약한</color> 피해를 5번 준다.";
                 break;
@@ -141,11 +143,13 @@ public class NextAttackUIView : MonoBehaviour
 
                 break;
 
-            case EnemySkill_RhythmReverse_State st:
+            case EnemySkill_RhythmReverse_State st: // 데미지
                 iconEnum = AttackIconEnum.Confuse_DMG;
                 iconEnum = AttackIconEnum.Confuse_PC;
 
-                if(st.CustomDamage == 0)
+                viewDamage = st.CustomDamage;
+
+                if (st.CustomDamage == 0)
                     attackDesc = "<color=#d98f1c>혼란</color>을 1 부여한다.";
                 if (st.CustomDamage == 36)
                     attackDesc = "<color=#d98f1c>혼란</color>을 2 부여하고,\n<color=#ff2e50>치명적인</color> 피해를 준다.";

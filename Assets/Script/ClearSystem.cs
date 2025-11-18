@@ -98,13 +98,12 @@ public class ClearSystem : MonoBehaviour
 
                 itemImage.sprite = cardSprite;
 
-            }
-            
-            if (randData.Count == 0)
-            {
-                itemImage.color = new Color(1, 1, 1, 0); // 투명
-                itemImage.raycastTarget = false;
-            }
+            }                      
+        }
+        else if (randData.Count == 0)
+        {
+            itemImage.color = new Color(1, 1, 1, 0); // 투명
+            itemImage.raycastTarget = false;
         }
 
         StartCoroutine(ClearSequence());

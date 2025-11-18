@@ -65,7 +65,7 @@ public class InventoryView : MonoBehaviour
                         Path += ((StickerItemData)getitem).ItemImage;
                         cardSprite = Resources.Load<Sprite>(Path);
 
-                        Itemtext[selectImageIndex].text = string.Format("<color=#E0096C>Sticker</color>\n<size=14>{0}</size>", ((StickerItemData)getitem).ItemDes);
+                        Itemtext[selectImageIndex].text = string.Format("<color=#E0096C>{0}</color>\n<size=14>{1}</size>", ((StickerItemData)getitem).ItemNameKR,((StickerItemData)getitem).ItemDes);
                     }
                 }
 
@@ -77,7 +77,7 @@ public class InventoryView : MonoBehaviour
                         cardSprite = Resources.Load<Sprite>(Path);
 
 
-                        Itemtext[selectImageIndex].text = string.Format("<color=#C6A8EE>Sticker</color>\n<size=14>{0}</size>", ((StrapItemData)getitem).ItemDes);
+                        Itemtext[selectImageIndex].text = string.Format("<color=#C6A8EE>{0}</color>\n<size=14>{1}</size>", ((StrapItemData)getitem).ItemNameKR,((StrapItemData)getitem).ItemDes);
                     }
                 }
 
@@ -89,7 +89,7 @@ public class InventoryView : MonoBehaviour
                         cardSprite = Resources.Load<Sprite>(Path);
 
 
-                        Itemtext[selectImageIndex].text = string.Format("<color=#0D9E9B>Sticker</color>\n<size=14>{0}</size>", ((StringItemData)getitem).ItemDes);
+                        Itemtext[selectImageIndex].text = string.Format("<color=#0D9E9B>{0}</color>\n<size=14>{1}</size>", ((StringItemData)getitem).ItemNameKR , ((StringItemData)getitem).ItemDes);
                     }
                 }
             }

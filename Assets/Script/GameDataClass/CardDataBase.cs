@@ -94,7 +94,10 @@ public struct CardData
         {
             if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Strength")
             {
-                Buff_VolumeUp += GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+                if (Buff_VolumeUp > 0)
+                {
+                    Buff_VolumeUp += GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+                }
             }
         }
 
@@ -240,7 +243,7 @@ public class CardDataBase
 
             if (card.Attack_DMG > 0)
             {
-                card.Attack_DMG = card.Attack_DMG + amount + volumeUpItem;
+                card.Attack_DMG = card.Attack_DMG + amount;
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
                 Debug.Log(card.Card_Des);
                 Debug.Log(card.Attack_DMG);

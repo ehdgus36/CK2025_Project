@@ -387,7 +387,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // ¶§
     {
         Barrier_Value = barrier;
         Damage = customDamage;
-        
+        AttackDamage = Damage;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)

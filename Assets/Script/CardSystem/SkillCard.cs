@@ -16,8 +16,8 @@ public class SkillCard : Card
         if (CardID == null) return;
 
         if ("SKILL1" == CardID) { CardAction = new SkillAction(this); animeCode = "Skill1_Cut_Animation"; }
-        if ("SKILL2" == CardID) { CardAction = new Skill2Action(this); animeCode = "Skill2_Cut_Animation"; }
-        if ("SKILL3" == CardID) { CardAction = new Skill3Action(this); animeCode = "Skill3_Cut_Animation"; }
+        if ("SKILL2" == CardID) { CardAction = new Skill2Action(this); animeCode = "Skill3_Cut_Animation"; }
+        if ("SKILL3" == CardID) { CardAction = new Skill3Action(this); animeCode = "Skill2_Cut_Animation"; }
         Initialized(new SlotGroup());
     }
     public override void TargetExcute(Enemy Target, Card nextCard = null)

@@ -36,7 +36,7 @@ public class FireBuff : Buff
     {
         Damage = damage;
         getValue = Damage;
-        getValue = (int)(percent * 10f);
+        getValue = (int)(percent * 100f);
     }
 
     public override void AddBuffTurnCount(int addCount, Unit buffuseUnit)
@@ -64,16 +64,16 @@ public class FireBuff : Buff
         if (unit.GetComponent<Enemy>() == true)
         {
 
-            Damage = Mathf.FloorToInt((float)unit.GetComponent<Enemy>().EnemyData.EnemyUnitData.CurrentHp * percent);
-            unit.GetComponent<Enemy>()?.TakeDamage(unit, Damage + ItemAddDamage, null);
+            Damage = Mathf.FloorToInt((float)unit.GetComponent<Enemy>().EnemyData.EnemyUnitData.CurrentHp * (percent + ((float)ItemAddDamage / 100f)));
+            unit.GetComponent<Enemy>()?.TakeDamage(unit, Damage , null);
             unit.GetComponent<Enemy>()?.GetEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
             
         }
 
         if (unit.GetComponent<Player>() == true)
         {
-            Damage = Mathf.FloorToInt((float)unit.GetComponent<Player>().PlayerUnitData.CurrentHp * percent);
-            unit.GetComponent<Player>()?.TakeDamage(unit, Damage);
+            Damage = Mathf.FloorToInt((float)unit.GetComponent<Player>().PlayerUnitData.CurrentHp * (percent + ((float)ItemAddDamage / 100f)));
+            unit.GetComponent<Player>()?.TakeDamage(unit, Damage );
             unit.GetComponent<Player>()?.PlayerEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
         }
 
@@ -107,24 +107,27 @@ public class FireBuffBrunOut : Buff
 
     public override void BuffEvent(Unit unit)
     {
+        int ItemAddDamage = 0;
+        if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Burn")
+        {
+            ItemAddDamage = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+        }
+
         if (unit.GetComponent<Enemy>() == true)
         {
 
-            Damage = Mathf.FloorToInt((float)unit.GetComponent<Enemy>().EnemyData.EnemyUnitData.CurrentHp * percent);
-            unit.GetComponent<Enemy>()?.TakeDamage(unit, Damage , null);
+            Damage = Mathf.FloorToInt((float)unit.GetComponent<Enemy>().EnemyData.EnemyUnitData.CurrentHp * (percent + ((float)ItemAddDamage / 100f)));
+            unit.GetComponent<Enemy>()?.TakeDamage(unit, Damage, null);
             unit.GetComponent<Enemy>()?.GetEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
 
         }
 
         if (unit.GetComponent<Player>() == true)
         {
-            Damage = Mathf.FloorToInt((float)unit.GetComponent<Player>().PlayerUnitData.CurrentHp * percent);
+            Damage = Mathf.FloorToInt((float)unit.GetComponent<Player>().PlayerUnitData.CurrentHp * (percent + ((float)ItemAddDamage / 100f)));
             unit.GetComponent<Player>()?.TakeDamage(unit, Damage);
             unit.GetComponent<Player>()?.PlayerEffectSystem.PlayEffect("Fire_Effect", unit.transform.position);
         }
-
-
-
     }
 
     public override void PreviewBuffEffect<T>(T value, out T outobject)

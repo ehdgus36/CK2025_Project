@@ -1,11 +1,11 @@
 {
 "skeleton": {
-	"hash": "UxKWqMrWJjM",
+	"hash": "3+ou/1TrbLQ",
 	"spine": "4.2.40",
 	"x": -566.77,
 	"y": -39.48,
 	"width": 1719.05,
-	"height": 850.14,
+	"height": 1046.57,
 	"images": "./Boss_Hiphop_images/",
 	"audio": "./audio"
 },
@@ -358,7 +358,8 @@
 	{ "name": "EF_P", "parent": "EF", "x": -475.48, "y": 102.16, "scaleX": 1.5171, "scaleY": 1.5171 },
 	{ "name": "attack_W", "parent": "root", "x": 64, "y": 12, "scaleX": 1.345, "scaleY": 1.345 },
 	{ "name": "Mike_EF", "parent": "Mike", "x": 87.51, "y": -3.05, "color": "b2fffdff" },
-	{ "name": "Boombox2", "parent": "Boombox", "x": -14.87, "y": -23.26, "color": "fdff00ff", "icon": "star" }
+	{ "name": "Boombox2", "parent": "Boombox", "x": -14.87, "y": -23.26, "color": "fdff00ff", "icon": "star" },
+	{ "name": "Skill-EF", "parent": "root", "x": 602.83, "y": 314.02 }
 ],
 "slots": [
 	{ "name": "shadow", "bone": "shadow", "attachment": "shadow" },
@@ -410,7 +411,8 @@
 	{ "name": "Sunglasses", "bone": "Sunglasses", "attachment": "Sunglasses" },
 	{ "name": "hit_W", "bone": "hit_W", "color": "ffffff00", "attachment": "hit_W" },
 	{ "name": "Mike_EF", "bone": "Mike_EF", "color": "ffffff00", "attachment": "Mike_EF", "blend": "screen" },
-	{ "name": "Mike_EF2", "bone": "Boombox2", "color": "ffffff00", "attachment": "Mike_EF2" }
+	{ "name": "Mike_EF2", "bone": "Boombox2", "color": "ffffff00", "attachment": "Mike_EF2" },
+	{ "name": "Skill-EF", "bone": "Skill-EF", "color": "ffffff00", "attachment": "Skill-EF" }
 ],
 "ik": [
 	{
@@ -941,6 +943,9 @@
 			"shadow": {
 				"shadow": { "x": -3.95, "y": 1.97, "scaleX": 1.3063, "scaleY": 1.3063, "width": 544, "height": 110 }
 			},
+			"Skill-EF": {
+				"Skill-EF": { "x": -16.78, "y": 181.57, "width": 731, "height": 1023 }
+			},
 			"Spray_B": {
 				"Spray_B": { "x": 41.42, "y": 6.8, "rotation": -55.12, "width": 111, "height": 140 }
 			},
@@ -955,7 +960,7 @@
 ],
 "events": {
 	"attack": {},
-	"skill": {}
+	"hit": {}
 },
 "animations": {
 	"attack": {
@@ -5873,6 +5878,9 @@
 			{ "time": 0.3333 },
 			{ "time": 0.4333 },
 			{ "time": 0.6667 }
+		],
+		"events": [
+			{ "time": 0.0667, "name": "hit" }
 		]
 	},
 	"idle": {
@@ -11176,6 +11184,13 @@
 					{ "time": 0.1, "name": "Mouth2" },
 					{ "time": 0.3333, "name": "Mouth1" }
 				]
+			},
+			"Skill-EF": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.4333, "color": "eb7b00ff" },
+					{ "time": 0.7, "color": "eb7b0000" }
+				]
 			}
 		},
 		"bones": {
@@ -13766,6 +13781,11 @@
 					{ "time": 0.3333, "x": 0.901, "y": 1.849 },
 					{ "time": 0.4333, "x": 1.332, "y": 2.885 }
 				]
+			},
+			"Skill-EF": {
+				"translate": [
+					{ "x": -624.97, "y": 24.09 }
+				]
 			}
 		},
 		"attachments": {
@@ -13884,7 +13904,7 @@
 			}
 		},
 		"events": [
-			{ "time": 0.6, "name": "skill" }
+			{ "time": 0.6, "name": "attack" }
 		]
 	}
 }

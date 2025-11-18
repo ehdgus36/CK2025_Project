@@ -217,6 +217,8 @@ public class GameManager : MonoBehaviour
 
     public void GameClearFun()
     {
+        if (isClear == true) return;
+
         isClear = true;
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.ResetTable();
         StartCoroutine(DeleyLoadScene());
@@ -224,13 +226,20 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DeleyLoadScene()
     {
+
+        
         yield return new WaitForSeconds(1f);
         Player.transform.GetChild(0).transform.localPosition = Vector3.zero;
         UIAnime.Play("Hide_UIAnimation");
         _PlayerCDSlotGroup.gameObject.SetActive(false);
+
+        UIManager.CardDescription.SetActive(false);
+
         yield return new WaitForSeconds(.2f);
         yield return new WaitForSeconds(1f);
         yield return new WaitUntil(() => PlayerCardCastPlace.isByeByeStart == false );
+
+
 
         int gold = 0;
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA,out gold);
@@ -241,9 +250,12 @@ public class GameManager : MonoBehaviour
 
 
         GameManager.instance.ControlleCam.Play("DieCamAnime");
-
         yield return new WaitForSeconds(.5f);
+        _Player.PlayerAnimator.MainLayerPlayAnimation("Win_Ani");
 
+        yield return new WaitForSeconds(1.5f);
+
+        FMODManagerSystem.FMODChangeClear();
         GameClear.SetActive(true);
         Player.PlayerSave();
 

@@ -46,6 +46,45 @@ public class UnitAnimationSystem : MonoBehaviour
         }
     }
 
+    public void MainLayerPlayAnimation(string animeKey, bool loop = false,
+                           TrackEntryEventDelegate eventDelegate = null,
+                           TrackEntryDelegate CompleteDelegate = null, bool notEmpty = true, float TimeScale = 1.0f)
+    {
+        if (!loop)
+        {
+            if (AnimationDatas.ContainsKey(animeKey))
+            {
+
+                UnitAnimation.AnimationState.SetEmptyAnimation(0, 0f);
+
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[animeKey].Animation, loop);
+                track.TimeScale = TimeScale;
+
+
+                if (notEmpty == false) // 애니메이션이 종료하면 자동적으로 idle 애니메이션으로 돌아감
+                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(0, 0f); };
+
+                track.Complete += CompleteDelegate;
+                track.Interrupt += CompleteDelegate;
+                track.Event += eventDelegate;
+
+            }
+            else //없으면 아무 애니메이션 재생
+            {
+                List<string> key = AnimationDatas.Keys.ToList();
+                TrackEntry track = UnitAnimation.AnimationState.SetAnimation(0, AnimationDatas[key[0]].Animation, loop);
+                track.TimeScale = TimeScale;
+
+                if (notEmpty == false)
+                    track.Complete += clear => { UnitAnimation.AnimationState.SetEmptyAnimation(0, 0f); };
+
+                track.Complete += CompleteDelegate;
+                track.Interrupt += CompleteDelegate;
+                track.Event += eventDelegate;
+            }
+        }
+    }
+
 
     /// <summary> 플레이어 애니메이션을 실행하는 함수 </summary>
     /// <remarks>필수적으로 매개변수 animekey에 값을 줘야함</remarks>

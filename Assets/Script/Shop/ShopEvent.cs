@@ -152,7 +152,7 @@ public class ShopEvent : MonoBehaviour
 
     public void BuyEvent()
     {
-        RuntimeManager.PlayOneShot("event:/UI/Store/Buy_Card");
+        
         NoGold.SetActive(false);
 
         ShopData data;
@@ -172,9 +172,12 @@ public class ShopEvent : MonoBehaviour
         {
             StartCoroutine(NoGoldEvent());
             UIAnime.AnimationState.SetAnimation(0, "no-sell", false).Complete += Clear => { UIAnime.AnimationState.SetAnimation(0, "idle", true); };
+            RuntimeManager.PlayOneShot("event:/UI/Store/Store_Fail");
             return;
         }
 
+
+        RuntimeManager.PlayOneShot("event:/UI/Store/Buy_Card");
 
         UIAnime.AnimationState.SetAnimation(0, "buy", false).Complete += Clear => { UIAnime.AnimationState.SetAnimation(0, "idle", true); };
 

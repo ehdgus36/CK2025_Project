@@ -3,23 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StrapItem : Item, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+public class StrapItem : Item
 {
     string DescData;
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        RuntimeManager.PlayOneShot("event:/UI/Item_Stage/Item_Click");
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-    }
+   
     protected override void Initialized()
     {
          object data = null;

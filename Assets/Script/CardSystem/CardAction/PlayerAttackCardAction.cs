@@ -265,9 +265,9 @@ public class SoloAction : SingleAttackAction
         base.CompleteEvent(entry);
 
         List<Card> changeCard = new List<Card>();
-        changeCard.AddRange(Card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C1021" || id.cardData.Card_ID == "C1022").ToList());
-        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C1021" || id.cardData.Card_ID == "C1022").ToList());
-        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C1021" || id.cardData.Card_ID == "C1022").ToList());
+        changeCard.AddRange(Card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "CA1021" || id.cardData.Card_ID == "CA1022").ToList());
+        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "CA1021" || id.cardData.Card_ID == "CA1022").ToList());
+        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "CA1021" || id.cardData.Card_ID == "CA1022").ToList());
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
 
 
@@ -275,12 +275,12 @@ public class SoloAction : SingleAttackAction
         {
             if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '1')
             {
-                changeCard[i].Initialized("C2021");
+                changeCard[i].Initialized("CA2021");
             }
 
             if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '2')
             {
-                changeCard[i].Initialized("C2022");
+                changeCard[i].Initialized("CA2022");
             }
           
         }
@@ -403,20 +403,20 @@ public class FreestyleSoloAction: SingleAttackAction
 
         //덱, 핸드, 묘지에 있는 모든 C1021 카드를 C2021로 변환
         List<Card> changeCard = new List<Card>();
-        changeCard.AddRange( card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "C2021" || id.cardData.Card_ID == "C2022").ToList());
-        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "C2021" || id.cardData.Card_ID == "C2022").ToList());
-        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "C2021" || id.cardData.Card_ID == "C2022").ToList());
+        changeCard.AddRange( card.GetCardSloat.ReadData<Card>().Where(id => id.cardData.Card_ID == "CA2021" || id.cardData.Card_ID == "CA2022").ToList());
+        changeCard.AddRange(GameManager.instance.PlayerCDSlotGroup.GetPlayerDack[0].GetDackDatas.Where(id => id.cardData.Card_ID == "CA2021" || id.cardData.Card_ID == "CA2022").ToList());
+        changeCard.AddRange(GameManager.instance.CardCemetery.CemeteryCardList.Where(id => id.cardData.Card_ID == "CA2021" || id.cardData.Card_ID == "CA2022").ToList());
 
         for (int i = 0; i < changeCard.Count; i++)
         {
             if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '1')
             {
-                changeCard[i].Initialized("C3011");
+                changeCard[i].Initialized("CA3011");
             }
 
             if (changeCard[i].cardData.Card_ID[changeCard[i].cardData.Card_ID.Length - 1] == '2')
             {
-                changeCard[i].Initialized("C3012");
+                changeCard[i].Initialized("CA3012");
             }
         }
 

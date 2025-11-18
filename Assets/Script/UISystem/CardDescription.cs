@@ -79,12 +79,10 @@ public class CardDescription : MonoBehaviour
 
         DescImage.transform.position = pos;
 
-        if (cardData.Card_ID != "SKILL")
+        if (cardData.Card_ID != "SKILL1" && cardData.Card_ID != "SKILL2" && cardData.Card_ID != "SKILL3")
         {
             selectLD.gameObject.SetActive(true);
             selectLD.AnimationState.SetAnimation(0, "idle", true);
-
-           
         }
         else
         {
@@ -135,7 +133,7 @@ public class CardDescription : MonoBehaviour
     IEnumerator DisableGameObjectDelay()
     {
         yield return new WaitForSeconds(delayTime);
-        selectLD.gameObject.SetActive(false);
+        selectLD?.gameObject.SetActive(false);
     }
 
 }

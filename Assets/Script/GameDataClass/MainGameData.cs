@@ -163,11 +163,22 @@ namespace GameDataSystem
         static DynamicGameDataSchema()
         {
             Initialize();
+
+            
         }
         public static void NewGameDataInit()
         {
+            //리셋 안돼는 데이터
+
+            List<string> soundData = new List<string>();
+
+            LoadDynamicData<List<string>>(DynamicGameDataKeys.SOUNDVIEW_DATA, out soundData);
+
+
             DynamicDataBase.Clear();
             DynamicUIDataBase.Clear();
+
+            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, soundData);
             Initialize();
         }
 
@@ -200,8 +211,8 @@ namespace GameDataSystem
 
             AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
 
+
             AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new List<string>() { "0.5", "0.5", "0.5" });
-           
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();

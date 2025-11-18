@@ -89,6 +89,16 @@ public struct CardData
 
 
         Card_Des = CardDescRcoverReplace(HP_Recover.ToString());
+
+        if (GameManager.instance != null)
+        {
+            if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Strength")
+            {
+                Buff_VolumeUp += GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+            }
+        }
+
+        Card_Des = Card_Des.Replace("<volume>", Buff_VolumeUp.ToString());
     }
 
 

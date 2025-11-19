@@ -16,7 +16,7 @@ public class EnemyStateAction
     {
         for (int i = 0; i < attackCount; i++)
         {
-            attackEnemy.UnitAnimationSystem.PlayAnimation(animeCode, false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
+            attackEnemy.UnitAnimationSystem.PlayAnimation(animeCode, false, (entry, e) => { if (e.Data.Name == "heal") return; GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
             yield return new WaitForSeconds(.8f);
         }
     }
@@ -33,20 +33,19 @@ public class EnemyAttackState : BaseAIState
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
 
-        Debug.Log("몬스터 AI 실행");
-
+       
 
         Enemy enemy = (Enemy)unit;
 
-        Debug.Log("화상 버프 존재" + enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff));
+      
         if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff))
         {
-            Debug.Log("화상 버프 존재");
+         
             yield return new WaitForSeconds(1.0f);
         }
         if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuffBrunOut))
         {
-            Debug.Log("화상 버프 존재");
+          
             yield return new WaitForSeconds(1.0f);
         }
        
@@ -55,7 +54,7 @@ public class EnemyAttackState : BaseAIState
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {
 
-            Debug.Log("몬스터 AI 스킬 실행");
+            
             enemy.EnemyData.CurrentSkillPoint = 0;
             aIBehavior.ChangeState(EnemySkill, unit, aIBehavior);
             yield break;
@@ -63,7 +62,7 @@ public class EnemyAttackState : BaseAIState
         else
         {
             enemy.EnemyData.CurrentSkillPoint++;
-            Debug.Log("몬스터 평타");
+           
             aIBehavior.ChangeState(EnemyDefultAttack, unit, aIBehavior);
            
             yield break;

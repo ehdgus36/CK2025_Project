@@ -64,7 +64,7 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
            
             StaticGameDataSchema.CARD_DATA_BASE.LossValueDamage(GameManager.instance.ItemDataLoader.strapData.Card_Damage, new List<Card>());
             StaticGameDataSchema.CARD_DATA_BASE.LossValueRecoverHP(GameManager.instance.ItemDataLoader.strapData.Card_HP_Recover, new List<Card>());
-
+            
 
             CDSlotGroup.PlayerTurnDrow();
            

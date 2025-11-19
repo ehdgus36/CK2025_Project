@@ -9,13 +9,11 @@ public class CardUpGradeSystem : MonoBehaviour
 
     CardData cardData;
     CardData UpGradcardData;
-    void Start()
+    public void SetUp(List<string> DackData)
     {
         CardUpGradeView = GetComponent<CardUpGradeView>();
 
-        List<string> DackData = new List<string>();
-
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData);
+       
 
         string randCode = "";
 
@@ -43,6 +41,8 @@ public class CardUpGradeSystem : MonoBehaviour
         UpGradcardData = (CardData)UPData;
 
         CardUpGradeView.UpdateUI(cardData, UpGradcardData, UpGradeEvent);
+
+        DackData.Remove(randCode);
 
     }
 

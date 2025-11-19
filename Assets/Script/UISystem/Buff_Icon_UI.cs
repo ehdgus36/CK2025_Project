@@ -83,6 +83,11 @@ public class Buff_Icon_UI : MonoBehaviour
                     BuffIcon[7].text = buffTurn;
                     break;
 
+                case ShildeBuff F: // √ 
+                    BuffIcon[8].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[8].text = buffTurn;
+                    break;
+
             }
 
             

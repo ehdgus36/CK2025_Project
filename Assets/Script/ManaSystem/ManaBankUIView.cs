@@ -8,6 +8,7 @@ public class ManaBankUIView : DynamicUIObject
     [SerializeField] Image ManaBankFill;
     [SerializeField] TextMeshProUGUI SkillPointText;
     [SerializeField] int manas;
+    [SerializeField] GameObject ActiveSkill;
     Material Skill_Bar;
     public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA;
 
@@ -40,6 +41,7 @@ public class ManaBankUIView : DynamicUIObject
         {
             SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = true;
             Skill_Bar?.SetFloat("_Health", 1);
+            ActiveSkill.SetActive(true);
 
         }
         else 
@@ -47,6 +49,7 @@ public class ManaBankUIView : DynamicUIObject
             SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = false;
 
             Skill_Bar?.SetFloat("_Health", 0);
+            ActiveSkill.SetActive(false);
         }
         //Cut Angle Size
 

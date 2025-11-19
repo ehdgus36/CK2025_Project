@@ -86,6 +86,7 @@ public class CursedShieldAction : GetBarrierAction
         data = cardData;
 
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += GetBarrier;
+        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
 
         yield return new WaitUntil(() => bit1 == true);
         yield return new WaitForSeconds(.03f);

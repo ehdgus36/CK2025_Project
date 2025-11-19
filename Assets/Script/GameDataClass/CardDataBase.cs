@@ -97,6 +97,7 @@ public struct CardData
                 if (Buff_VolumeUp > 0)
                 {
                     Buff_VolumeUp += GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
+                    Debug.Log("수치" + GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain);
                 }
             }
         }
@@ -105,6 +106,7 @@ public struct CardData
     }
 
 
+   
 
     // 1: fire , 2: Eletric , 3: Captivate , 4: Curse
 
@@ -118,7 +120,7 @@ public struct CardData
 
         if (Buff_Mute != 0) // 공격력 100% 다운
         {
-            return new AttackDamageDownBuff_Mute(BuffType.Start, Buff_Mute, 100);
+            return new AttackDamageDownBuff_Mute(BuffType.Start, Buff_Mute, 99);
         }
 
         if (Buff_BurnUp != 0) // 화상 도트 2 데미지
@@ -338,6 +340,8 @@ public class CardDataBase
             ReflashCard[i].ReflashCardData();
         }
     }
+
+   
 
     public bool SearchData(string cardCode, out object get_cardData)
     {

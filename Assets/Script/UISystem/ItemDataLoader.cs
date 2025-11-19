@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ItemDataLoader : MonoBehaviour
@@ -20,12 +21,15 @@ public class ItemDataLoader : MonoBehaviour
 
     public void LoadData()
     {
+        stickerData = new StickerItemData();
+        strapData = new StrapItemData();
+        stringData = new StringItemData();
 
         List<string> itemcodes = new List<string>();
-       
-
 
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA, out itemcodes);
+
+        Debug.Log("아이템 장착 현황" + string.Join(" ," ,itemcodes));
 
         for (int i = 0; i < itemcodes.Count; i++)
         {

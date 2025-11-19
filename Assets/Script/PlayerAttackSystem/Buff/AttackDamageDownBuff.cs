@@ -144,7 +144,7 @@ public class AttackDamageDownBuff_Mute : Buff
 
     public override void PreviewBuffEffect<T>(T value, out T outobject)
     {
-        value = (T)Convert.ChangeType(0, typeof(T));
+        value = (T)Convert.ChangeType(1, typeof(T));
 
         outobject = value;
     }

@@ -271,6 +271,8 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // µ¦±â¹Ý °ø°Ý
         Enemy enemy = (Enemy)unit;
         EnemyStateAction enemyAction = new EnemyStateAction();
 
+        animeCode = "Skill_Ani";
+
         if (enemy.EnemyData.Enemy_ID == "E41")
         {
             //GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
@@ -357,10 +359,12 @@ public class EnemySkill_AllBarbedArmor_State : EnemySkill_MultiAttack_State // À
 
         Enemy enemy = (Enemy)unit;
 
+        animeCode = "Skill_Ani";
+
         for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
         {
             Buff buff = new BarbedArmorBuff(BuffType.Start, BuffTurn);
-            buff.StartBuff(enemy);
+            buff.StartBuff(GameManager.instance.EnemysGroup.Enemys[i]);
             GameManager.instance.EnemysGroup.Enemys[i].AddBuff(buff);
 
             //ÀÌÆåÆ®µµ
@@ -398,6 +402,8 @@ public class EnemySkill_HpRecover_ReversRhythm_State : EnemySkill_RhythmReverse_
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
+
+        
 
         Enemy enemy = (Enemy)unit;
 

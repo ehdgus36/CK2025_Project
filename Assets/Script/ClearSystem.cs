@@ -117,7 +117,20 @@ public class ClearSystem : MonoBehaviour
         ClearView?.SetActive(true);
         yield return new WaitUntil(() => ClearView.activeSelf == false);
         GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Upgrade/Upgrade_Appear");
+
+        List<String> list = new List<String>();
+
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA, out list);
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string> { "0", "0", "0" });
+
+        GameManager.instance.ItemDataLoader.LoadData();
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.ResetTable();
         UpgradeView?.SetActive(true);
+
+        yield return null;
+        yield return null;
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA, list);
     }
 
     public void LoadMap()

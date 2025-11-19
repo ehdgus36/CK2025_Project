@@ -54,6 +54,7 @@ public class GetBarrierAction : PlayerBaseCardAction
         player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", player.transform.position);
         yield return new WaitForSeconds(.03f);
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
+        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
 
         yield break;
     }
@@ -89,7 +90,7 @@ public class VolumeShieldAction : GetBarrierAction
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp, card.GetCardSloat.ReadData<Card>());
         //볼륨업 이펙트
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
-
+        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
 
         yield break;
     }
@@ -230,7 +231,7 @@ public class RockSpiritAction : GetBarrierAction
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
 
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += GetBarrierEvent;
-
+        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
         yield return null;
         //베리어 2증가 스킬게이지 1 증가
     }

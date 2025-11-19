@@ -521,6 +521,8 @@ public class SkillAction : MultiAttackAction
 
         Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
 
+
+        yield return new WaitForSeconds(.5f);
         player.PlayerEffectSystem.PlayEffect("PowerBreak_Effect", targetPos);
        
         yield return MultiAttack(cardData, Target, 1);
@@ -544,13 +546,22 @@ public class Skill2Action : MultiAttackAction
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Skill_Atk/CassTera_Upgrade");
+      
         yield return new WaitForSeconds(1);
         //¿Ã∆Â∆Æ √ﬂ∞°
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Skill_Atk/RockSprits_Upgrade");
 
         Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
 
-        player.PlayerEffectSystem.PlayEffect("PowerBreak_Effect", targetPos);
+
+        yield return new WaitForSeconds(.5f);
+        List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].GetEffectSystem.PlayEffect("Big_Fire_Effect", enemies[i].transform.position);
+            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", enemies[i].transform.position);
+        }
 
         yield return MultiAttack(cardData, Target, 1);
 
@@ -575,13 +586,29 @@ public class Skill3Action : MultiAttackAction
 
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Skill_Atk/RockSprits_Upgrade");
+       
+        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Skill_Atk/CassTera_Upgrade");
         yield return new WaitForSeconds(1);
         //¿Ã∆Â∆Æ √ﬂ∞°
 
         Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
 
+        player.PlayerUnitData.buffs.Clear();
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, player.PlayerUnitData);
+
+        List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].EnemyData.EnemyUnitData.buffs.Clear();
+            enemies[i].GetEnemyStatus.UpdateStatus();
+        }
+
+
+
+        yield return new WaitForSeconds(.5f);
         player.addHP(cardData.HP_Recover);
+        player.PlayerEffectSystem.PlayEffect("SoftEcho_Effect", player.transform.position);
 
         
 

@@ -55,7 +55,12 @@ public class EnemySkill_DMG_Gold_State: EnemySkill_MultiAttack_State // ¶§¸° µ¥¹
 
         isAttackEndControll = false;
         AttackDamage = Damage;
+        enemy.isMove = false;
+
+
         yield return base.Excut(unit, aIBehavior);
+
+        enemy.isMove = true;
 
         yield return new WaitForSeconds(.1f);
         // ÄÚÀÎ È¹µæ
@@ -144,7 +149,10 @@ public class EnemySkill_Buff_Burnout_State : EnemySkill_MultiAttack_State // ¶§¸
         }
 
         isAttackEndControll = false;
+        enemy.isMove = false;
         yield return base.Excut(unit, aIBehavior);
+
+        enemy.isMove = true;
 
         yield return new WaitForSeconds(.1f);
         // ÄÚÀÎ È¹µæ
@@ -256,7 +264,14 @@ public class EnemySkill_Heal_Lowest_State : EnemySkill_MultiAttack_State // ¶§¸°
 
         LowEnemy.EnemyData.EnemyUnitData.CurrentHp += Mathf.CeilToInt((float)enemy.EnemyData.EnemyUnitData.MaxHp * HP_Percent);
         //ÀÌÆåÆ®
+        LowEnemy.GetEffectSystem.PlayEffect("RecoverHP_Effect", LowEnemy.transform.position);
         
+
+        if (enemy.EnemyData.Enemy_ID == "E13" || enemy.EnemyData.Enemy_ID == "E16" || enemy.EnemyData.Enemy_ID == "E24")
+        {
+            animeCode = "Skill_Ani";
+            Debug.Log("Ä¬Å×ÀÏ ÆÄ¶û ½ºÅ³ ÄÚµå" + animeCode);
+        }
 
         //µ¥¹ÌÁö ÁÖ±â
         yield return new WaitForSeconds(.2f);
@@ -298,6 +313,9 @@ public class EnemySkill_PoisonAttack_State : EnemySkill_MultiAttack_State // ¶§¸
     {
 
         Enemy enemy = (Enemy)unit;
+
+        animeCode = "Skill2_Ani";
+
         if (enemy.EnemyData.Enemy_ID == "E22" || enemy.EnemyData.Enemy_ID == "E25")
         {
             GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Monster/Poison_Attack");
@@ -417,12 +435,14 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // ¶§
 
         enemy.transform.position = GameManager.instance.Player.transform.position + enemy.AttackOffset;
 
-        enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, AttackDamage / 5, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, null);
-        
+        enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, AttackDamage / 5, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, 
+                                                 (entry) => { enemy.transform.position = startPos; });
+
+
 
         yield return new WaitForSeconds(.1f);
 
-        enemy.transform.position = startPos;
+       
 
         enemy.isAttackEnd = true; // °ø°ÝÇÔ
         yield return null;
@@ -461,6 +481,9 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
             animeCode = "Skill2_Ani";
         }
 
+        
+
+
         //º¼·ý¾÷
         for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
         {
@@ -483,9 +506,10 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
         isAttackEndControll = false;
         AttackDamage = Damage;
 
-        
-    
+
+        enemy.isMove = false;
         yield return base.Excut(unit, aIBehavior);
+        enemy.isMove = true;
 
         yield return new WaitForSeconds(.1f);
 

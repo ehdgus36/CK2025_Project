@@ -122,7 +122,7 @@ public struct EnemyTableData
                 break;
 
             case "Barrier_DMG":
-                Skill1_State = new EnemySkill_BarrierAttack_State(5, 20, 25); //공격 회수, 베리어 , 데미지
+                Skill1_State = new EnemySkill_BarrierAttack_State(5, 20, 5); //공격 회수, 베리어 , 데미지
                 break;
 
             case "All_Volumeup":
@@ -234,7 +234,7 @@ public struct EnemyTableData
                 break;
 
             case "Barrier_DMG":
-                Skill2_State = new EnemySkill_BarrierAttack_State(5, 25, 25); //공격 회수, 베리어 , 데미지
+                Skill2_State = new EnemySkill_BarrierAttack_State(5, 20, 5); //공격 회수, 베리어 , 데미지
                 break;
 
             case "All_Volumeup":

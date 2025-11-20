@@ -37,8 +37,10 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         onDragParent = GameObject.Find("Filds").gameObject.transform;
 
         // 백업용 포지션과 부모 트랜스폼을 백업 해둔다.
-
-        startParent = transform.parent;
+        if (transform.parent.name != "Filds")
+        {
+            startParent = transform.parent;
+        }
 
 
         // 드래그 시작할때 부모transform을 변경

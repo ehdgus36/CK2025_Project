@@ -11,7 +11,7 @@ public class BuffTextRePlace : MonoBehaviour
 
         mainText.text = mainText.text.Replace("<burnup>", FireBuff.GetBuffValue.ToString());
         mainText.text = mainText.text.Replace("<buzz>", AttackDamageDownBuff.GetBuffValue.ToString());
-        Debug.Log("텍스트 리플레이스");
+       
     }
 
     public void Replace()
@@ -22,6 +22,6 @@ public class BuffTextRePlace : MonoBehaviour
         mainText.text = mainText.text.Replace("<burnup>", FireBuff.GetBuffValue.ToString());
         mainText.text = mainText.text.Replace("<buzz>", AttackDamageDownBuff.GetBuffValue.ToString());
         mainText.text = mainText.text.Replace("<burnout>", FireBuffBrunOut.GetBuffValue.ToString());
-        Debug.Log("텍스트 리플레이스");
+       
     }
 }

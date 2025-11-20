@@ -22,6 +22,8 @@ public class MapSystem : MonoBehaviour
 
     [SerializeField]int CamCount = 0;
 
+    [SerializeField] GameObject EndView;
+
     // 0 :이면 진입불가  1: 입장가능  2: 클리어한거
 
     const string MapKey = "MapSave";
@@ -81,7 +83,7 @@ public class MapSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("LobbyScene");
+            EndView.SetActive(true);
         }
         
     }

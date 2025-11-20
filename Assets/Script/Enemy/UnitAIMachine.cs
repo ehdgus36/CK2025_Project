@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class UnitAIMachine : MonoBehaviour
 {
-    [SerializeReference]public UnitAIBehavior aIBehavior;
+    [SerializeReference] public UnitAIBehavior aIBehavior;
     Coroutine CurrentCoroutine;
 
     void OnDisable()
@@ -21,7 +21,7 @@ public class UnitAIMachine : MonoBehaviour
     public void StartAI(Unit controll_unit)
     {
         aIBehavior.Initialize();
-        Debug.Log(aIBehavior.GetType());
+        
         aIBehavior.Excut(controll_unit, this);
     }
 

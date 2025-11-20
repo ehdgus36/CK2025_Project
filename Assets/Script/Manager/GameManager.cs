@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
         UIAnime.Play("Hide_UIAnimation");
         yield return new WaitForSeconds(.2f);
         _ControlleCam.Play("DieCamAnime");
-        Player.PlayerAnimator.PlayAnimation("Die_Ani");
+        Player.PlayerAnimator.MainLayerPlayAnimation("Die_Ani");
         yield return new WaitForSeconds(1.5f);
 
         GameOver.SetActive(true);
@@ -256,6 +256,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         FMODManagerSystem.FMODChangeClear();
+
+        if (_Player.isDie == true) yield break;
+
         GameClear.SetActive(true);
         Player.PlayerSave();
 

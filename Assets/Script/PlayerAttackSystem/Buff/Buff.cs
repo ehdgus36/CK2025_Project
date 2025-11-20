@@ -44,12 +44,12 @@ public abstract class Buff
     public BuffType GetBuffType() { return type; }
     public void StartBuff(Unit unit)
     {
-        Debug.Log("버프실행" + this.GetType() + "남은 턴수" + BuffDurationTurn);
+        
 
         if (BuffDurationTurn <= 0)
         {
             State = BuffState.Disable;
-           
+            BuffDurationTurn--;
             return;
         }
         State = BuffState.Enable;

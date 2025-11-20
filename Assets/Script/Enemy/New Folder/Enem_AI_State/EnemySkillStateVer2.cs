@@ -405,12 +405,13 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
     {
         Barrier_Value = barrier;
         Damage = customDamage;
-        AttackDamage = Damage;
+       
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
     {
         base.Enter(unit, aIBehavior);
+       
     }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
@@ -435,7 +436,9 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
 
         enemy.transform.position = GameManager.instance.Player.transform.position + enemy.AttackOffset;
 
-        enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, AttackDamage / 5, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, 
+
+        Debug.Log("재즈 보스 데미지 : " + AttackDamage);
+        enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, AttackDamage, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, 
                                                  (entry) => { enemy.transform.position = startPos; });
 
 
@@ -541,7 +544,10 @@ public class EnemySkill_BarbedArmor_Barrier_PlayerVolumeUp_State : EnemySkill_Mu
         PlayerVolumeUP = volumeUP;
     }
 
-    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
+    public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
+    
+    base.Enter(unit, aIBehavior);
+    }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {

@@ -163,6 +163,7 @@ public class Unit : MonoBehaviour
     public void RemoveBuff(Buff buff)
     { 
         UnitData.buffs.Remove(buff);
+        Debug.Log("»èÁ¦" + buff);
     }
 
     void BuffExecution(BuffType type)
@@ -170,7 +171,7 @@ public class Unit : MonoBehaviour
         if (UnitData.buffs == null) return;
 
        
-        if (UnitData.buffs.Count != 0)
+        if (UnitData.buffs.Count > 0)
         {
             for (int i = 0; i < UnitData.buffs.Count; i++)
             {

@@ -12,7 +12,7 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 
     public int AttackCount { get { return _AttackCount; } }
 
-
+    public int GetAttack { get { return AttackDamage; } }
 
     protected bool isAttackEndControll = true;
 
@@ -20,44 +20,68 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 
     protected string animeCode = "";
 
+    protected int startAttackDamage = 0;
+
 
     public EnemySkill_MultiAttack_State(int attackCount)
     {
         _AttackCount = attackCount;
         isAttackEndControll = true;
+
     }
     public EnemySkill_MultiAttack_State(int attackCount, int customDamage)
     {
         _AttackCount = attackCount;
         isAttackEndControll = true;
         AttackDamage = customDamage;
+        startAttackDamage = AttackDamage;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior)
     {
         isAttackEndControll = true;
 
+        AttackDamage = startAttackDamage;
+
+
         if (AttackDamage != 0)
         {
             Enemy enemy = (Enemy)unit;
 
 
-            Buff buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff || c is AttackDamageDownBuff_Mute);
+            Buff buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff);
+            Buff Mute_buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff_Mute);
 
+            Debug.Log("재즈 보스 버프 있음? : " + buff);
 
-
-            if (buff != null)
+            if (Mute_buff != null)
             {
-                if (buff.GetBuffDurationTurn() > 0)
+                if (Mute_buff.GetBuffDurationTurn() >= 0)
+                {
+                    int resultDamage = 0;
+                    Mute_buff.PreviewBuffEffect<int>(AttackDamage, out resultDamage);
+
+                    AttackDamage = resultDamage;
+
+                    Debug.Log("재즈 리설트데미지? : " + resultDamage);
+                }
+            }
+            else if (buff != null)
+            {
+                if (buff.GetBuffDurationTurn() >= 0)
                 {
                     int resultDamage = 0;
                     buff.PreviewBuffEffect<int>(AttackDamage, out resultDamage);
 
                     AttackDamage = resultDamage;
+
+                    Debug.Log("재즈 리설트데미지? : " + resultDamage);
                 }
             }
 
         }
+
+        AttackDamage = startAttackDamage;
     }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
@@ -226,6 +250,9 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // 덱기반 공격
     Vector3 StartPos;
 
     int reversRhythm = 0;
+
+    int startDamage;
+
     public int CustomDamage { get; private set; }
 
     string animeCode = "attack";
@@ -239,27 +266,49 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // 덱기반 공격
     {
         reversRhythm = Turn;
         CustomDamage = Damage;
+        startDamage = CustomDamage;
     }
 
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) {
+
+        CustomDamage = startDamage;
+
+
 
         if (CustomDamage > 0)
         {
             Enemy enemy = (Enemy)unit;
 
 
-            Buff buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff || c is AttackDamageDownBuff_Mute);
+            Buff buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff);
+            Buff Mute_buff = enemy.EnemyData.EnemyUnitData.buffs.Find(c => c is AttackDamageDownBuff_Mute);
 
+            Debug.Log("재즈 보스 버프 있음? : " + buff);
+            Debug.Log("재즈 보스 버프 있음? : " + Mute_buff);
+            Debug.Log("보스의 현재 데미지? : " + CustomDamage);
 
-
-            if (buff != null)
+            if (Mute_buff != null)
             {
-                if (buff.GetBuffDurationTurn() > 0)
+                if (Mute_buff.GetBuffDurationTurn() >= 0)
+                {
+                    int resultDamage = 0;
+                    Mute_buff.PreviewBuffEffect<int>(CustomDamage, out resultDamage);
+
+                    CustomDamage = resultDamage;
+
+                    Debug.Log("재즈 리설트데미지? : " + resultDamage);
+                }
+            }
+            else if (buff != null)
+            {
+                if (buff.GetBuffDurationTurn() >= 0)
                 {
                     int resultDamage = 0;
                     buff.PreviewBuffEffect<int>(CustomDamage, out resultDamage);
 
                     CustomDamage = resultDamage;
+
+                    Debug.Log("재즈 리설트데미지? : " + resultDamage);
                 }
             }
         }
@@ -299,10 +348,15 @@ public class EnemySkill_RhythmReverse_State : BaseAIState // 덱기반 공격
         yield return new WaitForSeconds(.1f);
         enemy.isAttackEnd = true; // 공격함
         yield return null;
+
+        CustomDamage = startDamage;
         yield break;
     }
 
-    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) { }
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) {
+
+        CustomDamage = startDamage;
+    }
 }
 
 //Barbed Armor

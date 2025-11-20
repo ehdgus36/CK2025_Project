@@ -56,7 +56,7 @@ public class AttackDamageDownBuff : Buff
         {
             Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.MaxDamage * (downPercent / 100f));
             unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
-            Debug.Log("CuserBuffExcut :" + unit.GetComponent<Enemy>().EnemyData.CurrentDamage.ToString());
+            
         }
 
         if (unit.GetComponent<Player>())

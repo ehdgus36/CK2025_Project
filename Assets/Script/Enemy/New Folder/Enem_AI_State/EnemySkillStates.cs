@@ -150,6 +150,7 @@ public class EnemySkill_AllEnemyRecoverHP_State : EnemySkill_MultiAttack_State /
         Enemy enemy = (Enemy)unit;
 
         isAttackEndControll = false;
+        animeCode = "Skill_Ani";
         yield return base.Excut(unit, aIBehavior);
 
         yield return new WaitForSeconds(.1f);

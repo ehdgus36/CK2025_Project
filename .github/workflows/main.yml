@@ -1,4 +1,4 @@
-name: Gemini Auto Code Review (Korean)
+name: DeepSeek Auto Code Review (Korean)
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Generate diff
+      - name: Generate git diff
         run: |
           echo "Generating diff..."
           git fetch --unshallow || true
@@ -23,19 +23,21 @@ jobs:
           echo "--- Generated diff ---"
           cat changes.patch || echo "No diff found"
 
-      - name: Run Gemini Code Review
+      - name: Run DeepSeek Code Review
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          echo "Sending diff to Gemini API..."
-          RESPONSE=$(curl -s https://gemini.googleapis.com/v1/assistants:complete \
+          echo "Sending diff to DeepSeek API..."
+          RESPONSE=$(curl -s https://api.deepseek.com/v1/chat/completions \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $GEMINI_API_KEY" \
+            -H "Authorization: Bearer $DEEPSEEK_API_KEY" \
             -d "{
-              \"model\": \"gemini-code-latest\",
-              \"instructions\": \"당신은 숙련된 소프트웨어 엔지니어입니다. 아래 코드 diff를 보고, 문제점, 개선 방법, 버그 가능성, 최적의 작성 방법 등을 **한국어로** 상세히 리뷰해 주세요.\",
-              \"input\": \"$(sed 's/"/\\"/g' changes.patch)\"
+              \"model\": \"deepseek-chat\",
+              \"messages\": [
+                {\"role\": \"system\", \"content\": \"당신은 숙련된 소프트웨어 엔지니어입니다. 아래 코드 diff를 보고, 문제점, 개선점, 버그 가능성 등을 상세히 한국어로 리뷰해 주세요.\"},
+                {\"role\": \"user\", \"content\": \"$(sed 's/"/\\"/g' changes.patch)\"}
+              ]
             }")
-          echo "Gemini 리뷰 결과:"
-          echo "$RESPONSE" > gemini_review_ko.json
-          cat gemini_review_ko.json
+          echo "DeepSeek 리뷰 결과:"
+          echo "$RESPONSE" > deepseek_review.json
+          cat deepseek_review.json

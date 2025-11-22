@@ -1,0 +1,22 @@
+name: Qodo AI Auto Review
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  qodo-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Qodo CLI
+        run: npm install -g @codiumai/cli
+
+      - name: Run Qodo Review
+        env:
+          QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
+        run: |
+          codium review .

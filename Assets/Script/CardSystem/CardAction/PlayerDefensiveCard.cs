@@ -35,6 +35,7 @@ public class RecoverAction : PlayerBaseCardAction
     {
         player.PlayerEffectSystem.PlayEffect("Tuning_Effect", player.transform.position);
         player.addHP(cardData.HP_Recover);
+        Debug.Log("회복량 :" + cardData.HP_Recover);
     }
 }
 
@@ -50,15 +51,18 @@ public class GetBarrierAction : PlayerBaseCardAction
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
         yield return new WaitUntil(() => bit1 == true);
+        player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", player.transform.position);
         yield return new WaitForSeconds(.03f);
-        GetBarrier(player, cardData);
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
+        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
+
         yield break;
     }
 
     protected void GetBarrier(Player player, CardData cardData, bool iseffect = true)
     {
         if(iseffect == true)
-            player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", player.transform.position);
+            player.PlayerEffectSystem.PlayEffect("PlusRhythmShield_Effect", player.transform.position);
         
         player.AddBarrier(cardData.Barrier_Get);
     }
@@ -78,19 +82,22 @@ public class VolumeShieldAction : GetBarrierAction
         yield return new WaitForSeconds(.03f);
         //볼륨업 구현
         //볼륨업은 데이터 테이블 수치조작하고 덱 묘지 플레이어 손에 있는카드 전부 초기화
-        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp, card.GetCardSloat.ReadData<Card>());
+       
+        player.PlayerEffectSystem.PlayEffect("VolumeShield_Effect", player.transform.position);
+        player.PlayerEffectSystem.PlayEffect("VolumeUPTick_Effect", player.transform.position);
 
-        player.AddBuff(new VolumeUPBuff(BuffType.End, 1));
+        player.AddBuff(new VolumeUPBuff(BuffType.End, cardData.Buff_VolumeUp));
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(cardData.Buff_VolumeUp, card.GetCardSloat.ReadData<Card>());
         //볼륨업 이펙트
-        GetBarrier(player, cardData);
-      
+        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += (obj) => { GetBarrier(player, cardData); };
+        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
+
         yield break;
     }
 
 
 }
 
-//나머지 이름 작업하면 ㄱㄱ그
 
 public class SoftEchoAction : PlayerBaseCardAction
 {
@@ -135,6 +142,11 @@ public class EnergizerAction : RecoverAction
         //애니메이션 타이밍
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
 
+        int skillPoint = 0;
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out skillPoint);
+        skillPoint += cardData.Char_SkillPoint_Get;
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
+
         yield return new WaitUntil(() => bit2 == true);
         //이펙트
 
@@ -144,13 +156,11 @@ public class EnergizerAction : RecoverAction
         //일반_캐릭터 스킬 게이지 증가 + 체력 회복_1레
 
         //체력 회복
-        RecoverHP(player, cardData);
+        player.PlayerEffectSystem.PlayEffect("Energizer_Effect", player.transform.position);
+        player.addHP(cardData.HP_Recover);
 
         //스킬 포인트 증가
-        int skillPoint = 0;
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, out skillPoint);
-        skillPoint += cardData.Char_SkillPoint_Get;
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
+       
 
         // 스킬포인트 이펙트
 
@@ -186,6 +196,7 @@ public class BuildUpAction : PlayerBaseCardAction
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA,out skill_Point);
 
         skill_Point += datas.Char_SkillPoint_Get;
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA,skill_Point);
     }
 }
 
@@ -208,9 +219,10 @@ public class RockSpiritAction : GetBarrierAction
         yield return new WaitForSeconds(.03f);
         
         player.PlayerEffectSystem.PlayEffect("RockSpirit_Effect", player.transform.position);
+        player.PlayerEffectSystem.PlayEffect("BuildUpBuff_Effect", player.transform.position);
 
         //베리어
-        player.AddBarrier(cardData.Barrier_Get);
+
 
         //스킬 포인트 증가
         int skillPoint = 0;
@@ -219,7 +231,7 @@ public class RockSpiritAction : GetBarrierAction
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, skillPoint);
 
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += GetBarrierEvent;
-
+        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
         yield return null;
         //베리어 2증가 스킬게이지 1 증가
     }
@@ -227,6 +239,6 @@ public class RockSpiritAction : GetBarrierAction
     void GetBarrierEvent(GameObject obj)
     {
         Player.AddBarrier(CardData.Barrier_Get);
-        Player.PlayerEffectSystem.PlayEffect("GuitarShield_Effect", Player.transform.position);
+        Player.PlayerEffectSystem.PlayEffect("PlusRhythmShield_Effect", Player.transform.position);
     }
 }

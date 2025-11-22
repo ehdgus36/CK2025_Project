@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Composites;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerCardView : MonoBehaviour
 {
@@ -59,10 +60,10 @@ public class PlayerCardView : MonoBehaviour
             currentPage = 1;
             MaxPage = (PlayerDack.GetDackDatas.Count + 11) / 12;
         }
-       
+
 
         if (PlayerCemetery != null)
-        {        
+        {
             currentPage = 1;
             MaxPage = (PlayerCemetery.GetCemeteryCards().Count + 11) / 12;
         }
@@ -71,7 +72,7 @@ public class PlayerCardView : MonoBehaviour
         {
             List<string> subDackData = new List<string>();
             GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out subDackData);
-            
+
             currentPage = 1;
             MaxPage = (subDackData.Count + 11) / 12;
         }
@@ -80,11 +81,21 @@ public class PlayerCardView : MonoBehaviour
         if (MaxPage == 1) NextButton.interactable = false;
 
 
-
         LoadPage();
+
+
+        // 1번째 선택
+        if (cardViewObjects[0].gameObject.activeSelf == true)
+        {
+
+            cardViewObjects[0].PlayerCardView = this;
+            cardViewObjects[0].OnPointerDown(null);
+        }
+
+
     }
 
-   
+
 
     private void OnDisable()
     {
@@ -107,8 +118,12 @@ public class PlayerCardView : MonoBehaviour
 
         for (int i = 0; i < cardViewObjects.Length; i++)
         {
-            cardViewObjects[i].PlayerCardView = this; 
+            cardViewObjects[i].PlayerCardView = this;
         }
+
+
+        if (cardViewObjects[0].gameObject.activeSelf == true)
+            cardViewObjects[0].OnPointerDown(null);
     }
 
     private void Update()
@@ -131,6 +146,10 @@ public class PlayerCardView : MonoBehaviour
 
         switch (data.Card_Rank)
         {
+            case 0:
+                CardRank.text = "일반 등급";
+                break;
+
             case 1:
                 CardRank.text = "일반 등급";
 
@@ -142,22 +161,41 @@ public class PlayerCardView : MonoBehaviour
                 CardRank.text = "전설 등급";
                 break;
         }
-        
+
 
         MainDesc.text = data.Card_Des;
-        //SubDesc1.text = data.Buff_Ex;
+        SubDesc1.text = data.Buff_Ex1;
         SubDesc2.text = data.Buff_Ex2;
 
-        //if (data.Buff_Ex == "0")
-        //    SubDesc1.text = "";
+        if(SubDesc1.GetComponent<BuffTextRePlace>() != null)
+            SubDesc1.GetComponent<BuffTextRePlace>().Replace();
+
+        if (SubDesc2.GetComponent<BuffTextRePlace>() != null)
+            SubDesc2.GetComponent<BuffTextRePlace>().Replace();
+
+        if (data.Buff_Ex1 == "0")
+           SubDesc1.text = "";
 
 
         if (data.Buff_Ex2 == "0")
             SubDesc2.text = "";
-        
+
         SelectObject = selectObj;
         SelectCardCode = data.Card_ID;
 
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(DescLayout);
+        StartCoroutine(sort());
+    }
+
+    IEnumerator sort()
+    { 
+    
+        yield return null;
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(DescLayout);
+
+        yield return null;
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(DescLayout);
     }
@@ -182,9 +220,9 @@ public class PlayerCardView : MonoBehaviour
 
         CardImage.color = new Color(0f, 0f, 0f, 0f);
         currentPage--;
-       
-        if(currentPage == 1) PreviousButton.interactable = false;
-        
+
+        if (currentPage == 1) PreviousButton.interactable = false;
+
         NextButton.interactable = true;
 
         LoadPage();
@@ -214,7 +252,7 @@ public class PlayerCardView : MonoBehaviour
                 cardViewObjects[i - (12 * (currentPage - 1))].UpdateCardViewObject(PlayerDack.GetDackDatas[i].cardData);
             }
         }
-        
+
 
         if (PlayerCemetery != null)
         {
@@ -237,7 +275,7 @@ public class PlayerCardView : MonoBehaviour
 
             for (int i = startIndex; i < endIndex; i++)
             {
-                cardViewObjects[i-(12*(currentPage -1))].gameObject.SetActive(true);
+                cardViewObjects[i - (12 * (currentPage - 1))].gameObject.SetActive(true);
 
                 object subCardData;
 

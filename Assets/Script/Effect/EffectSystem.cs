@@ -8,6 +8,21 @@ public class EffectSystem : MonoBehaviour
 
     Dictionary<string, ParticleSystem> EffectSystemInstanceData = new Dictionary<string, ParticleSystem>();
 
+
+
+    public void PlayEffect(string effectCode, Transform Parent, Vector3 setScale)
+    {
+        GameObject effectObject =  EffectObject(effectCode, Parent.position);
+        effectObject.transform.SetParent(Parent);
+        effectObject.transform.localPosition = Vector3.zero;
+        effectObject.transform.localScale = setScale;
+    }
+
+    public void PlayUIEventEffect(string effectCode )
+    {
+        PlayEffect(effectCode, this.transform.position);
+    }
+
     public void PlayEffect(string effectCode, Vector3 TargetPos) // 수정 필요 스크립터블 오브젝트에서 데이터 받아서 이펙트 생성하고 사용 딕셔너리로 관리
     {
         
@@ -43,6 +58,7 @@ public class EffectSystem : MonoBehaviour
         if (EffectSystemInstanceData.ContainsKey(effectCode) == false) return; //여기 까지 와서 안돼면 없는거
 
         //생성된 이펙트 실행
+        EffectSystemInstanceData[effectCode].gameObject.SetActive(true);
         EffectSystemInstanceData[effectCode].transform.position = TargetPos + offset;
         EffectSystemInstanceData[effectCode].Play();     
     }
@@ -59,7 +75,7 @@ public class EffectSystem : MonoBehaviour
                 if (EffectData.EffectDatas[i].EffectCode == effectCode)
                 {
                     GameObject EffectParticleSystem = Instantiate(EffectData.EffectDatas[i].EffectObject);
-                    //EffectParticleSystem.transform.SetParent(this.transform);
+                    
                     EffectSystemInstanceData.Add(effectCode, EffectParticleSystem.GetComponent<ParticleSystem>());
 
                     break;
@@ -83,6 +99,7 @@ public class EffectSystem : MonoBehaviour
         if (EffectSystemInstanceData.ContainsKey(effectCode) == false) return null; //여기 까지 와서 안돼면 없는거
 
         //생성된 이펙트 실행
+        EffectSystemInstanceData[effectCode].gameObject.SetActive(true);
         EffectSystemInstanceData[effectCode].transform.position = TargetPos + offset;
         EffectSystemInstanceData[effectCode].Play();
 
@@ -131,6 +148,8 @@ public class EffectSystem : MonoBehaviour
         if (EffectSystemInstanceData.ContainsKey(effectCode))
         {
             EffectSystemInstanceData[effectCode].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            EffectSystemInstanceData[effectCode].gameObject.SetActive(false);
+           
         }
 
     }

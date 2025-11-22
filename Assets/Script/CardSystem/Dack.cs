@@ -58,8 +58,7 @@ public class Dack : MonoBehaviour
             List<string> DackData = new List<string>();
             if (GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData))
             {
-                Debug.Log("DackData Count" + DackData.Count.ToString());
-
+               
                 //신규 오토 생성
                 for (int i = 0; i < DackData.Count; i++)
                 {

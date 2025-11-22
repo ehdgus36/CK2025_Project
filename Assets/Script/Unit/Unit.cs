@@ -1,3 +1,4 @@
+using GameDataSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,7 @@ public class UnitData
         }
     }
 
-   public List<Buff> buffs = new List<Buff>();
+  [SerializeReference] public List<Buff> buffs = new List<Buff>();
 
 
 
@@ -42,14 +43,9 @@ public class Unit : MonoBehaviour
 
     [SerializeField]
     protected UnitData UnitData;
-   
-    
-
-
 
     [HideInInspector]public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
 
-    
     protected int TurnCount = 0;
 
     [SerializeField] protected UnityAction StartTurnEvent;
@@ -91,6 +87,8 @@ public class Unit : MonoBehaviour
         if (UnitData.CurrentHp <= 0)
         {
             UnitData.CurrentHp = 0;
+           
+            TakeDamageEvent(form, damage, resultDamage, buff);
             Die();
             return;
         }
@@ -107,10 +105,14 @@ public class Unit : MonoBehaviour
 
     public virtual void AddBuff(Buff buff)
     {
+        if (buff == null) return;
+
         if (HellfireAction.isHellFire == true)
         {
             if (buff.GetType() == typeof(FireBuff))
             {
+
+                Debug.Log("듀" );
                 buff = new FireBuffBrunOut(BuffType.Start, buff.GetBuffDurationTurn(), 12); //번아웃
             }
         }
@@ -124,7 +126,7 @@ public class Unit : MonoBehaviour
             {
                 if (UnitData.buffs[i].GetType() == buff.GetType())
                 {
-                    UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+                    UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn() , this);
 
                     IsBuffType = true;
                 }
@@ -161,6 +163,7 @@ public class Unit : MonoBehaviour
     public void RemoveBuff(Buff buff)
     { 
         UnitData.buffs.Remove(buff);
+        Debug.Log("삭제" + buff);
     }
 
     void BuffExecution(BuffType type)
@@ -168,15 +171,37 @@ public class Unit : MonoBehaviour
         if (UnitData.buffs == null) return;
 
        
-        if (UnitData.buffs.Count != 0)
+        if (UnitData.buffs.Count > 0)
         {
             for (int i = 0; i < UnitData.buffs.Count; i++)
             {
                 if (UnitData.buffs[i].GetBuffType() == type)
                 {
                     UnitData.buffs[i].StartBuff(this);
+                   
                 }
             }
         }
+
+
+        for (int i = 0; i < UnitData.buffs.Count; i++)
+        {
+            if (UnitData.buffs[i].GetBuffDurationTurn() < 0)
+            {
+                RemoveBuff(UnitData.buffs[i]);  
+            }
+        }
+
+
+    }
+
+    public virtual void LossHP(int HP)
+    {
+        UnitData.CurrentHp -= HP;
+
+        if (UnitData.CurrentHp <= 0)
+            TakeDamage(this, 1);
+
+       
     }
 }

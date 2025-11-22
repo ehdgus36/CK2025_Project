@@ -12,11 +12,11 @@ public class EnemyStateAction
         moveObject.transform.position = formPos + attackOffset;
     }
 
-    public IEnumerator AttackEnemy(int damage, int attackCount, Enemy attackEnemy, Unit targetUnit , Buff buff = null)
+    public IEnumerator AttackEnemy(int damage, int attackCount, Enemy attackEnemy, Unit targetUnit , Buff buff = null , string animeCode = "attack")
     {
         for (int i = 0; i < attackCount; i++)
         {
-            attackEnemy.UnitAnimationSystem.PlayAnimation("attack", false, (entry, e) => { GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
+            attackEnemy.UnitAnimationSystem.PlayAnimation(animeCode, false, (entry, e) => { if (e.Data.Name == "heal") return; GameManager.instance.Player.TakeDamage(attackEnemy, damage , buff); }, null);
             yield return new WaitForSeconds(.8f);
         }
     }
@@ -29,19 +29,32 @@ public class EnemyAttackState : BaseAIState
     [SerializeReference] BaseAIState EnemyDefultAttack;
 
     public EnemyAttackState(BaseAIState defultAttackState ,BaseAIState ChangeSkillState) { EnemyDefultAttack = defultAttackState; EnemySkill = ChangeSkillState;}
-
     public override void Enter(Unit unit, UnitAIBehavior aIBehavior) { }
-   
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
     {
-        
+
+       
+
         Enemy enemy = (Enemy)unit;
 
-        yield return new WaitForSeconds(1.5f);
+      
+        if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuff))
+        {
+         
+            yield return new WaitForSeconds(1.0f);
+        }
+        if (enemy.EnemyData.EnemyUnitData.buffs.Exists(c => c is FireBuffBrunOut))
+        {
+          
+            yield return new WaitForSeconds(1.0f);
+        }
+       
+
 
         if (enemy.EnemyData.CurrentSkillPoint >= enemy.EnemyData.MaxSkillPoint)
         {
 
+            
             enemy.EnemyData.CurrentSkillPoint = 0;
             aIBehavior.ChangeState(EnemySkill, unit, aIBehavior);
             yield break;
@@ -49,20 +62,14 @@ public class EnemyAttackState : BaseAIState
         else
         {
             enemy.EnemyData.CurrentSkillPoint++;
+           
             aIBehavior.ChangeState(EnemyDefultAttack, unit, aIBehavior);
+           
             yield break;
         }
-
-
-      
-
     }
 
-    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) {
-    
-    
-    
-    }
+    public override void Exit(Unit unit, UnitAIBehavior aIBehavior) {}
   
 
 }

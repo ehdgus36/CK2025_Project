@@ -47,5 +47,13 @@ public class Inputnote : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         good = false;
         miss = true;
+
+        if (GetComponent<UnityEngine.UI.Image>().color != Color.white)
+        {
+            GetComponent<UnityEngine.UI.Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
+            GetComponent<UnityEngine.UI.Image>().color = Color.white;
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/PC_Fail");
+    }
+       
     }
 }

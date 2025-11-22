@@ -20,19 +20,23 @@ namespace GameDataSystem.KeyCode
         public static readonly string TARGET_CARD_DATA = "TARGET_CARD_DATA";
 
         public static readonly string ITME_DATA = "ITEM_DATA";
-        public static readonly string HOLD_ITEM_DATA = "HOLD_ITEM_DATA";
+        
 
         public static readonly string STICKER_ITME_INVENTORY_DATA = "STICKER_ITME_INVENTORY_DATA";
         public static readonly string STRAP_ITME_INVENTORY_DATA = "STRAP_ITME_INVENTORY_DATA";
         public static readonly string STRING_ITME_INVENTORY_DATA = "STRING_ITME_INVENTORY_DATA";
 
-        public static readonly string ITEM_HOLD_DATA = "ITEM_HOLD_DATA";
+        public static string ITEM_HOLD_DATA { get { return "ITEM_HOLD_DATA"; } }
 
         public static readonly string STAGE_DATA = "STAGE_DATA";
         public static readonly string PLAYER_UNIT_DATA = "PLAYER_HP_DATA";
         public static string SKILL_POINT_DATA { get { return "SKILL_POINT_DATA"; } }
 
         public static readonly string DACK_DATA = "DACK_DATA";
+
+        public static readonly string RAND_ITEM_DATA = "RAND_ITEM_DATA";
+
+        public static readonly string SOUNDVIEW_DATA = "SOUNDVIEW_DATA";
 
 
 
@@ -153,17 +157,28 @@ namespace GameDataSystem
         static Dictionary<string, object> DynamicDataBase = new Dictionary<string, object>();
 
         // DynamicDataBase가 업데이트 했을때 같이 갱신할 UI
-        static Dictionary<string, List<DynamicUIObject>> DynamicUIDataBase = new Dictionary<string, List<DynamicUIObject>>(); 
+        static Dictionary<string, List<DynamicUIObject>> DynamicUIDataBase = new Dictionary<string, List<DynamicUIObject>>();
 
-
+        public static DateTime PlayTime;
         static DynamicGameDataSchema()
         {
             Initialize();
+
+            
         }
         public static void NewGameDataInit()
         {
+            //리셋 안돼는 데이터
+
+            List<string> soundData = new List<string>();
+
+            LoadDynamicData<List<string>>(DynamicGameDataKeys.SOUNDVIEW_DATA, out soundData);
+
+
             DynamicDataBase.Clear();
             DynamicUIDataBase.Clear();
+
+            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, soundData);
             Initialize();
         }
 
@@ -182,16 +197,22 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.GOLD_DATA, 100);
             AddDynamicDataBase(DynamicGameDataKeys.PLAYER_UNIT_DATA, playerData); 
             AddDynamicDataBase(DynamicGameDataKeys.STAGE_DATA, "1-1");
-            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,5);
+            AddDynamicDataBase(DynamicGameDataKeys.SKILL_POINT_DATA,7);
 
             AddDynamicDataBase("MapSave", "");
 
             //ITEM관련 초기화
-            AddDynamicDataBase(DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, new List<string>() { "It01", "It02", "It03" });
-            AddDynamicDataBase(DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, new List<string>() { "It11", "It12", "It13" });
-            AddDynamicDataBase(DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, new List<string>() { "It31", "It32", "It33" });
+            AddDynamicDataBase(DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, new List<string>() { "0", "0", "0" });
+            AddDynamicDataBase(DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, new List<string>() { "0", "0", "0" });
+            AddDynamicDataBase(DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, new List<string>() { "0", "0", "0" });
 
-            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>());
+            AddDynamicDataBase(DynamicGameDataKeys.RAND_ITEM_DATA, new List<string>() { "It02", "It03", "It11", "It12", "It13", "It31", "It32", "It33" });
+          
+
+            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
+
+
+            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new List<string>() { "0.5", "0.5", "0.5" });
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();
@@ -202,6 +223,8 @@ namespace GameDataSystem
             }
 
             AddDynamicDataBase(DynamicGameDataKeys.DACK_DATA, CardCodes);
+
+            PlayTime = DateTime.Now;
         }
 
 

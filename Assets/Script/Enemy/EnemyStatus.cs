@@ -10,7 +10,7 @@ public class EnemyStatus : MonoBehaviour
 
     //HP
     [SerializeField] HP_Bar HP_Bar;
-
+   
     [SerializeField] Barrier_ViewUI Barrier_viewUI;
     
     
@@ -27,6 +27,7 @@ public class EnemyStatus : MonoBehaviour
     [SerializeField] GameObject _StatusPopUp;
 
     [SerializeField] EnemySkillPoint _enemySkillPoint;
+    
 
     [SerializeField] TextMeshProUGUI _RhythmDamageText;
 
@@ -38,11 +39,11 @@ public class EnemyStatus : MonoBehaviour
  
     public NextAttackUIView NextAttackUI { get { return _NextAttackUI; } }
 
-    EnemyData enemyData;
+    protected EnemyData enemyData;
 
-    Enemy UpdateTargetEnemy;
+    protected Enemy UpdateTargetEnemy;
 
-    public void Initialize(Enemy enemy)
+    public virtual void  Initialize(Enemy enemy)
     {
        
         UpdateTargetEnemy = enemy;
@@ -60,8 +61,8 @@ public class EnemyStatus : MonoBehaviour
         NextAttackUI.UpdateUI(enemyData, UpdateTargetEnemy.AIMachine.aIBehavior as EnemyAIBehavior);
     }
 
-    
-    public void UpdateStatus()
+
+    public virtual void UpdateStatus()
     {
 
         enemyData = UpdateTargetEnemy.EnemyData;

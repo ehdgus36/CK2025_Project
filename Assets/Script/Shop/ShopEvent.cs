@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMODUnity;
 using Unity.Mathematics;
+using Spine.Unity;
 
 public class ShopEvent : MonoBehaviour
 {
@@ -23,11 +25,18 @@ public class ShopEvent : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI ResetPriceText;
 
+    [SerializeField] ItemDataLoader ItemDataLoader;
+
     [SerializeField] int ResetCount = 1;
-    [SerializeField] int ResetPrice = 45;
+    int ResetPrice = 20;
+
+
+    public ItemDataLoader GetItemDataLoader { get { return ItemDataLoader; } }
 
     public List<ShopItemObj> TapeList { get { return _TapeList; } }
     public List<ShopItemObj> PeakList { get { return _PeakList; } }
+
+    [SerializeField] SkeletonGraphic UIAnime;
     // Update is called once per frame
 
     public string SelectItemID;
@@ -37,22 +46,30 @@ public class ShopEvent : MonoBehaviour
 
     private void Start()
     {
-       
+        if (ItemDataLoader == null) ItemDataLoader = GetComponent<ItemDataLoader>();
 
+        ItemDataLoader.LoadData();
+
+        UIAnime.AnimationState.SetAnimation(0, "idle", true);
+
+        RuntimeManager.PlayOneShot("event:/UI/Store/Store_In");
         for (int i = 0; i < PeakList.Count; i++)
         {
             PeakList[i].ShopEvent = this;
-            //PeakSelectList[i].GetComponent<SelectShopItemObj>().Initialize(PeakList[i].gameObject);
+            PeakList[i].ResetCard( i == 0 ? null : PeakList[i - 1]);
         }
         SelectDescPopUp.gameObject.SetActive(false);
        
         ResetButton.onClick.AddListener(ResetItem);
-        ResetPriceText.text = ResetPrice.ToString();
+        ResetPriceText.text = (ResetPrice + ItemDataLoader.strapData.Reroll_Cost).ToString();
 
+        _PeakList[0].OnPointerEnter(null);
+        _PeakList[0].OnPointerDown(null);
     }
 
     private void ResetItem()
     {
+
         int useGold = 0;
 
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out useGold);
@@ -66,15 +83,14 @@ public class ShopEvent : MonoBehaviour
 
         ResetCount++;
 
-        ResetPrice = (int)(((((float)ResetCount + 10f) * ((float)ResetCount + 10f)) / ((10f + 10f) * (10f + 10f))) *150f);
+        ResetPrice = 20 + ItemDataLoader.strapData.Reroll_Cost;//(int)(((((float)ResetCount + 10f) * ((float)ResetCount + 10f)) / ((10f + 10f) * (10f + 10f))) *150f);
        
         ResetPriceText.text = ResetPrice.ToString();
 
         SelectDescPopUp.gameObject.SetActive(false);
         for (int i = 0; i < PeakList.Count; i++)
         {
-            PeakList[i].ResetCard();
-           
+            PeakList[i].ResetCard(i == 0 ? null : PeakList[i - 1]);
         }
 
         SelectDescPopUp.gameObject.SetActive(false);
@@ -130,12 +146,13 @@ public class ShopEvent : MonoBehaviour
 
     public void ExitShop()
     {
+        RuntimeManager.PlayOneShot("event:/UI/Store/Store_Out");
         SceneManager.LoadScene("GameMap");
     }
 
     public void BuyEvent()
     {
-
+        
         NoGold.SetActive(false);
 
         ShopData data;
@@ -144,11 +161,25 @@ public class ShopEvent : MonoBehaviour
         GameDataSystem.StaticGameDataSchema.Shop_DATA_BASE.SearchData(SelectItemID, out data);
 
 
-        if (coins < data.Price) // 돈없으면 리턴
+        int itemPrice = data.Price;
+        if (ItemDataLoader.strapData.Shop_Sale > 0)
         {
-            NoGold.SetActive(true);
+            itemPrice = Mathf.RoundToInt(((float)data.Price * ((100f - (float)ItemDataLoader.strapData.Shop_Sale) / 100f)));
+        }
+
+
+        if (coins < itemPrice) // 돈없으면 리턴
+        {
+            StartCoroutine(NoGoldEvent());
+            UIAnime.AnimationState.SetAnimation(0, "no-sell", false).Complete += Clear => { UIAnime.AnimationState.SetAnimation(0, "idle", true); };
+            RuntimeManager.PlayOneShot("event:/UI/Store/Store_Fail");
             return;
         }
+
+
+        RuntimeManager.PlayOneShot("event:/UI/Store/Buy_Card");
+
+        UIAnime.AnimationState.SetAnimation(0, "buy", false).Complete += Clear => { UIAnime.AnimationState.SetAnimation(0, "idle", true); };
 
         if (SelectTapeIndex != -1)
         {
@@ -162,7 +193,7 @@ public class ShopEvent : MonoBehaviour
 
             //실질적인 구매 실행
             playerItemData.Add(SelectItemID);
-            coins -= data.Price;
+            coins -= itemPrice;
 
           
 
@@ -183,7 +214,7 @@ public class ShopEvent : MonoBehaviour
             if (playerDackDatas != null)
             {
                 playerDackDatas.Add(SelectItemID);
-                coins -= data.Price;
+                coins -= itemPrice;
             }
 
 
@@ -197,5 +228,12 @@ public class ShopEvent : MonoBehaviour
         SelectPeakIndex = -1;
         BuyButton.interactable = false;
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, coins);
+    }
+
+    IEnumerator NoGoldEvent()
+    {
+        NoGold.SetActive(true);
+        yield return new WaitForSeconds(.5f);
+        NoGold.SetActive(false);
     }
 }

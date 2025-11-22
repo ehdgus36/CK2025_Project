@@ -81,7 +81,7 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 
         }
 
-        AttackDamage = startAttackDamage;
+        
     }
 
     public override IEnumerator Excut(Unit unit, UnitAIBehavior aIBehavior)
@@ -111,6 +111,7 @@ public class EnemySkill_MultiAttack_State : BaseAIState // 여러번 때리기
 
         // 공격함
         enemyAction.MoveEnemy(enemy.gameObject, StartPos, Vector3.zero);
+        AttackDamage = startAttackDamage;
         yield break;
     }
 

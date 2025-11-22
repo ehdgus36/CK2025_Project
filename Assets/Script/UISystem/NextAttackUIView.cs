@@ -150,7 +150,10 @@ public class NextAttackUIView : MonoBehaviour
                 viewDamage = st.CustomDamage;
 
                 if (st.CustomDamage == 0)
+                {
                     attackDesc = "<color=#d98f1c>혼란</color>을 1 부여한다.";
+                    viewDamage = enemyData.CurrentDamage;
+                }
                 if (st.CustomDamage == 36)
                     attackDesc = "<color=#d98f1c>혼란</color>을 2 부여하고,\n<color=#ff2e50>치명적인</color> 피해를 준다.";
 

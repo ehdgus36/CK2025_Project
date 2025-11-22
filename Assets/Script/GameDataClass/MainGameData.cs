@@ -157,9 +157,9 @@ namespace GameDataSystem
         static Dictionary<string, object> DynamicDataBase = new Dictionary<string, object>();
 
         // DynamicDataBase가 업데이트 했을때 같이 갱신할 UI
-        static Dictionary<string, List<DynamicUIObject>> DynamicUIDataBase = new Dictionary<string, List<DynamicUIObject>>(); 
+        static Dictionary<string, List<DynamicUIObject>> DynamicUIDataBase = new Dictionary<string, List<DynamicUIObject>>();
 
-
+        public static DateTime PlayTime;
         static DynamicGameDataSchema()
         {
             Initialize();
@@ -223,6 +223,8 @@ namespace GameDataSystem
             }
 
             AddDynamicDataBase(DynamicGameDataKeys.DACK_DATA, CardCodes);
+
+            PlayTime = DateTime.Now;
         }
 
 

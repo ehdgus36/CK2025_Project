@@ -9,6 +9,8 @@ public class CardUpGradeSystem : MonoBehaviour
 
     CardData cardData;
     CardData UpGradcardData;
+
+    bool selectButton = false;
     public void SetUp(List<string> DackData)
     {
         CardUpGradeView = GetComponent<CardUpGradeView>();
@@ -48,6 +50,8 @@ public class CardUpGradeSystem : MonoBehaviour
 
     void UpGradeEvent()
     {
+        if (selectButton == true) return;
+
         List<string> DackData = new List<string>();
 
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData);
@@ -60,6 +64,8 @@ public class CardUpGradeSystem : MonoBehaviour
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, DackData);
 
         Debug.Log("UpGrade¿‘¥œ¥Ÿ");
+
+        selectButton = true;
     }
 
 }

@@ -1,4 +1,5 @@
 using FMODUnity;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -80,7 +81,10 @@ public class LobbyScene : MonoBehaviour
     {
         yield return new WaitForSeconds(1.3f);
         VideoPlayObject.SetActive(true);
-        CutScenePlayer.loopPointReached += (vp) => { SceneManager.LoadScene(SceneName); };
+        CutScenePlayer.loopPointReached += (vp) => { 
+            SceneManager.LoadScene(SceneName);
+            GameDataSystem.DynamicGameDataSchema.PlayTime = DateTime.Now;
+        };
     }
     
 }

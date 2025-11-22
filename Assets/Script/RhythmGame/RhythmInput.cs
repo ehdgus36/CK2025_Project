@@ -30,7 +30,7 @@ public class RhythmInput : MonoBehaviour
 
     public bool IsEnd;
 
-
+    public int inputCount = 4;
    
 
 
@@ -118,8 +118,15 @@ public class RhythmInput : MonoBehaviour
         if (inputInstanceNote.Count == 0) return;
 
 
-        else
+        if(inputCount > 0)
         {
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.LeftArrow) || 
+                Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            {
+                inputCount--;
+            }
+
+             Debug.Log("리듬게임 클릭 카운트" + inputCount);
             if (inputInstanceNote[0].miss)
             {
                 inputInstanceNote.Remove(inputInstanceNote[0]);
@@ -129,6 +136,8 @@ public class RhythmInput : MonoBehaviour
 
             if (Input.GetMouseButtonDown(inputInstanceNote[0].mouseInput) && inputInstanceNote.Count != 0)
             {
+
+                
                 if (inputInstanceNote[0].good)
                 {
                     if (inputInstanceNote[0].mouseInput == 0)
@@ -154,9 +163,13 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].gameObject.GetComponent<Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
+
+               
             }
             else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && inputInstanceNote.Count != 0  && inputInstanceNote[0].mouseInput == 0 && inputInstanceNote.Count != 0)
             {
+                
+
                 if (inputInstanceNote[0].good)
                 {
                     if (inputInstanceNote[0].mouseInput == 0)
@@ -182,9 +195,12 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].gameObject.GetComponent<Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
+               
             }
             else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && inputInstanceNote.Count != 0 && inputInstanceNote[0].mouseInput == 1 && inputInstanceNote.Count != 0)
             {
+
+               
                 if (inputInstanceNote[0].good)
                 {
                     if (inputInstanceNote[0].mouseInput == 0)
@@ -210,6 +226,8 @@ public class RhythmInput : MonoBehaviour
                     inputInstanceNote[0].gameObject.GetComponent<Image>().sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetFailImage;
                     inputInstanceNote[0].GetComponent<UnityEngine.UI.Image>().color = Color.white;
                 }
+
+                
             }
         }
        

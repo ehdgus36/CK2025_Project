@@ -55,6 +55,8 @@ public class CardUpGradeView : MonoBehaviour,  IPointerEnterHandler, IPointerExi
             UpGradeCardDesc.gameObject.SetActive(true);
             NextButton?.SetActive(true);
             isSelect = true;
+
+            UpGradeButton.image.sprite = UpGradeButton.spriteState.selectedSprite;
         });
     }
 

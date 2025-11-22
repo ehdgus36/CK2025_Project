@@ -1,20 +1,44 @@
-name: Qodo Merge - Automatic Code Review
+name: DeepSeek Auto Code Review
 
 on:
   push:
     branches:
       - develop
       - master
+      - main
 
 jobs:
-  qodo_review:
+  review:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Qodo Merge Review
-        uses: QodoAI/qodo-merge-action@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          qodo-api-key: ${{ secrets.QODO_API_KEY }}
+      - name: Run DeepSeek Code Review
+        id: review
+        run: |
+          echo "Running DeepSeek Review..."
+          
+          # 최근 커밋의 변경사항을 patch 형태로 가져오기
+          git diff HEAD~1 HEAD > changes.patch
+
+          # DeepSeek API 호출
+          RESPONSE=$(curl -s https://api.deepseek.com/v1/chat/completions \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ sk-3d6003b94c104214a25500a79ff047e5 }}" \
+            -d "{
+              \"model\": \"deepseek-chat\",
+              \"messages\": [
+                {\"role\": \"system\", \"content\": \"You are a senior code reviewer. Review the patch and point out issues, improvements, bugs, and suggest better code.\"},
+                {\"role\": \"user\", \"content\": \"Here is the code diff:\n$(sed 's/"/\\"/g' changes.patch)\"}
+              ]
+            }")
+
+          echo "$RESPONSE" > deepseek_review.json
+          echo "Done."
+
+      - name: Save Review Comment
+        run: |
+          cat deepseek_review.json
+

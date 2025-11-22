@@ -20,7 +20,7 @@ jobs:
           echo "Generating diff..."
           git fetch --unshallow || true
           git diff HEAD~1 HEAD > changes.patch
-          echo "--- Generated diff ---"
+          echo "--- Generated diff  ---"
           cat changes.patch || echo "No diff found"
 
       - name: Run DeepSeek Code Review

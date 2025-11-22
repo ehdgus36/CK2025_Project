@@ -422,7 +422,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
 
         if (enemy.EnemyData.Enemy_ID == "E29" )
         {
-            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Jump_Attack");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
            
         }
 
@@ -437,6 +437,11 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
         enemy.transform.position = GameManager.instance.Player.transform.position + enemy.AttackOffset;
 
 
+        if (enemy.EnemyData.Enemy_ID == "E29")
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Jump_Attack");
+
+        }
         Debug.Log("재즈 보스 데미지 : " + AttackDamage);
         enemy.UnitAnimationSystem.PlayAnimation("Skill_Ani", false, (entry, e) => { GameManager.instance.Player.TakeDamage(enemy, AttackDamage, null); enemy.EnemyData.EnemyUnitData.CurrentBarrier += Barrier_Value / 5; }, 
                                                  (entry) => { enemy.transform.position = startPos; });
@@ -455,7 +460,7 @@ public class EnemySkill_BarrierAttack_State : EnemySkill_MultiAttack_State // 때
     public override void Exit(Unit unit, UnitAIBehavior aIBehavior) { }
 }
 
-public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_State // 때린 데미지 만큼 힐
+public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_State 
 {
     
     int Damage = 5;
@@ -480,7 +485,7 @@ public class EnemySkill_JAZZBOSS_ALL_VolumeUp_State : EnemySkill_MultiAttack_Sta
 
         if (enemy.EnemyData.Enemy_ID == "E29")
         {
-            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Drum_Attack");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Jazz_Boss/Jump_Attack");
             animeCode = "Skill2_Ani";
         }
 

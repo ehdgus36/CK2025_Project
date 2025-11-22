@@ -12,6 +12,8 @@ public class ManaBankUIView : DynamicUIObject
     Material Skill_Bar;
     public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA;
 
+    bool onecSound = false;
+
     private void OnEnable()
     {
         Skill_Bar = ManaBankFill.material;
@@ -42,10 +44,18 @@ public class ManaBankUIView : DynamicUIObject
             SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = true;
             Skill_Bar?.SetFloat("_Health", 1);
             ActiveSkill.SetActive(true);
+            
+            // 준비 사운드 사운드는 1회성
+            if (onecSound == false)
+            {
+                onecSound = true;
+                GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Skill_Ready");
+            }
 
         }
         else 
         {
+            onecSound = false;
             SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = false;
 
             Skill_Bar?.SetFloat("_Health", 0);

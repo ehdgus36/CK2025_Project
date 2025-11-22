@@ -251,6 +251,7 @@ public class GameManager : MonoBehaviour
 
         GameManager.instance.ControlleCam.Play("DieCamAnime");
         yield return new WaitForSeconds(.5f);
+        FMODManagerSystem.PlayEffectSound("event:/Character/PC/Game_Clear");
         _Player.PlayerAnimator.MainLayerPlayAnimation("Win_Ani");
 
         yield return new WaitForSeconds(1.5f);

@@ -42,6 +42,10 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         GetComponent<HoverEffectUI>()?.HoldEffect(true);
         GetComponent<RectTransform>().sizeDelta = new Vector2(2100f, 300f);
 
+        if (CardSlot.ReadData<SkillCard>() == true) // 스킬은 전용사운드 출력
+        {
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Skill_Click");
+        }
     }
 
  

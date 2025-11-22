@@ -1,22 +1,20 @@
-name: Qodo AI Auto Review
+name: Qodo Merge - Automatic Code Review
 
 on:
   push:
     branches:
-      - develop   # develop 브랜치에 push될 때 실행됨
+      - develop
+      - master
 
 jobs:
-  qodo-review:
+  qodo_review:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Qodo CLI
-        run: npm install -g @codiumai/cli
-
-      - name: Run Qodo Review
-        env:
-          QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
-        run: |
-          codium review .
+      - name: Qodo Merge Review
+        uses: QodoAI/qodo-merge-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          qodo-api-key: ${{ secrets.QODO_API_KEY }}

@@ -167,7 +167,7 @@ public class EnemySkill_Buff_Burnout_State : EnemySkill_MultiAttack_State // 때�
 }
 
 
-//신규 주석
+//신규 주석 내용추가
 
 /// <summary>
 /// 체력 소모 (남은 체력 비례) + 셀프 볼륨업 (중첩수 조절 가능하게)

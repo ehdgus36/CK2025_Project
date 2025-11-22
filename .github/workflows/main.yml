@@ -15,30 +15,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run DeepSeek Code Review
-        id: review
+      - name: Generate diff
         run: |
-          echo "Running DeepSeek Review..."
-          
-          # 최근 커밋의 변경사항을 patch 형태로 가져오기
+          echo "Generating diff..."
+          git fetch --unshallow || true
           git diff HEAD~1 HEAD > changes.patch
+          echo "--- Generated diff ---"
+          cat changes.patch || echo "No diff found"
 
-          # DeepSeek API 호출
+      - name: Run DeepSeek Code Review
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: |
+          echo "Sending diff to DeepSeek..."
           RESPONSE=$(curl -s https://api.deepseek.com/v1/chat/completions \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ sk-3d6003b94c104214a25500a79ff047e5 }}" \
+            -H "Authorization: Bearer $DEEPSEEK_API_KEY" \
             -d "{
               \"model\": \"deepseek-chat\",
               \"messages\": [
-                {\"role\": \"system\", \"content\": \"You are a senior code reviewer. Review the patch and point out issues, improvements, bugs, and suggest better code.\"},
-                {\"role\": \"user\", \"content\": \"Here is the code diff:\n$(sed 's/"/\\"/g' changes.patch)\"}
-              ]
+                {\"role\": \"system\", \"content\": \"You are a senior software engineer. Provide a code review with improvements, bug fixes, and suggestions.\"},
+                {\"role\": \"user\", \"content\": \"Here is the git diff:\n$(sed 's/"/\\"/g' changes.patch)\"}
+              ],
+              \"temperature\": 0.3
             }")
 
+          echo "DeepSeek review result:"
           echo "$RESPONSE" > deepseek_review.json
-          echo "Done."
-
-      - name: Save Review Comment
-        run: |
           cat deepseek_review.json
-

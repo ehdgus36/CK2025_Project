@@ -2,177 +2,317 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Linq.Expressions;
+using UnityEngine.EventSystems;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Player Player;
-    [SerializeField] EnemysGroup Enemy;
+    //Private
+    private Player _Player;
 
-    [SerializeField] GameObject EnemyDamageEffect;
-    //현재 턴
-    [SerializeField] Unit ThisTurnUnit;
-    [SerializeField] Unit NextTurnUnit;
+    private EnemysGroup _EnemysGroup;
 
-    [SerializeField] Dack CardDack;
-    [SerializeField] SlotGroup PlayerCardSloats;
-    [SerializeField] CardMixtureSystem PlayerAttackSystem;
+    private Unit ThisTurnUnit;
+    private Unit NextTurnUnit;
 
-    [SerializeField] Button TurnEndButton;
-    [SerializeField] public GameObject GameClear;
-    [SerializeField] public GameObject GameOver;
+    public Animator UIAnime;
+    //Get; Set;
 
 
-    //Manager
+    public CamShake Shake { get { return _Shaker; } }
+    public Player Player { get { return _Player; } }
 
-    [SerializeField] WaveManager WaveManager;
-    [SerializeField] HpManager HpManager;
-    [SerializeField] AttackManager AttackManager;
-    [SerializeField] UIManager UIManager;
-    [SerializeField]
-    //플레이어 기능 비활성화, 스와이프 카드 홀드
-    // Start is called before the first frame update
-
-
-
-    public static GameManager instance;
-
-    public void SetEnemy(EnemysGroup enemy) { Enemy = enemy; }
-    public CardMixtureSystem GetPlayerAttackSystem() { return PlayerAttackSystem; }
-    public Button GetTurnButton() { return TurnEndButton; }
-    public HpManager GetHpManager() { return HpManager; }
-    public AttackManager GetAttackManager() { return AttackManager; }
-
-    public EnemysGroup GetEnemysGroup() {return Enemy; }
-
-    public Player GetPlayer() { return Player; }
-    
-     void Initialize()
+    public EnemysGroup EnemysGroup
     {
-        if (Enemy == null) return;
+        get
+        {
+            if (_EnemysGroup.Enemys.Count == 0)
+                Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
 
-        Player = FindFirstObjectByType<Player>();
-        InitializeTurn();
-
-        if (WaveManager == null)
-        {
-            WaveManager = GetComponent<WaveManager>();
-            WaveManager.Initialize();
+            return _EnemysGroup;
         }
-        else
-        {
-            WaveManager.Initialize();
-        }
-
-        if (HpManager == null)
-        {
-            HpManager = GetComponent<HpManager>();
-            HpManager.Initialize();
-        }
-        else
-        {
-            HpManager.Initialize();
-        }
-
-        if (AttackManager == null)
-        {
-            AttackManager = GetComponent<AttackManager>();
-            AttackManager.Initialize();
-        }
-        else
-        {
-            AttackManager.Initialize();
-        }
-        TurnEndButton.onClick.AddListener(TurnSwap);
-        PlayerAttackSystem.Initialize();
     }
 
 
-    public void InitializeTurn()
+
+
+    //Public
+
+    public static GameManager instance { get; private set; }
+
+    public UIManager UIManager { get; private set; }
+    public MetronomeSystem Metronome { get; private set; }
+
+    public ExcutSelectCardSystem ExcutSelectCardSystem { get; private set; }
+
+    public AbilitySystem AbilitySystem { get; private set; }
+
+    //public GameObject PlayerCardSlot { get { return _CardSlot; } }
+
+    public ItemDataLoader ItemDataLoader { get; private set; }
+
+    public CardCastPlace PlayerCardCastPlace { get { return _PlayerCardCastPlace; } }
+
+    public CemeteryUI CardCemetery { get { return _CardCemetery; } }
+
+    public PlayerCDSlotGroup PlayerCDSlotGroup { get { return _PlayerCDSlotGroup; } }
+
+
+    public PostProcessingSystem PostProcessingSystem { get { return _PostProcessingSystem; } }
+
+    public FMODManagerSystem FMODManagerSystem { get { return _FMODManagerSystem; } }
+
+    public DimBackGroundObject DimBackGroundObject { get { return _DimBackGroundObject; } }
+
+
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    //인스펙터에서 데이터 받아옴
+
+    [SerializeField] CardCastPlace _PlayerCardCastPlace;
+
+    [SerializeField] CemeteryUI _CardCemetery;
+    [SerializeField] PlayerCDSlotGroup _PlayerCDSlotGroup;
+    [SerializeField] GameObject GameClear;
+    [SerializeField] GameObject GameOver;
+    [SerializeField] CamShake _Shaker;
+
+    // [SerializeField] GameObject _CardSlot;
+    [SerializeField] GameObject PlayerTurnMark;
+    [SerializeField] GameObject EnemyTurnMark;
+    [SerializeField] GameObject GameStartMark;
+    [SerializeField] Button EndTurnButton;
+
+    [SerializeField] PostProcessingSystem _PostProcessingSystem;
+    [SerializeField] FMODManagerSystem _FMODManagerSystem;
+    [SerializeField] GameObject EventSystem;
+
+    [SerializeField] Animator _ControlleCam;
+
+    [SerializeField] int ClearGold = 0;
+
+    [SerializeField] DimBackGroundObject _DimBackGroundObject;
+
+    GameObject ThisTrunMark;
+    GameObject NextTrunMark;
+
+
+    public Animator ControlleCam => _ControlleCam;
+    public int GetClearGold { get { return ClearGold; } }
+
+    public Button GetEndTurnButton { get { return EndTurnButton; } }
+
+    bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
+    IEnumerator Initialize()
     {
         
+        ItemDataLoader = gameObject.GetComponent<ItemDataLoader>();
+
+        ExcutSelectCardSystem = gameObject.GetComponent<ExcutSelectCardSystem>();
+        ItemDataLoader?.LoadData();
+
+        _Player = FindFirstObjectByType<Player>();
+        _EnemysGroup = FindFirstObjectByType<EnemysGroup>();
+
         ThisTurnUnit = Player;
-        NextTurnUnit = Enemy;
+        NextTurnUnit = EnemysGroup;
 
-        ThisTurnUnit.InitTurnCount();
-        NextTurnUnit.InitTurnCount();
+        ThisTrunMark = PlayerTurnMark;
+        NextTrunMark = EnemyTurnMark;
 
 
-        ThisTurnUnit.StartTurn();
+        AbilitySystem = new AbilitySystem();
+
+        yield return null;
+
+        
+     
+
+        if (Metronome == null)
+        {
+            Metronome = GetComponent<MetronomeSystem>();        
+        }
+
+
+        _FMODManagerSystem?.Initialize();
+        _PostProcessingSystem?.Initialized();
+        _EnemysGroup?.Initialize();
+        _Player?.Initialize();
 
        
-    }
-      
-    void Start()
+
+        if (UIManager == null)
+        {
+            UIManager = GetComponent<UIManager>();
+            UIManager.Initialize();
+        }
+        else
+        {
+            UIManager.Initialize();
+        }
+
+        yield return null;
+
+        EndTurnButton?.onClick.AddListener(TurnSwap);
+        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/Turn_End"); }); // 클릭시 사운드
+        
+        //EndTurnButton?.gameObject.SetActive(false);
+
+
+        _PlayerCardCastPlace.Reset();
+        ExcutSelectCardSystem.initialize();
+        ThisTurnUnit.StartTurn();
+        //Metronome.AddOnceMetronomEvent(() => { BGMAudioSource.Play(); });
+        StartCoroutine(TurnMark());
+     }
+
+
+    private void Awake()
     {
         if (instance == null) 
         {
             instance = this; 
         }
-        Initialize();
-
+        StartCoroutine(Initialize());
     }
 
-   
+    public void ReStart(string sceneName)
+    { 
+        SceneManager.LoadScene(sceneName);
+        PlayerPrefs.SetInt("PlayerHP", 50);
+        Player.addHP(100);
+    }
+
+    public void GameFail()
+    { 
+        GameOver.SetActive(true);
+        _FMODManagerSystem.PlayEffectSound("event:/UI/Fail_Stage");
+    }
+
+    public void GameClearFun()
+    {
+        StartCoroutine(DeleyLoadScene());
+    }
+
+    IEnumerator DeleyLoadScene()
+    {
+
+        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => PlayerCardCastPlace.isByeByeStart == false );
+
+        int gold = 0;
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA,out gold);
+        gold += ClearGold;
+
+
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, gold);
+        _FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage"); // 클리어 사운드
+        GameClear.SetActive(true);
+        Player.PlayerSave();
+
+        // 돈 입금기능 해야함
+        
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            PlayerPrefs.SetInt("PlayerHP", 50);
+            Player.addHP(100);
+        }
+    }
+
+
+    public void EndTurn()
+    {
+        EndTurnButton.gameObject.SetActive(true);
+    }
 
     public void TurnSwap()
     {
-       
-        if (PlayerAttackSystem == null) return;
-
-
-        ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
-        (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
-
-        ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
-    }
-  
-
-    public void PlayerCardDrow()
-    {
-        SlotUI[] playerCardSlots = PlayerCardSloats.Getsloat();
-        List<Card> playerCard = CardDack.CardDrow(playerCardSlots.Length);
-
-        for (int i = 0; i < playerCardSlots.Length; i++)
-        {
-           playerCardSlots[i].InsertData(playerCard[i].gameObject);
-        }
-
-        PlayerCardSloats.GetComponent<Animator>().Play("Drow");
-    }
-
-
-    //플레이어 턴 종료시 남은 카드 덱으로 돌려려주기
-    public void PlayerCardReturn()
-    {
-        PlayerCardSloats.GetComponent<Animator>().Play("CardReturn");
-
-        StartCoroutine("CardReturn");
-    }
-    IEnumerator CardReturn()
-    { 
-        yield return new WaitForSeconds(1f);
-        List<Card> playerCard = PlayerCardSloats.ReadData<Card>();
-        for (int i = 0; i < playerCard.Count; i++)
-        {
-            CardDack.InsertCard(playerCard[i].GetComponent<Card>());
-        }
-       
-    }
-
-
-    public void NextWave()
-    {
-        if (ThisTurnUnit == Player)
-        {
-            TurnSwap();
-        }
-
-        PlayerCardReturn();
-
-        WaveManager.NextWave();
-        HpManager.Initialize();
-
+        // 턴앤드 클릭시 TurnSwap함수 재생
         
+
+        Metronome.AddOnceMetronomX4Event(() =>
+        {
+            ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
+            (ThisTurnUnit, NextTurnUnit) = (NextTurnUnit, ThisTurnUnit); //swap
+
+            ThisTurnUnit.StartTurn(); //ThisTurnUnit이 변경후 StartTurn함수 실행
+
+            if (ThisTurnUnit.GetType() == typeof(Player))
+            {
+                UIAnime.Play("Active_UIAnimation");
+                _FMODManagerSystem.FMODChangePlayer();
+            }
+
+            if (ThisTurnUnit.GetType() == typeof(EnemysGroup))
+            {
+                UIAnime.Play("Hide_UIAnimation");
+                _FMODManagerSystem.FMODChangeMonsterTurn();
+            }
+
+            StartCoroutine(TurnMark());
+        });
+
+       
+
     }
-   
+
+    IEnumerator TurnMark()
+    {
+        if (isStart == false)
+        {    
+            isStart = true;
+            yield return new WaitForSeconds(.2f);
+            _FMODManagerSystem.PlayEffectSound("event:/UI/Game_Start"); // 사운드도 같이
+            GameStartMark.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            GameStartMark.SetActive(false);
+        }
+
+
+        yield return new WaitForSeconds(.2f);
+        _FMODManagerSystem.PlayEffectSound("event:/UI/Change_Turn"); // 사운드도 같이
+        ThisTrunMark.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        ThisTrunMark.SetActive(false);
+
+        (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
+
+       
+
+    }
+
+
+
+    public void FailEvent()
+    {
+        SceneManager.LoadScene("LobbyScene");
+    }
+
+    /// <summary>
+    /// Combo의 수치를 업그레이드
+    /// </summary>
+    /// <param name="data"></param>
+    public void ComboUpdate(int data)
+    {
+        //StartCoroutine(UPdateComboCount(data*2));
+    }
+
+ 
+
+
+    public void UIInputSetActive(bool active)
+    {
+       EventSystem.SetActive(active);
+    }
 }

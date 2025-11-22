@@ -2,78 +2,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine;
+using Spine.Unity;
+
+
+
 
 public class AttackManager : MonoBehaviour
 {
-    Transform FromUnitPos;
-    Transform ToUnitPos;
+    [System.Serializable]
+    struct AttakEffectData
+    {
+        [SerializeField] public string code;
+        [SerializeField] public GameObject Effect;
+    }
 
-    [SerializeField] int TotalDamage;
-    [SerializeField] Sprite AttackSprite;
-    [SerializeField] int AttackCount = 1;
-    [SerializeField] int CurrentAttackCount = 0;
-    [SerializeField] AttackEffectObj attackObj;
-    [SerializeField] AttackType attackType;
+    SkeletonAnimation anime;
+
+    [SerializeField] AttakEffectData[] AttackEffectDatas;
+
+
+    Dictionary<string,GameObject> AttackEffects = new Dictionary<string,GameObject>();
+  
+ 
+
+    [SerializeField]AudioSource audioSource;
     public void Initialize()
     {
-        TotalDamage = 0;
-        AttackSprite = null;
-        AttackCount = 1;
-        CurrentAttackCount = 0;
-        attackType = AttackType.None;
+        
+        for (int i = 0; i < AttackEffectDatas.Length; i++)
+        {
+            AttackEffects.Add(AttackEffectDatas[i].code , AttackEffectDatas[i].Effect);
+        }
     }
 
-    public void Attack(Unit from, Unit to, AttackData data)
+    void PlayerAttackEffect(string code)
     {
-        FromUnitPos = from.transform;
-        ToUnitPos = to.transform;
-
-        to.TakeDamage(data);
-       
-
-        StartCoroutine("AttackUpdate");
+        AttackEffects[code]?.SetActive(false);
+        AttackEffects[code]?.SetActive(true);
     }
 
-    IEnumerator AttackUpdate()
+    public void Attack(RecipeData data)
     {
-        if (attackType == AttackType.Single)
+        StartCoroutine(AttackDelay(data));
+    }
+
+
+    IEnumerator AttackDelay(RecipeData data)
+    {
+        string code = data.Card_Code_1;
+
+        if (AttackEffects.ContainsKey(code))
         {
-            for (int i = 0; i < AttackCount; i++)
-            {
-                AttackEffectObj obj = Instantiate<AttackEffectObj>(attackObj, FromUnitPos.position, FromUnitPos.rotation);
-                obj.SetData(ToUnitPos, AttackDamage, AttackSprite);
-                yield return new WaitForSeconds(0.2f);
-            }
+            PlayerAttackEffect(code);
         }
-        if (attackType == AttackType.All)
-        {
-            for (int i = 0; i < AttackCount; i++)
-            {
-                AttackEffectObj obj = Instantiate<AttackEffectObj>(attackObj, FromUnitPos.position, FromUnitPos.rotation);
-                obj.SetData(ToUnitPos, AttackAllDamage, AttackSprite);
-                yield return new WaitForSeconds(0.2f);
-            }
-        }
+
         yield return null;
-    }
-
-    void AttackDamage()
-    {
-       // GameManager.instance.AttackDamage(TotalDamage);
-        CurrentAttackCount++;
-        if (AttackCount == CurrentAttackCount)
-        {
-            Initialize();
-        }
-    }
-
-    void AttackAllDamage()
-    {
-        GameManager.instance.GetEnemysGroup().TakeAllDamage(TotalDamage);
-        CurrentAttackCount++;
-        if (AttackCount == CurrentAttackCount)
-        {
-            Initialize();
-        }
     }
 }

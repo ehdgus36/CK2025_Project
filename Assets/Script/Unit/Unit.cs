@@ -3,82 +3,146 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+
+[System.Serializable]
+public class UnitData
+{
+    [SerializeField] public string DataKey;
+    [SerializeField] public int MaxHp;
+
+    [SerializeField]private int _CurrentHp;
+    [HideInInspector] public int CurrentHp
+    {
+        get { return _CurrentHp; }
+        set
+        {
+            _CurrentHp = Mathf.Clamp(value , 0 , MaxHp);  
+        }
+    }
+
+    [SerializeField] private int _CurrentBarrier;
+    [HideInInspector] public int CurrentBarrier
+    {
+        get { return _CurrentBarrier; }
+        set
+        {
+            _CurrentBarrier = value; // 아마 1000까지는 올라가지 않을듯
+        }
+    }
+
+   public List<Buff> buffs = new List<Buff>();
+
+
+
+}
+
 public class Unit : MonoBehaviour
 {
-    [SerializeField] protected int UnitMaxHp = 10;
-    [SerializeField] protected int UnitCurrentHp = 10;
+
+    [SerializeField]
+    protected UnitData UnitData;
    
-    [SerializeField] protected List<Buff> CurrentBuff;
+    
 
-    [SerializeField] public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
 
+
+    [HideInInspector]public bool IsTurn = false; //자신의 턴을 활성화 //일단 임시로 스턴효과 만들기위해 public
+
+    
     protected int TurnCount = 0;
 
-   [SerializeField] protected UnityAction StartTurnEvent;
+    [SerializeField] protected UnityAction StartTurnEvent;
     protected UnityAction EndTurnEvent;
-    //protected UnityAction DieEvent;
+    protected UnityAction DieEvent;
     // protected int UnitDamage =1;
 
-    public int GetMaxHp() { return UnitMaxHp; }
-    public int GetUnitCurrentHp() { return UnitCurrentHp; }
+    
 
     public void InitTurnCount() { TurnCount = 0; }
 
-    public virtual void TakeDamage(int damage)
+    protected virtual void TakeDamageEvent(Unit form, int damage, int resultDamage, Buff buff = null) { }
+    public void TakeDamage(Unit form ,int damage, Buff buff = null)
     {
-        if (damage < 0)
+        
+        if (damage <= 0) return;
+        int resultDamage = damage;
+
+        if (UnitData.CurrentBarrier > 0)
         {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
+
+           
+            if (UnitData.CurrentBarrier - resultDamage >= 0) //베리어가 남거나 0이면
+            {
+                UnitData.CurrentBarrier -= resultDamage;
+                resultDamage = 0;
+            }
+
+            if (UnitData.CurrentBarrier - resultDamage < 0) // 베리어가 0미만이면 데미지
+            {
+                resultDamage -= UnitData.CurrentBarrier;
+                UnitData.CurrentBarrier = 0;
+            }
+        }
+
+
+        UnitData.CurrentHp -= resultDamage;
+
+        if (UnitData.CurrentHp <= 0)
+        {
+            UnitData.CurrentHp = 0;
+            Die();
             return;
         }
 
-        UnitCurrentHp -= damage;
-
-        if (UnitCurrentHp <= 0)
-        {
-            Die();
-        }
+        AddBuff(buff);
+        TakeDamageEvent(form, damage, resultDamage, buff);
     }
 
-    public virtual void TakeDamage(AttackData data)
+    void Die() 
     {
-
-        Debug.Log("공격" +data.Damage);
-        if (data.Damage < 0)
-        {
-            Debug.Log("TakeDamge함수에 0보다 작은 수치가 들어옴");
-            return;
-        }
-
-        UnitCurrentHp -= data.Damage;
-
-        if (data.Buff)
-        {
-            CurrentBuff.Add(data.Buff);
-        }
-
-
-        if (UnitCurrentHp <= 0)
-        {
-            Die();
-        }
+        
+        DieEvent?.Invoke();
     }
 
-    protected virtual void Die() 
+    public virtual void AddBuff(Buff buff)
     {
-        Debug.Log("Die() 활성화");
-       // DieEvent?.Invoke();
+        if (HellfireAction.isHellFire == true)
+        {
+            if (buff.GetType() == typeof(FireBuff))
+            {
+                buff = new FireBuffBrunOut(BuffType.Start, buff.GetBuffDurationTurn(), 12); //번아웃
+            }
+        }
+
+
+        if (buff != null)
+        {
+            bool IsBuffType = false;
+
+            for (int i = 0; i < UnitData.buffs.Count; i++)
+            {
+                if (UnitData.buffs[i].GetType() == buff.GetType())
+                {
+                    UnitData.buffs[i].AddBuffTurnCount(buff.GetBuffDurationTurn());
+
+                    IsBuffType = true;
+                }
+            }
+
+            if (IsBuffType == false)
+            {
+                UnitData.buffs.Add(buff.Clone());
+            }
+        }
     }
 
     //Unit의 턴이 시작했을 때 호출
     public void StartTurn() 
     {
-
         IsTurn = true;
         BuffExecution(BuffType.Start);
-
-        Debug.Log(gameObject.name + "attack");
-
+      
         if (IsTurn == false) return; 
         
         StartTurnEvent?.Invoke();
@@ -94,15 +158,23 @@ public class Unit : MonoBehaviour
         EndTurnEvent?.Invoke();
     }
 
+    public void RemoveBuff(Buff buff)
+    { 
+        UnitData.buffs.Remove(buff);
+    }
+
     void BuffExecution(BuffType type)
     {
-        if (CurrentBuff.Count != 0)
+        if (UnitData.buffs == null) return;
+
+       
+        if (UnitData.buffs.Count != 0)
         {
-            for (int i = 0; i < CurrentBuff.Count; i++)
+            for (int i = 0; i < UnitData.buffs.Count; i++)
             {
-                if (CurrentBuff[i].GetBuffType() == type)
+                if (UnitData.buffs[i].GetBuffType() == type)
                 {
-                    CurrentBuff[i].StartBuff(this);
+                    UnitData.buffs[i].StartBuff(this);
                 }
             }
         }

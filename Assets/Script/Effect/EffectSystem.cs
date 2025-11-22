@@ -86,7 +86,7 @@ public class EffectSystem : MonoBehaviour
 
         Vector3 offset = Vector3.zero; // 오프셋값 저장
 
-        for (int i = 0; i < EffectData.EffectDatas.Length; i++) //스크립터블 오브젝트의 데이터에서 오프셋 값을 받아옴
+        for (int i = 0; i < EffectData.EffectDatas.Length; i++) // 스크립터블 오브젝트의 데이터에서 오프셋 값을 받아옴
         {
             if (EffectData.EffectDatas[i].EffectCode == effectCode)
             {

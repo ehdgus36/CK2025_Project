@@ -8,10 +8,10 @@ public class Buff_Icon_UI : MonoBehaviour
 
     public void UpdateBuffIcon(List<Buff> buffs)
     {
-       // Debug.Log(buffs.GetType());
+        // Debug.Log(buffs.GetType());
 
         if (buffs == null) return;
-       // Debug.Log("UI갱신 활성화");
+        // Debug.Log("UI갱신 활성화");
 
         for (int i = 0; i < BuffIcon.Length; i++)
         {
@@ -23,38 +23,39 @@ public class Buff_Icon_UI : MonoBehaviour
 
         for (int i = 0; i < buffs.Count; i++)
         {
-            //if (buffs[i].GetState == BuffState.Enable)
-            //{
 
             string buffTurn = buffs[i].GetBuffDurationTurn().ToString();
 
-            if (buffs[i].GetBuffDurationTurn() == 0)
+            if (buffs[i].GetBuffDurationTurn() <= 0)
             {
                 buffTurn = "";
+
+                continue;
+
             }
 
-            
+
 
             switch (buffs[i])
             {
                 case FireBuffBrunOut F: // 빨
-                    Debug.Log("UI갱신");
+
                     BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[0].text = buffTurn;
                     if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
 
                 case FireBuff F: // 빨
-                    Debug.Log("UI갱신");
+
                     BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[1].text = buffTurn;
-                    if (buffTurn == "") BuffIcon[0].gameObject.transform.parent.gameObject.SetActive(false);
+                    if (buffTurn == "") BuffIcon[1].gameObject.transform.parent.gameObject.SetActive(false);
                     break;
-
 
                 case AttackDamageDownBuff_Mute F: // 초
                     BuffIcon[2].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[2].text = buffTurn;
+
                     break;
 
                 case AttackDamageDownBuff F: // 초
@@ -62,14 +63,10 @@ public class Buff_Icon_UI : MonoBehaviour
                     BuffIcon[3].text = buffTurn;
                     break;
 
-               
-
                 case BarbedArmorBuff F: // 초
                     BuffIcon[4].gameObject.transform.parent.gameObject.SetActive(true);
                     BuffIcon[4].text = buffTurn;
                     break;
-
-              
 
                 case VolumeUPBuff F: // 초
                     BuffIcon[5].gameObject.transform.parent.gameObject.SetActive(true);
@@ -81,15 +78,20 @@ public class Buff_Icon_UI : MonoBehaviour
                     BuffIcon[6].text = buffTurn;
                     break;
 
-            }
-            //}
-            //else // 남은 턴수가 0이면 지워주기
-            // {
-            //Debug.Log("UI갱신");
+                case PoisonBuff F: // 초
+                    BuffIcon[7].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[7].text = buffTurn;
+                    break;
 
-            //BuffIcon[i].gameObject.transform.parent.gameObject.SetActive(false); 
-            //BuffIcon[i].text = buffs[i].GetBuffDurationTurn().ToString();
-            //}
+                case ShildeBuff F: // 초
+                    BuffIcon[8].gameObject.transform.parent.gameObject.SetActive(true);
+                    BuffIcon[8].text = buffTurn;
+                    break;
+
+            }
+
+            
+           
         }
     }
 

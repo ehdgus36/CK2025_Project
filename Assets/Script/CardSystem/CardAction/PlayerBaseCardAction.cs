@@ -51,7 +51,13 @@ public abstract class PlayerBaseCardAction
 
     protected virtual void CompleteEvent(TrackEntry entry)
     {
+        if (bit1 == false) bit1 = true;
+        if (bit2 == false) bit2 = true;
+        if (bit3 == false) bit3 = true;
+        if (bit4 == false) bit4 = true;
+
+
         thisCard.IsCardEnd = true;
-        Debug.Log("isCardEnd : " + thisCard.IsCardEnd);
+        
     }
 }

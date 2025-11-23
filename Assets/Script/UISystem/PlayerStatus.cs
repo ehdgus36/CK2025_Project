@@ -31,7 +31,7 @@ public class PlayerStatus : DynamicUIObject
         UnitData playerData = (UnitData)update_ui_data;
 
         if (playerData != null)
-        {
+        { 
             UpdataStatus(playerData);
         }
     }

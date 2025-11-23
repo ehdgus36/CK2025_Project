@@ -9,7 +9,7 @@ using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class RhythmView : MonoBehaviour
 {
-    [SerializeField] public string NoteData;
+    [SerializeField] public string NoteData { get; set; }
     [SerializeField] Image[] ViewNote;
     
    
@@ -62,7 +62,7 @@ public class RhythmView : MonoBehaviour
         {
             startObject.SetActive(true);
             currentBeat++;
-            RuntimeManager.PlayOneShot("event:/UI/Turn_End");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Go");
             return;
         }
 
@@ -73,10 +73,10 @@ public class RhythmView : MonoBehaviour
 
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
-                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.5f);
+                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem_Ani", false, null, null, false, 1.7f);
 
             }
-            RuntimeManager.PlayOneShot("event:/Character/Player_CH/Player_Attack");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Left");
             noteIndex++;
         }
 
@@ -86,9 +86,9 @@ public class RhythmView : MonoBehaviour
             ViewNote[noteIndex].sprite = GameManager.instance.EnemysGroup.GetRhythmSystem.GetRImage;
             for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
             {
-                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.5f);
+                GameManager.instance.EnemysGroup.Enemys[i].UnitAnimationSystem.PlayAnimation("Rhytem2_Ani", false, null, null, false, 1.7f);
             }
-            RuntimeManager.PlayOneShot("event:/Effect/Defense/Defense_Success");
+            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Rythm_Game/Monster_Right");
             noteIndex++;
         }
         currentBeat++;

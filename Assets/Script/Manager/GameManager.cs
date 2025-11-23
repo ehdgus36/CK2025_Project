@@ -1,12 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Linq.Expressions;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +21,8 @@ public class GameManager : MonoBehaviour
     //Get; Set;
 
 
+    public Unit GetThisTurnUnit { get { return ThisTurnUnit; } }
+
     public CamShake Shake { get { return _Shaker; } }
     public Player Player { get { return _Player; } }
 
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
         get
         {
             if (_EnemysGroup.Enemys.Count == 0)
-                Debug.LogError("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
+                Debug.Log("EnemysGroup의 Count값이 0 입니다 지정된 Enemy가 없습니다");
 
             return _EnemysGroup;
         }
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Animator _ControlleCam;
 
-    [SerializeField] int ClearGold = 0;
+    [SerializeField]int ClearGold = 50;
 
     [SerializeField] DimBackGroundObject _DimBackGroundObject;
 
@@ -110,6 +111,8 @@ public class GameManager : MonoBehaviour
     public Button GetEndTurnButton { get { return EndTurnButton; } }
 
     bool isStart = false; // 게임 처음 시작할 때("전투 시작 UI 표시") 표시
+
+    bool isClear = false;
     IEnumerator Initialize()
     {
         
@@ -161,7 +164,7 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         EndTurnButton?.onClick.AddListener(TurnSwap);
-        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/Turn_End"); }); // 클릭시 사운드
+        EndTurnButton?.onClick.AddListener(() => { _FMODManagerSystem.PlayEffectSound("event:/UI/In_Game/Turnend_Button"); }); // 클릭시 사운드
         
         //EndTurnButton?.gameObject.SetActive(false);
 
@@ -191,21 +194,52 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameFail()
-    { 
+    {
+        StartCoroutine(FaillDeleyLoadScene());
+    }
+
+    IEnumerator FaillDeleyLoadScene()
+    {
+        UIAnime.Play("Hide_UIAnimation");
+        yield return new WaitForSeconds(.2f);
+        _ControlleCam.Play("DieCamAnime");
+        Player.PlayerAnimator.MainLayerPlayAnimation("Die_Ani");
+        yield return new WaitForSeconds(1.5f);
+
         GameOver.SetActive(true);
         _FMODManagerSystem.PlayEffectSound("event:/UI/Fail_Stage");
+
+
+        yield return new WaitForSeconds(.35f);
+        Player.gameObject.SetActive(false);
     }
+
 
     public void GameClearFun()
     {
+        if (isClear == true) return;
+
+        isClear = true;
+        GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.ResetTable();
         StartCoroutine(DeleyLoadScene());
     }
 
     IEnumerator DeleyLoadScene()
     {
 
+        
+        yield return new WaitForSeconds(1f);
+        Player.transform.GetChild(0).transform.localPosition = Vector3.zero;
+        UIAnime.Play("Hide_UIAnimation");
+        _PlayerCDSlotGroup.gameObject.SetActive(false);
+
+        UIManager.CardDescription.SetActive(false);
+
+        yield return new WaitForSeconds(.2f);
         yield return new WaitForSeconds(1f);
         yield return new WaitUntil(() => PlayerCardCastPlace.isByeByeStart == false );
+
+
 
         int gold = 0;
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<int>(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA,out gold);
@@ -213,7 +247,19 @@ public class GameManager : MonoBehaviour
 
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, gold);
-        _FMODManagerSystem.PlayEffectSound("event:/UI/Clear_Stage"); // 클리어 사운드
+
+
+        GameManager.instance.ControlleCam.Play("DieCamAnime");
+        yield return new WaitForSeconds(.5f);
+        FMODManagerSystem.PlayEffectSound("event:/Character/PC/Game_Clear");
+        _Player.PlayerAnimator.MainLayerPlayAnimation("Win_Ani");
+
+        yield return new WaitForSeconds(1.5f);
+
+        FMODManagerSystem.FMODChangeClear();
+
+        if (_Player.isDie == true) yield break;
+
         GameClear.SetActive(true);
         Player.PlayerSave();
 
@@ -233,14 +279,16 @@ public class GameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        EndTurnButton.gameObject.SetActive(true);
+        EndTurnButton.gameObject.SetActive(false);
     }
 
     public void TurnSwap()
     {
         // 턴앤드 클릭시 TurnSwap함수 재생
-        
 
+        if (Player.isDie == true || isClear == true) return;
+
+        EndTurn();
         Metronome.AddOnceMetronomX4Event(() =>
         {
             ThisTurnUnit.EndTurn(); //ThisTurnUnit이 변경전 EndTurn실행하여 마무리
@@ -252,6 +300,7 @@ public class GameManager : MonoBehaviour
             {
                 UIAnime.Play("Active_UIAnimation");
                 _FMODManagerSystem.FMODChangePlayer();
+               
             }
 
             if (ThisTurnUnit.GetType() == typeof(EnemysGroup))
@@ -269,6 +318,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator TurnMark()
     {
+        UIInputSetActive(false);
         if (isStart == false)
         {    
             isStart = true;
@@ -281,14 +331,14 @@ public class GameManager : MonoBehaviour
 
 
         yield return new WaitForSeconds(.2f);
-        _FMODManagerSystem.PlayEffectSound("event:/UI/Change_Turn"); // 사운드도 같이
+        _FMODManagerSystem.PlayEffectSound("event:/UI/In_Game/Turn_Change"); // 사운드도 같이
         ThisTrunMark.SetActive(true);
         yield return new WaitForSeconds(1f);
         ThisTrunMark.SetActive(false);
 
         (ThisTrunMark, NextTrunMark) =  (NextTrunMark ,ThisTrunMark); // swap
 
-       
+        UIInputSetActive(true);
 
     }
 

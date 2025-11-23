@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class LoadingScreen : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        RuntimeManager.PlayOneShot("event:/UI/Loding");
         loadingUI.SetActive(true);
         StartCoroutine(LoadSceneAsync(sceneName));
     }

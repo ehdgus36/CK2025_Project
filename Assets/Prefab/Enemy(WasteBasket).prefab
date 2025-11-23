@@ -85,7 +85,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3092820830176580139
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1474157413135177214
@@ -379,26 +379,31 @@ MonoBehaviour:
     MaxHp: 0
     _CurrentHp: 0
     _CurrentBarrier: 0
+    buffs: []
   IsTurn: 0
   EnemyData:
+    Enemy_ID: E07
     EnemyUnitData:
       DataKey: 
       MaxHp: 13
       _CurrentHp: 13
       _CurrentBarrier: 0
+      buffs: []
     MaxSkillPoint: 1
     CurrentSkillPoint: 0
     MaxDamage: 5
     CurrentDamage: 5
-    Enemy_Sprite: {fileID: 21300000, guid: ad82354b7bd14d34cb467124f3972a9c, type: 3}
+    Enemy_Sprite: {fileID: 21300000, guid: 75a8e026574617640ad4372457325f59, type: 3}
   EnemyAnimator: {fileID: 851197728222316820}
   EnemyStatus: {fileID: 3480063013976035021}
   buffLayer: -1
   fontSystem: {fileID: 249273777572987110}
   EffectSystem: {fileID: 3563871837635192520}
   AttackOffset: {x: 2, y: 0, z: 0}
-  isAttackEnd: 0
   isBarbedArmor: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &851197728222316820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,7 +627,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7577905552701962366
@@ -721,7 +726,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7560491386714495609
@@ -840,7 +845,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2999130007872144833
@@ -966,26 +971,6 @@ PrefabInstance:
     - target: {fileID: 7375888680490509043, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_Name
       value: Canvas(HP)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.86742
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.86742
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.86742
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -176.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

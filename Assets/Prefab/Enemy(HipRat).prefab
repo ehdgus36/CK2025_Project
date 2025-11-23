@@ -84,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1279274357419945069
@@ -172,7 +172,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8170656179106277974
@@ -406,7 +406,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6146934842822863285
@@ -463,29 +463,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitData:
     DataKey: 
-    MaxHp: 0
-    _CurrentHp: 0
+    MaxHp: 20
+    _CurrentHp: 20
     _CurrentBarrier: 0
+    buffs: []
   IsTurn: 0
   EnemyData:
+    Enemy_ID: E04
     EnemyUnitData:
       DataKey: 
-      MaxHp: 12
-      _CurrentHp: 12
+      MaxHp: 20
+      _CurrentHp: 20
       _CurrentBarrier: 0
-    MaxSkillPoint: 1
+      buffs: []
+    MaxSkillPoint: 3
     CurrentSkillPoint: 0
-    MaxDamage: 5
-    CurrentDamage: 5
-    Enemy_Sprite: {fileID: 21300000, guid: e06aa7e61ff1d324b89633473b97ed43, type: 3}
+    MaxDamage: 6
+    CurrentDamage: 6
+    Enemy_Sprite: {fileID: 21300000, guid: cc18c7b5ccc5d2f4bbe2111c862c77f0, type: 3}
   EnemyAnimator: {fileID: 2268474195922947219}
   EnemyStatus: {fileID: 113841952387769093}
   buffLayer: -1
   fontSystem: {fileID: 3650802288120212782}
   EffectSystem: {fileID: 3516856929990264621}
   AttackOffset: {x: 2, y: 0, z: 0}
-  isAttackEnd: 0
   isBarbedArmor: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &2268474195922947219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,28 +519,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aIBehavior:
-    rid: 2090276449113342086
+    rid: 2090276757005664347
   references:
     version: 2
     RefIds:
-    - rid: 2090276449113342086
-      type: {class: EnemyAI_HIPPOP_Behavior, ns: , asm: Assembly-CSharp}
+    - rid: 2090276757005664347
+      type: {class: EnemyAI_CustomSkill2_Behavior, ns: , asm: Assembly-CSharp}
       data:
         EnemyDefaultAttackState:
-          rid: 2090276449113342087
+          rid: 2090276757005664348
         EnemySkillState:
-          rid: 2090276449113342088
+          rid: 2090276757005664349
         EnemySkillState2:
-          rid: 2090276449113342089
-    - rid: 2090276449113342087
+          rid: 2090276757005664350
+    - rid: 2090276757005664348
       type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
       data:
         _AttackCount: 1
-    - rid: 2090276449113342088
-      type: {class: EnemySkill_BarbedArmor_State, ns: , asm: Assembly-CSharp}
+    - rid: 2090276757005664349
+      type: {class: EnemySkill_AttackRecoverHP_State, ns: , asm: Assembly-CSharp}
       data:
         _AttackCount: 1
-    - rid: 2090276449113342089
+    - rid: 2090276757005664350
       type: {class: EnemySkill_MultiAttack_State, ns: , asm: Assembly-CSharp}
       data:
         _AttackCount: 2
@@ -740,7 +745,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1261179817074108787
@@ -840,7 +845,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4495002119273965019
@@ -966,34 +971,6 @@ PrefabInstance:
     - target: {fileID: 7375888680490509043, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
       propertyPath: m_Name
       value: Canvas(HP)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 272.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 279.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.91161
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.91161
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.91161
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -177.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983166478730747424, guid: cd7f0bca6d9463241bd0c69d77186f9f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -29.41
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

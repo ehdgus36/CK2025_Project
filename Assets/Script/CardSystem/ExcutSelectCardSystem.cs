@@ -186,9 +186,12 @@ public class ExcutSelectCardSystem : MonoBehaviour
                     {
                         if (_SelectCard.cardData.Target_Type == "2")
                         {
-                            if (ManaSystem.UseMana(1) && ReservedCard(_SelectCard, _TargetEnemy))
+                            if (ManaSystem.UseMana(1))
                             {
-                                ArrowUIObject.SetActive(false);
+                                if (ReservedCard(_SelectCard, _TargetEnemy))
+                                {
+                                    ArrowUIObject.SetActive(false);
+                                }
 
                             }
                         }

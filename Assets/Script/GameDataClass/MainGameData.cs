@@ -202,7 +202,7 @@ namespace GameDataSystem
             AddDynamicDataBase("MapSave", "");
 
             //ITEM관련 초기화
-            AddDynamicDataBase(DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, new List<string>() { "0", "0", "0" });
+            AddDynamicDataBase(DynamicGameDataKeys.STICKER_ITME_INVENTORY_DATA, new List<string>() { "It02", "0", "0" });
             AddDynamicDataBase(DynamicGameDataKeys.STRAP_ITME_INVENTORY_DATA, new List<string>() { "0", "0", "0" });
             AddDynamicDataBase(DynamicGameDataKeys.STRING_ITME_INVENTORY_DATA, new List<string>() { "0", "0", "0" });
 
@@ -212,7 +212,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
 
 
-            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new List<string>() { "0.5", "0.5", "0.5" });
+            AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new List<string>() { "1", "1", "1" });
 
             //기본 카드데이터 삽입
             List<string> CardCodes = new List<string>();

@@ -209,7 +209,7 @@ namespace GameDataSystem
             AddDynamicDataBase(DynamicGameDataKeys.RAND_ITEM_DATA, new List<string>() { "It02", "It03", "It11", "It12", "It13", "It31", "It32", "It33" });
           
 
-            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "It01", "0", "0" });
+            AddDynamicDataBase(DynamicGameDataKeys.ITEM_HOLD_DATA, new List<string>() { "0", "0", "0" });
 
 
             AddDynamicDataBase(DynamicGameDataKeys.SOUNDVIEW_DATA, new List<string>() { "1", "1", "1" });

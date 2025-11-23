@@ -9,7 +9,7 @@ public class PlayerBuffCardAction
     
 }
 
-public class DistortionAction : SingleAttackAction
+public class DistortionAction : PlayerBaseCardAction
 {
     public DistortionAction(Card card) : base(card)
     {
@@ -19,32 +19,24 @@ public class DistortionAction : SingleAttackAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-      
         yield return new WaitUntil(() => bit2 == true);
+        //음파 날아가기
 
-        yield return new WaitForSeconds(.1f);
 
-        GameObject Effect = player.PlayerEffectSystem.EffectObject("Distortion_Effect", player.transform.position);
 
+        yield return new WaitUntil(()=> bit3 == true);
 
         float T = 0;
-
+        GameObject ball = new GameObject();
 
         for (int i = 0; i < 20; i++)
         {
-            Effect.transform.position = Vector3.Lerp(GameManager.instance.Player.transform.position, Target.transform.position + new Vector3(0, 0.8f, 0), T);
+            ball.transform.position = Vector3.Lerp(GameManager.instance.Player.transform.position, Target.transform.position , T);
             T += 0.05f;
-            yield return new WaitForSeconds(0.012f);
+            yield return new WaitForSeconds(0.02f);
         }
-
-        yield return SingleAttack(cardData, Target, 1);
-
-        player.PlayerEffectSystem.StopEffect("Distortion_Effect");
-        player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);
-       
         yield return new WaitUntil(() => bit4 == true);
-
-       
+        Target.AddBuff(cardData.CardBuff);
     }
 }
 
@@ -85,8 +77,6 @@ public class CursedShieldAction : GetBarrierAction
         Player = player;
         data = cardData;
 
-        GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += GetBarrier;
-        player.AddBuff(new ShildeBuff(BuffType.Start, cardData.Barrier_Get));
 
         yield return new WaitUntil(() => bit1 == true);
         yield return new WaitForSeconds(.03f);
@@ -94,22 +84,22 @@ public class CursedShieldAction : GetBarrierAction
 
         // 적에게 디버프 주는 기능만들기
         List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
-        Player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", Player.transform.position);
-        yield return new WaitForSeconds(.4f);
+
+
 
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].AddBuff(cardData.CardBuff);
-            enemies[i].GetEffectSystem.PlayEffect("Muse_Effect", enemies[i].transform.position);
-            //이펙트 발생 시키기Muse_Effect
+           
+            //이펙트 발생 시키기
         }
         yield return null;
     }
 
-    void GetBarrier(GameObject obj)
+    void GetBarrier()
     {
-        GetBarrier(Player, data);
-        
+        GetBarrier(Player, data, false);
+        Player.PlayerEffectSystem.PlayEffect("CursedShield_Effect", Player.transform.position);
     }
 }
 
@@ -136,7 +126,7 @@ public class BurningStageAction : PlayerBaseCardAction
 
         for (int i = 0; i < enemies.Count; i++)
         { 
-            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", enemies[i].transform.position);
+            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", Target.transform.position);
             enemies[i].AddBuff(cardData.CardBuff);
         }
         
@@ -154,14 +144,6 @@ public class EncoreAction : PlayerBaseCardAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-
-        yield return new WaitUntil(() => bit2 == true);
-        //체력게이지 감소
-        Target.EnemyData.CurrentSkillPoint = 0;
-        Target.GetEnemyStatus.UpdateStatus();
-
-        Target.AddBuff(cardData.CardBuff);
-
         yield return null;
     }
 }
@@ -176,36 +158,13 @@ public class STFUAction : SingleAttackAction
     public override IEnumerator StartAction(Player player, Card card, CardData cardData, Enemy Target)
     {
         GameManager.instance.Player.PlayerAnimator.PlayAnimation(cardData.Ani_Code, false, AnimationEvent, CompleteEvent);
-        yield return new WaitUntil(() => bit1 == true);
+        yield return new WaitUntil(() => bit2 == true);
         //음파 날아가기
 
-        player.PlayerEffectSystem.PlayEffect("STFU_Charge_Effect",player.transform.position);
 
-        yield return new WaitUntil(() => bit2 == true);
-
-        yield return new WaitForSeconds(.1f);
-
-        GameObject Effect = player.PlayerEffectSystem.EffectObject("STFU_Shoot_Effect", player.transform.position);
-
-
-        float T = 0;
-       
-
-        for (int i = 0; i < 20; i++)
-        {
-            Effect.transform.position = Vector3.Lerp(GameManager.instance.Player.transform.position, Target.transform.position +new Vector3(0,0.8f,0), T);
-            T += 0.05f;
-            yield return new WaitForSeconds(0.01f);
-        }
-
-       
+        yield return new WaitUntil(() => bit3 == true);
         yield return SingleAttack(cardData, Target, int.Parse( cardData.Attack_Count));
-
-
-        
-        player.PlayerEffectSystem.StopEffect("STFU_Shoot_Effect");
-        player.PlayerEffectSystem.PlayEffect("STFU_Effect", Target.transform.position);
-        //Target.AddBuff(cardData.CardBuff);
+        Target.AddBuff(cardData.CardBuff);
     }
 }
 
@@ -236,8 +195,8 @@ public class HellfireAction : PlayerBaseCardAction
 
         for (int i = 0; i < enemies.Count; i++)
         {
-            enemies[i].GetEffectSystem.PlayEffect("Big_Fire_Effect", enemies[i].transform.position);
-            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", enemies[i].transform.position);
+            enemies[i].GetEffectSystem.PlayEffect("Big_Fire_Effect", Target.transform.position);
+            enemies[i].GetEffectSystem.PlayEffect("Small_Fire_Effect", Target.transform.position);
             enemies[i].AddBuff(cardData.CardBuff);
         }
         
@@ -266,7 +225,6 @@ public class BlessingofRockAction : PlayerBaseCardAction
         datas = cardData;
         Card = card;
         player.PlayerEffectSystem.PlayEffect("BlessingofRock_Effect", player.transform.position);
-        ;
         yield return new WaitUntil(() => bit2 == true);
         //이펙트
 
@@ -274,15 +232,13 @@ public class BlessingofRockAction : PlayerBaseCardAction
         yield return new WaitUntil(() => bit3 == true);
         //이펙트
         //볼륨어
-        player.PlayerEffectSystem.PlayEffect("VolumeUPStay_Effect", player.transform.position);
-
         players.AddBuff(cardData.CardBuff);
         GameManager.instance.EnemysGroup.GetRhythmSystem.GetRhythmInput.SuccessNoteEvent += VolumeUpEvent;
     }
 
     void VolumeUpEvent(GameObject obj)
     {
-        players.AddBuff(new VolumeUPBuff(BuffType.End, datas.Buff_VolumeUp));
+        players.AddBuff(new VolumeUPBuff(BuffType.End, 1));
         GameDataSystem.StaticGameDataSchema.CARD_DATA_BASE.AddValueDamage(datas.Buff_VolumeUp, Card.GetCardSloat.ReadData<Card>());
     }
 }

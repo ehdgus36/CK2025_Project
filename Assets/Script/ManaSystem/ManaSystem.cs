@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ManaSystem 
 {
-    public int CurrentMana { get; private set; }
+    int CurrentMana;
     int MaxMana = 5;
     ManaUIView ManaUIView = null;
     ManaBankSystem ManaBank = new ManaBankSystem();
@@ -12,8 +12,7 @@ public class ManaSystem
 
     public ManaSystem(int maxMana)
     {
-      
-        MaxMana = maxMana + GameManager.instance.ItemDataLoader.strapData.PC_Mana;
+        MaxMana = maxMana;
         Initialize();
     }
 

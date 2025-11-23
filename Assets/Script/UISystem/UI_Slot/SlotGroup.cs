@@ -84,21 +84,9 @@ public class SlotGroup : MonoBehaviour
         //Debug.Log("Destroy" + RemoveObj[0].name);
         for (int i = 0; i< RemoveObj.Count; i++)
         {
+            
            // Destroy(RemoveObj[i].gameObject);
-        }
-    }
-
-    public void InsertData(GameObject data)
-    {
-        if (data == null) return;
-
-        for (int i = 0; i < Slots.Length; i++)
-        {
-            if (Slots[i].ReadData<GameObject>() == null)
-            {
-                Slots[i].InsertData(data);
-                break;
-            }
+          
         }
     }
 

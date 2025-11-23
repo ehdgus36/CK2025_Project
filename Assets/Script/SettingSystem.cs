@@ -1,36 +1,28 @@
-using FMOD.Studio;
-using FMODUnity;
-using System;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 using UnityEngine.UI;
-
 
 public class SettingSystem : MonoBehaviour
 {
     [SerializeField] Button EXIT_Button;
     [SerializeField] Button Reset_Button;
-    [SerializeField] Button GameExit_Button;
 
     [SerializeField] Button ResetYes_Button;
     [SerializeField] Button ResetNo_Button;
-
 
     [SerializeField] Button Title_Button;
 
     [SerializeField] GameObject ResetPopUP;
 
-    [SerializeField] Slider MasterVolume;
-    [SerializeField] Slider BackGroundVolume;
-    [SerializeField] Slider EffectVolume;
+    [SerializeField] TextMeshProUGUI MasterVolumeText;
+    [SerializeField] TextMeshProUGUI BackGroundVolumeText;
+    [SerializeField] TextMeshProUGUI EffectVolumeText;
 
-    Bus Masterbus;
-    Bus BGMbus;
-    Bus FXbus;
-    List<string> SoundData = new List<string>();
 
+    float MasterVolume = 50f;
+    float BackGroundVolume = 50f;
+    float EffectVolume = 50f;
     private void Awake()
     {
         EXIT_Button.onClick.AddListener(ExitEvent);
@@ -38,53 +30,19 @@ public class SettingSystem : MonoBehaviour
         ResetYes_Button.onClick.AddListener(ResetYes);
         ResetNo_Button.onClick?.AddListener(ResetNo);
 
-        Title_Button.onClick?.AddListener(() =>
-        {
-            RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
-            SceneManager.LoadScene("LobbyScene");
-        });
+        Title_Button.onClick?.AddListener(() => { SceneManager.LoadScene("LobbyScene"); });
+        MasterVolume = 50f;
+        BackGroundVolume = 50f;
+        EffectVolume = 50f;
 
-
-
-        GameExit_Button.onClick.AddListener(() =>
-        {
-            RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Click");
-            Application.Quit();
-        });
-
-
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, out SoundData);
-
-        Debug.Log("사운드 시스템" + string.Join(',', SoundData));
-
-        MasterVolume.value = float.Parse( SoundData[0]);
-        BackGroundVolume.value = float.Parse( SoundData[1]);
-        EffectVolume.value = float.Parse(SoundData[2]);
-
-        MasterVolume.onValueChanged.AddListener(MasterChangeValueEvent);
-        BackGroundVolume.onValueChanged.AddListener(BGMChangeValueEvent);
-        EffectVolume.onValueChanged.AddListener(FXChangeValueEvent);
-
-        Masterbus = RuntimeManager.GetBus("bus:/");
-        BGMbus = RuntimeManager.GetBus("bus:/BGM");
-        FXbus = RuntimeManager.GetBus("bus:/SFX");
-
-
-        Masterbus.setVolume(MasterVolume.value);
-        BGMbus.setVolume(BackGroundVolume.value);
-        FXbus.setVolume(EffectVolume.value);
-
-
-        float value = 0;
-        BGMbus.getVolume(out value);
-
-      
+        MasterVolumeText.text = MasterVolume.ToString()+"%";
+        BackGroundVolumeText.text = BackGroundVolume.ToString() + "%";
+        EffectVolumeText.text = EffectVolume.ToString() + "%";
     }
 
-    void ExitEvent()// 나가기
+    void ExitEvent()
     {
         this.gameObject.SetActive(false);
-        RuntimeManager.PlayOneShot("event:/UI/Setting/Set_Back_Click");
     }
 
     void ResetEvent()
@@ -95,7 +53,6 @@ public class SettingSystem : MonoBehaviour
 
     void ResetYes()
     {
-        
         ResetPopUP.SetActive(false); 
         //리셋 기능 만들기
     }
@@ -105,23 +62,37 @@ public class SettingSystem : MonoBehaviour
         ResetPopUP.SetActive(false);
     }
 
-    void MasterChangeValueEvent(Single value)
+    public void VolumeUP(string vType)
     {
-        Masterbus.setVolume((float)value);
-        SoundData[0] = MasterVolume.value.ToString();
-        
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, SoundData);
+        if (vType == "Master") { MasterVolume += 10f; Debug.Log("UP"); }
+        if (vType == "BackGround") BackGroundVolume += 10f;
+        if (vType == "Effect") EffectVolume += 10f;
+
+       
+
+        MasterVolume = Mathf.Clamp(MasterVolume, 0f, 100f);
+        BackGroundVolume = Mathf.Clamp(BackGroundVolume, 0f, 100f);
+        EffectVolume = Mathf.Clamp(EffectVolume, 0f, 100f);
+
+        MasterVolumeText.text = MasterVolume.ToString() + "%";
+        BackGroundVolumeText.text = BackGroundVolume.ToString() + "%";
+        EffectVolumeText.text = EffectVolume.ToString() + "%";
+
     }
-    void BGMChangeValueEvent(Single value)
-    {     
-        BGMbus.setVolume((float)value);
-        SoundData[1] = BackGroundVolume.value.ToString();
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, SoundData);
-    }
-    void FXChangeValueEvent(Single value)
+
+    public void VolumeDown(string vType)
     {
-        FXbus.setVolume((float)value);
-        SoundData[2] = EffectVolume.value.ToString();
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SOUNDVIEW_DATA, SoundData);
+
+        if (vType == "Master") { MasterVolume -= 10f;  }
+        if (vType == "BackGround") BackGroundVolume -= 10f;
+        if (vType == "Effect") EffectVolume -= 10f;
+
+        MasterVolume = Mathf.Clamp(MasterVolume, 0f, 100f);
+        BackGroundVolume = Mathf.Clamp(BackGroundVolume, 0f, 100f);
+        EffectVolume = Mathf.Clamp(EffectVolume, 0f, 100f);
+
+        MasterVolumeText.text = MasterVolume.ToString() + "%";
+        BackGroundVolumeText.text = BackGroundVolume.ToString() + "%";
+        EffectVolumeText.text = EffectVolume.ToString() + "%";
     }
 }

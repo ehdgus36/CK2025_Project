@@ -4,21 +4,17 @@ using UnityEngine.UI;
 
 public class ManaBankUIView : DynamicUIObject
 {
-    [SerializeField] GameObject SkillButton;
+    [SerializeField] Button SkillButton;
     [SerializeField] Image ManaBankFill;
     [SerializeField] TextMeshProUGUI SkillPointText;
     [SerializeField] int manas;
-    [SerializeField] GameObject ActiveSkill;
     Material Skill_Bar;
     public override string DynamicDataKey => GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA;
-
-    bool onecSound = false;
 
     private void OnEnable()
     {
         Skill_Bar = ManaBankFill.material;
-        GameObject.Find("Skill_Cut").gameObject?.SetActive(false);
-        SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = false;
+
         //내부 프로퍼티만 초기화
 
     }
@@ -27,45 +23,21 @@ public class ManaBankUIView : DynamicUIObject
     {
         manas = (int)update_ui_data;
 
-        int MaxSkillPoint = GameManager.instance.ItemDataLoader.stickerData.CardCount;
-
-        if (MaxSkillPoint == 0) gameObject.SetActive(false);
-
-        int mana = Mathf.Clamp((int)update_ui_data, 0, MaxSkillPoint);
-
-        if ((int)update_ui_data > MaxSkillPoint)
+        int mana = Mathf.Clamp((int)update_ui_data, 0, ManaBankSystem.MAX_BANK_MANA); 
+        if (mana >= 10)
         {
-            GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.SKILL_POINT_DATA, mana);
-        }
-        
-
-        if (mana >= MaxSkillPoint)
-        {
-            SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = true;
-            Skill_Bar?.SetFloat("_Health", 1);
-            ActiveSkill.SetActive(true);
+            SkillButton?.gameObject.SetActive(true);
             
-            // 준비 사운드 사운드는 1회성
-            if (onecSound == false)
-            {
-                onecSound = true;
-                GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Skill_Ready");
-            }
-
         }
         else 
         {
-            onecSound = false;
-            SkillButton.gameObject.GetComponent<SelectExcutCard>().enabled = false;
-
-            Skill_Bar?.SetFloat("_Health", 0);
-            ActiveSkill.SetActive(false);
+            SkillButton?.gameObject.SetActive(false);
         }
         //Cut Angle Size
 
         if (Skill_Bar != null)
         {
-            if ((float)mana / (float)MaxSkillPoint == 1.0f)
+            if ((float)mana / (float)ManaBankSystem.MAX_BANK_MANA == 1.0f)
             {
                 Skill_Bar?.SetFloat("Cut Angle Size", 0);
 
@@ -74,12 +46,12 @@ public class ManaBankUIView : DynamicUIObject
             {
                 Skill_Bar?.SetFloat("Cut Angle Size", 0.065f);
             }
-            
+            Skill_Bar?.SetFloat("_Health", (float)mana / (float)ManaBankSystem.MAX_BANK_MANA);
         }
 
-        ManaBankFill.fillAmount = (float)mana / (float)MaxSkillPoint;
+        ManaBankFill.fillAmount = (float)mana / (float)ManaBankSystem.MAX_BANK_MANA;
 
-        SkillPointText.text = mana.ToString() + "/" + MaxSkillPoint.ToString();
+        SkillPointText.text = mana.ToString()+ "/"  + ManaBankSystem.MAX_BANK_MANA.ToString();
     }
 
 }

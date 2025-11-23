@@ -73,7 +73,7 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (isHold == false)
         {
             //호버 이펙트 실행
-            StopEffect();
+            if (HoverEffectCoroutine != null) StopCoroutine(HoverEffectCoroutine);
 
            HoverEffectCoroutine = StartCoroutine(HoverEffect(StartPos, StartScale));
 
@@ -81,8 +81,8 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             cardDescription.SetActive(false);
         }
 
-        cardDescription.DesctiptionActiveFalse();
-
+       
+        
     }
 
     public void HoldEffect(bool isHolding)
@@ -90,14 +90,6 @@ public class HoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         isHold = isHolding;
 
         if (isHold == false) OnPointerExit(null);
-        if (isHold == true)
-            HoverEffectCoroutine = StartCoroutine(HoverEffect(StartPos + new Vector3(0f, 140f, 0f), StartScale * hoverScale));
-
-    }
-
-    public void StopEffect()
-    {
-        if (HoverEffectCoroutine != null) StopCoroutine(HoverEffectCoroutine);
     }
 
 

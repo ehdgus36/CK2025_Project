@@ -11,23 +11,23 @@ using UnityEngine;
 public struct CardData
 {
     public string Card_ID;
-    public int Card_Rank;
-    public int Card_Level;
+    public int    Card_Rank;
+    public int    Card_Level;
     public string Card_Name_KR;
     public string Card_Name_EN;
     public string Card_Drag;
     public string Target_Type;
     public string Attack_Count;
-    public int Attack_DMG;
-    public int Barrier_Get;
-    public int HP_Recover;
-    public int Buff_VolumeUp;
-    public int Buff_Buzz;
-    public int Buff_Mute;
-    public int Buff_BurnUp;
-    public int Buff_BurnOut;
-    public int Buff_Confusion;
-    public int Char_SkillPoint_Get;
+    public int    Attack_DMG;
+    public int    Barrier_Get;
+    public int    HP_Recover;
+    public int    Buff_VolumeUp;
+    public int    Buff_Buzz;
+    public int    Buff_Mute;
+    public int    Buff_BurnUp;
+    public int    Buff_BurnOut;
+    public int    Buff_Confusion;
+    public int    Char_SkillPoint_Get;
     public string SpecialAbility_Desc;
     public string Move_Type;
     public string Ani_Code;
@@ -84,48 +84,29 @@ public struct CardData
 
         CardBuff = GetBuff();
 
-
         Card_Des = CardDescDamageReplace(Attack_DMG.ToString());
-
-
-        Card_Des = CardDescRcoverReplace(HP_Recover.ToString());
-
-        if (GameManager.instance != null)
-        {
-            if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Strength")
-            {
-                if (Buff_VolumeUp > 0)
-                {
-                    Buff_VolumeUp += GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
-                    Debug.Log("수치" + GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain);
-                }
-            }
-        }
-
-        Card_Des = Card_Des.Replace("<volume>", Buff_VolumeUp.ToString());
     }
 
 
-   
 
     // 1: fire , 2: Eletric , 3: Captivate , 4: Curse
 
     Buff GetBuff()
     {
-
+       
         if (Buff_Buzz != 0) // 공격력 20% 다운
         {
-            return new AttackDamageDownBuff(BuffType.Start, Buff_Buzz, 25);
+            return new AttackDamageDownBuff(BuffType.Start, Buff_Buzz, 20);
         }
 
         if (Buff_Mute != 0) // 공격력 100% 다운
         {
-            return new AttackDamageDownBuff_Mute(BuffType.Start, Buff_Mute, 99);
+            return new AttackDamageDownBuff_Mute(BuffType.Start, Buff_Mute, 100);
         }
 
         if (Buff_BurnUp != 0) // 화상 도트 2 데미지
         {
-            return new FireBuff(BuffType.Start, Buff_BurnUp, 4);
+            return new FireBuff(BuffType.Start, Buff_BurnUp, 2);
         }
 
         if (Buff_BurnOut != 0)// 화상 도트 12 데미지
@@ -135,7 +116,7 @@ public struct CardData
 
         if (Buff_Confusion != 0) // 리듬게임 반대로
         {
-            return new RhythmDebuff(BuffType.End, Buff_Confusion);
+            return new RhythmDebuff(BuffType.End,Buff_Confusion);
         }
 
 
@@ -147,16 +128,6 @@ public struct CardData
     public string CardDescDamageReplace(string currentDamage)
     {
         string result = DefaultCard_Des.Replace("@", currentDamage);
-
-        result = result.Replace("\"", ""); // 모든 따옴표 제거
-       
-        return result;
-    }
-
-
-    public string CardDescRcoverReplace(string currentRecover)
-    {
-        string result = Card_Des.Replace("$", currentRecover);
 
         return result;
     }
@@ -179,7 +150,7 @@ public struct CardStatusData
     public CardStatusData(Dictionary<string, object> data)
     {
         Status_Code = data["Status_Code"].ToString();
-        Status_Dm = data["Status_Dm"].ToString();
+        Status_Dm   = data["Status_Dm"].ToString();
 
         Ex = data["Ex"].ToString();
     }
@@ -191,17 +162,17 @@ public struct CardStatusData
 }
 
 
-public class CardDataBase
+public class CardDataBase 
 {
-
-
+    
+   
     Dictionary<string, CardData> CommonCardDatas = new Dictionary<string, CardData>();
 
     TextAsset CardDataTableTextData;
     TextAsset CardStatusDataTableTextData;
 
 
-    public CardDataBase(TextAsset CardStatusDataTable, TextAsset CardDataTable)
+    public CardDataBase(TextAsset CardStatusDataTable , TextAsset CardDataTable)
     {
 
         CardDataTableTextData = CardDataTable;
@@ -214,7 +185,7 @@ public class CardDataBase
     {
         int CardDataIndex = CSVReader.Read(CardDataTableTextData).Count;
 
-        List<Dictionary<string, object>> csvData = CSVReader.Read(CardDataTableTextData);
+        List<Dictionary<string,object>> csvData = CSVReader.Read(CardDataTableTextData);
 
         for (int i = 0; i < CardDataIndex; i++)
         {
@@ -227,17 +198,9 @@ public class CardDataBase
     }
 
 
-    public void AddValueDamage(int amount, List<Card> ReflashCard)
+    public void AddValueDamage(int amount , List<Card> ReflashCard)
     {
         List<string> keys = CommonCardDatas.Keys.ToList();
-
-        int volumeUpItem = 0;
-
-        if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Strength")
-        {
-            volumeUpItem = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
-        }
-
 
         for (int i = 0; i < keys.Count; i++)
         {
@@ -245,7 +208,7 @@ public class CardDataBase
 
             if (card.Attack_DMG > 0)
             {
-                card.Attack_DMG = card.Attack_DMG + amount;
+                card.Attack_DMG = card.Attack_DMG+ amount;
                 card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
                 Debug.Log(card.Card_Des);
                 Debug.Log(card.Attack_DMG);
@@ -260,103 +223,20 @@ public class CardDataBase
         }
     }
 
-    public void PlayerBuzz(float percent, List<Card> ReflashCard)
-    {
-        List<string> keys = CommonCardDatas.Keys.ToList();
-
-
-
-
-        for (int i = 0; i < keys.Count; i++)
-        {
-            CardData card = CommonCardDatas[keys[i]];
-
-            if (card.Attack_DMG > 0)
-            {
-                card.Attack_DMG = Mathf.CeilToInt( (float)card.Attack_DMG * percent);
-                card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
-               
-
-                CommonCardDatas[keys[i]] = card;
-            }
-        }
-
-        for (int i = 0; i < ReflashCard.Count; i++)
-        {
-            ReflashCard[i].ReflashCardData();
-        }
-    }
-
-    public void LossValueDamage(int amount, List<Card> ReflashCard)
-    {
-        List<string> keys = CommonCardDatas.Keys.ToList();
-
-
-
-
-        for (int i = 0; i < keys.Count; i++)
-        {
-            CardData card = CommonCardDatas[keys[i]];
-
-            if (card.Attack_DMG > 0)
-            {
-                card.Attack_DMG = card.Attack_DMG + amount;
-                card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
-               
-
-                CommonCardDatas[keys[i]] = card;
-            }
-        }
-
-        for (int i = 0; i < ReflashCard.Count; i++)
-        {
-            ReflashCard[i].ReflashCardData();
-        }
-    }
-
-
-    public void LossValueRecoverHP(int amount, List<Card> ReflashCard)
-    {
-        List<string> keys = CommonCardDatas.Keys.ToList();
-
-        int volumeUpItem = 0;
-
-
-        for (int i = 0; i < keys.Count; i++)
-        {
-            CardData card = CommonCardDatas[keys[i]];
-
-            if (card.HP_Recover > 0)
-            {
-                card.HP_Recover = card.HP_Recover + amount;
-                //card.Card_Des = card.CardDescDamageReplace(card.Attack_DMG.ToString());
-
-                CommonCardDatas[keys[i]] = card;
-            }
-        }
-
-        for (int i = 0; i < ReflashCard.Count; i++)
-        {
-            ReflashCard[i].ReflashCardData();
-        }
-    }
-
-   
-
     public bool SearchData(string cardCode, out object get_cardData)
     {
         bool isData = false;
-
+        
         get_cardData = null;
-
-        if (CommonCardDatas.ContainsKey(cardCode))
-        {
+      
+        if (CommonCardDatas.ContainsKey(cardCode)) 
+        { 
             isData = true;
             get_cardData = CommonCardDatas[cardCode];
         }
 
-
-
+      
+        
         return isData;
     }
 
@@ -366,7 +246,7 @@ public class CardDataBase
         bool isData = false;
 
         if (CommonCardDatas.ContainsKey(CardCode)) isData = true;
-
+       
 
         return isData;
     }
@@ -377,7 +257,7 @@ public class CardDataBase
 
         string code = keys[Random.Range(0, keys.Count)];
 
-        if (code == "SKILL" || code == "C2102" || code == "C2101" || code == "C3031" || code == "C3032") code = "C1031";
+        if (code == "SKILL" || code == "C2102" || code == "C2101" || code == "C3031" || code == "C3032" ) code = "C1031";
 
         return code;
 

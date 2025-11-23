@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class RhythmSystem : MonoBehaviour
 {
-    [SerializeField] RhythmView rhythmView;
+    [SerializeField] RhythmView  rhythmView;
     [SerializeField] RhythmInput rhythmInput;
 
     [SerializeField] string NoteData;
@@ -16,8 +16,6 @@ public class RhythmSystem : MonoBehaviour
     [SerializeField] Sprite ReverseRImage;
     [SerializeField] Sprite ReverseLImage;
 
-    [SerializeField] Sprite FailNoteImage;
-
     Sprite StartRImage;
     Sprite StartLImage;
 
@@ -28,7 +26,6 @@ public class RhythmSystem : MonoBehaviour
 
     public Sprite GetRImage { get { return RImage; } }
     public Sprite GetLImage { get { return LImage; } }
-    public Sprite GetFailImage { get { return FailNoteImage; } }
     private void Awake()
     {
         (StartRImage, StartLImage) = (RImage, LImage);
@@ -38,7 +35,7 @@ public class RhythmSystem : MonoBehaviour
 
     public void StartEvent()
     {
-
+       
         if (metronome == null)
         {
             metronome = GameManager.instance.Metronome;
@@ -49,7 +46,6 @@ public class RhythmSystem : MonoBehaviour
         rhythmView.NoteData = NoteData;
         rhythmInput.NoteData = NoteData.Substring(1);
 
-        rhythmInput.inputCount = NoteCount(NoteGroupID) +2;
 
         rhythmView.mt = metronome;
         rhythmInput.mt = metronome;
@@ -64,16 +60,13 @@ public class RhythmSystem : MonoBehaviour
         //애니 연출 재생
         GameManager.instance.ControlleCam.Play("EnemyTurnCamAnime");
 
-        for (int i = 0; i < GameManager.instance.EnemysGroup.Enemys.Count; i++)
-        {
-            GameManager.instance.EnemysGroup.Enemys[i].GetEnemyStatus.NextAttackUI.gameObject.SetActive(false);
-        }
+
 
         //애니메이션 재생이후 활성화
-        yield return new WaitForSeconds(1.55f);
+        yield return new WaitForSeconds(1.55f);     
         rhythmView.gameObject.SetActive(true);
         rhythmView.GetComponent<RectTransform>().anchoredPosition = new Vector3(-219, 294, 0);
-        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(1.6f, 1.6f, 1.6f);
+        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(2, 2, 2);
         yield return new WaitForSeconds(.2f);
 
 
@@ -87,21 +80,13 @@ public class RhythmSystem : MonoBehaviour
         //rhythmView.gameObject.SetActive(false);
 
         GameManager.instance.ControlleCam.Play("EnemyTurnCamReturn");
-        if (GameManager.instance.EnemysGroup.Enemys[0].EnemyData.Enemy_ID == "E29")
-        {
-            rhythmView.GetComponent<RectTransform>().anchoredPosition = new Vector3(250, 300, 0);
-        }
-        else
-        {
-            rhythmView.GetComponent<RectTransform>().anchoredPosition = new Vector3(260, 230, 0);
-        }
-       
-        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(.7f, .7f, .7f);
+        rhythmView.GetComponent<RectTransform>().anchoredPosition = new Vector3(260, 230, 0);
+        rhythmView.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
         //애니메이션 재생이후 활성화
         yield return new WaitForSeconds(.8f);
         rhythmView.gameObject.SetActive(true);
-
+       
 
         rhythmInput.gameObject.SetActive(true);
         yield return new WaitForSeconds(.2f);
@@ -112,28 +97,24 @@ public class RhythmSystem : MonoBehaviour
 
 
         yield return new WaitUntil(() => rhythmInput.IsEnd == true);
-
-
-
         yield return new WaitForSeconds(.4f);
 
         //이펙트 끄기
         GameManager.instance.Player.PlayerEffectSystem.StopEffect("SoftEcho_Buff_Effect");
-        GameManager.instance.Player.PlayerEffectSystem.StopEffect("BuildUpBuff_Effect");
-        GameManager.instance.Player.PlayerEffectSystem.StopEffect("VolumeUPStay_Effect");
+        GameManager.instance.Player.PlayerEffectSystem.StopEffect("BuildUpBuff_Effect"); 
         rhythmView.gameObject.SetActive(false);
         rhythmInput.gameObject.SetActive(false);
 
+        yield return new WaitForSeconds(.2f);
 
         rhythmInput.SuccessNoteEvent = null;
         IsEndGame = true;
-
-
+       
     }
 
     string GetNotData(string noteGroupID)
     {
-        object loadData;
+        object loadData; 
 
         GameDataSystem.StaticGameDataSchema.NOTE_DATA_BASE.SearchData(noteGroupID, out loadData);
 
@@ -146,25 +127,7 @@ public class RhythmSystem : MonoBehaviour
         GameDataSystem.StaticGameDataSchema.NOTE_DATA_BASE.SearchData(NoteIDs[Random.Range(0, NoteIDs.Count)], out loadData);
 
 
-        return "0" + ((NoteData)loadData).NoteCode.Substring(1); ;
-    }
-
-    int NoteCount(string noteGroupID)
-    {
-        object loadData;
-
-        GameDataSystem.StaticGameDataSchema.NOTE_DATA_BASE.SearchData(noteGroupID, out loadData);
-
-        List<string> NoteIDs = new List<string>();
-        NoteIDs.Add(((NoteGroupData)loadData).Note_ID1);
-        NoteIDs.Add(((NoteGroupData)loadData).Note_ID2);
-        NoteIDs.Add(((NoteGroupData)loadData).Note_ID3);
-
-
-        GameDataSystem.StaticGameDataSchema.NOTE_DATA_BASE.SearchData(NoteIDs[Random.Range(0, NoteIDs.Count)], out loadData);
-
-
-        return ((NoteData)loadData).BeatCount ;
+        return ((NoteData)loadData).NoteCode.Substring(1); ;
     }
 
     public void ResetEvent()
@@ -176,10 +139,10 @@ public class RhythmSystem : MonoBehaviour
 
     public void ReverseNote(bool reverse)
     {
-        if (reverse == true)
+        if(reverse == true)
             (RImage, LImage) = (ReverseLImage, ReverseRImage);
-        if (reverse == false)
+        if(reverse == false)
             (RImage, LImage) = (StartRImage, StartLImage);
     }
-
+   
 }

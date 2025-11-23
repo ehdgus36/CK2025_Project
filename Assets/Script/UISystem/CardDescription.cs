@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using Spine;
 using Spine.Unity;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class CardDescription : MonoBehaviour
 {
@@ -12,12 +11,6 @@ public class CardDescription : MonoBehaviour
     [SerializeField] TextMeshProUGUI Desc;
     [SerializeField] TextMeshProUGUI DescSub;
     [SerializeField] TextMeshProUGUI Grade_Point;
-
-    [SerializeField] TextMeshProUGUI BuffEx;
-    [SerializeField] TextMeshProUGUI BuffEx2;
-
-
-
     [SerializeField] Image DescImage;
 
     [SerializeField] Sprite Attack;
@@ -39,58 +32,20 @@ public class CardDescription : MonoBehaviour
         LD_Buff.gameObject.SetActive(false);
         LD_Debuff.gameObject.SetActive(false);
 
-
-        
-        if (cardData.Card_ID[1] == 'A')
+        if (cardData.Target_Type == "1")
         {
-           selectLD = LD_Attack;
-        }
-        if (cardData.Card_ID[1] == 'B')
-        {
-            selectLD = LD_Buff;
-        }
-        if (cardData.Card_ID[1] == 'D')
-        {
-            selectLD = LD_Debuff;
-        }
-
-
-
-
-        BuffEx.text = "";
-        BuffEx2.text = "";
-
-        BuffEx.transform.parent.gameObject.SetActive(false);
-        BuffEx2.transform.parent.gameObject.SetActive(false);
-
-        if (cardData.Buff_Ex1 != "0")
-        {
-            BuffEx.transform.parent.gameObject.SetActive(true);
-            BuffEx.text = cardData.Buff_Ex1;
-        }
-        
-
-        if (cardData.Buff_Ex2 != "0")
-        {
-            BuffEx2.transform.parent.gameObject.SetActive(true);
-            BuffEx2.text = cardData.Buff_Ex2;
-        }
-
-
-        DescImage.transform.position = pos;
-
-        if (cardData.Card_ID != "SKILL1" && cardData.Card_ID != "SKILL2" && cardData.Card_ID != "SKILL3")
-        {
-            selectLD.gameObject.SetActive(true);
-            selectLD.AnimationState.SetAnimation(0, "idle", true);
+           selectLD = LD_Buff;     
         }
         else
         {
-            DescImage.transform.position = pos - new Vector3(0, 1.0f, 0);
+            selectLD = LD_Attack;
         }
+
+        selectLD.gameObject.SetActive(true);
+        selectLD.AnimationState.SetAnimation(0, "idle", true);
         CardName.text = cardData.Card_Name_KR;
         Desc.text = cardData.Card_Des;
-       
+        DescImage.transform.position = pos;
     }
 
     public void ActiveCard()
@@ -102,11 +57,6 @@ public class CardDescription : MonoBehaviour
             delayTime = .5f;
             StartCoroutine("DisableGameObjectDelay");
         }
-    }
-
-    public void DesctiptionActiveFalse()
-    {
-        CardName.gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     public void SetActive(bool isactive)
@@ -122,10 +72,7 @@ public class CardDescription : MonoBehaviour
         if (isactive == false)
         {
             CardName.gameObject.transform.parent.gameObject.SetActive(false);
-            BuffEx.transform.parent.gameObject.SetActive (false);
-            BuffEx2.transform.parent.gameObject.SetActive(false);
-
-            delayTime = .02f;
+            delayTime = .05f;
             coroutine = StartCoroutine("DisableGameObjectDelay");
         }
     }
@@ -133,7 +80,7 @@ public class CardDescription : MonoBehaviour
     IEnumerator DisableGameObjectDelay()
     {
         yield return new WaitForSeconds(delayTime);
-        selectLD?.gameObject.SetActive(false);
+        selectLD.gameObject.SetActive(false);
     }
 
 }

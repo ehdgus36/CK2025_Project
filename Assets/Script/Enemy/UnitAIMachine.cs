@@ -9,19 +9,13 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class UnitAIMachine : MonoBehaviour
 {
-    [SerializeReference] public UnitAIBehavior aIBehavior;
+    [SerializeReference]public UnitAIBehavior aIBehavior;
     Coroutine CurrentCoroutine;
-
-    void OnDisable()
-    {
-        StopCorutinExcut();
-    }
 
 
     public void StartAI(Unit controll_unit)
     {
         aIBehavior.Initialize();
-        
         aIBehavior.Excut(controll_unit, this);
     }
 

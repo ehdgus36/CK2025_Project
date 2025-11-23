@@ -2,7 +2,6 @@ using Spine;
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.UI;
 
 public class ItemHoldSystem : MonoBehaviour
 {
@@ -27,17 +26,17 @@ public class ItemHoldSystem : MonoBehaviour
 
        
 
-       
+        StickerDesc[0].text = "";
         StickerDesc[1].text = "";
         StickerDesc[2].text = "";
 
 
-       
+        StrapDesc[0].text = "";
         StrapDesc[1].text = "";
         StrapDesc[2].text = "";
 
 
-        
+        StringDesc[0].text = "";
         StringDesc[1].text = "";
         StringDesc[2].text = "";
 
@@ -47,40 +46,8 @@ public class ItemHoldSystem : MonoBehaviour
 
     void ItemHoldDataInitialize()
     {
-        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA , out HoldData);
-        SlotUI[] slots = HoldSlotGroup.Getsloat();
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.ITME_DATA , out HoldData);
 
-        if (HoldData.Count == 0) return;
-
-        Debug.Log("Hold : " + string.Join(", ", HoldData));
-        //item 생성하는 코드
-        for (int i = 0; i < slots.Length; i++)
-        {
-            GameObject itemobj = new GameObject("PlayerItem");
-            itemobj.AddComponent<RectTransform>().sizeDelta = new Vector3(128f,128f);
-            itemobj.AddComponent<Image>();
-            itemobj.AddComponent<DragDropUI>();
-            itemobj.AddComponent<CanvasGroup>();
-
-            if (HoldData[i] == "0") { Destroy(itemobj); continue; }
-            if (HoldData[i][2] == '0') 
-            {
-                itemobj.AddComponent<StickerItem>().Initialized(HoldData[i]);
-                Debug.Log(HoldData[i]);
-            }
-            if (HoldData[i][2] == '1')
-            { 
-                itemobj.AddComponent<StrapItem>().Initialized(HoldData[i]);
-                Debug.Log(HoldData[i]);
-            }
-            if (HoldData[i][2] == '3') 
-            { 
-                itemobj.AddComponent<StringItem>().Initialized(HoldData[i]);
-                Debug.Log(HoldData[i]);
-            }
-
-            slots[i].InsertData(itemobj);
-        }
     }
 
     void HoldSlotInsertEvent(SlotUI target_slot)
@@ -119,21 +86,21 @@ public class ItemHoldSystem : MonoBehaviour
         switch (target_slot)
         {
             case StickerSlot item:
-               
+                StickerDesc[0].text = "";
                 StickerDesc[1].text = "";
                 StickerDesc[2].text = "";
 
                 break;
 
             case StrapSlot item:
-               
+                StrapDesc[0].text = "";
                 StrapDesc[1].text = "";
                 StrapDesc[2].text = "";
 
                 break;
 
             case StringSlot item:
-               
+                StringDesc[0].text = "";
                 StringDesc[1].text = "";
                 StringDesc[2].text = "";
 
@@ -145,21 +112,12 @@ public class ItemHoldSystem : MonoBehaviour
     public void SaveData()
     {
         List<string> saveData = new List<string>();
-        for (int i = 0; i < HoldSlotGroup.Getsloat().Length; i++)
+        for (int i = 0; i < HoldSlotGroup.ReadData<Item>().Count; i++)
         {
-            if (HoldSlotGroup.Getsloat()[i].ReadData<Item>() == null)
-            {
-                saveData.Add("0");
-            }
-            else
-            {
-                Debug.Log("Savecode:"+ HoldSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode);
-                saveData.Add(HoldSlotGroup.Getsloat()[i].ReadData<Item>().ItemCode);
-            }
-            
+            saveData.Add(HoldSlotGroup.ReadData<Item>()[i].ItemCode);
         }
 
-        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.ITEM_HOLD_DATA, saveData);
+        GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.HOLD_ITEM_DATA, saveData);
     
     }
 }

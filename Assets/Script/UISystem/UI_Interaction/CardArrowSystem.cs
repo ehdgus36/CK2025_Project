@@ -61,9 +61,11 @@ public class CardArrowSystem : MonoBehaviour
         float t = 0;
         for (int i = 0; i < CurveDotObj.Count; i++)
         {
-            Vector3 dotPos =  BezierCurve(CardPos.position, P01.position, Arrow.GetChild(0).transform.position, t);
+            
+            Vector3 dotPos =  BezierCurve(CardPos.position, P01.position, Arrow.position, t);
             CurveDotObj[i].transform.position = dotPos;
             t += curve_t;
+
         }
        
     }

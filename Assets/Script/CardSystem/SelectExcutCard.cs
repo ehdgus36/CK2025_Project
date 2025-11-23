@@ -8,8 +8,6 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
 
     private Canvas canvas;
 
-    Card card;
-
     public void OnDrag(PointerEventData eventData)
     {
        
@@ -20,42 +18,23 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
     public void OnPointerDown(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
-        if (GameManager.instance.ExcutSelectCardSystem.CurrentMana == 0 && CardSlot.ReadData<SkillCard>() == null) return;
-        card = CardSlot.ReadData<Card>();
-
-
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_Click");
-        GameManager.instance.ExcutSelectCardSystem.SetSelectCard(card);
+        
+        GameManager.instance.ExcutSelectCardSystem.SetSelectCard(CardSlot.ReadData<Card>());
         canvas = GetComponentInParent<Canvas>();
 
 
-        string cardEffecCode = "";
 
-        if (card.cardData.Card_Rank == 0) cardEffecCode = "CardHold_Effect";
-        if (card.cardData.Card_Rank == 1) cardEffecCode = "CardHold_Effect";
-        if (card.cardData.Card_Rank == 2) cardEffecCode = "CardHold_Effect_Epic";
-        if (card.cardData.Card_Rank == 3) cardEffecCode = "CardHold_Effect_Legend";
-
-        card?.EffectSystem?.PlayEffect(cardEffecCode, card.transform, new Vector3(62,62,62));
-
-
+        EffectSystem.PlayEffect("CardHold_Effect", new Vector3(CardSlot.ReadData<Card>().transform.position.x,
+                                                               -4.377778f,
+                                                                CardSlot.ReadData<Card>().transform.position.z));
         GetComponent<HoverEffectUI>()?.HoldEffect(true);
         GetComponent<RectTransform>().sizeDelta = new Vector2(2100f, 300f);
 
-        if (CardSlot.ReadData<SkillCard>() == true) // 스킬은 전용사운드 출력
-        {
-            GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Skill_Click");
-        }
     }
-
- 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (CardSlot.ReadData<Card>() == null) return;
-
-
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/UI/Card_Over");
 
         if (CardSlot.ReadData<Card>().cardData.Target_Type == "1")
         {
@@ -73,16 +52,11 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
         if (GameManager.instance.ExcutSelectCardSystem.IsSelectCard == false)
         {
             GameManager.instance.DimBackGroundObject.gameObject.SetActive(false);
-            card?.EffectSystem?.StopEffect("CardHold_Effect");
-            card?.EffectSystem?.StopEffect("CardHold_Effect_Epic");
-            card?.EffectSystem?.StopEffect("CardHold_Effect_Legend");
-
-
-            
+            EffectSystem.StopEffect("CardHold_Effect");
             GetComponent<HoverEffectUI>()?.HoldEffect(false);
             GetComponent<RectTransform>().sizeDelta = new Vector2(150f, 150f);
         }
     }
 
-  
+   
 }

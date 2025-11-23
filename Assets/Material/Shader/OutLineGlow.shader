@@ -1,72 +1,74 @@
-Shader "Custom/TwoLayerSprite_UI_Fixed"
+Shader "Custom/TwoLayerSprite"
 {
     Properties
     {
-        _MainTex("Background", 2D) = "white" {}
-        _OverlayTex("Overlay", 2D) = "white" {}
+        _MainTex("Background Texture", 2D) = "white" {}
         _BgColor("Background Tint", Color) = (1,1,1,1)
-        _OverlayColor("Overlay Tint", Color) = (1,1,1,1)
-        _Color("Color", Color) = (1,1,1,1)
+
+        _OverlayTex("Main Image Texture", 2D) = "white" {}
+        _OverlayColor("Main Image Tint", Color) = (1,1,1,1)
     }
-
-    SubShader
-    {
-        Tags {
-            "Queue"="Transparent"
-            "IgnoreProjector"="True"
-            "RenderType"="Transparent"
-            "CanUseSpriteAtlas"="True"
-            "PreviewType"="Plane"
-        }
-
-        Cull Off
-        ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha
-
-        Pass
+        SubShader
         {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #include "UnityCG.cginc"
+            Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+            LOD 100
+            Blend SrcAlpha OneMinusSrcAlpha
+            Cull Off
+            ZWrite Off
 
-            sampler2D _MainTex, _OverlayTex;
-            float4 _MainTex_ST, _OverlayTex_ST;
-            fixed4 _BgColor, _OverlayColor, _Color;
+            Pass
+            {
+                CGPROGRAM
+                #pragma vertex vert
+                #pragma fragment frag
+                #include "UnityCG.cginc"
 
-            struct appdata {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
+                sampler2D _MainTex;
+                sampler2D _OverlayTex;
+                float4 _MainTex_ST;
+                float4 _OverlayTex_ST;
+                float4 _BgColor;
+                float4 _OverlayColor;
 
-            struct v2f {
-                float4 pos : SV_POSITION;
-                float2 uv1 : TEXCOORD0;
-                float2 uv2 : TEXCOORD1;
-            };
+                struct appdata
+                {
+                    float4 vertex : POSITION;
+                    float2 uv : TEXCOORD0;
+                };
 
-            v2f vert(appdata v) {
-                v2f o;
-                o.pos = UnityObjectToClipPos(v.vertex);
-                o.uv1 = TRANSFORM_TEX(v.uv, _MainTex);
-                o.uv2 = TRANSFORM_TEX(v.uv, _OverlayTex);
-                return o;
-            }
+                struct v2f
+                {
+                    float4 pos : SV_POSITION;
+                    float2 uvBg : TEXCOORD0;
+                    float2 uvOverlay : TEXCOORD1;
+                };
 
-            fixed4 frag(v2f i) : SV_Target {
-                fixed4 bg = tex2D(_MainTex, i.uv1) * _BgColor;
-                fixed4 overlay = tex2D(_OverlayTex, i.uv2) * _OverlayColor;
+                v2f vert(appdata v)
+                {
+                    v2f o;
+                    o.pos = UnityObjectToClipPos(v.vertex);
+                    o.uvBg = TRANSFORM_TEX(v.uv, _MainTex);
+                    o.uvOverlay = TRANSFORM_TEX(v.uv, _OverlayTex);
+                    return o;
+                }
 
-                fixed4 c;
-                c.rgb = lerp(bg.rgb, overlay.rgb, overlay.a);
-                c.a = max(bg.a, overlay.a);
+                fixed4 frag(v2f i) : SV_Target
+                {
+                    // 1번: 배경
+                    fixed4 bg = tex2D(_MainTex, i.uvBg) * _BgColor;
 
-                // ? 이 한 줄이 핵심: CanvasGroup / Image.color 반영
-                return c * _Color;
+                // 2번: 메인 이미지
+                fixed4 overlay = tex2D(_OverlayTex, i.uvOverlay) * _OverlayColor;
+
+                // 알파 블렌딩: 메인이 위
+                fixed4 result;
+                result.rgb = lerp(bg.rgb, overlay.rgb, overlay.a);
+                result.a = max(bg.a, overlay.a);
+
+                return result;
             }
             ENDCG
         }
-    }
-
-    FallBack "UI/Default"
+        }
+            FallBack "Sprites/Default"
 }

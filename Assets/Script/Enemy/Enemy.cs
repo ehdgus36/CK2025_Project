@@ -69,7 +69,7 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
 
 
-    public bool isAttackEnd { get; set; }
+    public bool isAttackEnd; // EnemyGrope에서 Enemy객체가 공격했는지를 판단
 
 
 
@@ -82,12 +82,9 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
     public bool isBarbedArmor = false;
 
-    public bool isMove = true;
-
     public virtual void Initialize(int index,  EnemysGroup group) 
     {
         AIMachine = GetComponent<UnitAIMachine>();
-
         if (EnemyData.Enemy_ID != "")
         {
             object objData = null; 
@@ -98,8 +95,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
             EnemyData.EnemyUnitData.MaxHp = loadData.HP;
             EnemyData.EnemyUnitData.CurrentBarrier = loadData.Start_Barrier;
             EnemyData.MaxDamage = loadData.Damage;
-
-            AIMachine.aIBehavior = loadData.EnemyAI;
         }
 
 
@@ -123,7 +118,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
         StartTurnEvent = () =>
         {
-            if (isDie == true) return;
             isAttackEnd = false; //턴 시작시 공격가능하게 초기화
             EnemyStatus?.UpdateStatus(); //UI 갱신
             EnemyStatus?.NextAttackUI.gameObject.SetActive(false);// 다음 공격 표시끄기
@@ -163,8 +157,6 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
 
         fontSystem.FontConvert(damage.ToString());
 
-        GameManager.instance.Shake.PlayShake();
-
         if (isBarbedArmor == true)
         {
             if(formUnit.GetType() == typeof(Player))
@@ -183,22 +175,19 @@ public class Enemy : Unit, IPointerDownHandler ,IPointerUpHandler, IPointerEnter
     {
         yield return new WaitForSeconds(.5f);
 
-        unit.TakeDamage(this, 3);
+        unit.TakeDamage(this, ((damage + 1) / 2));
     }
 
     
 
     void EnemyDieEvent()
     {
-        GameManager.instance.FMODManagerSystem.PlayEffectSound("event:/Character/Monster/Monster_Die");
-
         EffectSystem.PlayEffect("Monster_Die_Effect", this.transform.position);      
         GameManager.instance.PlayerCardCastPlace.AddByeByeSystem(this);
         this.transform.position = new Vector3(200, 200, 200);
-
-        isDie = true;
-        EnemyGroup.RemoveSelf(this); // EnemyGroup에서 자기자신 지우기
         
+        EnemyGroup.RemoveSelf(this); // EnemyGroup에서 자기자신 지우기
+        isDie = true;
     }
     public void OnPointerDown(PointerEventData eventData)
     {

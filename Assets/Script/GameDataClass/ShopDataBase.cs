@@ -59,16 +59,7 @@ public class ShopDataBase
         return isData;
     }
 
-    public string RandomCard()
-    {
-        List<string> keys = new List<string>(ShopDatas.Keys);
 
-        string code = keys[Random.Range(0, keys.Count)];
-
-       
-
-        return code;
-    }
     public bool SearchData(string CardCode)
     {
         bool isData = false;

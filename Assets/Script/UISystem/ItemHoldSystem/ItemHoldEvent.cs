@@ -13,7 +13,7 @@ public class ItemHoldEvent : MonoBehaviour
         ExitButton.onClick.AddListener(ExitEvent);
     }
 
-    public void ExitEvent()
+    void ExitEvent()
     {
         InventorySystem.SaveInventory();
         ItemHoldSystem.SaveData();

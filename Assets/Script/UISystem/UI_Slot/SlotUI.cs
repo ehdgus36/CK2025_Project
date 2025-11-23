@@ -29,18 +29,17 @@ public class SlotUI : MonoBehaviour,IDropHandler
     public virtual void OnDrop(PointerEventData eventData)
     {          
         InsertData(eventData.pointerDrag);
-        this.transform.localScale = new Vector3(.8f, .8f, .8f);
+        this.transform.localScale = imageScale;
     }
 
     public virtual void InsertData(GameObject data)
     {
-        if (transform.childCount != 0 || data == null) return;
+        if (transform.childCount != 0) return;
         
         if (data.GetComponent<DragDropUI>())
         {
             data.GetComponent<DragDropUI>().startScale = imageScale;
-            if (data.GetComponent<DragDropUI>()?.startParent != null)
-                data.GetComponent<DragDropUI>().startParent.GetComponent<SlotUI>().RemoveSlotItem();
+            data.GetComponent<DragDropUI>().startParent.GetComponent<SlotUI>().RemoveSlotItem();
         }
 
         data.transform.position = transform.position;
@@ -49,7 +48,6 @@ public class SlotUI : MonoBehaviour,IDropHandler
         data.transform.SetParent(this.transform);
         data.transform.localScale = imageScale;
 
-        Data = data;
 
 
         InsertDataEvent?.Invoke(this);
@@ -74,24 +72,7 @@ public class SlotUI : MonoBehaviour,IDropHandler
         {
             return default(T);
         }
-
-        T obj = default(T);
-        if (typeof(T) == typeof(GameObject))
-        {
-            if (this.transform.childCount > 0)
-            {
-                object objdata = this.transform.GetChild(0).gameObject;
-                obj = (T)objdata;
-            }
-            if (this.transform.childCount == 0)
-            {
-                obj = default(T);
-            }
-        }
-        else
-        {
-            obj = this.transform.GetChild(0).gameObject.GetComponent<T>();
-        }
+        T obj = this.transform.GetChild(0).gameObject.GetComponent<T>();
 
         if (obj == null)
         {

@@ -54,7 +54,7 @@ public class EnemyAI_Custom_Behavior: EnemyAIBehavior
 public class EnemyAI_CustomSkill2_Behavior : EnemyAI_HIPPOP_Behavior
 {
 
-    
+    int attackCount = 1;
     public EnemyAI_CustomSkill2_Behavior(BaseAIState Skill, BaseAIState Skill2)
     {
         EnemySkillState = Skill;
@@ -81,7 +81,7 @@ public class EnemyAI_Spray_Behavior : EnemyAIBehavior
     int attackCount = 1;
     protected override void InitializeState()
     {
-        EnemySkillState = new EnemySkill_AttackRecoverHP_State(1, .1f);
+        EnemySkillState = new EnemySkill_AttackRecoverHP_State(1);
         //EnemySkillState = new EnemySkill_DackAttack_State();
 
         EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
@@ -93,7 +93,7 @@ public class EnemyAI_WasteBasket_Behavior : EnemyAIBehavior
     int attackCount = 1;
     protected override void InitializeState()
     {
-        EnemySkillState = new EnemySkill_AllEnemyRecoverHP_State(1 , .1f);
+        EnemySkillState = new EnemySkill_AllEnemyRecoverHP_State(1);
         EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
     }
 }
@@ -107,7 +107,6 @@ public class EnemyAI_Test_Behavior : EnemyAIBehavior
         EnemyDefaultAttackState = new EnemySkill_MultiAttack_State(attackCount);
     }
 }
-
 
 public class EnemyAI_HIPPOP_Behavior : EnemyAIBehavior
 {

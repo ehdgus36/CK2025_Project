@@ -9,13 +9,13 @@ public class CardUpGradeSystem : MonoBehaviour
 
     CardData cardData;
     CardData UpGradcardData;
-
-    bool selectButton = false;
-    public void SetUp(List<string> DackData)
+    void Start()
     {
         CardUpGradeView = GetComponent<CardUpGradeView>();
 
-       
+        List<string> DackData = new List<string>();
+
+        GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData);
 
         string randCode = "";
 
@@ -44,14 +44,10 @@ public class CardUpGradeSystem : MonoBehaviour
 
         CardUpGradeView.UpdateUI(cardData, UpGradcardData, UpGradeEvent);
 
-        DackData.Remove(randCode);
-
     }
 
     void UpGradeEvent()
     {
-        if (selectButton == true) return;
-
         List<string> DackData = new List<string>();
 
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData<List<string>>(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, out DackData);
@@ -62,10 +58,6 @@ public class CardUpGradeSystem : MonoBehaviour
 
 
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.DACK_DATA, DackData);
-
-        Debug.Log("UpGrade¿‘¥œ¥Ÿ");
-
-        selectButton = true;
     }
 
 }

@@ -13,7 +13,7 @@ public class EnemysGroup : Unit
     [SerializeField] RhythmSystem RhythmGameSystem;
 
     public RhythmSystem GetRhythmSystem { get { return RhythmGameSystem; } }
-
+    
     public void Initialize()
     {
         if (RhythmGameSystem == null)
@@ -23,12 +23,12 @@ public class EnemysGroup : Unit
 
         for (int i = 0; i < Enemys.Count; i++)
         {
-            Enemys[i].Initialize(i, this);
+            Enemys[i].Initialize(i,this);    
         }
 
-        StartTurnEvent += () =>
+        StartTurnEvent += () => 
         {
-            StartCoroutine(AttackSequenceEvent());
+            StartCoroutine(AttackSequenceEvent()); 
         };
 
 
@@ -47,9 +47,8 @@ public class EnemysGroup : Unit
     public void RemoveSelf(Enemy thisEnemy)
     {
         if (thisEnemy == null) return;
-
+        
         Enemys.Remove(thisEnemy);
-
 
         if (Enemys.Count == 0)
         {
@@ -65,17 +64,14 @@ public class EnemysGroup : Unit
 
         yield return new WaitUntil(() => RhythmGameSystem?.IsEndGame == true);
 
-       
-        //리듬게임 종료후 Enemy공격 시작
-        for (int i = 0; i < Enemys.Count;)
-        {
-            Enemy startEnemy = Enemys[i];
-            startEnemy.StartTurn();
-            yield return new WaitUntil(() => startEnemy.isAttackEnd == true || startEnemy.isDie == true);
-            if (startEnemy.isDie == false)i++;
-            if (GameManager.instance.Player.isDie == true) break;
+        yield return new WaitForSeconds(.1f);
 
-           yield return new WaitForSeconds(.5f);
+        //리듬게임 종료후 Enemy공격 시작
+        for (int i = 0; i < Enemys.Count; i++)
+        {
+            Enemys[i].StartTurn();
+            yield return new WaitUntil(() => Enemys[i].isAttackEnd == true);
+            yield return new WaitForSeconds(.2f);
         }
 
         yield return new WaitForSeconds(.5f);

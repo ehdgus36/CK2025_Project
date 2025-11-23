@@ -6,7 +6,7 @@ public struct StickerItemData
     public readonly string ItemCode;
     public readonly string ItemNameKR;
     public readonly string Card_Bring;
-    public readonly int CardCount; // 채워야하는 게이지의 양
+    public readonly string CardCount; // 채워야하는 게이지의 양
     public readonly string ItemDes;
     public readonly string ItemImage;
 
@@ -16,19 +16,9 @@ public struct StickerItemData
         ItemCode = data["ItemCode"].ToString();
         ItemNameKR = data["ItemNameKR"].ToString();
         Card_Bring = data["Card_Bring"].ToString();
-        CardCount = (int)data["CardCount"];
+        CardCount = data["CardCount"].ToString();
         ItemDes = data["ItemDes"].ToString();
         ItemImage = data["ItemImage"].ToString();
-    }
-
-    public StickerItemData(int num)
-    {
-        ItemCode = "0";
-        ItemNameKR = "0";
-        Card_Bring = "0";
-        CardCount = 0;
-        ItemDes = "0";
-        ItemImage = "0";
     }
 }
 
@@ -60,20 +50,6 @@ public struct StrapItemData
         ItemDes = data["ItemDes"].ToString();
         ItemImage = data["ItemImage"].ToString();
     }
-
-    public StrapItemData(int data)
-    {
-        ItemCode = "0";
-        ItemNameKR = "0";
-        PC_Mana = 0;
-        PC_HP = 0;
-        Shop_Sale = 0;
-        Card_Damage = 0;
-        Card_HP_Recover = 0;
-        Reroll_Cost = 0;
-        ItemDes = "0";
-        ItemImage = "0";
-    }
 }
 
 public struct StringItemData
@@ -93,17 +69,6 @@ public struct StringItemData
         Buff_Value_Gain = (int)data["Buff_Value_Gain"];
         ItemDes = data["ItemDes"].ToString();
         ItemImage = data["ItemImage"].ToString();
-    }
-
-
-    public StringItemData(int data)
-    {
-        ItemCode = "0";
-        ItemNameKR = "0";
-        Buff_Type = "0";
-        Buff_Value_Gain = 0;
-        ItemDes = "0";
-        ItemImage = "0";
     }
 }
 

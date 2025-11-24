@@ -601,6 +601,7 @@ public class Skill3Action : MultiAttackAction
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].EnemyData.EnemyUnitData.buffs.ForEach(p => p.ClearBuff());
+            enemies[i].isBarbedArmor = false;
             enemies[i].GetEnemyStatus.UpdateStatus();
         }
 

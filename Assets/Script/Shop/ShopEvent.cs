@@ -28,6 +28,8 @@ public class ShopEvent : MonoBehaviour
     [SerializeField] ItemDataLoader ItemDataLoader;
 
     [SerializeField] int ResetCount = 1;
+
+    [SerializeField] Animator ResetAnime;
     int ResetPrice = 20;
 
 
@@ -65,11 +67,15 @@ public class ShopEvent : MonoBehaviour
 
         _PeakList[0].OnPointerEnter(null);
         _PeakList[0].OnPointerDown(null);
+
+        ResetAnime.enabled = true;
+        ResetAnime.Play("ShopCardAnime");
+        StartCoroutine(SlotInputon());
     }
 
     private void ResetItem()
     {
-
+        ResetAnime.enabled = true;
         int useGold = 0;
 
         GameDataSystem.DynamicGameDataSchema.LoadDynamicData(GameDataSystem.KeyCode.DynamicGameDataKeys.GOLD_DATA, out useGold);
@@ -98,6 +104,19 @@ public class ShopEvent : MonoBehaviour
         {
             PeakList[i].PositionReset();
         }
+
+        _PeakList[0].OnPointerEnter(null);
+        _PeakList[0].OnPointerDown(null);
+
+        ResetAnime.Play("ShopCardAnime");
+        StartCoroutine(SlotInputon());
+    }
+
+    IEnumerator SlotInputon()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        ResetAnime.enabled = false;
     }
 
 

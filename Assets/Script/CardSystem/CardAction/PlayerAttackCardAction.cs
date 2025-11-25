@@ -593,30 +593,24 @@ public class Skill3Action : MultiAttackAction
 
         Vector3 targetPos = GameObject.Find("CenterPoint").transform.position;
 
-        player.PlayerUnitData.buffs.Clear();
+        player.PlayerUnitData.buffs.ForEach(p => p.ClearBuff());
         GameDataSystem.DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, player.PlayerUnitData);
 
         List<Enemy> enemies = GameManager.instance.EnemysGroup.Enemys;
 
         for (int i = 0; i < enemies.Count; i++)
         {
-            enemies[i].EnemyData.EnemyUnitData.buffs.Clear();
+            enemies[i].EnemyData.EnemyUnitData.buffs.ForEach(p => p.ClearBuff());
+            enemies[i].isBarbedArmor = false;
             enemies[i].GetEnemyStatus.UpdateStatus();
         }
-
-
 
         yield return new WaitForSeconds(.5f);
         player.addHP(cardData.HP_Recover);
         player.PlayerEffectSystem.PlayEffect("SoftEcho_Effect", player.transform.position);
-
-        
-
-
-
+  
         CompleteEvent(null);
         
         GameManager.instance.UIInputSetActive(true);
-
     }
 }

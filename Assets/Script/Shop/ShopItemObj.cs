@@ -113,6 +113,9 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         if (isSoldOut == true) return;
 
+        if (StopObject != null)
+            StopCoroutine(StopObject);
+
         Vector3 Pos = transform.position;
         Quaternion Rotat = transform.rotation;
 
@@ -122,8 +125,16 @@ public class ShopItemObj : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         RuntimeManager.PlayOneShot("event:/UI/Card_Click");
 
-        transform.position = Pos;
-        transform.rotation = Rotat;
+
+        Vector3 targetPos = transform.position + new Vector3(0, 0.8f, 0);
+        Quaternion targetQuat = Quaternion.Euler(0, 0, transform.rotation.z + 5f);
+
+  
+        transform.position = Vector3.Lerp(transform.position, targetPos, 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetQuat, 1);
+        transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * 1.2f, 1);
+
+        
 
 
         GetComponent<Image>().raycastTarget = false;

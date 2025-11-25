@@ -52,8 +52,8 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         }
 
 
-        UnitData.MaxHp = Mathf.Clamp(UnitData.MaxHp + GameManager.instance.ItemDataLoader.strapData.PC_HP , 0 , 130);
-        
+        UnitData.MaxHp = Mathf.Clamp(100 + GameManager.instance.ItemDataLoader.strapData.PC_HP , 0 , 130);
+        UnitData.CurrentHp = Mathf.Clamp(UnitData.CurrentHp, 0, UnitData.MaxHp);
         DynamicGameDataSchema.UpdateDynamicDataBase(GameDataSystem.KeyCode.DynamicGameDataKeys.PLAYER_UNIT_DATA, UnitData);
 
 

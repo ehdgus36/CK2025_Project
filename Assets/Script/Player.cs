@@ -4,7 +4,7 @@ using UnityEngine;
 using GameDataSystem;
 using UnityEngine.EventSystems;
 
-public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
+public class Player : Unit
 {
    
     [SerializeField] PlayerCDSlotGroup CDSlotGroup;
@@ -201,13 +201,5 @@ public class Player : Unit, IPointerEnterHandler,IPointerExitHandler
         this.transform.position = StartPlayerPos;
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        GameManager.instance.ExcutSelectCardSystem.SetTargetPlayer(this);
-    }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        GameManager.instance.ExcutSelectCardSystem.SetTargetPlayer(null);
-    }
 }

@@ -32,6 +32,8 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     // 인터페이스 IBeginDragHandler를 상속 받았을 때 구현해야하는 콜백함수
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+
 
         transform.parent.transform.SetSiblingIndex(index); // 0407 수정 드래그 시작하면 부모 원상복구
         onDragParent = GameObject.Find("Filds").gameObject.transform;
@@ -67,6 +69,8 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnDrag(PointerEventData eventData)
     {
 
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+
         Card card = GetComponent<Card>();
 
         if (card != null)
@@ -94,25 +98,32 @@ public class DragDropUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     // 인터페이스 IEndDragHandler 상속 받았을 때 구현 해야하는 콜백함수
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("카드의 좌표 :" + this.transform.position.y);
-        if (GetComponent<Card>() != null && this.transform.position.y > Card.UsePos && GameManager.instance.ExcutSelectCardSystem.CurrentMana != 0)
-        {
-            
-        }
-        else if (transform.parent == onDragParent)
-        {
-            transform.position = startParent.position;
-            transform.SetParent(startParent);
-            transform.rotation = startParent.rotation;
-            transform.localScale = new Vector3(1, 1, 1);
-        }
+        
 
+        Debug.Log("카드의 좌표 :" + this.transform.position.y);
+
+        if (GameManager.instance.ExcutSelectCardSystem.CurrentMana > 0)
+        {
+
+            if (GetComponent<Card>() != null && this.transform.position.y > Card.UsePos)
+            {
+
+            }
+            else if (transform.parent == onDragParent)
+            {
+                transform.position = startParent.position;
+                transform.SetParent(startParent);
+                transform.rotation = startParent.rotation;
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
         //CardDropArea?.SetActive(false);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
         startParent = transform.parent;
 
         if (transform.parent.GetComponent<IPointerDownHandler>() != null)

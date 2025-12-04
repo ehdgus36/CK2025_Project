@@ -32,10 +32,10 @@ public class ExcutSelectCardSystem : MonoBehaviour
     
     // 사용한카드
 
-    Enemy _TargetEnemy;
+    [SerializeField]Enemy _TargetEnemy;
 
     Card _PreviousCard;
-    [SerializeField]Card _SelectCard;
+    [SerializeField] Card _SelectCard;
 
     bool isTargeting = false; // 몬스터 타겟팅이 가능한지 확인
 
@@ -167,6 +167,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
             SelectExcutCard currnetCard = null;
             if (_SelectCard != null)
             {
+                
                 if (_SelectCard.cardData.Target_Type == "2" || _SelectCard.GetComponent<SkillCard>() != null)
                 {
                     currnetCard = _SelectCard.transform.parent.GetComponent<SelectExcutCard>();
@@ -292,6 +293,7 @@ public class ExcutSelectCardSystem : MonoBehaviour
             GameManager.instance.UIInputSetActive(false);
             
             _CardQueue.Enqueue(new CardReservedData(card, enemy));
+            Debug.Log("예약완료");
             return true;
         }
 

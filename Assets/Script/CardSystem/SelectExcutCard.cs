@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler,IPointerExitHandler, IDragHandler
+public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler,IPointerExitHandler
 {
     [SerializeField] SlotUI CardSlot;
     [SerializeField] EffectSystem EffectSystem;
@@ -10,15 +10,10 @@ public class SelectExcutCard : MonoBehaviour, IPointerDownHandler,IPointerEnterH
 
     Card card;
 
-    public void OnDrag(PointerEventData eventData)
-    {
-       
-
-       
-    }
-
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+
         if (CardSlot.ReadData<Card>() == null) return;
         if (GameManager.instance.ExcutSelectCardSystem.CurrentMana == 0 && CardSlot.ReadData<SkillCard>() == null) return;
         card = CardSlot.ReadData<Card>();

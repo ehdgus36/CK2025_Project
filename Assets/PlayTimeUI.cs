@@ -1,65 +1,71 @@
 using UnityEngine;
-using System;
-using TMPro;
+using System.Text;
 using UnityEngine.Networking;
+using TMPro;
+using System.Collections.Generic;
 using System.Collections;
+using System;
 
-
-[System.Serializable]
-public class PlayData
-{
-    public string playerName;
-    public string playTime;
-}
 public class PlayTimeUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI PlayTimeText;
     [SerializeField] TMP_InputField playerName;
 
-    private void Start()
-    {
-        var elapsed = DateTime.Now - GameDataSystem.DynamicGameDataSchema.PlayTime;
-        PlayTimeText.text = string.Format("{0:D2}:{1:D2}:{2:D2}",
-          elapsed.Hours,
-          elapsed.Minutes,
-          elapsed.Seconds);
+    // API Gateway URL
+    public string apiUrl = "https://ma096lhw8i.execute-api.ap-northeast-2.amazonaws.com/prod/rank";
 
-       
+
+    private void Start()
+    { 
+        var elapsed = DateTime.Now - GameDataSystem.DynamicGameDataSchema.PlayTime;
+        PlayTimeText.text = string.Format("{0:D2}:{1:D2}:{2:D2}", elapsed.Hours, elapsed.Minutes, elapsed.Seconds);
     }
 
     public void UploadData()
     {
-        UploadPlayTime(playerName.text, PlayTimeText.text);
+        StartCoroutine(UploadPlayTime(playerName.text, PlayTimeText.text));
     }
 
-
-    public string webAppUrl = "https://script.google.com/macros/s/AKfycbwBy0XBiOqHc-na5Fjmg7kmf7ZjXAD1xSU8O8xz47IayE1hqtkwCwZR_YTpoWEOo0pj/exec";
-
-    public void UploadPlayTime(string playerName, string playTime)
+    IEnumerator UploadPlayTime(string user, string time)
     {
-        StartCoroutine(PostData(playerName, playTime));
-    }
+        string url = "https://ma096lhw8i.execute-api.ap-northeast-2.amazonaws.com/prod/rank";
 
-    IEnumerator PostData(string playerName, string playTime)
-    {
-        PlayData data = new PlayData()
+        RankData data = new RankData( "aaaa", "aaaaaadfdff");
+
+        string json = JsonUtility.ToJson(data);
+        byte[] body = Encoding.UTF8.GetBytes(json);
+
+        UnityWebRequest req = new UnityWebRequest(url, "POST");
+        req.uploadHandler = new UploadHandlerRaw(body);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+
+        Debug.Log("Sending JSON: " + json);
+
+        yield return req.SendWebRequest();
+
+        if (req.result != UnityWebRequest.Result.Success)
         {
-            playerName = playerName,
-            playTime = playTime
-        };
-
-
-        var json = JsonUtility.ToJson(data);
-        UnityWebRequest request = new UnityWebRequest(webAppUrl, "POST");
-        request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
-            Debug.Log("업로드 성공!");
+            Debug.LogError("Upload 실패: " + req.error);
+        }
         else
-            Debug.LogError("업로드 실패: " + request.error);
+        {
+            Debug.Log("Upload 성공: " + req.downloadHandler.text);
+        }
+
+        Debug.Log("Sending JSON: " + json);
+    }
+}
+
+[System.Serializable]
+public class RankData
+{
+    public string UserName;
+    public string PlayTime;
+
+    public RankData(string name, string time)
+    {
+        this.UserName = name;
+        this.PlayTime = time;
     }
 }

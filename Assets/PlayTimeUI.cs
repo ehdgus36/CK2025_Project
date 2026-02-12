@@ -23,7 +23,7 @@ public class PlayTimeUI : MonoBehaviour
 
     public void UploadData()
     {
-        StartCoroutine(UploadPlayTime(playerName.text, PlayTimeText.text));
+        //StartCoroutine(UploadPlayTime(playerName.text, PlayTimeText.text));
     }
 
     IEnumerator UploadPlayTime(string user, string time)

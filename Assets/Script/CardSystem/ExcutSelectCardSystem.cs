@@ -153,10 +153,10 @@ public class ExcutSelectCardSystem : MonoBehaviour
         {
             for (int i = 0; i < disobject.Count; i++)
             {
-                var ddd = disobject[i];
-                ddd.value = AbilityConditionData[disobject[i].key];
+                var diso = disobject[i];
+                diso.value = AbilityConditionData[disobject[i].key];
 
-                disobject[i] = ddd;
+                disobject[i] = diso;
             }
         }
 

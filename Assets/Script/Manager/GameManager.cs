@@ -134,9 +134,9 @@ public class GameManager : MonoBehaviour
         AbilitySystem = new AbilitySystem();
 
         yield return null;
+        UIAnime.Play("Active_UIAnimation");
 
-        
-     
+
 
         if (Metronome == null)
         {

@@ -49,7 +49,7 @@ public class RhythmSystem : MonoBehaviour
         rhythmView.NoteData = NoteData;
         rhythmInput.NoteData = NoteData.Substring(1);
 
-        rhythmInput.inputCount = NoteCount(NoteGroupID) +2;
+        rhythmInput.inputCount = NoteCount(NoteGroupID) + 1;
 
         rhythmView.mt = metronome;
         rhythmInput.mt = metronome;

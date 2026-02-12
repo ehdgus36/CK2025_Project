@@ -66,15 +66,17 @@ public class SelectItemDescPopUP : MonoBehaviour
         if (Tag == "buff1")
         {
             BuffText.text = SelectCardData.Buff_Ex1;
-            BuffText.text = BuffText.text.Replace("<burnup>", "4");
+            BuffText.text = BuffText.text.Replace("<burnup>", "5");
             BuffText.text = BuffText.text.Replace("<buzz>", "25");
+            BuffText.text = BuffText.text.Replace("<burnout>", "30");
         }
 
         if (Tag == "buff2")
         {
             BuffText.text = SelectCardData.Buff_Ex2;
-            BuffText.text = BuffText.text.Replace("<burnup>", "4");
+            BuffText.text = BuffText.text.Replace("<burnup>", "5");
             BuffText.text = BuffText.text.Replace("<buzz>", "25");
+            BuffText.text = BuffText.text.Replace("<burnout>", "30");
         }
     }
 

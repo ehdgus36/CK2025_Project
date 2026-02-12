@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BarbedArmorBuff : Buff
 {
+    Enemy enemy;
+
     public BarbedArmorBuff(BuffType type, int buffDurationTurn) : base(type, buffDurationTurn + 1)
     {
     
@@ -14,6 +16,7 @@ public class BarbedArmorBuff : Buff
         {
             if (unit.GetType() == typeof(Enemy))
             {
+                enemy = unit as Enemy;
                 (unit as Enemy).isBarbedArmor = false;
             }
         }
@@ -23,6 +26,12 @@ public class BarbedArmorBuff : Buff
         }
     }
 
+    public override void ClearBuff()
+    {
+        base.ClearBuff();
+        if (enemy != null) enemy.isBarbedArmor = false;
+
+    }
     public override void PreviewBuffEffect<T>(T value, out T outobject)
     {
         outobject = value;

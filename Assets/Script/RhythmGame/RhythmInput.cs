@@ -117,16 +117,18 @@ public class RhythmInput : MonoBehaviour
     {
         if (inputInstanceNote.Count == 0) return;
 
-
-        if(inputCount > 0)
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.LeftArrow) ||
+            Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.LeftArrow) || 
-                Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            {
-                inputCount--;
-            }
+            inputCount--;
+            Debug.Log("리듬게임 클릭 카운트" + inputCount);
+        }
 
-             Debug.Log("리듬게임 클릭 카운트" + inputCount);
+        if (inputCount > 0)
+        {
+            Debug.Log("리듬 실행여부" + inputCount);
+
+
             if (inputInstanceNote[0].miss)
             {
                 inputInstanceNote.Remove(inputInstanceNote[0]);

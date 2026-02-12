@@ -73,7 +73,11 @@ public abstract class Buff
         BuffDurationTurn += addCount;
     }
 
-    
+    public virtual void ClearBuff()
+    {
+        BuffDurationTurn = 0;
+    }
+
     public virtual Buff Clone()
     {
         return (Buff)this.MemberwiseClone();

@@ -54,6 +54,8 @@ public class AttackDamageDownBuff : Buff
 
         if (unit.GetComponent<Enemy>())
         {
+            if (unit.GetComponent<Enemy>().EnemyData.EnemyUnitData.buffs.Exists(p => p is AttackDamageDownBuff_Mute)) return;
+
             Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.MaxDamage * (downPercent / 100f));
             unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
             
@@ -73,6 +75,7 @@ public class AttackDamageDownBuff : Buff
         int ItemDownDamage = 0;
         if (GameManager.instance.ItemDataLoader.stringData.Buff_Type == "Buff_Weak")
         {
+
             ItemDownDamage = GameManager.instance.ItemDataLoader.stringData.Buff_Value_Gain;
         }
 
@@ -122,7 +125,7 @@ public class AttackDamageDownBuff_Mute : Buff
 
     public override void BuffEvent(Unit unit)
     {
-
+        
 
         int ItemDownDamage = 0;
        
@@ -130,6 +133,9 @@ public class AttackDamageDownBuff_Mute : Buff
 
         if (unit.GetComponent<Enemy>())
         {
+           
+
+
             Down_Attack = (int)((float)unit.GetComponent<Enemy>().EnemyData.MaxDamage * (downPercent / 100f));
             unit.GetComponent<Enemy>().EnemyData.CurrentDamage -= Down_Attack;
             Debug.Log("CuserBuffExcut :" + unit.GetComponent<Enemy>().EnemyData.CurrentDamage.ToString());
